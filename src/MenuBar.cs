@@ -269,6 +269,14 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public void RemoveAllMenus ()
+        {
+            m_Menus.Clear ();
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \brief Changes/Returns the background color.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -574,13 +582,16 @@ namespace TGUI
                             MenuItemClickedCallback (this, m_Callback);
                         }
 
-                        if (m_VisibleMenu.selectedMenuItem != null)
+                        if (m_VisibleMenu != null)
                         {
-                            m_VisibleMenu.selectedMenuItem.Color = m_TextColor;
-                            m_VisibleMenu.selectedMenuItem = null;
-                        }
+                            if (m_VisibleMenu.selectedMenuItem != null)
+                            {
+                                m_VisibleMenu.selectedMenuItem.Color = m_TextColor;
+                                m_VisibleMenu.selectedMenuItem = null;
+                            }
 
-                        m_VisibleMenu = null;
+                            m_VisibleMenu = null;
+                        }
                     }
                 }
             }

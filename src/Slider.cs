@@ -41,7 +41,7 @@ namespace TGUI
         protected Vector2f      m_MouseDownOnThumbPos = new Vector2f();
 
         protected int      m_Minimum = 0;
-        protected int      m_Maximum = 100;
+        protected int      m_Maximum = 10;
         protected int      m_Value = 0;
 
         // Is the slider draw vertically?
@@ -610,7 +610,7 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnWidgetFocused()
         {
-            Parent.UnfocusWidget (this);
+            Focused = false;
         }
 
 

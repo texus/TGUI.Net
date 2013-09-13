@@ -137,84 +137,7 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public ChildWindow (string configFileFilename)
         {
-            m_LoadedConfigFile = configFileFilename;
-
-            // Parse the config file
-            ConfigFile configFile = new ConfigFile (configFileFilename, "ChildWindow");
-
-            // Find the folder that contains the config file
-            string configFileFolder = configFileFilename.Substring(0, configFileFilename.LastIndexOfAny(new char[] {'/', '\\'}) + 1);
-
-            // Loop over all properties
-            for (int i = 0; i < configFile.Properties.Count; ++i)
-            {
-                if (configFile.Properties[i] == "backgroundcolor")
-                    m_BackgroundColor = configFile.ReadColor(i);
-                else if (configFile.Properties[i] == "titlecolor")
-                    m_TitleText.Color = configFile.ReadColor(i);
-                else if (configFile.Properties[i] == "bordercolor")
-                    m_BorderColor = configFile.ReadColor(i);
-                else if (configFile.Properties[i] == "titlebarimage")
-                {
-                    configFile.ReadTexture (i, configFileFolder, m_TextureTitleBar_M);
-                    m_SplitImage = false;
-                }
-                else if (configFile.Properties[i] == "closebuttonseparatehoverimage")
-                    m_CloseButton.m_SeparateHoverImage = configFile.ReadBool(i);
-                else if (configFile.Properties[i] == "closebuttonnormalimage")
-                    configFile.ReadTexture(i, configFileFolder, m_CloseButton.m_TextureNormal_M);
-                else if (configFile.Properties[i] == "closebuttonhoverimage")
-                    configFile.ReadTexture(i, configFileFolder, m_CloseButton.m_TextureHover_M);
-                else if (configFile.Properties[i] == "closebuttondownimage")
-                    configFile.ReadTexture (i, configFileFolder, m_CloseButton.m_TextureDown_M);
-                else if (configFile.Properties[i] == "borders")
-                {
-                    Borders borders;
-                    if (Internal.ExtractBorders (configFile.Values [i], out borders))
-                        Borders = borders;
-                }
-                else if (configFile.Properties[i] == "distancetoside")
-                    DistanceToSide = Convert.ToUInt32(configFile.Values [i]);
-                else
-                    Internal.Output("TGUI warning: Unrecognized property '" + configFile.Properties[i]
-                                    + "' in section ChildWindow in " + configFileFilename + ".");
-            }
-
-            // Initialize the close button if it was loaded
-            if (m_CloseButton.m_TextureNormal_M.texture != null)
-            {
-                // Check if optional textures were loaded
-                if (m_CloseButton.m_TextureHover_M.texture != null)
-                {
-                    m_CloseButton.m_WidgetPhase |= (byte)WidgetPhase.Hover;
-                }
-                if (m_CloseButton.m_TextureDown_M.texture != null)
-                {
-                    m_CloseButton.m_WidgetPhase |= (byte)WidgetPhase.MouseDown;
-                }
-
-                m_CloseButton.m_Size = new Vector2f(m_CloseButton.m_TextureNormal_M.Size.X,
-                                                    m_CloseButton.m_TextureNormal_M.Size.Y);
-            }
-            else // Close button wan't loaded
-            {
-                throw new Exception("Missing a CloseButtonNormalImage property in section ChildWindow in "
-                                    + configFileFilename + ".");
-            }
-
-            // Make sure the required texture was loaded
-            if ((m_TextureTitleBar_M.texture != null))
-            {
-                m_TitleBarHeight = (uint)m_TextureTitleBar_M.Size.Y;
-            }
-            else
-            {
-                throw new Exception("Not all needed images were loaded for the child window. Is the ChildWindow section in "
-                                    + configFileFilename + " complete?");
-            }
-
-            // Set the size of the title text
-            m_TitleText.CharacterSize = (uint)(m_TitleBarHeight * 8.0 / 10.0);
+            InternalLoad (configFileFilename);
         }
 
 
@@ -993,6 +916,91 @@ namespace TGUI
 
             // Reset the old clipping area
             Gl.glScissor(scissor[0], scissor[1], scissor[2], scissor[3]);
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        protected void InternalLoad(string configFileFilename)
+        {
+            m_LoadedConfigFile = configFileFilename;
+
+            // Parse the config file
+            ConfigFile configFile = new ConfigFile (configFileFilename, "ChildWindow");
+
+            // Find the folder that contains the config file
+            string configFileFolder = configFileFilename.Substring(0, configFileFilename.LastIndexOfAny(new char[] {'/', '\\'}) + 1);
+
+            // Loop over all properties
+            for (int i = 0; i < configFile.Properties.Count; ++i)
+            {
+                if (configFile.Properties[i] == "backgroundcolor")
+                    m_BackgroundColor = configFile.ReadColor(i);
+                else if (configFile.Properties[i] == "titlecolor")
+                    m_TitleText.Color = configFile.ReadColor(i);
+                else if (configFile.Properties[i] == "bordercolor")
+                    m_BorderColor = configFile.ReadColor(i);
+                else if (configFile.Properties[i] == "titlebarimage")
+                {
+                    configFile.ReadTexture (i, configFileFolder, m_TextureTitleBar_M);
+                    m_SplitImage = false;
+                }
+                else if (configFile.Properties[i] == "closebuttonseparatehoverimage")
+                    m_CloseButton.m_SeparateHoverImage = configFile.ReadBool(i);
+                else if (configFile.Properties[i] == "closebuttonnormalimage")
+                    configFile.ReadTexture(i, configFileFolder, m_CloseButton.m_TextureNormal_M);
+                else if (configFile.Properties[i] == "closebuttonhoverimage")
+                    configFile.ReadTexture(i, configFileFolder, m_CloseButton.m_TextureHover_M);
+                else if (configFile.Properties[i] == "closebuttondownimage")
+                    configFile.ReadTexture (i, configFileFolder, m_CloseButton.m_TextureDown_M);
+                else if (configFile.Properties[i] == "borders")
+                {
+                    Borders borders;
+                    if (Internal.ExtractBorders (configFile.Values [i], out borders))
+                        Borders = borders;
+                }
+                else if (configFile.Properties[i] == "distancetoside")
+                    DistanceToSide = Convert.ToUInt32(configFile.Values [i]);
+                else
+                    Internal.Output("TGUI warning: Unrecognized property '" + configFile.Properties[i]
+                                    + "' in section ChildWindow in " + configFileFilename + ".");
+            }
+
+            // Initialize the close button if it was loaded
+            if (m_CloseButton.m_TextureNormal_M.texture != null)
+            {
+                // Check if optional textures were loaded
+                if (m_CloseButton.m_TextureHover_M.texture != null)
+                {
+                    m_CloseButton.m_WidgetPhase |= (byte)WidgetPhase.Hover;
+                }
+                if (m_CloseButton.m_TextureDown_M.texture != null)
+                {
+                    m_CloseButton.m_WidgetPhase |= (byte)WidgetPhase.MouseDown;
+                }
+
+                m_CloseButton.m_Size = new Vector2f(m_CloseButton.m_TextureNormal_M.Size.X,
+                                                    m_CloseButton.m_TextureNormal_M.Size.Y);
+            }
+            else // Close button wan't loaded
+            {
+                throw new Exception("Missing a CloseButtonNormalImage property in section ChildWindow in "
+                                    + configFileFilename + ".");
+            }
+
+            // Make sure the required texture was loaded
+            if ((m_TextureTitleBar_M.texture != null))
+            {
+                m_TitleBarHeight = (uint)m_TextureTitleBar_M.Size.Y;
+            }
+            else
+            {
+                throw new Exception("Not all needed images were loaded for the child window. Is the ChildWindow section in "
+                                    + configFileFilename + " complete?");
+            }
+
+            // Set the size of the title text
+            m_TitleText.CharacterSize = (uint)(m_TitleBarHeight * 8.0 / 10.0);
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

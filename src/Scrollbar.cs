@@ -33,7 +33,7 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Maximum should be above this value before the scrollbar is needed
-        private int    m_LowValue = 0;
+        private int    m_LowValue = 6;
 
         // When no scrollbar is needed, should the scrollbar be drawn or stay hidden?
         private bool   m_AutoHide = true;
@@ -220,25 +220,25 @@ namespace TGUI
         }
 
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		public override int Maximum
-		{
-			get
-			{
-				return m_Maximum;
-			}
-			set
-			{
-				base.Maximum = value;
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public override int Maximum
+        {
+            get
+            {
+                return m_Maximum;
+            }
+            set
+            {
+                base.Maximum = value;
 
-				// When the value is above the maximum then adjust it 
-				if (m_Maximum < m_LowValue)
-					Value = 0;
-				else if (m_Value > m_Maximum - m_LowValue)
-					Value = m_Maximum - m_LowValue;
-			}
-		}
+                // When the value is above the maximum then adjust it
+                if (m_Maximum < m_LowValue)
+                    Value = 0;
+                else if (m_Value > m_Maximum - m_LowValue)
+                    Value = m_Maximum - m_LowValue;
+            }
+        }
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -256,8 +256,8 @@ namespace TGUI
                     m_Value = value;
 
                     // When the value is below the minimum or above the maximum then adjust it
-					if (m_Maximum < m_LowValue)
-						Value = 0;
+                    if (m_Maximum < m_LowValue)
+                        Value = 0;
                     else if (m_Value < m_Minimum)
                         m_Value = m_Minimum;
                     else if (m_Value > m_Maximum - m_LowValue)
@@ -282,15 +282,15 @@ namespace TGUI
                 if (m_LowValue < m_Minimum)
                     m_LowValue = m_Minimum;
                 else
-				{
+                {
                     m_LowValue = value;
 
-					// When the value is above the maximum then adjust it
-					if (m_Maximum < m_LowValue)
-						Value = 0;
-					else if (m_Value > m_Maximum - m_LowValue)
-						Value = m_Maximum - m_LowValue; 
-				}
+                    // When the value is above the maximum then adjust it
+                    if (m_Maximum < m_LowValue)
+                        Value = 0;
+                    else if (m_Value > m_Maximum - m_LowValue)
+                        Value = m_Maximum - m_LowValue;
+                }
             }
         }
 

@@ -404,7 +404,7 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnWidgetFocused()
         {
-            Parent.UnfocusWidget (this);
+            Focused = false;
         }
 
 

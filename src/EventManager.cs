@@ -91,7 +91,7 @@ namespace TGUI
                     widget.OnLeftMousePressed(e);
                 }
                 else // The mouse didn't went down on an widget, so unfocus the focused widget
-                    UnfocusAllWidgets();
+                    UnfocusWidgets();
             }
         }
 
@@ -195,21 +195,60 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Focuses the next widget.
+        ///
+        /// The currently focused widget will be unfocused, even if it was the only widget.
+        /// When no widget was focused, the first widget in the container will be focused.
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public void UnfocusWidget (Widget widget)
+        public void FocusNextWidget ()
         {
-            // Check if the widget is focused
-            if (widget.m_Focused)
-            {
-                // Focus the next widget
-                TabKeyPressed();
+            int focusedWidgetIndex = m_Widgets.IndexOf (m_FocusedWidget);
 
-                // Make sure that the widget gets unfocused
-                if (widget.m_Focused)
+            // Loop all widgets behind the focused one
+            for (int i = focusedWidgetIndex+1; i < m_Widgets.Count; ++i)
+            {
+                // If you are not allowed to focus the widget, then skip it
+                if (m_Widgets[i].m_AllowFocus == true)
                 {
-                    widget.m_Focused = false;
-                    widget.OnWidgetUnfocused();
-                    m_FocusedWidget = null;
+                    // Make sure that the widget is visible and enabled
+                    if ((m_Widgets[i].Visible) && (m_Widgets[i].Enabled))
+                    {
+                        if (m_FocusedWidget != null)
+                        {
+                            // unfocus the current widget
+                            m_FocusedWidget.m_Focused = false;
+                            m_FocusedWidget.OnWidgetUnfocused();
+                        }
+
+                        // Focus on the new widget
+                        m_FocusedWidget = m_Widgets[i];
+                        m_Widgets[i].m_Focused = true;
+                        m_Widgets[i].OnWidgetFocused();
+                        return;
+                    }
+                }
+            }
+
+            // None of the widgets behind the focused one could be focused, so loop the ones before it
+            for (int i = 0; i < focusedWidgetIndex; ++i)
+            {
+                // If you are not allowed to focus the widget, then skip it
+                if (m_Widgets[i].m_AllowFocus == true)
+                {
+                    // Make sure that the widget is visible and enabled
+                    if ((m_Widgets[i].Visible) && (m_Widgets[i].Enabled))
+                    {
+                        // unfocus the current widget
+                        m_FocusedWidget.m_Focused = false;
+                        m_FocusedWidget.OnWidgetUnfocused();
+
+                        // Focus on the new widget
+                        m_FocusedWidget = m_Widgets[i];
+                        m_Widgets[i].m_Focused = true;
+                        m_Widgets[i].OnWidgetFocused();
+                        return;
+                    }
                 }
             }
         }
@@ -217,7 +256,61 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public void UnfocusAllWidgets ()
+        public void FocusPreviousWidget ()
+        {
+            int focusedWidgetIndex = m_Widgets.IndexOf (m_FocusedWidget);
+
+            // Loop the widgets before the focused one
+            for (int i = 0; i < focusedWidgetIndex; ++i)
+            {
+                // If you are not allowed to focus the widget, then skip it
+                if (m_Widgets[i].m_AllowFocus == true)
+                {
+                    // Make sure that the widget is visible and enabled
+                    if ((m_Widgets[i].Visible) && (m_Widgets[i].Enabled))
+                    {
+                        // unfocus the current widget
+                        m_FocusedWidget.m_Focused = false;
+                        m_FocusedWidget.OnWidgetUnfocused();
+
+                        // Focus on the new widget
+                        m_FocusedWidget = m_Widgets[i];
+                        m_Widgets[i].m_Focused = true;
+                        m_Widgets[i].OnWidgetFocused();
+                        return;
+                    }
+                }
+            }
+
+            // None of the widgets before the focused one could be focused, so loop all widgets behind the focused one
+            for (int i = focusedWidgetIndex+1; i < m_Widgets.Count; ++i)
+            {
+                // If you are not allowed to focus the widget, then skip it
+                if (m_Widgets[i].m_AllowFocus == true)
+                {
+                    // Make sure that the widget is visible and enabled
+                    if ((m_Widgets[i].Visible) && (m_Widgets[i].Enabled))
+                    {
+                        if (m_FocusedWidget != null)
+                        {
+                            // unfocus the current widget
+                            m_FocusedWidget.m_Focused = false;
+                            m_FocusedWidget.OnWidgetUnfocused();
+                        }
+
+                        // Focus on the new widget
+                        m_FocusedWidget = m_Widgets[i];
+                        m_Widgets[i].m_Focused = true;
+                        m_Widgets[i].OnWidgetFocused();
+                        return;
+                    }
+                }
+            }
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public void UnfocusWidgets ()
         {
             if (m_FocusedWidget != null)
             {
@@ -313,12 +406,18 @@ namespace TGUI
                     }
                 }
             }
+
+            // If the currently focused container widget is the only widget to focus, then focus its next child widget
+            if ((m_FocusedWidget != null) && (m_FocusedWidget.m_Container))
+            {
+                ((Container)(m_FocusedWidget)).m_EventManager.TabKeyPressed ();
+            }
         }
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public bool FocusNextWidget ()
+        public bool FocusNextWidgetInContainer ()
         {
             // Don't do anything when the tab key usage is disabled
             if (Global.TabKeyUsageEnabled == false)
@@ -334,25 +433,29 @@ namespace TGUI
                     // Make sure that the widget is visible and enabled
                     if ((m_Widgets[i].Visible) && (m_Widgets[i].Enabled))
                     {
-                        if (focusedWidgetIndex > 0)
+                        // Container widgets can only be focused it they contain focusable widgets
+                        if ((!m_Widgets[i].m_Container) || (((Container)(m_Widgets[i])).FocusNextWidgetInContainer()))
                         {
-                            // Unfocus the current widget
-                            m_FocusedWidget.m_Focused = false;
-                            m_FocusedWidget.OnWidgetUnfocused();
+                            if (focusedWidgetIndex > 0)
+                            {
+                                // Unfocus the current widget
+                                m_FocusedWidget.m_Focused = false;
+                                m_FocusedWidget.OnWidgetUnfocused();
+                            }
+
+                            // Focus on the new widget
+                            m_FocusedWidget = m_Widgets[i];
+                            m_Widgets[i].m_Focused = true;
+                            m_Widgets[i].OnWidgetFocused();
+
+                            return true;
                         }
-
-                        // Focus on the new widget
-                        m_FocusedWidget = m_Widgets[i];
-                        m_Widgets[i].m_Focused = true;
-                        m_Widgets[i].OnWidgetFocused();
-
-                        return true;
                     }
                 }
             }
 
             // We have the highest id
-            UnfocusAllWidgets();
+            UnfocusWidgets();
             return false;
         }
 

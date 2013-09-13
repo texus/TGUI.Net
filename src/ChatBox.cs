@@ -36,6 +36,8 @@ namespace TGUI
         private Color     m_BorderColor = Color.Black;
         private Borders   m_Borders = new Borders();
 
+        private uint      m_MaxLines = 0;
+
         // The panel containing the labels
         private Panel     m_Panel = new Panel();
 
@@ -64,6 +66,7 @@ namespace TGUI
             m_TextSize         = copy.m_TextSize;
             m_BorderColor      = copy.m_BorderColor;
             m_Borders          = copy.m_Borders;
+            m_MaxLines         = copy.m_MaxLines;
             m_Panel            = new Panel(copy.m_Panel);
 
             // If there is a scrollbar then copy it
@@ -229,6 +232,11 @@ namespace TGUI
                 label = newLabel;
             }
 
+            // Remove some lines if you exceed the maximum
+            var widgets = m_Panel.GetWidgets();
+            if ((m_MaxLines > 0) && (m_MaxLines < widgets.Count))
+                widgets.RemoveRange(0, (int)(widgets.Count - m_MaxLines));
+
             if (m_Scroll != null)
             {
                 m_Scroll.Maximum = (int)(m_Panel.GetWidgets().Count * m_TextSize * 1.4f);
@@ -239,6 +247,37 @@ namespace TGUI
 
             // Reposition the labels
             UpdateDisplayedText();
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Set a maximum amount of lines in the chat box.
+        ///
+        /// Only the last lines will be kept. Lines above those will be removed.
+        /// Set to 0 to disable the line limit (default).
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public uint MaxLines
+        {
+            get
+            {
+                return m_MaxLines;
+            }
+            set
+            {
+                m_MaxLines = value;
+
+                var widgets = m_Panel.GetWidgets();
+                if ((m_MaxLines > 0) && (m_MaxLines < widgets.Count))
+                {
+                    widgets.RemoveRange(0, (int)(widgets.Count - m_MaxLines));
+
+                    if (m_Scroll != null)
+                        m_Scroll.Maximum = (int)(widgets.Count * m_TextSize * 1.4f);
+
+                    UpdateDisplayedText();
+                }
+            }
         }
 
 

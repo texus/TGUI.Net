@@ -45,6 +45,7 @@ namespace TGUI
         {
             m_Container = true;
             m_AnimatedWidget = true;
+            m_AllowFocus = true;
         }
 
 
@@ -184,7 +185,7 @@ namespace TGUI
             if (index != -1)
             {
                 // Unfocus the widget, just in case it was focused
-                m_EventManager.UnfocusWidget(widget);
+                widget.Focused = false;
 
                 // Remove the widget from the list
                 m_Names.RemoveAt (index);
@@ -218,10 +219,43 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void RemoveAllWidgets ()
         {
-            m_EventManager.UnfocusAllWidgets ();
+            m_EventManager.UnfocusWidgets ();
 
             m_Names.Clear ();
             m_EventManager.m_Widgets.Clear ();
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public bool SetWidgetName(Widget widget, string name)
+        {
+            for (int i = 0; i < m_EventManager.m_Widgets.Count; ++i)
+            {
+                if (m_EventManager.m_Widgets[i] == widget)
+                {
+                    m_Names[i] = name;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public bool GetWidgetName(Widget widget, ref string name)
+        {
+            for (int i = 0; i < m_EventManager.m_Widgets.Count; ++i)
+            {
+                if (m_EventManager.m_Widgets[i] == widget)
+                {
+                    name = m_Names[i];
+                    return true;
+                }
+            }
+
+            return false;
         }
 
 
@@ -232,9 +266,6 @@ namespace TGUI
         ///
         /// \param widget  The widget that has to be focused.
         ///
-        /// \see unfocusWidget
-        /// \see unfocusAllWidgets
-        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void FocusWidget (Widget widget)
         {
@@ -243,31 +274,38 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Unfocus an widget.
+        /// \brief Focuses the next widget.
         ///
-        /// The next widget will be focused.
-        ///
-        /// \param widget  The widget that has to be unfocused.
-        ///
-        /// \see focusWidget
-        /// \see unfocusAllWidgets
+        /// The currently focused widget will be unfocused, even if it was the only widget.
+        /// When no widget was focused, the first widget in the container will be focused.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public void UnfocusWidget (Widget widget)
+        public void FocusNextWidget ()
         {
-            m_EventManager.UnfocusWidget (widget);
+            m_EventManager.FocusNextWidget ();
         }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Focuses the previous widget.
+        ///
+        /// The currently focused widget will be unfocused, even if it was the only widget.
+        /// When no widget was focused, the last widget in the container will be focused.
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public void FocusPreviousWidget ()
+        {
+            m_EventManager.FocusPreviousWidget ();
+        }
+
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \brief Unfocus all the widgets.
         ///
-        /// \see focusWidget
-        /// \see unfocusWidget
-        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public void UnfocusAllWidgets ()
+        public void UnfocusWidgets ()
         {
-            m_EventManager.UnfocusAllWidgets ();
+            m_EventManager.UnfocusWidgets ();
         }
 
 
@@ -462,6 +500,14 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        protected internal override void OnWidgetUnfocused ()
+        {
+            m_EventManager.UnfocusWidgets();
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \internal
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         internal void DrawContainer (RenderTarget target, RenderStates states)
@@ -479,7 +525,7 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         internal bool FocusNextWidgetInContainer ()
         {
-            return m_EventManager.FocusNextWidget ();
+            return m_EventManager.FocusNextWidgetInContainer ();
         }
 
 

@@ -121,8 +121,8 @@ namespace TGUI
             {
                 base.Position = value;
 
-                m_Text.Position = value;
-                m_Background.Position = new Vector2f(value.X + m_Text.GetLocalBounds().Left, value.Y + m_Text.GetLocalBounds().Top);
+                m_Text.Position = new Vector2f((float)System.Math.Floor(value.X - m_Text.GetLocalBounds().Left + 0.5f), (float)System.Math.Floor(value.Y - m_Text.GetLocalBounds().Top + 0.5f));
+                m_Background.Position = value;
             }
         }
 
@@ -159,8 +159,7 @@ namespace TGUI
             {
                 m_Text.DisplayedString = value;
 
-                m_Background.Position = new Vector2f(Position.X + m_Text.GetLocalBounds().Left,
-                                                     Position.Y + m_Text.GetLocalBounds().Top);
+                Position = Position;
 
                 // Change the size of the label if necessary
                 if (m_AutoSize)
@@ -190,6 +189,7 @@ namespace TGUI
             set
             {
                 m_Text.Font = value;
+                Text = Text;
             }
         }
 
@@ -223,8 +223,7 @@ namespace TGUI
             {
                 m_Text.CharacterSize = value;
 
-                m_Background.Position = new Vector2f(Position.X + m_Text.GetLocalBounds().Left,
-                                                     Position.Y + m_Text.GetLocalBounds().Top);
+                Position = Position;
 
                 // Change the size of the label if necessary
                 if (m_AutoSize)
@@ -306,7 +305,7 @@ namespace TGUI
         protected internal override void Initialize(Container parent)
         {
             base.Initialize(parent);
-            m_Text.Font = parent.GlobalFont;
+            TextFont = parent.GlobalFont;
         }
 
 
@@ -325,7 +324,7 @@ namespace TGUI
             float scaleViewY = target.Size.Y / target.GetView().Size.Y;
 
             // Get the global position
-            Vector2f topLeftPosition = states.Transform.TransformPoint(Position + new Vector2f(m_Text.GetLocalBounds().Left, m_Text.GetLocalBounds().Top) - target.GetView().Center + (target.GetView().Size / 2.0f));
+            Vector2f topLeftPosition = states.Transform.TransformPoint(Position - target.GetView().Center + (target.GetView().Size / 2.0f));
             Vector2f bottomRightPosition = states.Transform.TransformPoint(Position + new Vector2f(m_Text.GetLocalBounds().Left, m_Text.GetLocalBounds().Top) + m_Size - target.GetView().Center + (target.GetView().Size / 2.0f));
 
             // Get the old clipping area

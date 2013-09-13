@@ -74,14 +74,14 @@ namespace TGUI
         {
             get
             {
-                return new Vector2f(m_Size.X / m_Cells.X, m_Size.Y / m_Cells.Y);
+                return m_Size;
             }
             set
             {
-                m_Size = new Vector2f(value.X * m_Cells.X, value.Y * m_Cells.Y);
+                m_Size = value;
 
                 // Make sure the sprite has the correct size
-                m_Sprite.sprite.Scale = new Vector2f(m_Size.X / m_Sprite.texture.texture.Size.X, m_Size.Y / m_Sprite.texture.texture.Size.Y);
+                m_Sprite.sprite.Scale = new Vector2f((m_Size.X * m_Cells.X) / m_Sprite.texture.texture.Size.X, (m_Size.Y * m_Cells.Y) / m_Sprite.texture.texture.Size.Y);
             }
         }
 
@@ -113,7 +113,7 @@ namespace TGUI
                                                           (int)(m_Sprite.texture.texture.Size.Y / m_Cells.Y));
 
                 // Make sure the sprite has the correct size
-                m_Sprite.sprite.Scale = new Vector2f(m_Size.X / m_Sprite.texture.texture.Size.X, m_Size.Y / m_Sprite.texture.texture.Size.Y);
+                m_Sprite.sprite.Scale = new Vector2f((m_Size.X * m_Cells.X) / m_Sprite.texture.texture.Size.X, (m_Size.Y * m_Cells.Y) / m_Sprite.texture.texture.Size.Y);
             }
         }
 

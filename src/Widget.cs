@@ -127,7 +127,7 @@ namespace TGUI
                 if (m_Visible == false)
                 {
                     // If the widget is focused then it must be unfocused
-                    m_Parent.UnfocusWidget (this);
+                    Focused = false;
                 }
             }
         }
@@ -152,7 +152,7 @@ namespace TGUI
                     m_MouseDown = false;
 
                     // If the widget is focused then it must be unfocused
-                    m_Parent.UnfocusWidget(this);
+                    Focused = false;
                 }
             }
         }
@@ -170,12 +170,13 @@ namespace TGUI
             {
                 if (value)
                 {
-                    m_Parent.FocusWidget(this);
+                    if (m_Parent != null)
+                        m_Parent.FocusWidget(this);
                 }
                 else
                 {
                     if (m_Focused)
-                        m_Parent.UnfocusAllWidgets ();
+                        m_Parent.UnfocusWidgets ();
                 }
             }
         }
@@ -359,6 +360,10 @@ namespace TGUI
                 m_Callback.Trigger = CallbackTrigger.Focused;
                 FocusedCallback (this, m_Callback);
             }
+
+            // Make sure the parent is also focused
+            if (m_Parent != null)
+                m_Parent.Focused = true;
         }
 
         protected internal virtual void OnWidgetUnfocused()

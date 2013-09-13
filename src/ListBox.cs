@@ -367,8 +367,14 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public bool SetSelectedItem (uint index)
+        public bool SetSelectedItem (int index)
         {
+            if (index < 0)
+            {
+                DeselectItem();
+                return true;
+            }
+
             // If the index is too high then deselect the items
             if (index > m_Items.Count - 1)
             {
@@ -378,7 +384,7 @@ namespace TGUI
             }
 
             // Select the item
-            m_SelectedItem = (int)index;
+            m_SelectedItem = index;
             return true;
         }
 

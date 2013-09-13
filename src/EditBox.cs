@@ -133,6 +133,9 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal EditBox ()
         {
+            m_AnimatedWidget = true;
+            m_DraggableWidget = true;
+            m_AllowFocus = true;
         }
 
 
@@ -195,6 +198,7 @@ namespace TGUI
         {
             m_AnimatedWidget = true;
             m_DraggableWidget = true;
+            m_AllowFocus = true;
 
             m_LoadedConfigFile = configFileFilename;
 
@@ -282,7 +286,6 @@ namespace TGUI
                 // Check if optional textures were loaded
                 if ((m_TextureFocused_L.texture != null) && (m_TextureFocused_M.texture != null) && (m_TextureFocused_R.texture != null))
                 {
-                    m_AllowFocus = true;
                     m_WidgetPhase |= (byte)WidgetPhase.Focused;
                 }
                 if ((m_TextureHover_L.texture != null) && (m_TextureHover_M.texture != null) && (m_TextureHover_R.texture != null))
@@ -303,7 +306,6 @@ namespace TGUI
                 // Check if optional textures were loaded
                 if (m_TextureFocused_M.texture != null)
                 {
-                    m_AllowFocus = true;
                     m_WidgetPhase |= (byte)WidgetPhase.Focused;
                 }
                 if (m_TextureHover_M.texture != null)
@@ -883,28 +885,28 @@ namespace TGUI
         {
             m_NumbersOnly = numbersOnly;
 
-			// Remove all letters from the edit box if needed
-			if ((numbersOnly) && (m_Text.Length > 0))
+            // Remove all letters from the edit box if needed
+            if ((numbersOnly) && (m_Text.Length > 0))
             {
                 string newText = "";
-				bool commaFound = false;
+                bool commaFound = false;
 
-				if ((m_Text[0] == '+') || (m_Text[0] == '-'))
-					newText += m_Text[0];
+                if ((m_Text[0] == '+') || (m_Text[0] == '-'))
+                    newText += m_Text[0];
 
                 for (int i = 0; i < m_Text.Length; ++i)
                 {
-					if (!commaFound)
-					{
-						if ((m_Text[i] == ',') || (m_Text[i] == '.'))
-						{
-							newText += m_Text[i];
-							commaFound = true;
-						}
-					}
+                    if (!commaFound)
+                    {
+                        if ((m_Text[i] == ',') || (m_Text[i] == '.'))
+                        {
+                            newText += m_Text[i];
+                            commaFound = true;
+                        }
+                    }
 
-					if ((m_Text[i] >= '0') && (m_Text[i] <= '9'))
-						newText += m_Text[i];
+                    if ((m_Text[i] >= '0') && (m_Text[i] <= '9'))
+                        newText += m_Text[i];
                 }
 
                 // When the text changed then reposition the text
@@ -1350,31 +1352,31 @@ namespace TGUI
             {
                 if ((e.Unicode[0] < '0') || (e.Unicode[0] > '9'))
                 {
-					if ((e.Unicode[0] == '-') || (e.Unicode[0] == '+'))
+                    if ((e.Unicode[0] == '-') || (e.Unicode[0] == '+'))
                     {
-						if ((m_SelStart == 0) || (m_SelEnd == 0))
+                        if ((m_SelStart == 0) || (m_SelEnd == 0))
                         {
                             if (m_Text.Length != 0)
                             {
-								// You can't have multiple + and - characters after each other
-								if ((m_Text[0] == '-') || (m_Text[0] == '+'))
-									return;
+                                // You can't have multiple + and - characters after each other
+                                if ((m_Text[0] == '-') || (m_Text[0] == '+'))
+                                    return;
                             }
                         }
-						else // + and - symbols are only allowed at the beginning of the line
-							return;
+                        else // + and - symbols are only allowed at the beginning of the line
+                            return;
                     }
-					else if ((e.Unicode[0] == ',') || (e.Unicode[0] == '.'))
-					{
-						// Only one comma is allowed
-						foreach (char letter in m_Text)
-						{
-							if ((letter == ',') || (letter == '.'))
-								return;
-						}
-					}
-					else // Character not accepted
-						return;
+                    else if ((e.Unicode[0] == ',') || (e.Unicode[0] == '.'))
+                    {
+                        // Only one comma is allowed
+                        foreach (char letter in m_Text)
+                        {
+                            if ((letter == ',') || (letter == '.'))
+                                return;
+                        }
+                    }
+                    else // Character not accepted
+                        return;
                 }
             }
 

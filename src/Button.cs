@@ -570,7 +570,7 @@ namespace TGUI
         {
             // We can't be focused when we don't have a focus image
             if ((m_WidgetPhase & (byte)WidgetPhase.Focused) == 0)
-                m_Parent.UnfocusWidget (this);
+                Focused = false;
             else
                 base.OnWidgetFocused ();
         }

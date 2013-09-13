@@ -210,9 +210,9 @@ namespace TGUI
 
                 // Set the size of the list box
                 if (m_NrOfItemsToDisplay > 0)
-                    m_ListBox.Size = new Vector2f(value.X, value.Y * (System.Math.Min(m_NrOfItemsToDisplay, m_ListBox.GetItems().Count)) - 2*m_Borders.Bottom);
+                    m_ListBox.Size = new Vector2f(value.X, m_ListBox.ItemHeight * (System.Math.Min(m_NrOfItemsToDisplay, m_ListBox.GetItems().Count)) - 2*m_Borders.Bottom);
                 else
-                    m_ListBox.Size = new Vector2f(value.X, value.Y * m_ListBox.GetItems().Count - 2*m_Borders.Bottom);
+                    m_ListBox.Size = new Vector2f(value.X, m_ListBox.ItemHeight * m_ListBox.GetItems().Count - 2*m_Borders.Bottom);
             }
         }
 
@@ -432,6 +432,7 @@ namespace TGUI
         /// When adding items to the combo box with the addItem function, none of them will be selected.
         /// If you don't want the combo box to stay empty until the user selects something, but you want a default item instead,
         /// then you can use this function to select an item.
+        /// If the index is -1 then the \a DeselectItem function will be called.
         ///
         /// \param index  The index of the item
         ///
@@ -442,7 +443,7 @@ namespace TGUI
         /// \see setSelectedItem(sf::String)
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public bool SetSelectedItem (uint index)
+        public bool SetSelectedItem (int index)
         {
             return m_ListBox.SetSelectedItem(index);
         }
@@ -727,13 +728,13 @@ namespace TGUI
                 {
                     // select the next item
                     if ((uint)(m_ListBox.GetSelectedItemIndex() + 1) < m_ListBox.GetItems().Count)
-                        m_ListBox.SetSelectedItem((uint)(m_ListBox.GetSelectedItemIndex() + 1));
+                        m_ListBox.SetSelectedItem(m_ListBox.GetSelectedItemIndex() + 1);
                 }
                 else // You are scrolling up
                 {
                     // select the previous item
                     if (m_ListBox.GetSelectedItemIndex() > 0)
-                        m_ListBox.SetSelectedItem((uint)(m_ListBox.GetSelectedItemIndex()-1));
+                        m_ListBox.SetSelectedItem(m_ListBox.GetSelectedItemIndex()-1);
                 }
             }
         }
