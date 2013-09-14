@@ -68,6 +68,9 @@ namespace TGUI
         Closed,             //
         Moved,              // Position
 
+        // MessageBox
+        ButtonClicked,      // Text
+
         // AnimatedPicture
         AnimationFinished
     }
