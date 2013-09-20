@@ -179,7 +179,7 @@ namespace TGUI
         /// \endcode
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public void Remove (Widget widget)
+        public virtual void Remove (Widget widget)
         {
             int index = m_EventManager.m_Widgets.IndexOf (widget);
             if (index != -1)
@@ -217,7 +217,7 @@ namespace TGUI
         /// \brief Removes all widgets that were added to the container.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public void RemoveAllWidgets ()
+        public virtual void RemoveAllWidgets ()
         {
             m_EventManager.UnfocusWidgets ();
 
