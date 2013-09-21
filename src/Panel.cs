@@ -99,6 +99,13 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Changes the background texture of the panel.
+        ///
+        /// \param texture  Pointer to the texture that should be used as background of the panel
+        ///
+        /// If the texture has a different size than the panel then it will be scaled to fill the whole panel.
+        /// Pass nullptr to this function to remove the background texture.
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public SFML.Graphics.Texture BackgroundTexture
         {

@@ -247,6 +247,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Set the background color of the selected text that will be used inside the list box.
+        ///
+        /// \param selectedBackgroundColor  The color of the background of the selected item
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color SelectedBackgroundColor
         {
@@ -262,6 +266,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Set the text color of the selected text that will be used inside the list box.
+        ///
+        /// \param selectedTextColor  The color of the text when it is selected
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color SelectedTextColor
         {
@@ -313,6 +321,20 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Adds an item to the list.
+        ///
+        /// \param itemName  The name of the item you want to add (this is the text that will be displayed inside the list box)
+        ///
+        /// \return
+        ///         -  The index of the item when it was successfully added.
+        ///         -  -1 when the list box is full (you have set a maximum item limit and you are trying to add more items)
+        ///         -  -1 when there is no scrollbar and you try to have more items than fit inside the list box
+        ///
+        /// \warning The index returned by this function is no longer correct when an item is removed.
+        ///
+        /// \see setMaximumItems
+        /// \see setScrollbar
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public int AddItem (string itemName)
         {
@@ -346,6 +368,20 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Selects an item in the list box.
+        ///
+        /// When adding items to the list box with the addItem function, none of them will be selected.
+        /// If you want a default item selected then you can use this function to select it.
+        /// The first item that matches the name will be selected.
+        ///
+        /// \param itemName  The item you want to select
+        ///
+        /// \return
+        ///         - true on success
+        ///         - false when none of the items matches the name
+        ///
+        /// \see setSelectedItem(unsigned int)
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool SetSelectedItem (string itemName)
         {
@@ -366,6 +402,20 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Selects an item in the list box.
+        ///
+        /// When adding items to the list box with the addItem function, none of them will be selected.
+        /// If you want a default item selected then you can use this function to select it.
+        /// If the index is -1 then the \a deselectItem function will be called.
+        ///
+        /// \param index  The index of the item
+        ///
+        /// \return
+        ///         - true on success
+        ///         - false when the index was too high
+        ///
+        /// \see setSelectedItem(sf::String)
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool SetSelectedItem (int index)
         {
@@ -390,6 +440,8 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Deselects the selected item.
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void DeselectItem ()
         {
@@ -398,6 +450,14 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Removes an item from the list with a given index.
+        ///
+        /// \param index  The index of the item to remove
+        ///
+        /// \return
+        ///        - true when the item was removed
+        ///        - false when the index was too high
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool RemoveItem (uint index)
         {
@@ -426,6 +486,14 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Removes the first item from the list with the given name.
+        ///
+        /// \param itemName  The item to remove
+        ///
+        /// \return
+        ///        - true when the item was removed
+        ///        - false when the name didn't match any item
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool RemoveItem (string itemName)
         {
@@ -454,6 +522,8 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Removes all items from the list.
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void RemoveAllItems ()
         {
@@ -470,6 +540,15 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Returns the item name of the item with the given index.
+        ///
+        /// \param index  The index of the item
+        ///
+        /// \return The requested item.
+        ///         The string will be empty when the index was too high.
+        ///
+        /// \see getItemIndex
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string GetItem (uint index)
         {
@@ -486,6 +565,17 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Returns the index of the first item with the given name.
+        ///
+        /// \param itemName  The name of the item
+        ///
+        /// \return The index of the item that matches the name.
+        ///         If none of the items matches then the returned index will be -1.
+        ///
+        /// \warning This index may become wrong when an item is removed from the list.
+        ///
+        /// \see getItem
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public int GetItemIndex (string itemName)
         {
@@ -494,6 +584,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Returns the list of all the items.
+        ///
+        /// \return The vector of strings
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public List<string> GetItems ()
         {
@@ -502,6 +596,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Returns the currently selected item.
+        ///
+        /// \return The selected item.
+        ///         When no item was selected then this function will return an empty string.
+        ///
+        /// \see getSelectedItemIndex
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string GetSelectedItem ()
         {
@@ -513,6 +614,15 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Get the index of the selected item.
+        ///
+        /// \return The index of the selected item
+        ///         When no item was selected then this function returns -1.
+        ///
+        /// \warning This index may become wrong when an item is removed from the list.
+        ///
+        /// \see getSelectedItem
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public int GetSelectedItemIndex ()
         {
@@ -521,6 +631,15 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Changes the scrollbar of the list box.
+        ///
+        /// \param scrollbarConfigFileFilename  Filename of the config file.
+        ///                                     The config file must contain a Scrollbar section with the needed information.
+        ///
+        /// \return
+        ///        - true when the scrollbar was successfully loaded
+        ///        - false when the loading of the scrollbar failed
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void SetScrollbar (string scrollbarConfigFileFilename)
         {
@@ -541,6 +660,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Removes the scrollbar from the list box.
+        ///
+        /// When there are too many items to fit in the list box then the items will be removed.
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void RemoveScrollbar ()
         {
@@ -559,6 +682,14 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Changes the height of the items in the list box.
+        ///
+        /// \param itemHeight  The size of a single item in the list
+        ///
+        /// \remarks
+        ///         - This size is always a little big greater than the text size.
+        ///         - When there is no scrollbar then the items will be removed when they no longer fit inside the list box.
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint ItemHeight
         {
@@ -599,6 +730,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Changes the maximum items that the list box can contain.
+        ///
+        /// \param maximumItems  The maximum items inside the list box.
+        ///                      When the maximum is set to 0 then the limit will be disabled.
+        ///
+        /// If no scrollbar was loaded then there is always a limitation because there will be a limited space for the items.
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint MaximumItems
         {
@@ -850,6 +988,7 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \internal
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnMouseMoved(MouseMoveEventArgs e)
         {

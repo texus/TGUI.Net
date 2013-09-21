@@ -35,6 +35,14 @@ namespace TGUI
         public static List<Impl.Texture> m_Textures = new List<Impl.Texture>();
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Loads a texture.
+        ///
+        /// \param filename  Filename of the image to load.
+        /// \param texture   The texture widget to store the loaded image.
+        /// \param rect      Load only part of the image. Don't pass this parameter if you want to load the full image.
+        ///
+        /// The second time you call this function with the same filename, the previously loaded image will be reused.
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void GetTexture(string filename, Impl.Sprite sprite, SFML.Graphics.IntRect rect = new SFML.Graphics.IntRect())
         {
@@ -107,6 +115,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Share the image with another texture.
+        ///
+        /// \param textureToCopy  The original texture.
+        /// \param newTexture     The texture that will get the same image as the texture that is being c
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool CopyTexture(Impl.Sprite spriteToCopy, Impl.Sprite newSprite)
         {
@@ -130,6 +143,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Removes the texture.
+        ///
+        /// \param textureToRemove  The texture that should be removed.
+        ///
+        /// When no other texture is using the same image then the image will be removed from memory.
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void RemoveTexture(Impl.Sprite sprite)
         {
