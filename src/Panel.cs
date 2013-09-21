@@ -277,7 +277,7 @@ namespace TGUI
             states.Transform *= Transform;
 
             // Draw the background
-            if (m_BackgroundColor.A == 0)
+            if (m_BackgroundColor.A != 0)
             {
                 RectangleShape background = new RectangleShape(m_Size);
                 background.FillColor = m_BackgroundColor;
