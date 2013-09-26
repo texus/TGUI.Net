@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AF15523D-0238-4576-967C-F6A3D9B80E66}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>tguinet</RootNamespace>
+    <AssemblyName>tguinet</AssemblyName>
+    <ReleaseVersion>0.6</ReleaseVersion>
+    <SynchReleaseVersion>false</SynchReleaseVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\lib\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\lib\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="Tao.OpenGl">
+      <HintPath>..\extlibs\Tao.OpenGl.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.OpenGl.ExtensionLoader">
+      <HintPath>..\extlibs\Tao.OpenGl.ExtensionLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="sfmlnet-graphics-2">
+      <HintPath>..\extlibs\x64\sfmlnet-graphics-2.dll</HintPath>
+    </Reference>
+    <Reference Include="sfmlnet-window-2">
+      <HintPath>..\extlibs\x64\sfmlnet-window-2.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\src\AnimatedPicture.cs">
+      <Link>AnimatedPicture.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Borders.cs">
+      <Link>Borders.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Button.cs">
+      <Link>Button.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Callback.cs">
+      <Link>Callback.cs</Link>
+    </Compile>
+    <Compile Include="..\src\ChatBox.cs">
+      <Link>ChatBox.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Checkbox.cs">
+      <Link>Checkbox.cs</Link>
+    </Compile>
+    <Compile Include="..\src\ChildWindow.cs">
+      <Link>ChildWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\src\ClickableObject.cs">
+      <Link>ClickableObject.cs</Link>
+    </Compile>
+    <Compile Include="..\src\ComboBox.cs">
+      <Link>ComboBox.cs</Link>
+    </Compile>
+    <Compile Include="..\src\ConfigFile.cs">
+      <Link>ConfigFile.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Container.cs">
+      <Link>Container.cs</Link>
+    </Compile>
+    <Compile Include="..\src\EditBox.cs">
+      <Link>EditBox.cs</Link>
+    </Compile>
+    <Compile Include="..\src\EventManager.cs">
+      <Link>EventManager.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Gui.cs">
+      <Link>Gui.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Label.cs">
+      <Link>Label.cs</Link>
+    </Compile>
+    <Compile Include="..\src\ListBox.cs">
+      <Link>ListBox.cs</Link>
+    </Compile>
+    <Compile Include="..\src\LoadingBar.cs">
+      <Link>LoadingBar.cs</Link>
+    </Compile>
+    <Compile Include="..\src\MenuBar.cs">
+      <Link>MenuBar.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Panel.cs">
+      <Link>Panel.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Picture.cs">
+      <Link>Picture.cs</Link>
+    </Compile>
+    <Compile Include="..\src\RadioButton.cs">
+      <Link>RadioButton.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Scrollbar.cs">
+      <Link>Scrollbar.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Slider.cs">
+      <Link>Slider.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Slider2d.cs">
+      <Link>Slider2d.cs</Link>
+    </Compile>
+    <Compile Include="..\src\SpinButton.cs">
+      <Link>SpinButton.cs</Link>
+    </Compile>
+    <Compile Include="..\src\SpriteSheet.cs">
+      <Link>SpriteSheet.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Tab.cs">
+      <Link>Tab.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Texture.cs">
+      <Link>Texture.cs</Link>
+    </Compile>
+    <Compile Include="..\src\TextureManager.cs">
+      <Link>TextureManager.cs</Link>
+    </Compile>
+    <Compile Include="..\src\TGUI.cs">
+      <Link>TGUI.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Transformable.cs">
+      <Link>Transformable.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Widget.cs">
+      <Link>Widget.cs</Link>
+    </Compile>
+    <Compile Include="..\src\MessageBox.cs">
+      <Link>MessageBox.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy inheritsSet="null" scope="text/x-csharp" />
+          <CSharpFormattingPolicy ElseIfNewLinePlacement="SameLine" AfterDelegateDeclarationParameterComma="True" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+          <TextStylePolicy FileWidth="120" NoTabsAfterNonTabs="True" inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/plain" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+</Project>
