@@ -139,6 +139,36 @@ namespace TGUI
                     Internal.Output("TGUI warning: Unrecognized property '" + configFile.Properties[i]
                                     + "' in section LoadingBar in " + configFileFilename + ".");
             }
+
+            // Check if the image is split
+            if (m_SplitImage)
+            {
+                // Make sure the required textures were loaded
+                if ((m_TextureBack_L.texture != null) && (m_TextureBack_M.texture != null) && (m_TextureBack_R.texture != null)
+                    && (m_TextureFront_L.texture != null) && (m_TextureFront_M.texture != null) && (m_TextureFront_R.texture != null))
+                {
+                    m_Size.X = (float)(m_TextureBack_L.Size.X + m_TextureBack_M.Size.X + m_TextureBack_R.Size.X);
+                    m_Size.Y = (float)(m_TextureBack_M.Size.Y);
+
+                    m_TextureBack_M.texture.texture.Repeated = true;
+                    m_TextureFront_M.texture.texture.Repeated = true;
+                }
+                else
+                    throw new Exception("Not all needed images were loaded for the loading bar. Is the LoadingBar section in " + configFileFilename + " complete?");
+            }
+            else // The image isn't split
+            {
+                // Make sure the required textures were loaded
+                if ((m_TextureBack_M.texture != null) && (m_TextureFront_M.texture != null))
+                {
+                    m_Size = new Vector2f(m_TextureBack_M.Size.X, m_TextureBack_M.Size.Y);
+                }
+                else
+                    throw new Exception("TGUI error: Not all needed images were loaded for the loading bar. Is the LoadingBar section in " + configFileFilename + " complete?");
+            }
+
+            // Calculate the size of the front image (the size of the part that will be drawn)
+            RecalculateSize();
         }
 
 
@@ -187,6 +217,13 @@ namespace TGUI
             set
             {
                 m_Size = value;
+
+                if (m_SplitImage)
+                {
+                    float minimumWidth = (m_TextureBack_L.Size.X + m_TextureBack_R.Size.X) * (m_Size.Y / m_TextureBack_M.Size.Y);
+                    if (m_Size.X < minimumWidth)
+                        m_Size.X = minimumWidth;
+                }
 
                 // Recalculate the size of the front image
                 RecalculateSize();
@@ -469,33 +506,15 @@ namespace TGUI
             // Check if the image is split
             if (m_SplitImage)
             {
+                float totalWidth = m_Size.X / (m_Size.Y / m_TextureBack_M.Size.Y);
+
                 // Get the bounds of the sprites
                 IntRect bounds_L = m_TextureFront_L.sprite.TextureRect;
                 IntRect bounds_M = m_TextureFront_M.sprite.TextureRect;
                 IntRect bounds_R = m_TextureFront_R.sprite.TextureRect;
 
-                bounds_L.Width = m_TextureBack_L.sprite.TextureRect.Width;
-                bounds_M.Width = m_TextureBack_M.sprite.TextureRect.Width;
-                bounds_R.Width = m_TextureBack_R.sprite.TextureRect.Width;
-
-                // Calculate the necessary sizes
-                float totalWidth;
-                float middleTextureWidth;
+                // Calculate the size of the part to display
                 float frontSize;
-
-                // Check if the middle image is drawn
-                if (m_TextureBack_L.Size.X + m_TextureBack_R.Size.X < m_Size.X)
-                {
-                    totalWidth = bounds_L.Width + bounds_M.Width + bounds_R.Width;
-                    middleTextureWidth = totalWidth - (m_TextureBack_L.Size.X + m_TextureBack_R.Size.X);
-                }
-                else // The loading bar is too small
-                {
-                    totalWidth = bounds_L.Width + bounds_R.Width;
-                    middleTextureWidth = 0;
-                }
-
-                // Only change the width when not dividing by zero
                 if ((m_Maximum - m_Minimum) > 0)
                     frontSize = totalWidth * ((m_Value - m_Minimum) / (float)(m_Maximum - m_Minimum));
                 else
@@ -508,15 +527,21 @@ namespace TGUI
                     if (frontSize > m_TextureBack_L.Size.X)
                     {
                         // Check if a piece of the right part should be drawn
-                        if (frontSize > m_TextureBack_L.Size.X + middleTextureWidth)
+                        if (frontSize > totalWidth - m_TextureBack_R.Size.X)
                         {
+                            bounds_L.Width = (int)m_TextureBack_L.Size.X;
+                            bounds_M.Width = (int)(totalWidth - m_TextureBack_L.Size.X - m_TextureBack_R.Size.X);
+
                             // Check if the bar is not full
                             if (frontSize < totalWidth)
-                                bounds_R.Width = (int)(frontSize - ((m_TextureBack_L.Size.X) + middleTextureWidth));
+                                bounds_R.Width = (int)(frontSize - (totalWidth - m_TextureBack_R.Size.X));
+                            else
+                                bounds_R.Width = (int)m_TextureBack_R.Size.X;
                         }
                         else // Only a part of the middle image should be drawn
                         {
-                            bounds_M.Width = (int)((frontSize - (m_TextureBack_L.Size.X)) / middleTextureWidth * m_TextureBack_M.Size.X);
+                            bounds_L.Width = (int)m_TextureBack_L.Size.X;
+                            bounds_M.Width = (int)(frontSize - (m_TextureBack_L.Size.X));
                             bounds_R.Width = 0;
                         }
                     }
@@ -537,6 +562,9 @@ namespace TGUI
                 m_TextureFront_L.sprite.TextureRect = bounds_L;
                 m_TextureFront_M.sprite.TextureRect = bounds_M;
                 m_TextureFront_R.sprite.TextureRect = bounds_R;
+
+                // Make sure that the back image is displayed correctly
+                m_TextureBack_M.sprite.TextureRect = new IntRect(0, 0, (int)(totalWidth - m_TextureBack_L.Size.X - m_TextureBack_R.Size.X), (int)m_TextureBack_M.Size.Y);
             }
             else // The image is not split
             {
@@ -581,7 +609,6 @@ namespace TGUI
             // Check if the image is split
             if (m_SplitImage)
             {
-                // Get the scale the images
                 float scalingY = m_Size.Y / m_TextureBack_M.Size.Y;
 
                 // Scale the image
@@ -595,13 +622,7 @@ namespace TGUI
                 if ((scalingY * (m_TextureBack_L.Size.X + m_TextureBack_R.Size.X)) < m_Size.X)
                 {
                     // Put the middle image on the correct position
-                    states.Transform.Translate(m_TextureBack_L.sprite.GetGlobalBounds().Width, 0);
-
-                    // Calculate the scale for our middle image
-                    float scaleX = (m_Size.X - ((m_TextureBack_L.Size.X + m_TextureBack_R.Size.X) * scalingY)) / m_TextureBack_M.Size.X;
-
-                    // Set the scale for the middle image
-                    states.Transform.Scale(scaleX / scalingY, 1);
+                    states.Transform.Translate(m_TextureBack_L.Size.X, 0);
 
                     // Draw the middle image
                     target.Draw(m_TextureBack_M.sprite, states);
@@ -609,9 +630,6 @@ namespace TGUI
 
                     // Put the right image on the correct position
                     states.Transform.Translate(m_TextureBack_M.sprite.GetGlobalBounds().Width, 0);
-
-                    // Set the scale for the right image
-                    states.Transform.Scale(scalingY / scaleX, 1);
 
                     // Draw the right image
                     target.Draw(m_TextureBack_R.sprite, states);
@@ -621,6 +639,7 @@ namespace TGUI
                 {
                     // Put the right image on the correct position
                     states.Transform.Translate(m_TextureBack_L.sprite.GetGlobalBounds().Width, 0);
+                    states.Transform.Translate(m_TextureBack_L.Size.X, 0);
 
                     // Draw the right image
                     target.Draw(m_TextureBack_R.sprite, states);

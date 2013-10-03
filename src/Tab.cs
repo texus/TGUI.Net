@@ -166,6 +166,8 @@ namespace TGUI
                 if ((m_TextureNormal_L.texture != null) && (m_TextureNormal_M.texture != null) && (m_TextureNormal_R.texture != null))
                 {
                     m_TabHeight = (uint)m_TextureNormal_M.Size.Y;
+
+                    m_TextureNormal_M.texture.texture.Repeated = true;
                 }
                 else
                     throw new Exception("Not all needed images were loaded for the tab. Is the Tab section in " + configFileFilename + " complete?");
@@ -174,6 +176,8 @@ namespace TGUI
                 if ((m_TextureSelected_L.texture != null) && (m_TextureSelected_M.texture != null) && (m_TextureSelected_R.texture != null))
                 {
                     m_WidgetPhase |= (byte)WidgetPhase.Selected;
+
+                    m_TextureSelected_M.texture.texture.Repeated = true;
                 }
             }
             else // The image isn't split

@@ -276,6 +276,8 @@ namespace TGUI
                 {
                     Size = new Vector2f(m_TextureNormal_L.Size.X + m_TextureNormal_M.Size.X + m_TextureNormal_R.Size.X,
                                         m_TextureNormal_M.Size.Y);
+
+                    m_TextureNormal_M.texture.texture.Repeated = true;
                 }
                 else
                 {
@@ -287,10 +289,14 @@ namespace TGUI
                 if ((m_TextureFocused_L.texture != null) && (m_TextureFocused_M.texture != null) && (m_TextureFocused_R.texture != null))
                 {
                     m_WidgetPhase |= (byte)WidgetPhase.Focused;
+
+                    m_TextureFocused_M.texture.texture.Repeated = true;
                 }
                 if ((m_TextureHover_L.texture != null) && (m_TextureHover_M.texture != null) && (m_TextureHover_R.texture != null))
                 {
                     m_WidgetPhase |= (byte)WidgetPhase.Hover;
+
+                    m_TextureHover_M.texture.texture.Repeated = true;
                 }
             }
             else // The image isn't split
@@ -380,13 +386,15 @@ namespace TGUI
                     // Check if the middle image may be drawn
                     if ((m_TextureNormal_M.sprite.Scale.Y * (m_TextureNormal_L.Size.X + m_TextureNormal_R.Size.X)) < m_Size.X)
                     {
+                        float scalingY = m_Size.Y / m_TextureNormal_M.Size.Y;
+
                         m_TextureHover_M.sprite.Position = new Vector2f(value.X + (m_TextureHover_L.Size.X * m_TextureHover_L.sprite.Scale.X), value.Y);
                         m_TextureNormal_M.sprite.Position = new Vector2f(value.X + (m_TextureNormal_L.Size.X * m_TextureNormal_L.sprite.Scale.X), value.Y);
                         m_TextureFocused_M.sprite.Position = new Vector2f(value.X + (m_TextureFocused_L.Size.X * m_TextureFocused_L.sprite.Scale.X), value.Y);
 
-                        m_TextureHover_R.sprite.Position = new Vector2f(m_TextureHover_M.sprite.Position.X + (m_TextureHover_M.Size.X * m_TextureHover_M.sprite.Scale.X), value.Y);
-                        m_TextureNormal_R.sprite.Position = new Vector2f(m_TextureNormal_M.sprite.Position.X + (m_TextureNormal_M.Size.X * m_TextureNormal_M.sprite.Scale.X), value.Y);
-                        m_TextureFocused_R.sprite.Position = new Vector2f(m_TextureFocused_M.sprite.Position.X + (m_TextureFocused_M.Size.X * m_TextureFocused_M.sprite.Scale.X), value.Y);
+                        m_TextureHover_R.sprite.Position = new Vector2f(m_TextureHover_M.sprite.Position.X + (m_TextureHover_M.sprite.TextureRect.Width * scalingY), value.Y);
+                        m_TextureNormal_R.sprite.Position = new Vector2f(m_TextureNormal_M.sprite.Position.X + (m_TextureNormal_M.sprite.TextureRect.Width * scalingY), value.Y);
+                        m_TextureFocused_R.sprite.Position = new Vector2f(m_TextureFocused_M.sprite.Position.X + (m_TextureFocused_M.sprite.TextureRect.Width * scalingY), value.Y);
                     }
                     else // The middle image isn't drawn
                     {
@@ -421,12 +429,9 @@ namespace TGUI
             {
                 m_Size = value;
 
-                // When using splitimage, make sure that the width isn't too small
-                if (m_SplitImage)
-                {
-                    if ((m_Size.Y / m_TextureNormal_M.Size.Y) * (m_TextureNormal_L.Size.X + m_TextureNormal_R.Size.X) > m_Size.X)
-                        m_Size.X = (m_Size.Y / m_TextureNormal_M.Size.Y) * (m_TextureNormal_L.Size.X + m_TextureNormal_R.Size.X);
-                }
+                // A negative size is not allowed for this widget
+                if (m_Size.X < 0) m_Size.X = -m_Size.X;
+                if (m_Size.Y < 0) m_Size.Y = -m_Size.Y;
             
                 // Recalculate the text size when auto sizing
                 if (m_TextSize == 0)
@@ -436,29 +441,22 @@ namespace TGUI
                 if (m_SplitImage)
                 {
                     float scalingY = m_Size.Y / m_TextureNormal_M.Size.Y;
+                    float minimumWidth = (m_TextureNormal_L.Size.X + m_TextureNormal_R.Size.X) * scalingY;
+
+                    if (m_Size.X < minimumWidth)
+                        m_Size.X = minimumWidth;
 
                     m_TextureHover_L.sprite.Scale = new Vector2f(scalingY, scalingY);
                     m_TextureNormal_L.sprite.Scale = new Vector2f(scalingY, scalingY);
                     m_TextureFocused_L.sprite.Scale = new Vector2f(scalingY, scalingY);
 
-                    // Check if the middle image may be drawn
-                    if (((scalingY) * (m_TextureNormal_L.Size.X + m_TextureNormal_R.Size.X)) < m_Size.X)
-                    {
-                        // Calculate the scale for our middle image
-                        float scaleX = (m_Size.X / m_TextureNormal_M.Size.X) -
-                            (((m_TextureNormal_L.Size.X + m_TextureNormal_R.Size.X) * (scalingY))
-                             / m_TextureNormal_M.Size.X);
+                    m_TextureHover_M.sprite.TextureRect = new IntRect(0, 0, (int)((m_Size.X - minimumWidth) / scalingY), (int)m_TextureHover_M.Size.Y);
+                    m_TextureNormal_M.sprite.TextureRect = new IntRect(0, 0, (int)((m_Size.X - minimumWidth) / scalingY), (int)m_TextureNormal_M.Size.Y);
+                    m_TextureFocused_M.sprite.TextureRect = new IntRect(0, 0, (int)((m_Size.X - minimumWidth) / scalingY), (int)m_TextureFocused_M.Size.Y);
 
-                        m_TextureHover_M.sprite.Scale = new Vector2f(scaleX, scalingY);
-                        m_TextureNormal_M.sprite.Scale = new Vector2f(scaleX, scalingY);
-                        m_TextureFocused_M.sprite.Scale = new Vector2f(scaleX, scalingY);
-                    }
-                    else // The middle image is not drawn
-                    {
-                        m_TextureHover_M.sprite.Scale = new Vector2f(0, 0);
-                        m_TextureNormal_M.sprite.Scale = new Vector2f(0, 0);
-                        m_TextureFocused_M.sprite.Scale = new Vector2f(0, 0);
-                    }
+                    m_TextureHover_M.sprite.Scale = new Vector2f(scalingY, scalingY);
+                    m_TextureNormal_M.sprite.Scale = new Vector2f(scalingY, scalingY);
+                    m_TextureFocused_M.sprite.Scale = new Vector2f(scalingY, scalingY);
 
                     m_TextureHover_R.sprite.Scale = new Vector2f(scalingY, scalingY);
                     m_TextureNormal_R.sprite.Scale = new Vector2f(scalingY, scalingY);
@@ -466,9 +464,9 @@ namespace TGUI
                 }
                 else // The image is not split
                 {
-                    m_TextureHover_M.sprite.Scale = new Vector2f(m_Size.X / m_TextureNormal_M.Size.X, m_Size.Y / m_TextureNormal_M.Size.Y);
+                    m_TextureHover_M.sprite.Scale = new Vector2f(m_Size.X / m_TextureHover_M.Size.X, m_Size.Y / m_TextureHover_M.Size.Y);
                     m_TextureNormal_M.sprite.Scale = new Vector2f(m_Size.X / m_TextureNormal_M.Size.X, m_Size.Y / m_TextureNormal_M.Size.Y);
-                    m_TextureFocused_M.sprite.Scale = new Vector2f(m_Size.X / m_TextureNormal_M.Size.X, m_Size.Y / m_TextureNormal_M.Size.Y);
+                    m_TextureFocused_M.sprite.Scale = new Vector2f(m_Size.X / m_TextureFocused_M.Size.X, m_Size.Y / m_TextureFocused_M.Size.Y);
                 }
 
                 // Set the size of the selection point
@@ -1735,7 +1733,8 @@ namespace TGUI
                 // Set the position and size of the rectangle that gets drawn behind the selected text
                 m_SelectedTextBackground.Size = new Vector2f(m_TextSelection.FindCharacterPos((uint)m_TextSelection.DisplayedString.Length).X,
                                                              (m_Size.Y - ((m_Borders.Top + m_Borders.Bottom) * scaling.Y)));
-                m_SelectedTextBackground.Position = new Vector2f((float)System.Math.Floor(textX + 0.5), (float)System.Math.Floor(textY + 0.5));
+                m_SelectedTextBackground.Position = new Vector2f((float)System.Math.Floor(textX + 0.5f), (float)System.Math.Floor(Position.Y + (m_Borders.Top * scaling.Y) + 0.5f));
+
 
                 // Set the text selected text on the correct position
                 m_TextSelection.Position = new Vector2f((float)System.Math.Floor(textX + 0.5), (float)System.Math.Floor(textY + 0.5));

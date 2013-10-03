@@ -190,6 +190,8 @@ namespace TGUI
 
                     // Set the thumb size
                     m_ThumbSize = new Vector2f(m_TextureThumbNormal.Size.X, m_TextureThumbNormal.Size.Y);
+
+                    m_TextureTrackNormal_M.texture.texture.Repeated = true;
                 }
                 else
                     throw new Exception("Not all needed images were loaded for the slider. Is the Slider section in " + configFileFilename + " complete?");
@@ -199,6 +201,8 @@ namespace TGUI
                     && (m_TextureTrackHover_R.texture != null) && (m_TextureThumbHover.texture != null))
                 {
                     m_WidgetPhase |= (byte)WidgetPhase.Hover;
+
+                    m_TextureTrackHover_M.texture.texture.Repeated = true;
                 }
             }
             else // The image isn't split

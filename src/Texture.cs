@@ -32,6 +32,7 @@ namespace TGUI
         {
             public SFML.Graphics.Image   image = null;
             public SFML.Graphics.Texture texture = null;
+            public SFML.Graphics.IntRect rect = new SFML.Graphics.IntRect(0, 0, 0, 0);
 
             public string filename = "";
             public uint   users = 0;
@@ -41,7 +42,6 @@ namespace TGUI
 
         public class Sprite
         {
-
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             public Texture texture = null;
@@ -88,11 +88,14 @@ namespace TGUI
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            public Vector2i Size
+            public Vector2u Size
             {
                 get
                 {
-                    return new Vector2i (sprite.TextureRect.Width, sprite.TextureRect.Height);
+                    if (texture != null)
+                        return texture.texture.Size;
+                    else
+                        return new Vector2u (0, 0);
                 }
             }
 
@@ -101,7 +104,7 @@ namespace TGUI
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             public bool IsTransparentPixel(uint x, uint y)
             {
-                if (texture.image.GetPixel ((uint)sprite.TextureRect.Left + x, (uint)sprite.TextureRect.Top + y).A == 0)
+                if (texture.image.GetPixel (x + (uint)texture.rect.Left, y + (uint)texture.rect.Top).A == 0)
                     return true;
                 else
                     return false;

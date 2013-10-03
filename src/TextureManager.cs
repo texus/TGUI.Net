@@ -26,13 +26,20 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Resources;
-using System.Drawing;
+using SFML.Graphics;
 
 namespace TGUI
 {
     public class TextureManager
     {
-        public static List<Impl.Texture> m_Textures = new List<Impl.Texture>();
+        public struct ImageMapData
+        {
+            public SFML.Graphics.Image image;
+            public List<Impl.Texture> data;
+        };
+
+        internal Dictionary<string, ImageMapData> m_ImageMap = new Dictionary<string, ImageMapData>();
+
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \brief Loads a texture.
@@ -46,33 +53,48 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void GetTexture(string filename, Impl.Sprite sprite, SFML.Graphics.IntRect rect = new SFML.Graphics.IntRect())
         {
-            // Loop all our textures to check if we already have this one
-            foreach (Impl.Texture texture in m_Textures)
+            // Look if we already had this image
+            ImageMapData data;
+            if (m_ImageMap.TryGetValue(filename, out data))
             {
-                if (texture.filename == filename)
+                // Loop all our textures to find the one containing the image
+                foreach (Impl.Texture tex in data.data)
                 {
-                    // The texture is now used at multiple places
-                    texture.users++;
+                    // Only reuse the texture when the exact same part of the image is used
+                    if ((tex.rect.Left == rect.Left) && (tex.rect.Top == rect.Top)
+                        && (tex.rect.Width == rect.Width) && (tex.rect.Height == rect.Height))
+                    {
+                        // The texture is now used at multiple places
+                        ++(tex.users);
 
-                    // Set the texture in the sprite
-                    sprite.texture = texture;
-                    sprite.sprite.Texture = texture.texture;
+                        // We already have the texture, so pass the data
+                        sprite.texture = tex;
 
-                    // Set only a part of the texture when asked
-                    if (!rect.Equals(new SFML.Graphics.IntRect ()))
-                        sprite.sprite.TextureRect = rect;
-
-                    return;
+                        // Set the texture in the sprite
+                        sprite.sprite.Texture = tex.texture;
+                        return;
+                    }
                 }
             }
+            else // The image doesn't exist yet
+            {
+                data = new ImageMapData ();
+                data.data = new List<Impl.Texture> ();
 
-            // Load the new texture
-            Impl.Texture newTexture = new Impl.Texture();
+                m_ImageMap.Add (filename, data);
+            }
 
-            // Use file if a ResourceFile is not in use
+            // Add new data to the list
+            Impl.Texture texture = new Impl.Texture();
+            sprite.texture = texture;
+            sprite.texture.image = data.image;
+            sprite.texture.rect = rect;
+            data.data.Add(texture);
+
+            // Load the image
             if (Global.ResourceManager == null)
             {
-                newTexture.image = new SFML.Graphics.Image(filename);
+                sprite.texture.image = new SFML.Graphics.Image (filename);
             }
             else
             {
@@ -80,11 +102,11 @@ namespace TGUI
                 {
                     byte[] raw = Global.ResourceManager.GetObject(filename) as byte[];
                     MemoryStream mem = new MemoryStream(raw);
-                    newTexture.image = new SFML.Graphics.Image(mem);
+                    sprite.texture.image = new SFML.Graphics.Image(mem);
                 }
-                else if (Global.ResourceManager.GetObject(filename) is Image)
+                else if (Global.ResourceManager.GetObject(filename) is System.Drawing.Image)
                 {
-                    Image raw = Global.ResourceManager.GetObject(filename) as Image;
+                    System.Drawing.Image raw = Global.ResourceManager.GetObject(filename) as System.Drawing.Image;
                     MemoryStream mem = new MemoryStream();
 
                     // Copy the image to the Stream
@@ -93,24 +115,22 @@ namespace TGUI
                     // Copy stream into new memory stream - prevents an AccessViolationException
                     mem = new MemoryStream(mem.ToArray());
 
-                    newTexture.image = new SFML.Graphics.Image(mem);
+                    sprite.texture.image = new SFML.Graphics.Image(mem);
                 }
             }
 
-            newTexture.texture = new SFML.Graphics.Texture (newTexture.image);
-            newTexture.filename = filename;
-            newTexture.users = 1;
+            // Create a texture from the image
+            if ((rect.Left == 0) && (rect.Top == 0) && (rect.Width == 0) && (rect.Height == 0))
+                sprite.texture.texture = new SFML.Graphics.Texture (sprite.texture.image);
+            else
+                sprite.texture.texture = new SFML.Graphics.Texture (sprite.texture.image, rect);
 
             // Set the texture in the sprite
-            sprite.texture = newTexture;
-            sprite.sprite.Texture = newTexture.texture;
+            sprite.sprite.Texture = sprite.texture.texture;
 
-            // Set only a part of the texture when asked
-            if (!rect.Equals(new SFML.Graphics.IntRect ()))
-                sprite.sprite.TextureRect = rect;
-
-            // Add the texture to the list
-            m_Textures.Add (newTexture);
+            // Set the other members of the data
+            sprite.texture.filename = filename;
+            sprite.texture.users = 1;
         }
 
 
@@ -123,21 +143,33 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool CopyTexture(Impl.Sprite spriteToCopy, Impl.Sprite newSprite)
         {
-            // Find the texture
-            foreach (Impl.Texture texture in m_Textures)
+            // Ignore null pointers
+            if (spriteToCopy.texture == null)
             {
-                if (spriteToCopy.texture == texture)
+                newSprite.texture = null;
+                return true;
+            }
+
+            // Loop all our textures to check if we already have this one
+            foreach (var pair in m_ImageMap)
+            {
+                ImageMapData data = pair.Value;
+
+                foreach (Impl.Texture texture in data.data)
                 {
-                    // The texture is now used in another place
-                    texture.users++;
-                    newSprite.texture = texture;
-                    newSprite.sprite = new SFML.Graphics.Sprite (spriteToCopy.sprite);
-                    return true;
+                    // Check if the pointer points to our texture
+                    if (texture == spriteToCopy.texture)
+                    {
+                        // The texture is now used at multiple places
+                        ++(texture.users);
+                        newSprite.texture = spriteToCopy.texture;
+                        newSprite.sprite = new Sprite (spriteToCopy.sprite);
+                        return true;
+                    }
                 }
             }
 
-            // We didn't have the texture and we can't store it without a filename
-            newSprite.texture = null;
+            Internal.Output("TGUI warning: Can't copy texture that wasn't loaded by TextureManager.");
             return false;
         }
 
@@ -152,23 +184,45 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void RemoveTexture(Impl.Sprite sprite)
         {
-            // Find the texture
-            foreach (Impl.Texture texture in m_Textures)
+            // Ignore already removed sprites
+            if (sprite.texture == null)
+                return;
+
+            // Loop all our textures to check which one it is
+            foreach (var pair in m_ImageMap)
             {
-                if (sprite.texture == texture)
+                ImageMapData data = pair.Value;
+
+                foreach (Impl.Texture texture in data.data)
                 {
-                    // If this was the only place where the texture is used then delete it
-                    if (--texture.users == 0)
+                    // Check if the pointer points to our texture
+                    if (texture == sprite.texture)
                     {
-                        // Remove the texture from the list
-                        m_Textures.Remove(texture);
-                        break;
+                        // If this was the only place where the texture is used then delete it
+                        if (--(texture.users) == 0)
+                        {
+                            int usage = 0;
+                            foreach (Impl.Texture t in data.data)
+                            {
+                                if (t.image == data.image)
+                                    usage++;
+                            }
+
+                            // Remove the texture from the list, or even the whole image if it isn't used anywhere else
+                            if (usage == 1)
+                                m_ImageMap.Remove(pair.Key);
+                            else
+                                data.data.Remove(texture);
+                        }
+
+                        // The pointer is now useless
+                        sprite.texture = null;
+                        return;
                     }
                 }
             }
 
-            sprite.texture = null;
-            sprite.sprite.Texture = null;
+//            Internal.Output("TGUI warning: Can't remove texture that wasn't loaded by TextureManager.");
             return;
         }
 
