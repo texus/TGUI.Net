@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D17DE83D-A592-461F-8AF2-53F9E22E1D0F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TGUI</RootNamespace>
+    <AssemblyName>tguinet</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\lib\x64\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\doc\build\tgui-doc.xml</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>..\lib\x64\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\doc\build\tgui-doc.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="AnimatedPicture.cs" />
+    <Compile Include="Borders.cs" />
+    <Compile Include="Button.cs" />
+    <Compile Include="Callback.cs" />
+    <Compile Include="ChatBox.cs" />
+    <Compile Include="Checkbox.cs" />
+    <Compile Include="ChildWindow.cs" />
+    <Compile Include="ClickableObject.cs" />
+    <Compile Include="ComboBox.cs" />
+    <Compile Include="ConfigFile.cs" />
+    <Compile Include="Container.cs" />
+    <Compile Include="EditBox.cs" />
+    <Compile Include="EventManager.cs" />
+    <Compile Include="Grid.cs" />
+    <Compile Include="Gui.cs" />
+    <Compile Include="Label.cs" />
+    <Compile Include="ListBox.cs" />
+    <Compile Include="LoadingBar.cs" />
+    <Compile Include="MenuBar.cs" />
+    <Compile Include="MessageBox.cs" />
+    <Compile Include="Panel.cs" />
+    <Compile Include="Picture.cs" />
+    <Compile Include="RadioButton.cs" />
+    <Compile Include="Scrollbar.cs" />
+    <Compile Include="Slider.cs" />
+    <Compile Include="Slider2d.cs" />
+    <Compile Include="SpinButton.cs" />
+    <Compile Include="SpriteSheet.cs" />
+    <Compile Include="Tab.cs" />
+    <Compile Include="Texture.cs" />
+    <Compile Include="TextureManager.cs" />
+    <Compile Include="TGUI.cs" />
+    <Compile Include="Transformable.cs" />
+    <Compile Include="Widget.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="Tao.OpenGl">
+      <HintPath>..\extlibs\Tao.OpenGl.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.OpenGl.ExtensionLoader">
+      <HintPath>..\extlibs\Tao.OpenGl.ExtensionLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="sfmlnet-graphics-2">
+      <HintPath>..\extlibs\x64\sfmlnet-graphics-2.dll</HintPath>
+    </Reference>
+    <Reference Include="sfmlnet-window-2">
+      <HintPath>..\extlibs\x64\sfmlnet-window-2.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
