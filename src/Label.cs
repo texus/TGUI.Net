@@ -172,7 +172,7 @@ namespace TGUI
                 // Change the size of the label if necessary
                 if (m_AutoSize)
                 {
-                    m_Size = new Vector2f(m_Text.GetLocalBounds().Left + m_Text.GetLocalBounds().Width,
+                    m_Size = new Vector2f(m_Text.FindCharacterPos((uint)m_Text.DisplayedString.Length).X - Position.X,
                                           m_Text.GetLocalBounds().Top + m_Text.GetLocalBounds().Height);
 
                     m_Background.Size = m_Size;
@@ -240,7 +240,7 @@ namespace TGUI
                 // Change the size of the label if necessary
                 if (m_AutoSize)
                 {
-                    m_Size = new Vector2f(m_Text.GetLocalBounds().Left + m_Text.GetLocalBounds().Width,
+                    m_Size = new Vector2f(m_Text.FindCharacterPos((uint)m_Text.DisplayedString.Length).X - Position.X,
                                           m_Text.GetLocalBounds().Top + m_Text.GetLocalBounds().Height);
 
                     m_Background.Size = m_Size;
@@ -290,31 +290,11 @@ namespace TGUI
                 // Change the size of the label if necessary
                 if (m_AutoSize)
                 {
-                    m_Size = new Vector2f(m_Text.GetLocalBounds().Left + m_Text.GetLocalBounds().Width,
+                    m_Size = new Vector2f(m_Text.FindCharacterPos((uint)m_Text.DisplayedString.Length).X - Position.X,
                                           m_Text.GetLocalBounds().Top + m_Text.GetLocalBounds().Height);
 
                     m_Background.Size = m_Size;
                 }
-            }
-        }
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
-        ///
-        /// 0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public override byte Transparency
-        {
-            set
-            {
-                base.Transparency = value;
-
-                if (m_Background.FillColor.A != 0)
-                    m_Background.FillColor = new Color(m_Background.FillColor.R, m_Background.FillColor.G, m_Background.FillColor.B, m_Opacity);
-
-                m_Text.Color = new Color(m_Text.Color.R, m_Text.Color.G, m_Text.Color.B, m_Opacity);
             }
         }
 
@@ -346,7 +326,7 @@ namespace TGUI
 
             // Get the global position
             Vector2f topLeftPosition = states.Transform.TransformPoint(Position - target.GetView().Center + (target.GetView().Size / 2.0f));
-            Vector2f bottomRightPosition = states.Transform.TransformPoint(Position + new Vector2f(m_Text.GetLocalBounds().Left, m_Text.GetLocalBounds().Top) + m_Size - target.GetView().Center + (target.GetView().Size / 2.0f));
+            Vector2f bottomRightPosition = states.Transform.TransformPoint(Position + m_Size - target.GetView().Center + (target.GetView().Size / 2.0f));
 
             // Get the old clipping area
             int[] scissor = new int[4];

@@ -34,7 +34,7 @@ namespace TGUI
         internal List<Widget> m_Widgets = new List<Widget>();
 
         // The id of the focused widget
-        private Widget m_FocusedWidget = null;
+        internal Widget m_FocusedWidget = null;
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

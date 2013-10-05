@@ -178,6 +178,8 @@ namespace TGUI
             // Check if the image is split
             if (m_SplitImage)
             {
+                throw new Exception("SplitImage is not supported in Slider.");
+                /*
                 // Make sure the required textures were loaded
                 if ((m_TextureTrackNormal_L.texture != null) && (m_TextureTrackNormal_M.texture != null)
                     && (m_TextureTrackNormal_R.texture != null) && (m_TextureThumbNormal.texture != null))
@@ -204,6 +206,7 @@ namespace TGUI
 
                     m_TextureTrackHover_M.texture.texture.Repeated = true;
                 }
+                */
             }
             else // The image isn't split
             {
@@ -275,6 +278,31 @@ namespace TGUI
             {
                 m_Size = value;
 
+                // Apply the miniumum size and set the texture rect of the middle image
+                if (m_SplitImage)
+                {
+                    if (m_VerticalImage)
+                    {
+                        float scalingX = m_Size.X / m_TextureTrackNormal_M.Size.X;
+                        float minimumHeight = (m_TextureTrackNormal_L.Size.Y + m_TextureTrackNormal_R.Size.Y) * scalingX;
+                        if (m_Size.Y < minimumHeight)
+                            m_Size.Y = minimumHeight;
+
+                        m_TextureTrackNormal_M.sprite.TextureRect = new IntRect(0, 0, (int)m_TextureTrackNormal_M.Size.X, (int)((m_Size.Y - minimumHeight) / scalingX));
+                        m_TextureTrackHover_M.sprite.TextureRect = new IntRect(0, 0, (int)m_TextureTrackHover_M.Size.X, (int)((m_Size.Y - minimumHeight) / scalingX));
+                    }
+                    else // Slider image lies horizontal
+                    {
+                        float scalingY = m_Size.Y / m_TextureTrackNormal_M.Size.Y;
+                        float minimumWidth = (m_TextureTrackNormal_L.Size.X + m_TextureTrackNormal_R.Size.X) * scalingY;
+                        if (m_Size.X < minimumWidth)
+                            m_Size.X = minimumWidth;
+
+                        m_TextureTrackNormal_M.sprite.TextureRect = new IntRect(0, 0, (int)((m_Size.X - minimumWidth) / scalingY), (int)m_TextureTrackNormal_M.Size.Y);
+                        m_TextureTrackHover_M.sprite.TextureRect = new IntRect(0, 0, (int)((m_Size.X - minimumWidth) / scalingY), (int)m_TextureTrackHover_M.Size.Y);
+                    }
+                }
+
                 // Set the thumb size
                 if (m_VerticalImage == m_VerticalScroll)
                 {
@@ -289,7 +317,7 @@ namespace TGUI
                         m_ThumbSize.Y = (m_Size.Y / m_TextureTrackNormal_M.Size.Y) * m_TextureThumbNormal.Size.Y;
                     }
                 }
-                else
+                else // m_VerticalImage != m_VerticalScroll
                 {
                     if (m_VerticalScroll)
                     {
@@ -423,40 +451,16 @@ namespace TGUI
                 if (m_VerticalScroll)
                 {
                     if (m_Size.X > m_Size.Y)
-                        m_Size = new Vector2f(m_Size.Y, m_Size.X);
+                        Size = new Vector2f(m_Size.Y, m_Size.X);
+                    else
+                        Size = new Vector2f(m_Size.X, m_Size.Y);
                 }
                 else // The slider lies horizontal
                 {
                     if (m_Size.Y > m_Size.X)
-                        m_Size = new Vector2f(m_Size.Y, m_Size.X);
-                }
-
-                // Set the thumb size
-                if (m_VerticalImage == m_VerticalScroll)
-                {
-                    if (m_VerticalScroll)
-                    {
-                        m_ThumbSize.X = (m_Size.X / m_TextureTrackNormal_M.Size.X) * m_TextureThumbNormal.Size.X;
-                        m_ThumbSize.Y = (m_Size.X / m_TextureTrackNormal_M.Size.X) * m_TextureThumbNormal.Size.Y;
-                    }
+                        Size = new Vector2f(m_Size.Y, m_Size.X);
                     else
-                    {
-                        m_ThumbSize.X = (m_Size.Y / m_TextureTrackNormal_M.Size.Y) * m_TextureThumbNormal.Size.X;
-                        m_ThumbSize.Y = (m_Size.Y / m_TextureTrackNormal_M.Size.Y) * m_TextureThumbNormal.Size.Y;
-                    }
-                }
-                else
-                {
-                    if (m_VerticalScroll)
-                    {
-                        m_ThumbSize.X = (m_Size.X / m_TextureTrackNormal_M.Size.Y) * m_TextureThumbNormal.Size.Y;
-                        m_ThumbSize.Y = (m_Size.X / m_TextureTrackNormal_M.Size.Y) * m_TextureThumbNormal.Size.X;
-                    }
-                    else
-                    {
-                        m_ThumbSize.X = (m_Size.Y / m_TextureTrackNormal_M.Size.X) * m_TextureThumbNormal.Size.Y;
-                        m_ThumbSize.Y = (m_Size.Y / m_TextureTrackNormal_M.Size.X) * m_TextureThumbNormal.Size.X;
-                    }
+                        Size = new Vector2f(m_Size.X, m_Size.Y);
                 }
             }
         }
@@ -465,7 +469,11 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \brief Changes the transparency of the widget.
         ///
-        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// \param transparency  The transparency of the widget.
+        ///                      0 is completely transparent, while 255 (default) means fully opaque.
+        ///
+        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency

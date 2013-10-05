@@ -808,7 +808,11 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \brief Changes the transparency of the widget.
         ///
-        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// \param transparency  The transparency of the widget.
+        ///                      0 is completely transparent, while 255 (default) means fully opaque.
+        ///
+        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -819,12 +823,6 @@ namespace TGUI
 
                 if (m_Scroll != null)
                     m_Scroll.Transparency = m_Opacity;
-
-                m_BackgroundColor.A = m_Opacity;
-                m_TextColor.A = m_Opacity;
-                m_SelectedBackgroundColor.A = m_Opacity;
-                m_SelectedTextColor.A = m_Opacity;
-                m_BorderColor.A = m_Opacity;
             }
         }
 

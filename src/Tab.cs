@@ -44,6 +44,9 @@ namespace TGUI
         private uint         m_TabHeight = 0;
         private uint         m_TextSize = 0;
 
+        private Color        m_TextColor;
+        private Color        m_SelectedTextColor;
+
         private uint         m_MaximumTabWidth = 0;
 
         // The distance between the side of the tab and the text that is drawn on top of the tab.
@@ -88,6 +91,8 @@ namespace TGUI
             m_SeparateSelectedImage = copy.m_SeparateSelectedImage;
             m_TabHeight             = copy.m_TabHeight;
             m_TextSize              = copy.m_TextSize;
+            m_TextColor             = copy.m_TextColor;
+            m_SelectedTextColor     = copy.m_SelectedTextColor;
             m_MaximumTabWidth       = copy.m_MaximumTabWidth;
             m_DistanceToSide        = copy.m_DistanceToSide;
             m_SelectedTab           = copy.m_SelectedTab;
@@ -129,7 +134,9 @@ namespace TGUI
                 if (configFile.Properties[i] == "separateselectedimage")
                     m_SeparateSelectedImage = configFile.ReadBool(i);
                 else if (configFile.Properties[i] == "textcolor")
-                    m_Text.Color = configFile.ReadColor(i);
+                    m_TextColor = configFile.ReadColor(i);
+                else if (configFile.Properties[i] == "selectedtextcolor")
+                    m_SelectedTextColor = configFile.ReadColor(i);
                 else if (configFile.Properties[i] == "distancetoside")
                     DistanceToSide = Convert.ToUInt32(configFile.Values [i]);
                 else if (configFile.Properties[i] == "normalimage")
@@ -484,11 +491,28 @@ namespace TGUI
         {
             get
             {
-                return m_Text.Color;
+                return m_TextColor;
             }
             set
             {
-                m_Text.Color = value;
+                m_TextColor = value;
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Changes/Returns the color of the text that will be used for the selected tab.
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public Color SelectedTextColor
+        {
+            get
+            {
+                return m_SelectedTextColor;
+            }
+            set
+            {
+                m_SelectedTextColor = value;
             }
         }
 
@@ -608,7 +632,11 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \brief Changes the transparency of the widget.
         ///
-        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// \param transparency  The transparency of the widget.
+        ///                      0 is completely transparent, while 255 (default) means fully opaque.
+        ///
+        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -623,8 +651,6 @@ namespace TGUI
                 m_TextureSelected_L.sprite.Color = new Color(255, 255, 255, m_Opacity);
                 m_TextureSelected_M.sprite.Color = new Color(255, 255, 255, m_Opacity);
                 m_TextureSelected_R.sprite.Color = new Color(255, 255, 255, m_Opacity);
-
-                m_Text.Color = new Color(m_Text.Color.R, m_Text.Color.G, m_Text.Color.B, m_Opacity);
             }
         }
 
@@ -881,6 +907,12 @@ namespace TGUI
 
                 // Draw the text
                 {
+                    // Give the text the correct color
+                    if (m_SelectedTab == i)
+                        tempText.Color = m_SelectedTextColor;
+                    else
+                        tempText.Color = m_TextColor;
+
                     // Get the current size of the text, so that we can recalculate the position
                     tempText.DisplayedString = m_TabNames [i];
                     realRect = tempText.GetLocalBounds();

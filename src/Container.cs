@@ -167,6 +167,29 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Makes a copy of any existing widget and returns the pointer to the new widget.
+        ///
+        /// \param oldWidget     A pointer to the old widget.
+        /// \param newWidgetName If you want to access the widget later then you must do this with this name
+        ///
+        /// \return Pointer to the new widget
+        ///
+        /// Usage example:
+        /// \code
+        /// ...
+        /// \endcode
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public T Copy<T>(T oldWidget, string newWidgetName = "") where T : Widget
+        {
+            T widget = (T)System.Activator.CreateInstance (typeof(T), oldWidget);
+            m_EventManager.m_Widgets.Add(widget);
+            m_Names.Add(newWidgetName);
+            return widget;
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \brief Removes a single widget that was added to the container.
         ///
         /// \param widget  Pointer to the widget to remove
@@ -383,7 +406,11 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \brief Changes the transparency of the widget.
         ///
-        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// \param transparency  The transparency of the widget.
+        ///                      0 is completely transparent, while 255 (default) means fully opaque.
+        ///
+        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency

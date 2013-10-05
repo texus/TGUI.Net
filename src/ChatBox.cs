@@ -38,6 +38,8 @@ namespace TGUI
 
         private uint      m_MaxLines = 0;
 
+        private float     m_FullTextHeight = 0;
+
         // The panel containing the labels
         private Panel     m_Panel = new Panel();
 
@@ -67,6 +69,7 @@ namespace TGUI
             m_BorderColor      = copy.m_BorderColor;
             m_Borders          = copy.m_Borders;
             m_MaxLines         = copy.m_MaxLines;
+            m_FullTextHeight   = copy.m_FullTextHeight;
             m_Panel            = new Panel(copy.m_Panel);
 
             // If there is a scrollbar then copy it
@@ -115,7 +118,7 @@ namespace TGUI
                     m_Scroll.VerticalScroll = true;
                     m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
                     m_Scroll.LowValue = (int)(m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
-                    m_Scroll.Maximum = (int)(m_Panel.GetWidgets().Count * m_TextSize * 1.4);
+                    m_Scroll.Maximum = (int)m_FullTextHeight;
                 }
                 else
                     Internal.Output("TGUI warning: Unrecognized property '" + configFile.Properties[i]
@@ -184,26 +187,25 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \brief Add a new line of text to the chat box.
         ///
+        /// The whole text passed to this function will be considered as one line for the \a getLine and \a removeLine functions,
+        /// even if it is too long and gets split over multiple lines.
+        ///
         /// \param text  Text that will be added to the chat box
         /// \param color Color of the text
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void AddLine (string text, Color color)
         {
-            // Call this function for every line in the text
-            if (text.IndexOf ('\n') != -1)
-            {
-                foreach (string str in text.Split ('\n'))
-                    AddLine (str, color);
+            var widgets = m_Panel.GetWidgets ();
 
-                return;
-            }
+            // Remove the top line if you exceed the maximum
+            if ((m_MaxLines > 0) && (m_MaxLines < widgets.Count + 1))
+                RemoveLine (0);
 
             Label label = m_Panel.Add (new Label ());
             label.Text = text;
             label.TextColor = color;
             label.TextSize = m_TextSize;
-            label.Position = new Vector2f(m_Borders.Left + 2, m_Panel.Size.Y - (m_TextSize * 1.2f));
 
             float width;
             if (m_Scroll == null)
@@ -215,31 +217,23 @@ namespace TGUI
                 width = 0;
 
             // Split the label over multiple lines if necessary
-            while (label.Size.X > width)
+            int character = 1;
+            while (label.Size.X + 4.0f > width)
             {
-                Label newLabel = m_Panel.Add (new Label(label));
-                newLabel.Text = "";
+                label.Text = text.Substring(0, character);
 
-                while (label.Size.X > width)
-                {
-                    string str = label.Text;
-                    newLabel.Text = str[str.Length - 1] + newLabel.Text;
+                while (label.Size.X + 4.0f <= width)
+                    label.Text = text.Substring(0, ++character);
 
-                    str.Remove (str.Length - 1, 1);
-                    label.Text = str;
-                }
-
-                label = newLabel;
+                text.Insert(character - 1, "\n");
+                label.Text = text;
             }
 
-            // Remove some lines if you exceed the maximum
-            var widgets = m_Panel.GetWidgets();
-            if ((m_MaxLines > 0) && (m_MaxLines < widgets.Count))
-                widgets.RemoveRange(0, (int)(widgets.Count - m_MaxLines));
+            m_FullTextHeight += label.Size.Y + (label.TextFont.GetLineSpacing(label.TextSize) - label.TextSize);
 
             if (m_Scroll != null)
             {
-                m_Scroll.Maximum = (int)(m_Panel.GetWidgets().Count * m_TextSize * 1.4f);
+                m_Scroll.Maximum = (int)m_FullTextHeight;
 
                 if (m_Scroll.Maximum > m_Scroll.LowValue)
                     m_Scroll.Value = m_Scroll.Maximum - m_Scroll.LowValue;
@@ -247,6 +241,84 @@ namespace TGUI
 
             // Reposition the labels
             UpdateDisplayedText();
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Returns the contents of the requested line.
+        ///
+        /// \param lineIndex  The index of the line of which you request the contents.
+        ///                   The first line has index 0.
+        ///
+        /// \return The contents of the requested line.
+        ///         An empty string will be returned when the index is too high.
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public string GetLine (uint lineIndex)
+        {
+            if (lineIndex < m_Panel.GetWidgets().Count)
+            {
+                return ((Label)(m_Panel.GetWidgets()[(int)lineIndex])).Text;
+            }
+            else // Index too high
+                return "";
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Removes the requested line.
+        ///
+        /// \param lineIndex  The index of the line that should be removed.
+        ///                   The first line has index 0.
+        ///
+        /// \return True if the line was removed, false if no such line existed (index too high).
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public bool RemoveLine (uint lineIndex)
+        {
+            if (lineIndex < m_Panel.GetWidgets().Count)
+            {
+                Label label = (Label)m_Panel.GetWidgets()[(int)lineIndex];
+                m_FullTextHeight -= label.Size.Y + (label.TextFont.GetLineSpacing(label.TextSize) - label.TextSize);
+                m_Panel.Remove(label);
+
+                if (m_Scroll != null)
+                    m_Scroll.Maximum = (int)m_FullTextHeight;
+
+                UpdateDisplayedText();
+                return true;
+            }
+            else // Index too high
+                return false;
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Removes all lines from the chat box.
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public void RemoveAllLines ()
+        {
+            m_Panel.RemoveAllWidgets();
+
+            m_FullTextHeight = 0;
+
+            if (m_Scroll != null)
+                m_Scroll.Maximum = (int)m_FullTextHeight;
+
+            UpdateDisplayedText();
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Returns the amount of lines in the chat box.
+        ///
+        /// \return Number of lines in the chat box
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public uint GetLineAmount ()
+        {
+            return (uint)m_Panel.GetWidgets().Count;
         }
 
 
@@ -323,16 +395,6 @@ namespace TGUI
                 // There is a minimum text size
                 if (m_TextSize < 8)
                     m_TextSize = 8;
-
-                // Update the position of the labels
-                UpdateDisplayedText();
-
-                // If there is a scrollbar then reinitialize it
-                if (m_Scroll != null)
-                {
-                    m_Scroll.LowValue = (int)(m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
-                    m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
-                }
             }
         }
 
@@ -349,6 +411,10 @@ namespace TGUI
             }
             set
             {
+                // Reposition the labels
+                foreach (Widget widget in m_Panel.GetWidgets())
+                    widget.Position = new Vector2f (widget.Position.X + value.Left - m_Borders.Left, widget.Position.Y);
+
                 m_Borders = value;
 
                 // There is a minimum width
@@ -358,10 +424,6 @@ namespace TGUI
 
                 // Make sure that the panel has a valid size
                 m_Panel.Size = new Vector2f(width, m_Panel.Size.Y);
-
-                // Reposition the labels
-                foreach (Widget widget in m_Panel.GetWidgets())
-                    widget.Position = new Vector2f (m_Borders.Left + 2, widget.Position.Y);
 
                 // If there is a scrollbar then reinitialize it
                 if (m_Scroll != null)
@@ -428,7 +490,7 @@ namespace TGUI
             m_Scroll.VerticalScroll = true;
             m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
             m_Scroll.LowValue = (int)(m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
-            m_Scroll.Maximum = (int)(m_Panel.GetWidgets().Count * m_TextSize * 1.4f);
+            m_Scroll.Maximum = (int)m_FullTextHeight;
         }
 
 
@@ -447,7 +509,11 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \brief Changes the transparency of the widget.
         ///
-        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// \param transparency  The transparency of the widget.
+        ///                      0 is completely transparent, while 255 (default) means fully opaque.
+        ///
+        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -456,7 +522,6 @@ namespace TGUI
             {
                 base.Transparency = value;
 
-                m_BorderColor.A = value;
                 m_Panel.Transparency = value;
 
                 if (m_Scroll != null)
@@ -565,7 +630,7 @@ namespace TGUI
                             m_Scroll.Value = m_Scroll.Value - 1;
 
                             // Scroll down with the whole item height instead of with a single pixel
-                            m_Scroll.Value = (int)(m_Scroll.Value + (int)(m_TextSize * 1.4 + 0.5) - (m_Scroll.Value % (int)(m_TextSize * 1.4 + 0.5f)));
+                            m_Scroll.Value = (int)(m_Scroll.Value + (int)m_TextSize - (m_Scroll.Value % (int)m_TextSize));
                         }
                         else if (m_Scroll.Value == oldValue - 1) // Check if the scrollbar value was decremented (you have pressed on the up arrow)
                         {
@@ -573,10 +638,10 @@ namespace TGUI
                             m_Scroll.Value = m_Scroll.Value + 1;
 
                             // Scroll up with the whole item height instead of with a single pixel
-                            if (m_Scroll.Value % (int)(m_TextSize * 1.4 + 0.5f) > 0)
-                                m_Scroll.Value = m_Scroll.Value - (m_Scroll.Value % (int)(m_TextSize * 1.4 + 0.5f));
+                            if (m_Scroll.Value % (int)m_TextSize > 0)
+                                m_Scroll.Value = m_Scroll.Value - (m_Scroll.Value % (int)m_TextSize);
                             else
-                                m_Scroll.Value = m_Scroll.Value - (int)(m_TextSize * 1.4 + 0.5f);
+                                m_Scroll.Value = m_Scroll.Value - (int)m_TextSize;
                         }
 
                         UpdateDisplayedText();
@@ -672,11 +737,11 @@ namespace TGUI
                     if (e.Delta < 0)
                     {
                         // Scroll down
-                        m_Scroll.Value = m_Scroll.Value + (-e.Delta * ((int)(m_TextSize * 1.4 + 0.5) / 2));
+                        m_Scroll.Value = m_Scroll.Value + (-e.Delta * (int)m_TextSize);
                     }
                     else // You are scrolling up
                     {
-                        int change = e.Delta * ((int)(m_TextSize * 1.4 + 0.5) / 2);
+                        int change = e.Delta * (int)m_TextSize;
 
                         // Scroll up
                         if (change < m_Scroll.Value)
@@ -708,21 +773,32 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void UpdateDisplayedText ()
         {
-            float bottomPosition = m_Panel.Size.Y;
-            int index = m_Panel.GetWidgets().Count;
+            float position;
+            if (m_Scroll != null)
+                position = m_Borders.Top + 2.0f - m_Scroll.Value;
+            else
+                position = m_Borders.Top + 2.0f;
 
-            foreach (Label label in m_Panel.GetWidgets())
+            var labels = m_Panel.GetWidgets();
+            foreach (Label label in labels)
             {
-                index--;
+                label.Position = new Vector2f(m_Borders.Left + 2.0f, position);
 
-                label.TextSize = m_TextSize;
+                position += label.Size.Y + (label.TextFont.GetLineSpacing(label.TextSize) - label.TextSize);
+            }
 
-                if (m_Scroll != null)
-                    label.Position = new Vector2f(m_Borders.Left + 2, bottomPosition - (m_TextSize * 1.4f) + m_Scroll.Maximum - m_Scroll.LowValue - m_Scroll.Value);
-                else
-                    label.Position = new Vector2f(m_Borders.Left + 2, bottomPosition - (m_TextSize * 1.4f));
+            // Correct the position when there is no scrollbar
+            if ((m_Scroll == null) && (labels.Count > 0))
+            {
+                Label lastLabel = (Label)labels[labels.Count-1];
+                position -= (lastLabel.TextFont.GetLineSpacing(lastLabel.TextSize) - lastLabel.TextSize);
 
-                bottomPosition -= m_TextSize * 1.4f;
+                if (position > m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom)
+                {
+                    float diff = position - (m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
+                    foreach (Label label in labels)
+                        label.Position = new Vector2f(label.Position.X, label.Position.Y - diff);
+                }
             }
         }
 
@@ -761,10 +837,8 @@ namespace TGUI
             // Check if there is a scrollbar
             if (m_Scroll != null)
             {
-                // Reset the transformation
-                states.Transform.Translate(m_Panel.Size.X - m_Borders.Right - m_Scroll.Size.X, m_Borders.Top);
-
                 // Draw the scrollbar
+                states.Transform.Translate(m_Panel.Size.X - m_Borders.Right - m_Scroll.Size.X, m_Borders.Top);
                 target.Draw(m_Scroll, states);
             }
         }

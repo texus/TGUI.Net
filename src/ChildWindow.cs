@@ -53,7 +53,7 @@ namespace TGUI
 
         private string     m_LoadedConfigFile = "";
    
-        private Vector2f   m_Size = new Vector2f(0, 0);
+        private Vector2f   m_Size = new Vector2f(200, 150);
 
         private Color      m_BackgroundColor = new Color(0, 0, 0);
         private Texture    m_BackgroundTexture = null;
@@ -190,6 +190,26 @@ namespace TGUI
             set
             {
                 m_Size = value;
+
+                if (m_SplitImage)
+                {
+                    float scalingY = (float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y;
+                    float minimumWidth = ((m_TextureTitleBar_L.Size.X + m_TextureTitleBar_R.Size.X) * scalingY);
+
+                    if (m_Size.X < minimumWidth + m_Borders.Left + m_Borders.Right)
+                        m_Size.X = minimumWidth + m_Borders.Left + m_Borders.Right;
+
+                    m_TextureTitleBar_L.sprite.Scale = new Vector2f(scalingY, scalingY);
+                    m_TextureTitleBar_M.sprite.Scale = new Vector2f(scalingY, scalingY);
+                    m_TextureTitleBar_R.sprite.Scale = new Vector2f(scalingY, scalingY);
+
+                    m_TextureTitleBar_M.sprite.TextureRect = new IntRect(0, 0, (int)(((m_Size.X + m_Borders.Left + m_Borders.Right) - minimumWidth) / scalingY), (int)m_TextureTitleBar_M.Size.Y);
+                }
+                else // The image is not split
+                {
+                    m_TextureTitleBar_M.sprite.Scale = new Vector2f((m_Size.X + m_Borders.Left + m_Borders.Right) / m_TextureTitleBar_M.Size.X,
+                                                                    (float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y);
+                }
             
                 // If there is a background texture then resize it
                 if (m_BackgroundTexture != null)
@@ -245,11 +265,32 @@ namespace TGUI
                 m_TitleBarHeight = value;
 
                 // Set the size of the close button
-                m_CloseButton.Size = new Vector2f((float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y * m_CloseButton.Size.X,
-                                                  (float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y * m_CloseButton.Size.Y);
+                m_CloseButton.Size = new Vector2f((float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y * m_CloseButton.m_TextureNormal_M.Size.X,
+                                                  (float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y * m_CloseButton.m_TextureNormal_M.Size.Y);
 
                 // Set the size of the text in the title bar
                 m_TitleText.CharacterSize = (uint)(m_TitleBarHeight * 8.0 / 10.0);
+
+                // Recalculate the scale of the title bar images
+                if (m_SplitImage)
+                {
+                    float scalingY = (float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y;
+                    float minimumWidth = ((m_TextureTitleBar_L.Size.X + m_TextureTitleBar_R.Size.X) * scalingY);
+
+                    if (m_Size.X < minimumWidth + m_Borders.Left + m_Borders.Right)
+                        m_Size.X = minimumWidth + m_Borders.Left + m_Borders.Right;
+
+                    m_TextureTitleBar_L.sprite.Scale = new Vector2f(scalingY, scalingY);
+                    m_TextureTitleBar_M.sprite.Scale = new Vector2f(scalingY, scalingY);
+                    m_TextureTitleBar_R.sprite.Scale = new Vector2f(scalingY, scalingY);
+
+                    m_TextureTitleBar_M.sprite.TextureRect = new IntRect(0, 0, (int)(((m_Size.X + m_Borders.Left + m_Borders.Right) - minimumWidth) / scalingY), (int)m_TextureTitleBar_M.Size.Y);
+                }
+                else // The image is not split
+                {
+                    m_TextureTitleBar_M.sprite.Scale = new Vector2f((m_Size.X + m_Borders.Left + m_Borders.Right) / m_TextureTitleBar_M.Size.X,
+                                                                    (float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y);
+                }
             }
         }
 
@@ -276,7 +317,11 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \brief Changes the transparency of the widget.
         ///
-        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// \param transparency  The transparency of the widget.
+        ///                      0 is completely transparent, while 255 (default) means fully opaque.
+        ///
+        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -294,11 +339,6 @@ namespace TGUI
                 m_TextureTitleBar_R.sprite.Color = new Color(255, 255, 255, m_Opacity);
 
                 m_CloseButton.Transparency = m_Opacity;
-
-                m_TitleText.Color = new Color(m_TitleText.Color.R, m_TitleText.Color.G, m_TitleText.Color.B, m_Opacity);
-
-                m_BackgroundColor.A = m_Opacity;
-                m_BorderColor.A = m_Opacity;
             }
         }
 
@@ -367,6 +407,27 @@ namespace TGUI
             set
             {
                 m_Borders = value;
+
+                // Recalculate the scale of the title bar images
+                if (m_SplitImage)
+                {
+                    float scalingY = (float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y;
+                    float minimumWidth = ((m_TextureTitleBar_L.Size.X + m_TextureTitleBar_R.Size.X) * scalingY);
+
+                    if (m_Size.X < minimumWidth + m_Borders.Left + m_Borders.Right)
+                        m_Size.X = minimumWidth + m_Borders.Left + m_Borders.Right;
+
+                    m_TextureTitleBar_L.sprite.Scale = new Vector2f(scalingY, scalingY);
+                    m_TextureTitleBar_M.sprite.Scale = new Vector2f(scalingY, scalingY);
+                    m_TextureTitleBar_R.sprite.Scale = new Vector2f(scalingY, scalingY);
+
+                    m_TextureTitleBar_M.sprite.TextureRect = new IntRect(0, 0, (int)(((m_Size.X + m_Borders.Left + m_Borders.Right) - minimumWidth) / scalingY), (int)m_TextureTitleBar_M.Size.Y);
+                }
+                else // The image is not split
+                {
+                    m_TextureTitleBar_M.sprite.Scale = new Vector2f((m_Size.X + m_Borders.Left + m_Borders.Right) / m_TextureTitleBar_M.Size.X,
+                                                                    (float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y);
+                }
             }
         }
 
@@ -772,22 +833,22 @@ namespace TGUI
             // Check if the title bar image is split
             if (m_SplitImage)
             {
-                // Split image is not supported yet
-                return;
+                target.Draw(m_TextureTitleBar_L.sprite, states);
+
+                states.Transform.Translate(m_TextureTitleBar_L.Size.X * ((float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y), 0);
+                target.Draw(m_TextureTitleBar_M.sprite, states);
+
+                states.Transform.Translate(m_Size.X + m_Borders.Left + m_Borders.Right - ((m_TextureTitleBar_R.Size.X + m_TextureTitleBar_L.Size.X)
+                                                                                          * ((float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y)), 0);
+                target.Draw(m_TextureTitleBar_R.sprite, states);
             }
             else // The title bar image isn't split
             {
-                // Scale the title bar
-                states.Transform.Scale((float)(m_Size.X + m_Borders.Left + m_Borders.Right) / m_TextureTitleBar_M.Size.X,
-                                       (float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y);
-
                 // Draw the title bar
                 target.Draw(m_TextureTitleBar_M.sprite, states);
-
-                // Undo the scaling
-                states.Transform.Scale((float)m_TextureTitleBar_M.Size.X / (m_Size.X + m_Borders.Left + m_Borders.Right),
-                                       (float)m_TextureTitleBar_M.Size.Y / m_TitleBarHeight);
             }
+
+            states.Transform = oldTransform;
 
             // Draw a window icon if one was set
             if (m_IconTexture.texture != null)
@@ -946,6 +1007,15 @@ namespace TGUI
                     configFile.ReadTexture (i, configFileFolder, m_TextureTitleBar_M);
                     m_SplitImage = false;
                 }
+                else if (configFile.Properties[i] == "titlebarimage_l")
+                    configFile.ReadTexture (i, configFileFolder, m_TextureTitleBar_L);
+                else if (configFile.Properties[i] == "titlebarimage_m")
+                {
+                    configFile.ReadTexture (i, configFileFolder, m_TextureTitleBar_M);
+                    m_SplitImage = true;
+                }
+                else if (configFile.Properties[i] == "titlebarimage_r")
+                    configFile.ReadTexture (i, configFileFolder, m_TextureTitleBar_R);
                 else if (configFile.Properties[i] == "closebuttonseparatehoverimage")
                     m_CloseButton.m_SeparateHoverImage = configFile.ReadBool(i);
                 else if (configFile.Properties[i] == "closebuttonnormalimage")
@@ -984,24 +1054,33 @@ namespace TGUI
                                                     m_CloseButton.m_TextureNormal_M.Size.Y);
             }
             else // Close button wan't loaded
-            {
-                throw new Exception("Missing a CloseButtonNormalImage property in section ChildWindow in "
-                                    + configFileFilename + ".");
-            }
+                throw new Exception("Missing a CloseButtonNormalImage property in section ChildWindow in " + configFileFilename + ".");
 
-            // Make sure the required texture was loaded
-            if ((m_TextureTitleBar_M.texture != null))
+            // Check if the image is split
+            if (m_SplitImage)
             {
-                m_TitleBarHeight = (uint)m_TextureTitleBar_M.Size.Y;
+                // Make sure the required textures was loaded
+                if ((m_TextureTitleBar_L.texture != null) && (m_TextureTitleBar_M.texture != null) && (m_TextureTitleBar_R.texture != null))
+                {
+                    m_TitleBarHeight = m_TextureTitleBar_M.Size.Y;
+                    m_TextureTitleBar_M.texture.texture.Repeated = true;
+                }
+                else
+                    throw new Exception("TGUI error: Not all needed images were loaded for the child window. Is the ChildWindow section in " + configFileFilename + " complete?");
             }
-            else
+            else // The image isn't split
             {
-                throw new Exception("Not all needed images were loaded for the child window. Is the ChildWindow section in "
-                                    + configFileFilename + " complete?");
-            }
+                // Make sure the required texture was loaded
+                if ((m_TextureTitleBar_M.texture != null))
+                {
+                    m_TitleBarHeight = m_TextureTitleBar_M.Size.Y;
+                }
+                else
+                    throw new Exception("Not all needed images were loaded for the child window. Is the ChildWindow section in " + configFileFilename + " complete?");
 
-            // Set the size of the title text
-            m_TitleText.CharacterSize = (uint)(m_TitleBarHeight * 8.0 / 10.0);
+                // Set the size of the title text
+                m_TitleText.CharacterSize = (uint)(m_TitleBarHeight * 8.0 / 10.0);
+            }
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

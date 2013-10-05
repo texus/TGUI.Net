@@ -984,7 +984,11 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \brief Changes the transparency of the widget.
         ///
-        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// \param transparency  The transparency of the widget.
+        ///                      0 is completely transparent, while 255 (default) means fully opaque.
+        ///
+        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -1007,14 +1011,6 @@ namespace TGUI
                 m_TextureNormal_M.sprite.Color = new Color(255, 255, 255, m_Opacity);
                 m_TextureHover_M.sprite.Color = new Color(255, 255, 255, m_Opacity);
                 m_TextureFocused_M.sprite.Color = new Color(255, 255, 255, m_Opacity);
-
-                m_SelectedTextBackground.FillColor = new Color(m_SelectedTextBackground.FillColor.R, m_SelectedTextBackground.FillColor.G, m_SelectedTextBackground.FillColor.B, m_Opacity);
-                m_SelectionPoint.FillColor = new Color(m_SelectionPoint.FillColor.R, m_SelectionPoint.FillColor.G, m_SelectionPoint.FillColor.B, m_Opacity);
-
-                m_TextBeforeSelection.Color = new Color(m_TextBeforeSelection.Color.R, m_TextBeforeSelection.Color.G, m_TextBeforeSelection.Color.B, m_Opacity);
-                m_TextSelection.Color = new Color(m_TextSelection.Color.R, m_TextSelection.Color.G, m_TextSelection.Color.B, m_Opacity);
-                m_TextAfterSelection.Color = new Color(m_TextAfterSelection.Color.R, m_TextAfterSelection.Color.G, m_TextAfterSelection.Color.B, m_Opacity);
-                m_TextFull.Color = new Color(m_TextFull.Color.R, m_TextFull.Color.G, m_TextFull.Color.B, m_Opacity);
             }
         }
 

@@ -69,9 +69,24 @@ namespace TGUI
 
             m_LoadedConfigFile         = copy.m_LoadedConfigFile;
             m_ButtonConfigFileFilename = copy.m_ButtonConfigFileFilename;
-            m_Buttons                  = copy.m_Buttons;
-            m_Label                    = copy.m_Label;
             m_TextSize                 = copy.m_TextSize;
+
+            RemoveAllWidgets();
+
+            m_Label = Copy<Label>(copy.m_Label, "MessageBoxText");
+
+            foreach (Button button in copy.m_Buttons)
+            {
+                Button newButton = Copy(button);
+                newButton.LeftMouseClickedCallback -= copy.ButtonClickedCallbackFunction;
+                newButton.SpaceKeyPressedCallback -= copy.ButtonClickedCallbackFunction;
+                newButton.ReturnKeyPressedCallback -= copy.ButtonClickedCallbackFunction;
+                newButton.LeftMouseClickedCallback += ButtonClickedCallbackFunction;
+                newButton.SpaceKeyPressedCallback += ButtonClickedCallbackFunction;
+                newButton.ReturnKeyPressedCallback += ButtonClickedCallbackFunction;
+
+                m_Buttons.Add(button);
+            }
         }
 
 

@@ -400,7 +400,11 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \brief Changes the transparency of the widget.
         ///
-        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// \param transparency  The transparency of the widget.
+        ///                      0 is completely transparent, while 255 (default) means fully opaque.
+        ///
+        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -413,8 +417,6 @@ namespace TGUI
                 m_TextureUnchecked.sprite.Color = new Color(255, 255, 255, m_Opacity);
                 m_TextureHover.sprite.Color = new Color(255, 255, 255, m_Opacity);
                 m_TextureFocused.sprite.Color = new Color(255, 255, 255, m_Opacity);
-
-                m_Text.Color = new Color(m_Text.Color.R, m_Text.Color.G, m_Text.Color.B, m_Opacity);
             }
         }
 

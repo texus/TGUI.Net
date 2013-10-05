@@ -37,6 +37,8 @@ namespace TGUI
 
         private int m_StartTime = Environment.TickCount;
 
+        private bool m_Focused = false;
+
         private GuiContainer m_Container = new GuiContainer();
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +61,10 @@ namespace TGUI
             window.KeyPressed += new EventHandler<KeyEventArgs>(m_Container.m_EventManager.OnKeyPressed);
             window.KeyReleased += new EventHandler<KeyEventArgs>(m_Container.m_EventManager.OnKeyReleased);
             window.TextEntered += new EventHandler<TextEventArgs>(m_Container.m_EventManager.OnTextEntered);
-            window.MouseWheelMoved += new EventHandler<MouseWheelEventArgs>(OnMouseWheelMoved);        
+            window.MouseWheelMoved += new EventHandler<MouseWheelEventArgs>(OnMouseWheelMoved);
+
+            window.LostFocus += (s, e) => m_Focused = false;
+            window.GainedFocus += (s, e) => m_Focused = true;
         }
 
 
@@ -88,11 +93,18 @@ namespace TGUI
         /// When this function ends, the view will never be changed. Any changes to the view are temporary.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public void Draw ()
+        public void Draw (bool resetView = false)
         {
+            View oldView = m_Window.GetView();
+
+            // Reset the view when requested
+            if (resetView)
+                m_Window.SetView(m_Window.DefaultView);
+
             // Update the time
             int currentTime = Environment.TickCount;
-            m_Container.m_EventManager.UpdateTime (currentTime - m_StartTime);
+            if (m_Focused)
+                m_Container.m_EventManager.UpdateTime (currentTime - m_StartTime);
             m_StartTime = currentTime;
 
             // Check if clipping is enabled
@@ -120,6 +132,8 @@ namespace TGUI
                 Gl.glScissor(scissor[0], scissor[1], scissor[2], scissor[3]);
             else
                 Gl.glDisable(Gl.GL_SCISSOR_TEST);
+
+            m_Window.SetView(oldView);
         }
 
 
@@ -140,6 +154,24 @@ namespace TGUI
                 m_Window = value;
             }
         }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Check if the window is focused.
+        ///
+        /// When the window is unfocused, animations (e.g. flashing caret of an edit box) will be paused.
+        ///
+        /// \return Is the window currently focused?
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public bool Focused
+        {
+            get
+            {
+                return m_Focused;
+            }
+        }
+
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \brief Returns the global font.

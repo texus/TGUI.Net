@@ -51,7 +51,7 @@ namespace TGUI
 
         private Font     m_TextFont = null;
 
-        private Vector2f m_Size = new Vector2f();
+        private Vector2f m_Size = new Vector2f(0, 20);
 
         private uint     m_TextSize = 0;
 
@@ -503,35 +503,6 @@ namespace TGUI
             }
         }
 
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
-        ///
-        /// 0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public override byte Transparency
-        {
-            set
-            {
-                base.Transparency = value;
-
-                m_BackgroundColor.A = m_Opacity;
-                m_TextColor.A = m_Opacity;
-                m_SelectedBackgroundColor.A = m_Opacity;
-                m_SelectedTextColor.A = m_Opacity;
-
-                foreach (Menu menu in m_Menus)
-                {
-                    menu.text.Color = new Color(menu.text.Color.R, menu.text.Color.G, menu.text.Color.B, m_Opacity);
-
-                    foreach (Text menuItem in menu.menuItems)
-                    {
-                        menuItem.Color = new Color(menuItem.Color.R, menuItem.Color.G, menuItem.Color.B, m_Opacity);
-                    }
-                }
-            }
-        }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \internal
