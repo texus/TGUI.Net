@@ -55,7 +55,7 @@
     <Compile Include="ChatBox.cs" />
     <Compile Include="Checkbox.cs" />
     <Compile Include="ChildWindow.cs" />
-    <Compile Include="ClickableObject.cs" />
+    <Compile Include="ClickableWidget.cs" />
     <Compile Include="ComboBox.cs" />
     <Compile Include="ConfigFile.cs" />
     <Compile Include="Container.cs" />
