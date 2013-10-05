@@ -23,6 +23,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
+using System.Collections.Generic;
 using SFML.Window;
 using SFML.Graphics;
 
@@ -277,6 +278,95 @@ namespace TGUI
             {
                 m_Callback.Id = value;
             }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \internal
+        // This function is a (slow) way to set properties on the widget, no matter what type it is.
+        // When the requested property doesn't exist in the widget then the functions will return false.
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public virtual bool setProperty(string property, string value)
+        {
+            property = property.ToLower ();
+
+            if (property == "left")
+                Position = new Vector2f(Convert.ToSingle(value), Position.Y);
+            else if (property == "top")
+                Position = new Vector2f(Position.X, Convert.ToSingle(value));
+            else if (property == "width")
+                Size = new Vector2f(Convert.ToSingle(value), Size.Y);
+            else if (property == "height")
+                Size = new Vector2f(Size.X, Convert.ToSingle(value));
+            else if (property == "visible")
+            {
+                if ((value == "true") || (value == "True"))
+                    m_Visible = true;
+                else if ((value == "false") || (value == "False"))
+                    m_Visible = false;
+                else
+                    throw new Exception("Failed to parse 'Visible' property.");
+            }
+            else if (property == "enabled")
+            {
+                if ((value == "true") || (value == "True"))
+                    m_Enabled = true;
+                else if ((value == "false") || (value == "False"))
+                    m_Enabled = false;
+                else
+                    throw new Exception("TGUI error: Failed to parse 'Enabled' property.");
+            }
+            else if (property == "transparency")
+                Transparency = Convert.ToByte(value);
+            else if (property == "callbackid")
+                m_Callback.Id = Convert.ToUInt32(value);
+            else if (property == "callback")
+            {
+                /*
+                List<string> callbacks;
+                Internal.DecodeList(value, callbacks);
+
+                foreach (string callback in callbacks)
+                {
+                    if ((callback == "Focused") || (callback == "focused"))
+                        bindCallback(Focused);
+                    else if ((callback == "Unfocused") || (callback == "unfocused"))
+                        bindCallback(Unfocused);
+                    else if ((callback == "MouseEntered") || (callback == "mouseentered"))
+                        bindCallback(MouseEntered);
+                    else if ((callback == "MouseLeft") || (callback == "mouseleft"))
+                        bindCallback(MouseLeft);
+                }
+                */
+            }
+            else // The property didn't match
+                return false;
+
+            // You pass here when one of the properties matched
+            return true;
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \internal
+        // This function is a (slow) way to get properties of the widget, no matter what type it is.
+        // When the requested property doesn't exist in the widget then the functions will return false.
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public virtual bool getProperty(string property, out string value)
+        {
+            value = "";
+            return false;
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \internal
+        // Returns a list of all properties that can be used in setProperty and getProperty.
+        // The second value in the pair is the type of the property (e.g. int, uint, string, ...).
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public virtual List<KeyValuePair<string, string>> getPropertyList()
+        {
+            return new List<KeyValuePair<string, string>> ();
         }
 
 
