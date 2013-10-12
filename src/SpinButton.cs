@@ -30,34 +30,10 @@ namespace TGUI
 {
     public class SpinButton : ClickableWidget
     {
-        public event EventHandler<CallbackArgs> ValueChangedCallback;
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        private string m_LoadedConfigFile = "";
-
-        // Is the spin button draw vertically (arrows on top of each other)?
-        private bool   m_VerticalScroll = true;
-
-        private int    m_Minimum = 0;
-        private int    m_Maximum = 10;
-        private int    m_Value = 0;
-
-        // Is there a separate hover image, or is it a semi-transparent image that is drawn on top of the others?
-        private bool   m_SeparateHoverImage = false;
-
-        // On which arrow is the mouse?
-        private bool   m_MouseHoverOnTopArrow = false;
-        private bool   m_MouseDownOnTopArrow = false;
-
-        private Impl.Sprite m_TextureArrowUpNormal = new Impl.Sprite();
-        private Impl.Sprite m_TextureArrowUpHover = new Impl.Sprite();
-        private Impl.Sprite m_TextureArrowDownNormal = new Impl.Sprite();
-        private Impl.Sprite m_TextureArrowDownHover = new Impl.Sprite();
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Constructor, only intended for internal use
+        /// <summary>
+        /// Constructor, only intended for internal use
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal SpinButton ()
@@ -66,9 +42,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public SpinButton (SpinButton copy) : base(copy)
@@ -92,11 +70,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads the widget.
+        /// <summary>
+        /// Loads the widget
+        /// </summary>
         ///
-        /// \param configFileFilename  Filename of the config file.
-        ///
-        /// The config file must contain a SpinButton section with the needed information.
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a SpinButton section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public SpinButton (string configFileFilename)
@@ -146,7 +125,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Destructor
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ~SpinButton ()
@@ -159,10 +140,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the filename of the config file that was used to load the widget.
-        ///
-        /// \return Filename of loaded config file.
-        ///         Empty string when no config file was loaded yet.
+        /// <summary>
+        /// Filename of the config file that was used to load the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string LoadedConfigFile
@@ -175,7 +155,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the size of the widget.
+        /// <summary>
+        /// Size of the spin button
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -192,9 +174,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Sets a minimum value.
-        ///
-        /// \param minimum  The new minimum value
+        /// <summary>
+        /// Minimum value of the spin button
+        /// </summary>
         ///
         /// When the value is too small then it will be changed to this minimum.
         /// The default minimum value is 0.
@@ -222,9 +204,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Sets a maximum value.
-        ///
-        /// \param maximum  The new maximum value
+        /// <summary>
+        /// Maximum value of the spin button
+        /// </summary>
         ///
         /// When the value is too big then it will be changed to this maximum.
         /// The default maximum value is 10.
@@ -252,9 +234,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the current value.
-        ///
-        /// \param value  The new value
+        /// <summary>
+        /// Value of the spin button
+        /// </summary>
         ///
         /// The value can't be smaller than the minimum or bigger than the maximum.
         /// The default value is 0.
@@ -280,9 +262,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes whether the spin button lies vertical or horizontal (arrows above or next to each other).
-        ///
-        /// \param verticallScroll  Does the spin button lie vertically?
+        /// <summary>
+        /// Does the spin button lie vertically?
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool VerticalScroll
@@ -299,13 +281,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
+        /// <summary>
+        /// Transparency of the widget.
+        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// </summary>
         ///
-        /// \param transparency  The transparency of the widget.
-        ///                      0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
-        /// be changed. You must change them yourself by setting the alpha channel of the color.
+        /// <remarks>This will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -323,9 +305,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been pressed on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnLeftMousePressed(MouseButtonEventArgs e)
+        protected internal override void OnLeftMousePressed (MouseButtonEventArgs e)
         {
             m_MouseDown = true;
 
@@ -348,9 +333,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been released on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnLeftMouseReleased(MouseButtonEventArgs e)
+        protected internal override void OnLeftMouseReleased (MouseButtonEventArgs e)
         {
             // Check if the mouse went down on the spin button
             if (m_MouseDown)
@@ -401,9 +389,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse has moved on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnMouseMoved(MouseMoveEventArgs e)
+        protected internal override void OnMouseMoved (MouseMoveEventArgs e)
         {
             // Check if the mouse is on top of the upper/right arrow
             if (m_VerticalScroll)
@@ -429,7 +420,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that it has been focused
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnWidgetFocused()
         {
@@ -438,8 +432,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -559,6 +555,33 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>Event handler for the ValueChanged event</summary>
+        public event EventHandler<CallbackArgs> ValueChangedCallback;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private string m_LoadedConfigFile = "";
+
+        // Is the spin button draw vertically (arrows on top of each other)?
+        private bool   m_VerticalScroll = true;
+
+        private int    m_Minimum = 0;
+        private int    m_Maximum = 10;
+        private int    m_Value = 0;
+
+        // Is there a separate hover image, or is it a semi-transparent image that is drawn on top of the others?
+        private bool   m_SeparateHoverImage = false;
+
+        // On which arrow is the mouse?
+        private bool   m_MouseHoverOnTopArrow = false;
+        private bool   m_MouseDownOnTopArrow = false;
+
+        private Impl.Sprite m_TextureArrowUpNormal = new Impl.Sprite();
+        private Impl.Sprite m_TextureArrowUpHover = new Impl.Sprite();
+        private Impl.Sprite m_TextureArrowDownNormal = new Impl.Sprite();
+        private Impl.Sprite m_TextureArrowDownHover = new Impl.Sprite();
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-

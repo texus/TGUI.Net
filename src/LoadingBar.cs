@@ -30,31 +30,10 @@ namespace TGUI
 {
     public class LoadingBar : ClickableWidget
     {
-        public event EventHandler<CallbackArgs> ValueChangedCallback;
-        public event EventHandler<CallbackArgs> LoadingBarFullCallback;
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        private string m_LoadedConfigFile = "";
-
-        private int    m_Minimum = 0;
-        private int    m_Maximum = 100;
-        private int    m_Value = 0;
-
-        private bool   m_SplitImage = false;
-
-        private Impl.Sprite m_TextureBack_L = new Impl.Sprite();
-        private Impl.Sprite m_TextureBack_M = new Impl.Sprite();
-        private Impl.Sprite m_TextureBack_R = new Impl.Sprite();
-        private Impl.Sprite m_TextureFront_L = new Impl.Sprite();
-        private Impl.Sprite m_TextureFront_M = new Impl.Sprite();
-        private Impl.Sprite m_TextureFront_R = new Impl.Sprite();
-
-        private Text   m_Text = new Text();
-        private uint   m_TextSize = 0;
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Constructor, only intended for internal use
+        /// <summary>
+        /// Constructor, only intended for internal use
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal LoadingBar ()
@@ -63,9 +42,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public LoadingBar (LoadingBar copy) : base(copy)
@@ -93,11 +74,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads the widget.
+        /// <summary>
+        /// Loads the widget
+        /// </summary>
         ///
-        /// \param configFileFilename  Filename of the config file.
-        ///
-        /// The config file must contain a LoadingBar section with the needed information.
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a LoadingBar section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public LoadingBar (string configFileFilename)
@@ -173,7 +155,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Destructor
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ~LoadingBar ()
@@ -189,10 +173,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the filename of the config file that was used to load the widget.
-        ///
-        /// \return Filename of loaded config file.
-        ///         Empty string when no config file was loaded yet.
+        /// <summary>
+        /// Filename of the config file that was used to load the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string LoadedConfigFile
@@ -205,7 +188,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the size of the widget.
+        /// <summary>
+        /// Size of the loading bar
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -235,11 +220,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Sets a minimum value.
+        /// <summary>
+        /// Minimum value
+        /// </summary>
         ///
-        /// \param minimum  The new minimum value
-        ///
-        /// When the value is too small then it will be changed to this minimum.
+        /// <remarks>When the value is too small then it will be changed to this minimum.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public int Minimum
@@ -267,11 +252,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Sets a maximum value.
+        /// <summary>
+        /// Maximum value
+        /// </summary>
         ///
-        /// \param maximum  The new maximum value
-        ///
-        /// When the value is too big then it will be changed to this maximum.
+        /// <remarks>When the value is too big then it will be changed to this minimum.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public int Maximum
@@ -299,11 +284,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the current value.
+        /// <summary>
+        /// Value of the loading bar
+        /// </summary>
         ///
-        /// \param value  The new value
-        ///
-        /// The value can't be smaller than the minimum or bigger than the maximum.
+        /// <remarks>The value can't be smaller than the minimum or bigger than the maximum</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public int Value
@@ -329,9 +314,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Increment the value.
+        /// <summary>
+        /// Increment the value
+        /// </summary>
         ///
-        /// \return the new value
+        /// <returns>The new value</returns>
         ///
         /// The value can never exceed the maximum.
         ///
@@ -374,9 +361,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the caption of the loading bar.
+        /// <summary>
+        /// Caption of the loading bar
+        /// </summary>
         ///
-        /// \param text  New text to draw on top of the loading bar
+        /// <param name="text">Text to draw on top of the loading bar</param>
         ///
         /// This text will be centered in the loading bar. It could e.g. contain the progress.
         ///
@@ -414,10 +403,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the font of the text.
-        ///
-        /// When you don't call this function then the global font will be use.
-        /// This global font can be changed with the setGlobalFont function from the parent.
+        /// <summary>
+        /// Font of the text.
+        /// By default, the GlobalFont of the parent is used.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Font TextFont
@@ -434,7 +423,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the color of the text.
+        /// <summary>
+        /// The color of the text
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color TextColor
@@ -451,10 +442,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the character size of the text.
-        ///
-        /// \param size  The new text size.
-        ///              If the size is set to 0 then the text will be auto-sized to fit inside the loading bar.
+        /// <summary>
+        /// The character size of the text.
+        /// If the size is set to 0 then the text will be auto-sized to fit inside the loading bar.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint TextSize
@@ -474,13 +465,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
+        /// <summary>
+        /// Transparency of the widget.
+        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// </summary>
         ///
-        /// \param transparency  The transparency of the widget.
-        ///                      0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
-        /// be changed. You must change them yourself by setting the alpha channel of the color.
+        /// <remarks>This will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -500,8 +491,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // When the value changes, or when the minimum/maximum limits change then a smaller of bigger piece of the front image
-        // must be drawn. This function is called to calculate the size of the piece to draw.
+        /// <summary>
+        /// Recalculate the size of the front part that should be drawn
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void RecalculateSize ()
         {
@@ -586,8 +579,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // This function is called when the widget is added to a container.
+        /// <summary>
+        /// Initializes the widget now that it has been added to a parent widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void Initialize(Container parent)
         {
@@ -597,8 +592,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -679,7 +676,35 @@ namespace TGUI
             }
         }
 
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>Event handler for the ValueChanged event</summary>
+        public event EventHandler<CallbackArgs> ValueChangedCallback;
+
+        /// <summary>Event handler for the LoadingBarFull event</summary>
+        public event EventHandler<CallbackArgs> LoadingBarFullCallback;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private string m_LoadedConfigFile = "";
+
+        private int    m_Minimum = 0;
+        private int    m_Maximum = 100;
+        private int    m_Value = 0;
+
+        private bool   m_SplitImage = false;
+
+        private Impl.Sprite m_TextureBack_L = new Impl.Sprite();
+        private Impl.Sprite m_TextureBack_M = new Impl.Sprite();
+        private Impl.Sprite m_TextureBack_R = new Impl.Sprite();
+        private Impl.Sprite m_TextureFront_L = new Impl.Sprite();
+        private Impl.Sprite m_TextureFront_M = new Impl.Sprite();
+        private Impl.Sprite m_TextureFront_R = new Impl.Sprite();
+
+        private Text   m_Text = new Text();
+        private uint   m_TextSize = 0;
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-

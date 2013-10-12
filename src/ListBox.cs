@@ -32,43 +32,10 @@ namespace TGUI
 {
     public class ListBox : Widget, WidgetBorders
     {
-        public event EventHandler<CallbackArgs> ItemSelectedCallback;
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        private string m_LoadedConfigFile = "";
-
-        // This contains the different items in the list box
-        private List<string> m_Items = new List<string>();
-
-        // What is the index of the selected item?
-        private int m_SelectedItem = -1;
-
-        // The size must be stored
-        private Vector2f m_Size = new Vector2f(50, 100);
-        private uint m_ItemHeight = 24;
-        private uint m_TextSize = 19;
-
-        // This will store the maximum number of items in the list box (zero by default, meaning that there is no limit)
-        private uint m_MaxItems = 0;
-
-        // When there are too many items a scrollbar will be shown
-        internal Scrollbar m_Scroll = null;
-
-        // These colors are used to draw the list box
-        private Color m_BackgroundColor = new Color(255, 255, 255);
-        private Color m_TextColor = new Color(0, 0, 0);
-        private Color m_SelectedBackgroundColor = new Color(50, 100, 200);
-        private Color m_SelectedTextColor = new Color(255, 255, 255);
-        private Color m_BorderColor = new Color(0, 0, 0);
-
-        // The font used to draw the text
-        private Font m_TextFont = null;
-
-        private Borders m_Borders = new Borders();
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Default constructor
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public ListBox ()
@@ -78,9 +45,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public ListBox (ListBox copy) : base(copy)
@@ -105,11 +74,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads the widget.
+        /// <summary>
+        /// Loads the widget
+        /// </summary>
         ///
-        /// \param configFileFilename  Filename of the config file.
-        ///
-        /// The config file must contain a ListBox section with the needed information.
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a ListBox section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public ListBox (string configFileFilename)
@@ -163,10 +133,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the filename of the config file that was used to load the widget.
-        ///
-        /// \return Filename of loaded config file.
-        ///         Empty string when no config file was loaded yet.
+        /// <summary>
+        /// Filename of the config file that was used to load the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string LoadedConfigFile
@@ -179,7 +148,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the size of the widget.
+        /// <summary>
+        /// Size of the list box
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -213,7 +184,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the background color.
+        /// <summary>
+        /// Background color of the list box
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color BackgroundColor
@@ -230,7 +203,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the color of the text.
+        /// <summary>
+        /// Color of the text inside the list box
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color TextColor
@@ -247,9 +222,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Set the background color of the selected text that will be used inside the list box.
-        ///
-        /// \param selectedBackgroundColor  The color of the background of the selected item
+        /// <summary>
+        /// Background color of the selected item
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color SelectedBackgroundColor
@@ -266,9 +241,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Set the text color of the selected text that will be used inside the list box.
-        ///
-        /// \param selectedTextColor  The color of the text when it is selected
+        /// <summary>
+        /// Text color of the selected item
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color SelectedTextColor
@@ -285,7 +260,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the color of the borders.
+        /// <summary>
+        /// Color of the borders
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color BorderColor
@@ -301,10 +278,10 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the font of the text.
-        ///
-        /// When you don't call this function then the global font will be use.
-        /// This global font can be changed with the setGlobalFont function from the parent.
+        /// <summary>
+        /// Font of the text.
+        /// By default, the GlobalFont of the parent is used.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Font TextFont
@@ -321,19 +298,19 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Adds an item to the list.
+        /// <summary>
+        /// Adds a new item to the list
+        /// </summary>
         ///
-        /// \param itemName  The name of the item you want to add (this is the text that will be displayed inside the list box)
+        /// <param name="itemName">The name of the item you want to add (this is the text that will be displayed inside the list box)</param>
         ///
-        /// \return
-        ///         -  The index of the item when it was successfully added.
-        ///         -  -1 when the list box is full (you have set a maximum item limit and you are trying to add more items)
-        ///         -  -1 when there is no scrollbar and you try to have more items than fit inside the list box
+        /// <returns>
+        /// -  The index of the item when it was successfully added.
+        /// -  -1 when the list is full (you have set a maximum item limit and you are trying to add more items)
+        /// -  -1 when there is no scrollbar and you try to have more items than fit inside the list box
+        /// </returns>
         ///
-        /// \warning The index returned by this function is no longer correct when an item is removed.
-        ///
-        /// \see setMaximumItems
-        /// \see setScrollbar
+        /// <remarks>The index returned by this function may no longer correct when an item is removed.</remarks>        ///
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public int AddItem (string itemName)
@@ -368,19 +345,18 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Selects an item in the list box.
+        /// <summary>
+        /// Selects an item in the list box
+        /// </summary>
         ///
-        /// When adding items to the list box with the addItem function, none of them will be selected.
+        /// When adding items to the list box with the AddItem function, none of them will be selected.
         /// If you want a default item selected then you can use this function to select it.
-        /// The first item that matches the name will be selected.
         ///
-        /// \param itemName  The item you want to select
+        /// <param name="itemName">The item you want to select</param>
         ///
-        /// \return
-        ///         - true on success
-        ///         - false when none of the items matches the name
+        /// <returns>True when one of the item matches the name and when it gets selected.</returns>
         ///
-        /// \see setSelectedItem(unsigned int)
+        /// <remarks>The first item that matches the name will be selected.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool SetSelectedItem (string itemName)
@@ -402,19 +378,18 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Selects an item in the list box.
+        /// <summary>
+        /// Selects an item from the list
+        /// </summary>
         ///
-        /// When adding items to the list box with the addItem function, none of them will be selected.
+        /// When adding items to the list box with the AddItem function, none of them will be selected.
         /// If you want a default item selected then you can use this function to select it.
-        /// If the index is -1 then the \a deselectItem function will be called.
         ///
-        /// \param index  The index of the item
+        /// <param name="index">The index of the item to select</param>
         ///
-        /// \return
-        ///         - true on success
-        ///         - false when the index was too high
+        /// <returns>True when the index wasn't too high and when it gets selected.</returns>
         ///
-        /// \see setSelectedItem(sf::String)
+        /// <remarks>If the index is -1 then the DeselectItem function will be called.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool SetSelectedItem (int index)
@@ -440,7 +415,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Deselects the selected item.
+        /// <summary>
+        /// Deselects the selected item
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void DeselectItem ()
@@ -450,13 +427,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes an item from the list with a given index.
+        /// <summary>
+        /// Removes an item from the list with a given index
+        /// </summary>
         ///
-        /// \param index  The index of the item to remove
+        /// <param name="index">The index of the item to remove</param>
         ///
-        /// \return
-        ///        - true when the item was removed
-        ///        - false when the index was too high
+        /// <returns>True when the index wasn't too high and the item got removed.</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool RemoveItem (uint index)
@@ -486,13 +463,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes the first item from the list with the given name.
+        /// <summary>
+        /// Removes the first item from the list with a given name
+        /// </summary>
         ///
-        /// \param itemName  The item to remove
+        /// <param name="itemName">The item to remove</param>
         ///
-        /// \return
-        ///        - true when the item was removed
-        ///        - false when the name didn't match any item
+        /// <returns>True when the name matched with an item and the item got removed.</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool RemoveItem (string itemName)
@@ -522,7 +499,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes all items from the list.
+        /// <summary>
+        /// Removes all items from the list
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void RemoveAllItems ()
@@ -540,14 +519,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the item name of the item with the given index.
+        /// <summary>
+        /// Returns the item name of the item with the given index
+        /// </summary>
         ///
-        /// \param index  The index of the item
+        /// <param name="index">The index of the item</param>
         ///
-        /// \return The requested item.
-        ///         The string will be empty when the index was too high.
-        ///
-        /// \see getItemIndex
+        /// <returns>The requested item, or an empty string when the index was too high</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string GetItem (uint index)
@@ -565,16 +543,15 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the index of the first item with the given name.
+        /// <summary>
+        /// Returns the index of the first item with the given name
+        /// </summary>
         ///
-        /// \param itemName  The name of the item
+        /// <param name="itemName">The name of the item</param>
         ///
-        /// \return The index of the item that matches the name.
-        ///         If none of the items matches then the returned index will be -1.
+        /// <returns>The index of the item that matches the name, or -1 when no item matches</returns>
         ///
-        /// \warning This index may become wrong when an item is removed from the list.
-        ///
-        /// \see getItem
+        /// <remarks>This index may become wrong when an item is removed from the list.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public int GetItemIndex (string itemName)
@@ -584,9 +561,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the list of all the items.
+        /// <summary>
+        /// Returns the list that contains all the items
+        /// </summary>
         ///
-        /// \return The vector of strings
+        /// <returns>The list of strings</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public List<string> GetItems ()
@@ -596,12 +575,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the currently selected item.
+        /// <summary>
+        /// Returns the currently selected item
+        /// </summary>
         ///
-        /// \return The selected item.
-        ///         When no item was selected then this function will return an empty string.
-        ///
-        /// \see getSelectedItemIndex
+        /// <returns>The selected item, or an empty string when no item is selected</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string GetSelectedItem ()
@@ -614,14 +592,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Get the index of the selected item.
+        /// <summary>
+        /// Get the index of the selected item
+        /// </summary>
         ///
-        /// \return The index of the selected item
-        ///         When no item was selected then this function returns -1.
+        /// <returns>The index of the selected item, or -1 when no item was selected</returns>
         ///
-        /// \warning This index may become wrong when an item is removed from the list.
-        ///
-        /// \see getSelectedItem
+        /// <remarks>This index may become wrong when an item is removed from the list.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public int GetSelectedItemIndex ()
@@ -631,14 +608,14 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the scrollbar of the list box.
+        /// <summary>
+        /// Changes the scrollbar of the list box
+        /// </summary>
         ///
-        /// \param scrollbarConfigFileFilename  Filename of the config file.
-        ///                                     The config file must contain a Scrollbar section with the needed information.
+        /// <param name="scrollbarConfigFileFilename">Filename of the config file.
+        /// The config file must contain a Scrollbar section with the needed information.</param>
         ///
-        /// \return
-        ///        - true when the scrollbar was successfully loaded
-        ///        - false when the loading of the scrollbar failed
+        /// <returns>True when the scrollbar was successfully loaded</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void SetScrollbar (string scrollbarConfigFileFilename)
@@ -660,9 +637,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes the scrollbar from the list box.
+        /// <summary>
+        /// Removes the scrollbar from the list box
+        /// </summary>
         ///
-        /// When there are too many items to fit in the list box then the items will be removed.
+        /// <remarks>When there are too many items to fit in the list then the items will be removed.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void RemoveScrollbar ()
@@ -682,13 +661,14 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the height of the items in the list box.
+        /// <summary>
+        /// The height of the items in the list box
+        /// </summary>
         ///
-        /// \param itemHeight  The size of a single item in the list
-        ///
-        /// \remarks
-        ///         - This size is always a little big greater than the text size.
-        ///         - When there is no scrollbar then the items will be removed when they no longer fit inside the list box.
+        /// <remarks>
+        /// - This size is always a little big greater than the text size.
+        /// - When there is no scrollbar then the items will be removed when they no longer fit inside the list box.
+        /// </remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint ItemHeight
@@ -730,10 +710,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the maximum items that the list box can contain.
-        ///
-        /// \param maximumItems  The maximum items inside the list box.
-        ///                      When the maximum is set to 0 then the limit will be disabled.
+        /// <summary>
+        /// The maximum items that the list box can contain.
+        /// When the maximum is set to 0 then the limit will be disabled.
+        /// </summary>
         ///
         /// If no scrollbar was loaded then there is always a limitation because there will be a limited space for the items.
         ///
@@ -763,7 +743,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the border width and border height of the list box.
+        /// <summary>
+        /// Borders of the list box
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Borders Borders
@@ -806,13 +788,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
+        /// <summary>
+        /// Transparency of the widget.
+        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// </summary>
         ///
-        /// \param transparency  The transparency of the widget.
-        ///                      0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
-        /// be changed. You must change them yourself by setting the alpha channel of the color.
+        /// <remarks>This will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -828,7 +810,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Ask the widget if the mouse is on top of it
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override bool MouseOnWidget(float x, float y)
         {
@@ -861,7 +846,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been pressed on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnLeftMousePressed(MouseButtonEventArgs e)
         {
@@ -940,9 +928,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been released on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnLeftMouseReleased(MouseButtonEventArgs e)
+        protected internal override void OnLeftMouseReleased (MouseButtonEventArgs e)
         {
             // If there is a scrollbar then pass it the event
             if (m_Scroll != null)
@@ -986,9 +977,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse has moved on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnMouseMoved(MouseMoveEventArgs e)
+        protected internal override void OnMouseMoved (MouseMoveEventArgs e)
         {
             if (m_MouseHover == false)
                 MouseEnteredWidget();
@@ -1021,9 +1015,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse wheel has moved while the mouse was on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnMouseWheelMoved(MouseWheelEventArgs e)
+        protected internal override void OnMouseWheelMoved (MouseWheelEventArgs e)
         {
             // Only do something when there is a scrollbar
             if (m_Scroll != null)
@@ -1052,7 +1049,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse has moved on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void MouseNotOnWidget()
         {
@@ -1066,7 +1066,10 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been released
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void MouseNoLongerDown()
         {
@@ -1078,8 +1081,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // This function is called when the widget is added to a container.
+        /// <summary>
+        /// Initializes the widget now that it has been added to a parent widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void Initialize(Container parent)
         {
@@ -1089,8 +1094,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -1297,6 +1304,43 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>Event handler for the ItemSelected event</summary>
+        public event EventHandler<CallbackArgs> ItemSelectedCallback;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private string m_LoadedConfigFile = "";
+
+        // This contains the different items in the list box
+        private List<string> m_Items = new List<string>();
+
+        // What is the index of the selected item?
+        private int m_SelectedItem = -1;
+
+        // The size must be stored
+        private Vector2f m_Size = new Vector2f(50, 100);
+        private uint m_ItemHeight = 24;
+        private uint m_TextSize = 19;
+
+        // This will store the maximum number of items in the list box (zero by default, meaning that there is no limit)
+        private uint m_MaxItems = 0;
+
+        // When there are too many items a scrollbar will be shown
+        internal Scrollbar m_Scroll = null;
+
+        // These colors are used to draw the list box
+        private Color m_BackgroundColor = new Color(255, 255, 255);
+        private Color m_TextColor = new Color(0, 0, 0);
+        private Color m_SelectedBackgroundColor = new Color(50, 100, 200);
+        private Color m_SelectedTextColor = new Color(255, 255, 255);
+        private Color m_BorderColor = new Color(0, 0, 0);
+
+        // The font used to draw the text
+        private Font m_TextFont = null;
+
+        private Borders m_Borders = new Borders();
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-

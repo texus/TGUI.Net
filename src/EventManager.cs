@@ -30,15 +30,11 @@ namespace TGUI
 {
     internal class EventManager
     {
-        // This vector will hold all widgets
-        internal List<Widget> m_Widgets = new List<Widget>();
-
-        // The id of the focused widget
-        internal Widget m_FocusedWidget = null;
-
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse has moved on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void OnMouseMoved (object sender, MouseMoveEventArgs e)
         {
@@ -64,7 +60,10 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Handles the left mouse pressed event
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void OnMousePressed (object sender, MouseButtonEventArgs e)
         {
@@ -98,7 +97,10 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Handles the left mouse released event
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void OnMouseReleased (object sender, MouseButtonEventArgs e)
         {
@@ -120,7 +122,10 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Handles the key pressed event
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void OnKeyPressed (object sender, KeyEventArgs e)
         {
@@ -148,7 +153,10 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Handles the key released event
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void OnKeyReleased (object sender, KeyEventArgs e)
         {
@@ -158,7 +166,10 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Handles the text entered event
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void OnTextEntered (object sender, TextEventArgs e)
         {
@@ -172,7 +183,10 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse wheel has moved while the mouse was on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void OnMouseWheelMoved (object sender, MouseWheelEventArgs e)
         {
@@ -184,11 +198,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Focuses an widget.
+        /// <summary>
+        /// Focuses a widget
+        /// </summary>
+        ///
+        /// <param name="widget">The widget that has to be focused</param>
         ///
         /// The previously focused widget will be unfocused.
-        ///
-        /// \param widget  The widget that has to be focused.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void FocusWidget (Widget widget)
@@ -208,7 +224,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Focuses the next widget.
+        /// <summary>
+        /// Focuses the next widget
+        /// </summary>
         ///
         /// The currently focused widget will be unfocused, even if it was the only widget.
         /// When no widget was focused, the first widget in the container will be focused.
@@ -268,7 +286,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Focuses the previous widget.
+        /// <summary>
+        /// Focuses the previous widget
+        /// </summary>
         ///
         /// The currently focused widget will be unfocused, even if it was the only widget.
         /// When no widget was focused, the last widget in the container will be focused.
@@ -327,7 +347,9 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Unfocus all the widgets.
+        /// <summary>
+        /// Unfocus all the widgets
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void UnfocusWidgets ()
@@ -342,7 +364,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Tell all widgets to update.
+        /// <summary>
+        /// Tell all widgets to update
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void UpdateTime (int elapsedTime)
         {
@@ -361,9 +386,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // When the tab key is pressed then this function is called. The focus will move to the next widget (if there is one).
-        // This function will only work when tabKeyUsageEnabled is true.
-        // The function will return true when another widget was focused.
+        /// <summary>
+        /// Handle the tab key, focus the next widget when needed.
+        /// </summary>
+        ///
+        /// When the tab key is pressed then this function is called. The focus will move to the next widget (if there is one).
+        /// This function will only work when tabKeyUsageEnabled is true.
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void TabKeyPressed ()
         {
@@ -440,8 +469,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Focuses the next widget in the container. If the last widget was focused then all widgets will be unfocused and
-        // this function will return false.
+        /// <summary>
+        /// Focuses the next widget in this container as long as there are still focusable widgets after the current one
+        /// </summary>
+        ///
+        /// <returns>True when another widget was focused,
+        /// false when the last widget was focused and now none of the widgets is focused.</returns>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool FocusNextWidgetInContainer ()
         {
@@ -486,7 +520,10 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Tells all widgets that the mouse is no longer on top of them.
+        /// <summary>
+        /// Tells all widgets that the mouse is no longer on top of them
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void MouseNotOnWidget ()
         {
@@ -498,7 +535,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Tells all widgets that the mouse is no longer down.
+        /// <summary>
+        /// Tells all widgets that the mouse is no longer down
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void MouseNoLongerDown ()
         {
@@ -510,8 +550,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Checks above which widget the mouse is standing.
-        // If there is no widget below the mouse then this function will return a null pointer.
+        /// <summary>
+        /// Checks above which widget the mouse is standing
+        /// </summary>
+        ///
+        /// <returns>The top widget below the mouse, or null when the mouse isn't on any widget</returns>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private bool MouseOnWidget(ref Widget theWidget, float x, float y)
         {
@@ -544,6 +588,13 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // This vector will hold all widgets
+        internal List<Widget> m_Widgets = new List<Widget>();
+
+        // The id of the focused widget
+        internal Widget m_FocusedWidget = null;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-

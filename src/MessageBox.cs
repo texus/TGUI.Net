@@ -32,22 +32,10 @@ namespace TGUI
 {
     public class MessageBox : ChildWindow
     {
-        public event EventHandler<CallbackArgs> ButtonClickedCallback;
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        private string       m_LoadedConfigFile = "";
-        private string       m_ButtonConfigFileFilename = "";
-
-        private List<Button> m_Buttons = new List<Button>();
-
-        private Label        m_Label = new Label();
-
-        private uint         m_TextSize = 16;
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Constructor, only intended for internal use
+        /// <summary>
+        /// Constructor, only intended for internal use
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal MessageBox ()
@@ -58,9 +46,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public MessageBox (MessageBox copy) : base(copy)
@@ -91,11 +81,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads the widget.
+        /// <summary>
+        /// Loads the widget
+        /// </summary>
         ///
-        /// \param configFileFilename  Filename of the config file.
-        ///
-        /// The config file must contain a MessageBox section with the needed information.
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a MessageBox section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public MessageBox (string configFileFilename)
@@ -149,9 +140,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Change the text of the message box.
-        ///
-        /// \param text  The text displayed by the message box.
+        /// <summary>
+        /// The text of the message box.
+        /// </summary>
         ///
         /// The text will be placed as one long string and the message box will get the size needed to display the whole string.
         /// So if you need to display multiple lines of text then add '\n' inside the text yourself.
@@ -172,10 +163,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the font of the text.
-        ///
-        /// When you don't call this function then the global font will be use.
-        /// This global font can be changed with the setGlobalFont function from the parent.
+        /// <summary>
+        /// Font of the text.
+        /// By default, the GlobalFont of the parent is used.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Font TextFont
@@ -192,7 +183,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the color of the text.
+        /// <summary>
+        /// The color of the text
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color TextColor
@@ -209,9 +202,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the character size of the text.
-        ///
-        /// \param size  The new text size.
+        /// <summary>
+        /// The character size of the text
+        /// </summary>
         ///
         /// By default, the text size is 16.
         ///
@@ -237,11 +230,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Add a button to the message box.
+        /// <summary>
+        /// Add a button to the message box
+        /// </summary>
         ///
-        /// \param buttonCaption  The caption of the button.
-        ///
-        /// When receiving a callback with the ButtonClicked trigge then callback.text will contain this caption to identify
+        /// When receiving a callback with the ButtonClicked trigger then callback.text will contain this caption to identify
         /// the clicked button.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -261,7 +254,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Makes sure all widgets lie within the window and places them on the correct position.
+        /// <summary>
+        /// Makes sure all widgets lie within the window and places them on the correct position
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void Rearrange ()
         {
@@ -313,7 +309,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Handles the callback from one of the buttons
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void ButtonClickedCallbackFunction(object sender, CallbackArgs e)
         {
@@ -325,7 +324,23 @@ namespace TGUI
             }
         }
 
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>Event handler for the ButtonClicked event</summary>
+        public event EventHandler<CallbackArgs> ButtonClickedCallback;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private string       m_LoadedConfigFile = "";
+        private string       m_ButtonConfigFileFilename = "";
+
+        private List<Button> m_Buttons = new List<Button>();
+
+        private Label        m_Label = new Label();
+
+        private uint         m_TextSize = 16;
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-

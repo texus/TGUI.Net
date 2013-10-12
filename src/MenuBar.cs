@@ -32,41 +32,10 @@ namespace TGUI
 {
     public class MenuBar : Widget
     {
-        public event EventHandler<CallbackArgs> MenuItemClickedCallback;
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        private class Menu
-        {
-            public Text text;
-            public List<Text> menuItems;
-            public Text selectedMenuItem;
-        };
-
-        private string   m_LoadedConfigFile = "";
-
-        private List<Menu> m_Menus = new List<Menu>();
-
-        private Menu     m_VisibleMenu = null;
-
-        private Font     m_TextFont = null;
-
-        private Vector2f m_Size = new Vector2f(0, 20);
-
-        private uint     m_TextSize = 0;
-
-        private uint     m_DistanceToSide = 0;
-
-        private uint     m_MinimumSubMenuWidth = 100;
-
-        private Color    m_BackgroundColor = new Color(255, 255, 255);
-        private Color    m_TextColor = new Color(0, 0, 0);
-        private Color    m_SelectedBackgroundColor = new Color(50, 100, 200);
-        private Color    m_SelectedTextColor = new Color(255, 255, 255);
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Default constructor
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public MenuBar ()
@@ -75,9 +44,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public MenuBar (MenuBar copy) : base(copy)
@@ -91,7 +62,7 @@ namespace TGUI
             m_Size                    = copy.m_Size;
             m_TextSize                = copy.m_TextSize;
             m_DistanceToSide          = copy.m_DistanceToSide;
-            m_MinimumSubMenuWidth     = copy.m_MinimumSubMenuWidth;
+            m_MinimumMenuWidth        = copy.m_MinimumMenuWidth;
             m_BackgroundColor         = copy.m_BackgroundColor;
             m_TextColor               = copy.m_TextColor;
             m_SelectedBackgroundColor = copy.m_SelectedBackgroundColor;
@@ -100,11 +71,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads the widget.
+        /// <summary>
+        /// Loads the widget
+        /// </summary>
         ///
-        /// \param configFileFilename  Filename of the config file.
-        ///
-        /// The config file must contain a MenuBar section with the needed information.
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a MenuBar section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public MenuBar (string configFileFilename)
@@ -135,10 +107,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the filename of the config file that was used to load the widget.
-        ///
-        /// \return Filename of loaded config file.
-        ///         Empty string when no config file was loaded yet.
+        /// <summary>
+        /// Filename of the config file that was used to load the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string LoadedConfigFile
@@ -151,7 +122,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the size of the widget.
+        /// <summary>
+        /// Size of the menu bar
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -169,9 +142,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Adds a new menu.
+        /// <summary>
+        /// Adds a new menu
+        /// </summary>
         ///
-        /// \param text  The text written on the menu
+        /// <param name="text">The text written on the menu</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void AddMenu (string text)
@@ -191,18 +166,21 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Adds a new menu item.
+        /// <summary>
+        /// Adds a new menu item
+        /// </summary>
         ///
-        /// \param menu  The name of the menu to which the menu item will be added
-        /// \param text  The text written on this menu item
+        /// <param name="menu">The name of the menu to which the menu item will be added</param>
+        /// <param name="text">The text written on this menu item</param>
         ///
-        /// \return True when the item was added, false when \a menu was not found.
+        /// <returns>True when the item was added, false when \a menu was not found</returns>
         ///
-        /// \code
+        /// Usage example:
+        /// <code>
         /// menuBar.AddMenu("File");
         /// menuBar.AddMenuItem("File", "Load");
         /// menuBar.AddMenuItem("File", "Save");
-        /// \endcode
+        /// </code>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool AddMenuItem (string menuText, string text)
@@ -229,13 +207,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes a menu.
+        /// <summary>
+        /// Removes a menu and all its menu items
+        /// </summary>
         ///
-        /// Any menu items that belong to this menu will be removed as well.
+        /// <param name="menu">The name of the menu to remove</param>
         ///
-        /// \param menu  The name of the menu to remove
-        ///
-        /// \return True when the menu was removed, false when \a menu was not found.
+        /// <returns>True when the menu was removed, false when \a menu was not found</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool RemoveMenu (string menuText)
@@ -262,12 +240,14 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes a menu item.
+        /// <summary>
+        /// Removes the menu item
+        /// </summary>
         ///
-        /// \param menu      The name of the menu in which the menu item is located
-        /// \param menuItem  The name of the menu item to remove
+        /// <param name="menuText">The name of the menu in which the menu item is located</param>
+        /// <param name="menuItemText">The name of the menu item to remove</param>
         ///
-        /// \return True when the item was removed, false when \a menu or \a menuItem was not found.
+        /// <returns>True when the item was removed, false when menuText or menuItemText was not found</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool RemoveMenuItem (string menuText, string menuItemText)
@@ -301,7 +281,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes all menus.
+        /// <summary>
+        /// Removes all menus
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void RemoveAllMenus ()
@@ -311,7 +293,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the background color.
+        /// <summary>
+        /// Background color of the menu bar
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color BackgroundColor
@@ -328,7 +312,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the color of the text.
+        /// <summary>
+        /// Text color of the menus and menu items in the menu bar
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color TextColor
@@ -356,9 +342,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Set the background color of the selected text that will be used inside the menu bar.
-        ///
-        /// \param selectedBackgroundColor  The color of the background of the selected item
+        /// <summary>
+        /// The background color of the selected menu item
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color SelectedBackgroundColor
@@ -375,9 +361,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Set the text color of the selected text that will be used inside the menu bar.
-        ///
-        /// \param selectedTextColor  The color of the text when it is selected
+        /// <summary>
+        /// The text color of the selected menu item
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color SelectedTextColor
@@ -400,10 +386,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the font of the text.
-        ///
-        /// When you don't call this function then the global font will be use.
-        /// This global font can be changed with the setGlobalFont function from the parent.
+        /// <summary>
+        /// Font of the text.
+        /// By default, the GlobalFont of the parent is used.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Font TextFont
@@ -432,10 +418,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the character size of the text.
-        ///
-        /// \param size  The new size of the text.
-        ///              If the size is 0 (default) then the text will be scaled to fit in the menu bar.
+        /// <summary>
+        /// Character size of the text.
+        /// If the size is 0 (default) then the text will be scaled to fit in the menu bar.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint TextSize
@@ -464,9 +450,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the distance between the text and the side of the menu item.
-        ///
-        /// \param distanceToSide  distance between the text and the side of the menu item
+        /// <summary>
+        /// Distance between the text and the side of the menu item
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint DistanceToSide
@@ -483,29 +469,32 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the minimum width of the submenus.
+        /// <summary>
+        /// Minimum width of the menus.
+        /// </summary>
         ///
-        /// When a submenu is displayed, the width will be either this or the width of the longest text in the submenu.
+        /// When a menu is displayed, the width will be either this or the width of the longest text in the menu.
         /// The default minimum width is 125 pixels.
         ///
-        /// \param minimumWidth  minimum width of the submenus
-        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public uint MinimumSubMenuWidth
+        public uint MinimumMenuWidth
         {
             get
             {
-                return m_MinimumSubMenuWidth;
+                return m_MinimumMenuWidth;
             }
             set
             {
-                m_MinimumSubMenuWidth = value;
+                m_MinimumMenuWidth = value;
             }
         }
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Ask the widget if the mouse is on top of it
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override bool MouseOnWidget(float x, float y)
         {
@@ -532,8 +521,8 @@ namespace TGUI
                     }
 
                     // There is a minimum width
-                    if (width < m_MinimumSubMenuWidth)
-                        width = m_MinimumSubMenuWidth;
+                    if (width < m_MinimumMenuWidth)
+                        width = m_MinimumMenuWidth;
 
                     // Check if the mouse is on top of the open menu
                     if (Transform.TransformRect(new FloatRect(left, m_Size.Y, width, m_Size.Y * m_VisibleMenu.menuItems.Count)).Contains(x, y))
@@ -550,9 +539,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been pressed on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnLeftMousePressed(MouseButtonEventArgs e)
+        protected internal override void OnLeftMousePressed (MouseButtonEventArgs e)
         {
             // Check if the mouse is on top of the menu bar (not on an open menus)
             if (e.Y <= m_Size.Y + Position.Y)
@@ -590,9 +582,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been released on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnLeftMouseReleased(MouseButtonEventArgs e)
+        protected internal override void OnLeftMouseReleased (MouseButtonEventArgs e)
         {
             if (m_MouseDown)
             {
@@ -628,9 +623,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse has moved on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnMouseMoved(MouseMoveEventArgs e)
+        protected internal override void OnMouseMoved (MouseMoveEventArgs e)
         {
             if (m_MouseHover == false)
                 MouseEnteredWidget ();
@@ -701,9 +699,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been released
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void MouseNoLongerDown ()
+        protected internal override void MouseNoLongerDown()
         {
             // Check if there is still a menu open
             if (m_VisibleMenu != null)
@@ -721,8 +722,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // This function is called when the widget is added to a container.
+        /// <summary>
+        /// Initializes the widget now that it has been added to a parent widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void Initialize(Container parent)
         {
@@ -735,8 +738,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -767,8 +772,8 @@ namespace TGUI
                     }
 
                     // There is a minimum width
-                    if (menuWidth < m_MinimumSubMenuWidth)
-                        menuWidth = m_MinimumSubMenuWidth;
+                    if (menuWidth < m_MinimumMenuWidth)
+                        menuWidth = m_MinimumMenuWidth;
 
                     // Draw the background of the menu
                     background = new RectangleShape(new Vector2f(menuWidth, m_Size.Y * m_Menus[i].menuItems.Count));
@@ -803,7 +808,42 @@ namespace TGUI
             }
         }
 
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>Event handler for the MenuItemClicked event</summary>
+        public event EventHandler<CallbackArgs> MenuItemClickedCallback;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private class Menu
+        {
+            public Text text;
+            public List<Text> menuItems;
+            public Text selectedMenuItem;
+        };
+
+        private string   m_LoadedConfigFile = "";
+
+        private List<Menu> m_Menus = new List<Menu>();
+
+        private Menu     m_VisibleMenu = null;
+
+        private Font     m_TextFont = null;
+
+        private Vector2f m_Size = new Vector2f(0, 20);
+
+        private uint     m_TextSize = 0;
+
+        private uint     m_DistanceToSide = 0;
+
+        private uint     m_MinimumMenuWidth = 100;
+
+        private Color    m_BackgroundColor = new Color(255, 255, 255);
+        private Color    m_TextColor = new Color(0, 0, 0);
+        private Color    m_SelectedBackgroundColor = new Color(50, 100, 200);
+        private Color    m_SelectedTextColor = new Color(255, 255, 255);
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-

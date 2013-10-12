@@ -30,46 +30,23 @@ namespace TGUI
 {
     public class Checkbox : ClickableWidget
     {
-        public event EventHandler<CallbackArgs> CheckedCallback;
-        public event EventHandler<CallbackArgs> UncheckedCallback;
-        public event EventHandler<CallbackArgs> SpaceKeyPressedCallback;
-        public event EventHandler<CallbackArgs> ReturnKeyPressedCallback;
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        protected string m_LoadedConfigFile = "";
-
-        // This is the checked flag. When the checkbox is checked then this variable will be true.
-        protected bool m_Checked = false;
-
-        // When this boolean is true (default) then the checkbox will also be checked/unchecked by clicking on the text.
-        protected bool m_AllowTextClick = true;
-
-        // This will contain the text that is written next to checkbox.
-        protected Text m_Text = new Text();
-
-        // This will store the size of the text ( 0 to auto size )
-        protected uint m_TextSize = 0;
-
-        protected Impl.Sprite m_TextureUnchecked = new Impl.Sprite();
-        protected Impl.Sprite m_TextureChecked = new Impl.Sprite();
-        protected Impl.Sprite m_TextureHover = new Impl.Sprite();
-        protected Impl.Sprite m_TextureFocused = new Impl.Sprite();
-       
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Constructor, only intended for internal use
+        /// <summary>
+        /// Constructor, only intended for internal use
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal Checkbox()
         {
         }
-        
+
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Checkbox (Checkbox copy) : base(copy)
@@ -93,11 +70,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads the widget.
+        /// <summary>
+        /// Loads the widget
+        /// </summary>
         ///
-        /// \param configFileFilename  Filename of the config file.
-        ///
-        /// The config file must contain a Checkbox section with the needed information.
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a Checkbox section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Checkbox (string configFileFilename)
@@ -150,7 +128,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Destructor
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ~Checkbox ()
@@ -163,10 +143,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the filename of the config file that was used to load the widget.
-        ///
-        /// \return Filename of loaded config file.
-        ///         Empty string when no config file was loaded yet.
+        /// <summary>
+        /// Filename of the config file that was used to load the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string LoadedConfigFile
@@ -179,9 +158,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the position of the widget
-        ///
-        /// The default position of a transformable widget is (0, 0).
+        /// <summary>
+        /// Position of the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Position
@@ -207,7 +186,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the size of the widget.
+        /// <summary>
+        /// Size of the check box
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -240,7 +221,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Checks the checkbox.
+        /// <summary>
+        /// Checks the checkbox
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public virtual void Check ()
@@ -261,7 +244,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Unchecks the checkbox.
+        /// <summary>
+        /// Unchecks the checkbox
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public virtual void Uncheck ()
@@ -282,9 +267,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns whether the checkbox is checked or not.
+        /// <summary>
+        /// Returns whether the checkbox is checked or not
+        /// </summary>
         ///
-        /// \return Is the checkbox checked?
+        /// <returns>Is the checkbox checked?</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool IsChecked ()
@@ -294,7 +281,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the caption of the checkbox.
+        /// <summary>
+        /// The caption of the checkbox
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string Text
@@ -327,10 +316,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the font of the text.
-        ///
-        /// When you don't call this function then the global font will be use.
-        /// This global font can be changed with the setGlobalFont function from the parent.
+        /// <summary>
+        /// Font of the text.
+        /// By default, the GlobalFont of the parent is used.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Font TextFont
@@ -347,7 +336,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the color of the text.
+        /// <summary>
+        /// The color of the text
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color TextColor
@@ -364,9 +355,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the character size of the text.
-        ///
+        /// <summary>
+        /// Character size of the text.
         /// If the size is set to 0 then the text will be auto-sized.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint TextSize
@@ -386,9 +378,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Allow (or disallow) the checkbox to be checked/unchecked by clicking on the text next to the checkbox.
+        /// <summary>
+        /// Allow (or disallow) the checkbox to be checked/unchecked by clicking on the text next to the checkbox
+        /// </summary>
         ///
-        /// \param acceptTextClick  Will clicking on the text trigger a checked/unchecked event?
+        /// <param name="acceptTextClick">Will clicking on the text trigger a checked/unchecked event?</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void AllowTextClick (bool acceptTextClick)
@@ -398,13 +392,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
+        /// <summary>
+        /// Transparency of the widget.
+        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// </summary>
         ///
-        /// \param transparency  The transparency of the widget.
-        ///                      0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
-        /// be changed. You must change them yourself by setting the alpha channel of the color.
+        /// <remarks>This will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -422,7 +416,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Ask the widget if the mouse is on top of it
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override bool MouseOnWidget(float x, float y)
         {
@@ -446,9 +443,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been released on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnLeftMouseReleased(MouseButtonEventArgs e)
+        protected internal override void OnLeftMouseReleased (MouseButtonEventArgs e)
         {
             // Check or uncheck the checkbox
             if (m_MouseDown == true)
@@ -464,9 +464,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that a special key has been pressed while the widget was focused
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnKeyPressed(KeyEventArgs e)
+        protected internal override void OnKeyPressed (KeyEventArgs e)
         {
             // Check if the space key or the return key was pressed
             if (e.Code == Keyboard.Key.Space)
@@ -499,7 +502,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that it has been focused
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnWidgetFocused()
         {
@@ -512,8 +518,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // This function is called when the widget is added to a container.
+        /// <summary>
+        /// Initializes the widget now that it has been added to a parent widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void Initialize(Container parent)
         {
@@ -523,8 +531,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -546,8 +556,42 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>Event handler for the Checked event</summary>
+        public event EventHandler<CallbackArgs> CheckedCallback;
+
+        /// <summary>Event handler for the Unchecked event</summary>
+        public event EventHandler<CallbackArgs> UncheckedCallback;
+
+        /// <summary>Event handler for the SpaceKeyPressed event</summary>
+        public event EventHandler<CallbackArgs> SpaceKeyPressedCallback;
+
+        /// <summary>Event handler for the ReturnKeyPressed event</summary>
+        public event EventHandler<CallbackArgs> ReturnKeyPressedCallback;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        protected string m_LoadedConfigFile = "";
+
+        // This is the checked flag. When the checkbox is checked then this variable will be true.
+        protected bool m_Checked = false;
+
+        // When this boolean is true (default) then the checkbox will also be checked/unchecked by clicking on the text.
+        protected bool m_AllowTextClick = true;
+
+        // This will contain the text that is written next to checkbox.
+        protected Text m_Text = new Text();
+
+        // This will store the size of the text ( 0 to auto size )
+        protected uint m_TextSize = 0;
+
+        protected Impl.Sprite m_TextureUnchecked = new Impl.Sprite();
+        protected Impl.Sprite m_TextureChecked = new Impl.Sprite();
+        protected Impl.Sprite m_TextureHover = new Impl.Sprite();
+        protected Impl.Sprite m_TextureFocused = new Impl.Sprite();
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
-

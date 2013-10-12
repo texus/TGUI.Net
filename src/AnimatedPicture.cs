@@ -31,21 +31,10 @@ namespace TGUI
 {
     public class AnimatedPicture : ClickableWidget
     {
-        public event EventHandler<CallbackArgs> AnimationFinishedCallback;
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        private List<Impl.Sprite> m_Textures = new List<Impl.Sprite>();
-        private List<int>         m_FrameDuration = new List<int>();
-
-        private int m_CurrentFrame = -1;
-
-        private bool m_Playing = false;
-        private bool m_Looping = false;
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Default constructor
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public AnimatedPicture ()
@@ -55,9 +44,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public AnimatedPicture (AnimatedPicture copy) : base(copy)
@@ -76,7 +67,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Destructor
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ~AnimatedPicture()
@@ -87,11 +80,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Load another image/frame from a file.
+        /// <summary>
+        /// Load another image/frame from a file
+        /// </summary>
         ///
-        /// \param filename       The filename of the image that you want to use as next frame.
-        /// \param frameDuration  The amount of time that the frame will be displayed on the screen.
-        ///                       When the duration is 0 (default) then the animation will be blocked at that frame.
+        /// <param name="filename">The filename of the image that you want to use as next frame.</param>
+        /// <param name="frameDuration">The amount of time (in milliseconds) that the frame will be displayed on the screen.
+        /// When the duration is 0 then the animation will be blocked at that frame.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void AddFrame (string filename, uint frameDuration)
@@ -120,7 +115,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the size of the displayed image.
+        /// <summary>
+        /// Size of the displayed image
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -137,10 +134,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Starts or resumes playing the animation.
-        ///
-        /// \see pause
-        /// \see stop
+        /// <summary>
+        /// Starts or resumes playing the animation
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void Play ()
@@ -158,12 +154,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Pauses the animation.
-        ///
-        /// You can continue the animation with the start() function.
-        ///
-        /// \see play
-        /// \see stop
+        /// <summary>
+        /// Pauses the animation.
+        /// You can continue the animation with the Start() function.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void Pause ()
@@ -173,12 +167,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Stops the animation.
-        ///
-        /// When calling start() after calling this function, the animation will restart from the first frame.
-        ///
-        /// \see play
-        /// \see pause
+        /// <summary>
+        /// Pauses the animation.
+        /// When calling Start() after calling this function, the animation will restart from the first frame.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void Stop ()
@@ -193,14 +185,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Sets the animation at a specific frame.
+        /// <summary>
+        /// Sets the animation at a specific frame
+        /// </summary>
         ///
-        /// \param frame  The frame that should be displayed
+        /// <param name="frame">The frame that should be displayed. The number is the index of the frame, so the first frame is number 0.</param>
         ///
-        /// The number is the index of the frame, so the first frame is number 0.
-        ///
-        /// \return True when the frame was selected.
-        ///         False when the index was too high.
+        /// <returns>True when the frame was selected. False when the index was too high.</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool SetFrame (uint frame)
@@ -227,12 +218,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the current displayed frame.
+        /// <summary>
+        /// Returns the current displayed frame
+        /// </summary>
         ///
-        /// \return Number of the frame that is currently displayed.
-        ///
+        /// <returns>Number of the frame that is currently displayed.
         /// The number is the index of the frame, so the first frame is number 0.
-        /// If no frames were loaded then this function will return -1.
+        /// If no frames were loaded then this function will return -1.</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public int GetCurrentFrame ()
@@ -242,9 +234,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the duration of the currently displayed frame.
+        /// <summary>
+        /// Returns the duration of the currently displayed frame
+        /// </summary>
         ///
-        /// \return Duration of the frame that is currently displayed.
+        /// <returns>Duration of the frame that is currently displayed</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public int GetCurrentFrameDuration ()
@@ -260,9 +254,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the amount of frames in the animation.
+        /// <summary>
+        /// Returns the amount of frames in the animation
+        /// </summary>
         ///
-        /// \return Number of frames
+        /// <returns>Number of frames</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint GetFrames ()
@@ -272,16 +268,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes a frame from the animation.
+        /// <summary>
+        /// Removes a frame from the animation
+        /// </summary>
         ///
-        /// \param frame  The number of the frame to remove
+        /// <param name="frame">The number of the frame to remove. The number is the index of the frame, so the first frame is number 0.</param>
         ///
-        /// The number is the index of the frame, so the first frame is number 0.
-        ///
-        /// \return True when the frame was removed.
-        ///         False if the index was too high.
-        ///
-        /// \see removeAllFrames
+        /// <returns>True when the frame was removed. False when the index was too high.</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool RemoveFrame (uint frame)
@@ -304,9 +297,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Remove all frames from the animation.
-        ///
-        /// \see removeFrame
+        /// <summary>
+        /// Remove all frames from the animation
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void RemoveAllFrames ()
@@ -325,9 +318,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Turn the looping of the animation on or off.
-        ///
+        /// <summary>
+        /// Turn the looping of the animation on or off.
         /// By default, the animation will not loop.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool Looping
@@ -344,9 +338,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns whether the animation is still playing.
+        /// <summary>
+        /// Returns whether the animation is still playing
+        /// </summary>
         ///
-        /// \return Is the animation still playing?
+        /// <returns>Is the animation still playing?</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool IsPlaying ()
@@ -354,14 +350,15 @@ namespace TGUI
             return m_Playing;
         }
 
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
+        /// <summary>
+        /// Transparency of the widget.
+        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// </summary>
         ///
-        /// \param transparency  The transparency of the widget.
-        ///                      0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
-        /// be changed. You must change them yourself by setting the alpha channel of the color.
+        /// <remarks>This will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -377,9 +374,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // When the elapsed time changes then this function is called.
-        //
+        /// <summary>
+        /// Update the displayed frame
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnUpdate ()
         {
@@ -426,9 +424,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
-        //
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -441,6 +440,20 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>Event handler for the AnimationFinished event</summary>
+        public event EventHandler<CallbackArgs> AnimationFinishedCallback;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private List<Impl.Sprite> m_Textures = new List<Impl.Sprite>();
+        private List<int>         m_FrameDuration = new List<int>();
+
+        private int m_CurrentFrame = -1;
+
+        private bool m_Playing = false;
+        private bool m_Looping = false;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-

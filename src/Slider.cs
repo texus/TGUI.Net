@@ -30,49 +30,10 @@ namespace TGUI
 {
     public class Slider : Widget
     {
-        public event EventHandler<CallbackArgs> ValueChangedCallback;
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        protected string   m_LoadedConfigFile = "";
-
-        // When the mouse went down, did it go down on top of the thumb? If so, where?
-        protected internal bool m_MouseDownOnThumb = false;
-        protected Vector2f      m_MouseDownOnThumbPos = new Vector2f();
-
-        protected int      m_Minimum = 0;
-        protected int      m_Maximum = 10;
-        protected int      m_Value = 0;
-
-        // Is the slider draw vertically?
-        protected bool     m_VerticalScroll = true;
-
-        // Does the image lie vertically?
-        protected bool     m_VerticalImage = true;
-
-        // If this is true then the L, M and R images will be used.
-        // If it is false then the slider is just one big image that will be stored in the M image.
-        protected bool     m_SplitImage = false;
-
-        // Is there a separate hover image, or is it a semi-transparent image that is drawn on top of the others?
-        protected bool     m_SeparateHoverImage = false;
-
-        // The size of the slider and its thumb
-        protected Vector2f m_Size;
-        protected Vector2f m_ThumbSize;
-
-        protected Impl.Sprite m_TextureTrackNormal_L = new Impl.Sprite();
-        protected Impl.Sprite m_TextureTrackNormal_M = new Impl.Sprite();
-        protected Impl.Sprite m_TextureTrackNormal_R = new Impl.Sprite();
-        protected Impl.Sprite m_TextureTrackHover_L = new Impl.Sprite();
-        protected Impl.Sprite m_TextureTrackHover_M = new Impl.Sprite();
-        protected Impl.Sprite m_TextureTrackHover_R = new Impl.Sprite();
-        protected Impl.Sprite m_TextureThumbNormal = new Impl.Sprite();
-        protected Impl.Sprite m_TextureThumbHover = new Impl.Sprite();
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Constructor, only intended for internal use
+        /// <summary>
+        /// Constructor, only intended for internal use
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal Slider ()
@@ -82,9 +43,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Slider (Slider copy) : base(copy)
@@ -116,11 +79,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads the widget.
+        /// <summary>
+        /// Loads the widget
+        /// </summary>
         ///
-        /// \param configFileFilename  Filename of the config file.
-        ///
-        /// The config file must contain a Slider section with the needed information.
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a Slider section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Slider (string configFileFilename)
@@ -232,7 +196,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Destructor
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ~Slider ()
@@ -249,10 +215,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the filename of the config file that was used to load the widget.
-        ///
-        /// \return Filename of loaded config file.
-        ///         Empty string when no config file was loaded yet.
+        /// <summary>
+        /// Filename of the config file that was used to load the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string LoadedConfigFile
@@ -265,7 +230,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the size of the widget.
+        /// <summary>
+        /// Size of the slider
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -335,9 +302,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Sets a minimum value.
-        ///
-        /// \param minimum  The new minimum value
+        /// <summary>
+        /// Minimum value of the slider
+        /// </summary>
         ///
         /// When the value is too small then it will be changed to this minimum.
         /// When the maximum value is lower than the new minimum then it will be changed to this new minimum value.
@@ -366,9 +333,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Sets a maximum value.
-        ///
-        /// \param maximum  The new maximum value
+        /// <summary>
+        /// Maximum value of the scrollbar
+        /// </summary>
         ///
         /// When the value is too big then it will be changed to this maximum.
         /// When the minimum value is higher than the new maximum then it will be changed to this new maximum value.
@@ -397,9 +364,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the current value.
-        ///
-        /// \param value  The new value
+        /// <summary>
+        /// Value of the slider
+        /// </summary>
         ///
         /// The value can't be smaller than the minimum or bigger than the maximum.
         /// The default value is 0.
@@ -432,9 +399,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes whether the slider lies vertical or horizontal.
-        ///
-        /// \param verticallScroll  Does the slider lie vertically?
+        /// <summary>
+        /// Does the slider lie vertically?
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool VerticalScroll
@@ -467,13 +434,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
+        /// <summary>
+        /// Transparency of the widget.
+        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// </summary>
         ///
-        /// \param transparency  The transparency of the widget.
-        ///                      0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
-        /// be changed. You must change them yourself by setting the alpha channel of the color.
+        /// <remarks>This will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -495,7 +462,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Ask the widget if the mouse is on top of it
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override bool MouseOnWidget(float x, float y)
         {
@@ -552,9 +522,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been pressed on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnLeftMousePressed(MouseButtonEventArgs e)
+        protected internal override void OnLeftMousePressed (MouseButtonEventArgs e)
         {
             m_MouseDown = true;
 
@@ -567,18 +540,24 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been released on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnLeftMouseReleased(MouseButtonEventArgs e)
+        protected internal override void OnLeftMouseReleased (MouseButtonEventArgs e)
         {
             m_MouseDown = false;
         }
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse has moved on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnMouseMoved(MouseMoveEventArgs e)
+        protected internal override void OnMouseMoved (MouseMoveEventArgs e)
         {
             if (m_MouseHover == false)
                 MouseEnteredWidget();
@@ -634,9 +613,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse wheel has moved while the mouse was on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnMouseWheelMoved(MouseWheelEventArgs e)
+        protected internal override void OnMouseWheelMoved (MouseWheelEventArgs e)
         {
             if (Value - e.Delta < m_Minimum)
                 Value = m_Minimum;
@@ -646,7 +628,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that it has been focused
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnWidgetFocused()
         {
@@ -655,8 +640,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -868,7 +855,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Send a callback when the value of the slider changes
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected void SendValueChangedCallback ()
         {
@@ -880,7 +870,50 @@ namespace TGUI
             }
         }
 
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>Event handler for the ValueChanged event</summary>
+        public event EventHandler<CallbackArgs> ValueChangedCallback;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        protected string   m_LoadedConfigFile = "";
+
+        // When the mouse went down, did it go down on top of the thumb? If so, where?
+        protected internal bool m_MouseDownOnThumb = false;
+        protected Vector2f      m_MouseDownOnThumbPos = new Vector2f();
+
+        protected int      m_Minimum = 0;
+        protected int      m_Maximum = 10;
+        protected int      m_Value = 0;
+
+        // Is the slider draw vertically?
+        protected bool     m_VerticalScroll = true;
+
+        // Does the image lie vertically?
+        protected bool     m_VerticalImage = true;
+
+        // If this is true then the L, M and R images will be used.
+        // If it is false then the slider is just one big image that will be stored in the M image.
+        protected bool     m_SplitImage = false;
+
+        // Is there a separate hover image, or is it a semi-transparent image that is drawn on top of the others?
+        protected bool     m_SeparateHoverImage = false;
+
+        // The size of the slider and its thumb
+        protected Vector2f m_Size;
+        protected Vector2f m_ThumbSize;
+
+        protected Impl.Sprite m_TextureTrackNormal_L = new Impl.Sprite();
+        protected Impl.Sprite m_TextureTrackNormal_M = new Impl.Sprite();
+        protected Impl.Sprite m_TextureTrackNormal_R = new Impl.Sprite();
+        protected Impl.Sprite m_TextureTrackHover_L = new Impl.Sprite();
+        protected Impl.Sprite m_TextureTrackHover_M = new Impl.Sprite();
+        protected Impl.Sprite m_TextureTrackHover_R = new Impl.Sprite();
+        protected Impl.Sprite m_TextureThumbNormal = new Impl.Sprite();
+        protected Impl.Sprite m_TextureThumbHover = new Impl.Sprite();
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-

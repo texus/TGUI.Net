@@ -32,43 +32,10 @@ namespace TGUI
 {
     public class Tab : Widget
     {
-        public event EventHandler<CallbackArgs> TabChangedCallback;
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        private string       m_LoadedConfigFile = "";
-
-        private bool         m_SplitImage = false;
-        private bool         m_SeparateSelectedImage = true;
-
-        private uint         m_TabHeight = 0;
-        private uint         m_TextSize = 0;
-
-        private Color        m_TextColor;
-        private Color        m_SelectedTextColor;
-
-        private uint         m_MaximumTabWidth = 0;
-
-        // The distance between the side of the tab and the text that is drawn on top of the tab.
-        private uint         m_DistanceToSide = 5;
-
-        private int          m_SelectedTab = 0;
-
-        private List<string> m_TabNames = new List<string>();
-        private List<float>  m_NameWidth = new List<float>();
-
-        private Impl.Sprite m_TextureNormal_L = new Impl.Sprite();
-        private Impl.Sprite m_TextureNormal_M = new Impl.Sprite();
-        private Impl.Sprite m_TextureNormal_R = new Impl.Sprite();
-        private Impl.Sprite m_TextureSelected_L = new Impl.Sprite();
-        private Impl.Sprite m_TextureSelected_M = new Impl.Sprite();
-        private Impl.Sprite m_TextureSelected_R = new Impl.Sprite();
-
-        private Text         m_Text = new Text();
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Constructor, only intended for internal use
+        /// <summary>
+        /// Constructor, only intended for internal use
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal Tab ()
@@ -77,9 +44,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Tab (Tab copy) : base(copy)
@@ -111,11 +80,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads the widget.
+        /// <summary>
+        /// Loads the widget
+        /// </summary>
         ///
-        /// \param configFileFilename  Filename of the config file.
-        ///
-        /// The config file must contain a Tab section with the needed information.
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a Tab section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Tab (string configFileFilename)
@@ -211,7 +181,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Destructor
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ~Tab ()
@@ -227,10 +199,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the filename of the config file that was used to load the widget.
-        ///
-        /// \return Filename of loaded config file.
-        ///         Empty string when no config file was loaded yet.
+        /// <summary>
+        /// Filename of the config file that was used to load the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string LoadedConfigFile
@@ -243,7 +214,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the size of the widget.
+        /// <summary>
+        /// Size of the tab
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -270,14 +243,16 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Adds a new tab.
+        /// <summary>
+        /// Add a new tab
+        /// </summary>
         ///
-        /// \param name    The name of the tab (this is the text that will be drawn on top of the tab).
-        /// \param select  Do you want the new tab to be selected immediately?
+        /// <param name="name">The name of the tab (this is the text that will be drawn on top of the tab)</param>
+        /// <param name="select">Do you want the new tab to be selected immediately?</param>
         ///
-        /// \return  The index of the tab in the list.
+        /// <returns>The index of the tab in the list</returns>
         ///
-        /// \warning The index returned by this function may no longer be correct when a tab is removed.
+        /// <remarks>The index returned by this function may no longer be correct when a tab is removed</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint Add (string name, bool selectTab = true)
@@ -299,14 +274,14 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Selects the tab with a given name.
+        /// <summary>
+        /// Selects the tab with a given name
+        /// </summary>
         ///
-        /// \param name  The name of the tab to select.
+        /// <param name="name">The name of the tab to select</param>
         ///
         /// When the name doen't match any tab then nothing will be changed.
         /// If there are multiple tabs with the same name then the first one will be selected.
-        ///
-        /// \see select(int)
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void Select (string name)
@@ -324,13 +299,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Selects the tab with a given index.
+        /// <summary>
+        /// Selects the tab with a given index
+        /// </summary>
         ///
-        /// \param index  The index of the tab to select.
+        /// <param name="index">The index of the tab to select</param>
         ///
         /// When the index is too high then nothing will happen.
-        ///
-        /// \see select(sf::String)
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void Select (uint index)
@@ -348,7 +323,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Deselects the selected tab.
+        /// <summary>
+        /// Deselects the selected tab
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void Deselect ()
@@ -358,13 +335,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes a tab with a given name.
+        /// <summary>
+        /// Removes a tab with a given name
+        /// </summary>
         ///
-        /// \param name  The name of the tab to remove.
+        /// <param name="name">The name of the tab to remove</param>
         ///
         /// When multiple tabs have the same name, only the first will be removed.
-        ///
-        /// \see remove(unsigned int)
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void Remove (string name)
@@ -390,13 +367,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes a tab with a given index.
+        /// <summary>
+        /// Removes a tab with a given index
+        /// </summary>
         ///
-        /// \param index  The index of the tab to remove.
+        /// <param name="index">The index of the tab to remove</param>
         ///
         /// When the index is too high then nothing will happen.
-        ///
-        /// \see remove(sf::String)
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void Remove (uint index)
@@ -421,7 +398,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes all tabs.
+        /// <summary>
+        /// Removes all tabs
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void RemoveAll ()
@@ -433,10 +412,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Get the name of the currently selected tab.
+        /// <summary>
+        /// Get the name of the currently selected tab
+        /// </summary>
         ///
-        /// \return The name of the tab.
-        ///         When no tab is selected then this function returns an empty string.
+        /// <returns>The name of the selected tab, or an empty string when no tab is selected</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string GetSelected ()
@@ -449,12 +429,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Get the index of the currently selected tab.
+        /// <summary>
+        /// Get the index of the currently selected tab
+        /// </summary>
         ///
-        /// \return The index of the tab.
-        ///         When no tab is selected then this function returns -1.
+        /// <returns>The index of the selected tab, or -1 when no tab is selected</returns>
         ///
-        /// \warning The index returned by this function may no longer be correct when a tab is removed.
+        /// <remarks>The index returned by this function may no longer be correct when a tab is removed</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public int GetSelectedIndex ()
@@ -464,10 +445,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the font of the text.
-        ///
-        /// When you don't call this function then the global font will be use.
-        /// This global font can be changed with the setGlobalFont function from the parent.
+        /// <summary>
+        /// Font of the text.
+        /// By default, the GlobalFont of the parent is used.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Font TextFont
@@ -484,7 +465,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the color of the text.
+        /// <summary>
+        /// Color of the text in the tabs
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color TextColor
@@ -501,7 +484,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the color of the text that will be used for the selected tab.
+        /// <summary>
+        /// Color of the text in the selected tab
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color SelectedTextColor
@@ -518,10 +503,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the character size of the text.
-        ///
-        /// \param size  The new size of the text.
-        ///              If the size is 0 (default) then the text will be scaled to fit in the tab.
+        /// <summary>
+        /// Character size of the text in the tabs.
+        /// If the size is 0 (default) then the text will be scaled to fit in the tab.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint TextSize
@@ -560,11 +545,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the height of the tabs.
-        ///
-        /// \param height  Height of the tabs
-        ///
-        /// By default, it is the height of the tab image that is loaded with the load function.
+        /// <summary>
+        /// Height of the tabs
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint TabHeight
@@ -589,11 +572,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the maximum tab width of the tabs.
-        ///
-        /// \param maximumWidth  Maximum width of a single tab
-        ///
+        /// <summary>
+        /// Maximum width of a single tab.
         /// If the text on the tab is longer than this width then it will be cropped to fit inside the tab.
+        /// </summary>
+        ///
         /// By default, the maximum width is 0 which means that there is no limitation.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -611,9 +594,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the distance between the text and the side of the tab.
-        ///
-        /// \param distanceToSide  distance between the text and the side of the tab
+        /// <summary>
+        /// The distance between the text and the side of the tab
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint DistanceToSide
@@ -630,13 +613,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
+        /// <summary>
+        /// Transparency of the widget.
+        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// </summary>
         ///
-        /// \param transparency  The transparency of the widget.
-        ///                      0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
-        /// be changed. You must change them yourself by setting the alpha channel of the color.
+        /// <remarks>This will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -656,7 +639,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Ask the widget if the mouse is on top of it
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override bool MouseOnWidget(float x, float y)
         {
@@ -672,7 +658,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been pressed on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnLeftMousePressed (MouseButtonEventArgs e)
         {
@@ -713,8 +702,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // This function is called when the widget is added to a container.
+        /// <summary>
+        /// Initializes the widget now that it has been added to a parent widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void Initialize(Container parent)
         {
@@ -724,8 +715,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -970,6 +963,42 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>Event handler for the ValueChanged event</summary>
+        public event EventHandler<CallbackArgs> TabChangedCallback;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private string       m_LoadedConfigFile = "";
+
+        private bool         m_SplitImage = false;
+        private bool         m_SeparateSelectedImage = true;
+
+        private uint         m_TabHeight = 0;
+        private uint         m_TextSize = 0;
+
+        private Color        m_TextColor;
+        private Color        m_SelectedTextColor;
+
+        private uint         m_MaximumTabWidth = 0;
+
+        // The distance between the side of the tab and the text that is drawn on top of the tab.
+        private uint         m_DistanceToSide = 5;
+
+        private int          m_SelectedTab = 0;
+
+        private List<string> m_TabNames = new List<string>();
+        private List<float>  m_NameWidth = new List<float>();
+
+        private Impl.Sprite m_TextureNormal_L = new Impl.Sprite();
+        private Impl.Sprite m_TextureNormal_M = new Impl.Sprite();
+        private Impl.Sprite m_TextureNormal_R = new Impl.Sprite();
+        private Impl.Sprite m_TextureSelected_L = new Impl.Sprite();
+        private Impl.Sprite m_TextureSelected_M = new Impl.Sprite();
+        private Impl.Sprite m_TextureSelected_R = new Impl.Sprite();
+
+        private Text         m_Text = new Text();
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-

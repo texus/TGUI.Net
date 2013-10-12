@@ -33,20 +33,12 @@ namespace TGUI
 {
     public class Gui
     {
-        private RenderWindow m_Window;
-
-        private int m_StartTime = Environment.TickCount;
-
-        private bool m_Focused = false;
-
-        private GuiContainer m_Container = new GuiContainer();
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Construct the gui and set the window on which the gui should be drawn.
+        /// <summary>
+        /// Construct the gui and set the window on which the gui should be drawn
+        /// </summary>
         ///
-        /// \param window  The sfml window that will be used by the gui.
-        ///
-        /// If you use this constructor then you will no longer have to call setWindow yourself.
+        /// <param name="window">The sfml window that will be used by the gui</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Gui (RenderWindow window)
@@ -69,12 +61,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Construct the gui and set the window on which the gui should be drawn.
+        /// <summary>
+        /// Construct the gui and set the window on which the gui should be drawn
+        /// </summary>
         ///
-        /// \param window  The sfml window that will be used by the gui.
-        /// \param manager The resource manager to use when loading widgets.
-        ///
-        /// If you use this constructor then you will no longer have to call setWindow yourself.
+        /// <param name="window">The sfml window that will be used by the gui</param>
+        /// <param name="window">The resource manager to use when loading widgets</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Gui(RenderWindow window, ResourceManager manager) :
@@ -85,10 +77,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Draws all the widgets that were added to the gui.
+        /// <summary>
+        /// Draws all the widgets that were added to the gui
+        /// </summary>
         ///
-        /// \param resetView  Reset the view of the window while drawing the gui.
-        ///                   If false, the current view will be used, otherwise the view will be reset.
+        /// <param name="resetView">Reset the view of the window while drawing the gui.
+        /// If false, the current view will be used, otherwise the view will be reset.</param>
         ///
         /// When this function ends, the view will never be changed. Any changes to the view are temporary.
         ///
@@ -138,9 +132,8 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Set the window on which the gui should be drawn.
-        ///
-        /// \param window  The sfml window that will be used by the gui.
+        /// <summary>
+        /// Window on which the gui should be drawn
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public RenderWindow Window
@@ -157,11 +150,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Check if the window is focused.
+        /// <summary>
+        /// Check if the window is focused
+        /// </summary>
         ///
         /// When the window is unfocused, animations (e.g. flashing caret of an edit box) will be paused.
-        ///
-        /// \return Is the window currently focused?
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool Focused
@@ -174,11 +167,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the global font.
-        ///
-        /// This is the font that is used for newly created widget by default.
-        ///
-        /// \return global font
+        /// <summary>
+        /// Default font for every new widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Font GlobalFont
@@ -195,9 +186,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns a list of the names of all the widgets.
+        /// <summary>
+        /// Returns a list of the names of all the widgets
+        /// </summary>
         ///
-        /// \return Vector of all widget names
+        /// <returns>List of all widget names</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public List<string> GetWidgetNames()
@@ -207,9 +200,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns a list of all the widgets.
+        /// <summary>
+        /// Returns a list of all the widgets
+        /// </summary>
         ///
-        /// \return Vector of all widget pointers
+        /// <returns>List of all widget</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public List<Widget> GetWidgets()
@@ -219,15 +214,17 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Adds an widget to the container.
+        /// <summary>
+        /// Adds a widget to the container
+        /// </summary>
         ///
-        /// \param widgetPtr   Pointer to the widget you would like to add
-        /// \param widgetName  If you want to access the widget later then you must do this with this name
+        /// <param name="widget">Widget you would like to add</param>
+        /// <param name="name">If you want to access the widget later then you must do this with this name</param>
         ///
         /// Usage example:
-        /// \code
-        /// ...
-        /// \endcode
+        /// <code>
+        /// Button button = gui.Add(new Button("theme.conf"), "MyButton");
+        /// </code>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public T Add<T> (T widget, string name = "") where T : Widget
@@ -237,18 +234,19 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns a pointer to an earlier created widget.
+        /// <summary>
+        /// Returns an earlier created widget
+        /// </summary>
         ///
-        /// \param widgetName The name that was given to the widget when it was added to the container.
+        /// <param name="name">The name that was given to the widget when it was added to the container</param>
         ///
-        /// \return Pointer to the earlier created widget
-        ///
-        /// \warning This function will return nullptr when an unknown widget name was passed.
+        /// <returns>Requested widget, or null when no widget has this name or it is of the wrong type</returns>
         ///
         /// Usage example:
-        /// \code
-        /// ...
-        /// \endcode
+        /// <code>
+        /// Button button = gui.Add(new Button("theme.conf"), "MyButton");
+        /// Button button2 = gui.Get("MyButton");
+        /// </code>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public T Get<T> (string name) where T : Widget
@@ -258,14 +256,44 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes a single widget that was added to the container.
+        /// <summary>
+        /// Makes a copy of any existing widget
+        /// </summary>
         ///
-        /// \param widget  Pointer to the widget to remove
+        /// <param name="oldWidget">The widget to copy</param>
+        /// <param name="newWidgetName">The optional name of the new widget to get it back later</param>
+        ///
+        /// <returns>The new widget</returns>
         ///
         /// Usage example:
-        /// \code
-        /// ...
-        /// \endcode
+        /// <code>
+        /// Picture pic = gui.Add(new Picture("image.png"), "myPicture");
+        /// Picture pic2 = gui.Copy(pic, "mySecondPicture");
+        /// Picture pic3 = gui.Copy(gui.Get("myPicture"), "myThirdPicture");
+        /// </code>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public T Copy<T>(T oldWidget, string newWidgetName = "") where T : Widget
+        {
+            return m_Container.Copy<T> (oldWidget, newWidgetName);
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Removes a widget that was added to the container
+        /// </summary>
+        ///
+        /// <param name="widget">The widget to remove from the container</param>
+        ///
+        /// Usage example:
+        /// <code>
+        /// Picture pic1 = gui.Add(new Picture("image.png"), "Picture1");
+        /// gui.Add(new Picture("image.png"), "Picture2");
+        /// gui.remove(pic1);
+        /// gui.remove(gui.get("Picture2"));
+        /// </code>
+        ///
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void Remove (Widget widget)
         {
@@ -274,7 +302,17 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes all widgets that were added to the container.
+        /// <summary>
+        /// Removes a widget that was added to the container
+        /// </summary>
+        ///
+        /// <param name="name">Name of the widget to remove, which was given to the widget when it was added to the container</param>
+        ///
+        /// Usage example:
+        /// <code>
+        /// gui.Add(new Picture("image.png"), "MyPicture");
+        /// gui.remove("MyPicture");
+        /// </code>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void Remove (string name)
@@ -284,7 +322,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes all widgets that were added to the container.
+        /// <summary>
+        /// Removes all widgets that were added to the container
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void RemoveAllWidgets ()
@@ -294,12 +334,14 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the name of a widget.
+        /// <summary>
+        /// Changes the name of an earlier added widget widget
+        /// </summary>
         ///
-        /// \param widget  Widget of which the name should be changed
-        /// \param name    New name for the widget
+        /// <param name="widget">Widget of which the name should be changed</param>
+        /// <param name="name">New name for the widget</param>
         ///
-        /// \return True when the name was changed, false when the widget wasn't part of this container.
+        /// <returns>True when the name was changed, false when the widget wasn't part of this container</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool SetWidgetName(Widget widget, string name)
@@ -309,13 +351,15 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the name of a widget.
+        /// <summary>
+        /// Returns the name of a widget
+        /// </summary>
         ///
-        /// \param widget  Widget of which the name should be retrieved
-        /// \param name    Name for the widget
+        /// <param name="widget">Widget of which the name should be retrieved</param>
+        /// <param name="name">Name for the widget</param>
         ///
-        /// \return False is returned when the widget wasn't part of this container.
-        ///         In this case the name parameter is left unchanged.
+        /// <returns>False is returned when the widget wasn't part of this container.
+        /// In this case the name parameter is left unchanged.</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool GetWidgetName(Widget widget, ref string name)
@@ -325,11 +369,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Focuses an widget.
+        /// <summary>
+        /// Focuses an widget
+        /// </summary>
+        ///
+        /// <param name="widget">The widget that has to be focused</param>
         ///
         /// The previously focused widget will be unfocused.
-        ///
-        /// \param widget  The widget that has to be focused.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void FocusWidget (Widget widget)
@@ -339,7 +385,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Focuses the next widget.
+        /// <summary>
+        /// Focuses the next widget
+        /// </summary>
         ///
         /// The currently focused widget will be unfocused, even if it was the only widget.
         /// When no widget was focused, the first widget in the container will be focused.
@@ -352,7 +400,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Focuses the previous widget.
+        /// <summary>
+        /// Focuses the previous widget
+        /// </summary>
         ///
         /// The currently focused widget will be unfocused, even if it was the only widget.
         /// When no widget was focused, the last widget in the container will be focused.
@@ -365,7 +415,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Unfocus all the widgets.
+        /// <summary>
+        /// Unfocus all the widgets
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void UnfocusWidgets ()
@@ -375,7 +427,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Uncheck all the radio buttons.
+        /// <summary>
+        /// Uncheck all the radio buttons
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void UncheckRadioButtons ()
@@ -385,9 +439,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Places an widget before all other widgets.
+        /// <summary>
+        /// Places a widget before all other widgets
+        /// </summary>
         ///
-        /// \param widget  The widget that should be moved to the front
+        /// <param name="widget">The widget that should be moved to the front</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void MoveWidgetToFront (Widget widget)
@@ -397,9 +453,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Places an widget behind all other widgets.
+        /// <summary>
+        /// Places a widget behind all other widgets
+        /// </summary>
         ///
-        /// \param widget  The widget that should be moved to the back
+        /// <param name="widget">The widget that should be moved to the back</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void MoveWidgetToBack (Widget widget)
@@ -409,8 +467,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
         /// Used to clean-up the internal widgets and textures.
-        /// This is a temporary way to avoid crashes on exit.
+        /// This is a temporary way to avoid crashes on exit (with mono).
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void CleanUp ()
         {
@@ -420,7 +481,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widgets that the mouse has moved
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void OnMouseMoved (object sender, MouseMoveEventArgs e)
         {
@@ -433,7 +497,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widgets that the left mouse button has been pressed
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void OnMousePressed (object sender, MouseButtonEventArgs e)
         {
@@ -446,7 +513,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widgets that the left mouse button has been released
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void OnMouseReleased (object sender, MouseButtonEventArgs e)
         {
@@ -459,7 +529,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widgets that the mouse wheel has moved
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void OnMouseWheelMoved (object sender, MouseWheelEventArgs e)
         {
@@ -472,6 +545,15 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private RenderWindow m_Window;
+
+        private int m_StartTime = Environment.TickCount;
+
+        private bool m_Focused = false;
+
+        private GuiContainer m_Container = new GuiContainer();
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-

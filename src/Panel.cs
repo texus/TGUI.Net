@@ -32,21 +32,10 @@ namespace TGUI
 {
     public class Panel : Container
     {
-        public event EventHandler<CallbackArgs> LeftMousePressedCallback;
-        public event EventHandler<CallbackArgs> LeftMouseReleasedCallback;
-        public event EventHandler<CallbackArgs> LeftMouseClickedCallback;
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        private Vector2f m_Size = new Vector2f();
-
-        private Color    m_BackgroundColor = new Color(0, 0, 0, 0);
-
-        private SFML.Graphics.Texture m_Texture = null;
-        private Sprite  m_Sprite = new Sprite();
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Default constructor
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Panel ()
@@ -54,9 +43,11 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Panel (Panel copy) : base(copy)
@@ -79,7 +70,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the size of the widget.
+        /// <summary>
+        /// Size of the panel
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -99,12 +92,12 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the background texture of the panel.
-        ///
-        /// \param texture  Pointer to the texture that should be used as background of the panel
+        /// <summary>
+        /// Background texture of the panel
+        /// </summary>
         ///
         /// If the texture has a different size than the panel then it will be scaled to fill the whole panel.
-        /// Pass nullptr to this function to remove the background texture.
+        /// Pass null to this function to remove the background texture.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public SFML.Graphics.Texture BackgroundTexture
@@ -128,9 +121,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the background color of the panel.
-        ///
-        /// The background is fully transparent by default.
+        /// <summary>
+        /// Background color of the panel.
+        /// Fully transparent by default.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color BackgroundColor
@@ -147,13 +141,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
+        /// <summary>
+        /// Transparency of the widget.
+        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// </summary>
         ///
-        /// \param transparency  The transparency of the widget.
-        ///                      0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
-        /// be changed. You must change them yourself by setting the alpha channel of the color.
+        /// <remarks>This will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -168,7 +162,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Ask the widget if the mouse is on top of it
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override bool MouseOnWidget(float x, float y)
         {
@@ -189,7 +186,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been pressed on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnLeftMousePressed (MouseButtonEventArgs e)
         {
@@ -210,7 +210,10 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been released on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnLeftMouseReleased (MouseButtonEventArgs e)
         {
@@ -243,8 +246,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -297,7 +302,27 @@ namespace TGUI
             Gl.glScissor(scissor[0], scissor[1], scissor[2], scissor[3]);
         }
 
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>Event handler for the LeftMousePressed event</summary>
+        public event EventHandler<CallbackArgs> LeftMousePressedCallback;
+
+        /// <summary>Event handler for the LeftMouseReleased event</summary>
+        public event EventHandler<CallbackArgs> LeftMouseReleasedCallback;
+
+        /// <summary>Event handler for the LeftMouseClicked event</summary>
+        public event EventHandler<CallbackArgs> LeftMouseClickedCallback;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private Vector2f m_Size = new Vector2f();
+
+        private Color    m_BackgroundColor = new Color(0, 0, 0, 0);
+
+        private SFML.Graphics.Texture m_Texture = null;
+        private Sprite  m_Sprite = new Sprite();
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-

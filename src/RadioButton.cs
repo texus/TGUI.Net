@@ -31,7 +31,9 @@ namespace TGUI
     public class RadioButton : Checkbox
     {
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Constructor, only intended for internal use
+        /// <summary>
+        /// Constructor, only intended for internal use
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal RadioButton ()
@@ -40,9 +42,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public RadioButton (RadioButton copy) : base(copy)
@@ -51,11 +55,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads the widget.
+        /// <summary>
+        /// Loads the widget
+        /// </summary>
         ///
-        /// \param configFileFilename  Filename of the config file.
-        ///
-        /// The config file must contain a RadioButton section with the needed information.
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a RadioButton section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public RadioButton (string configFileFilename)
@@ -111,9 +116,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Checks the radio button.
-        ///
-        /// It will tell its parent to uncheck all the other radio buttons.
+        /// <summary>
+        /// Check the radio button and uncheck all other radio buttons that have the same parent
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Check ()
@@ -130,11 +135,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Does nothing.
-        ///
+        /// <summary>
+        /// Does nothing, take a look at ForceUncheck instead.
         /// Unchecking a radio button isn't possible so this function makes sure that nothing happens when trying to uncheck it.
-        ///
-        /// \see forceUncheck
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Uncheck ()
@@ -144,10 +148,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Unchecks the radio button
+        /// <summary>
+        /// Unchecks the radio button
+        /// </summary>
         ///
         /// If you really want a radio button to be unchecked, you can use this function.
-        /// But you should rather call the uncheckRadioButtons function from the parent widget.
+        /// But you should rather call the UncheckRadioButtons function from the parent widget.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void ForceUncheck ()
@@ -160,4 +166,3 @@ namespace TGUI
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
-

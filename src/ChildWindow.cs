@@ -31,55 +31,10 @@ namespace TGUI
 {
     public class ChildWindow : Container, WidgetBorders
     {
-        /// Title alignments
-        public enum Alignment
-        {
-            /// Places the title on the left side of the title bar
-            Left,
-
-            /// Places the title in the middle of the title bar
-            Centered,
-
-            /// Places the title on the right side of the title bar
-            Right
-        };
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        public event EventHandler<CallbackArgs> ClosedCallback;
-        public event EventHandler<CallbackArgs> MovedCallback;
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        private string     m_LoadedConfigFile = "";
-   
-        private Vector2f   m_Size = new Vector2f(200, 150);
-
-        private Color      m_BackgroundColor = new Color(0, 0, 0);
-        private Texture    m_BackgroundTexture = null;
-        private Sprite     m_BackgroundSprite = new Sprite();
-
-        private Impl.Sprite m_IconTexture = new Impl.Sprite();
-
-        private Text       m_TitleText = new Text();
-        private uint       m_TitleBarHeight = 0;
-        private bool       m_SplitImage = false;
-        private Vector2f   m_DraggingPosition = new Vector2f(0, 0);
-        private uint       m_DistanceToSide = 0;
-        private Alignment  m_TitleAlignment = Alignment.Centered;
-        private Color      m_BorderColor = new Color(0, 0, 0);
-        private Borders    m_Borders;
-
-        private Impl.Sprite m_TextureTitleBar_L = new Impl.Sprite();
-        private Impl.Sprite m_TextureTitleBar_M = new Impl.Sprite();
-        private Impl.Sprite m_TextureTitleBar_R = new Impl.Sprite();
-
-        private Button     m_CloseButton = new Button();
-
-        private bool       m_KeepInParent = false;
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Constructor, only intended for internal use
+        /// <summary>
+        /// Constructor, only intended for internal use
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal ChildWindow ()
@@ -88,9 +43,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public ChildWindow (ChildWindow copy) : base(copy)
@@ -128,11 +85,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads the widget.
+        /// <summary>
+        /// Loads the widget
+        /// </summary>
         ///
-        /// \param configFileFilename  Filename of the config file.
-        ///
-        /// The config file must contain a ChildWindow section with the needed information.
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a ChildWindow section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public ChildWindow (string configFileFilename)
@@ -142,7 +100,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Destructor
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ~ChildWindow ()
@@ -162,10 +122,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the filename of the config file that was used to load the widget.
-        ///
-        /// \return Filename of loaded config file.
-        ///         Empty string when no config file was loaded yet.
+        /// <summary>
+        /// Filename of the config file that was used to load the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string LoadedConfigFile
@@ -178,7 +137,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the size of the widget.
+        /// <summary>
+        /// Size of the child window
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -220,12 +181,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the background texture of the child window.
+        /// <summary>
+        /// Background texture of the child window
+        /// </summary>
         ///
-        /// \param texture  Texture that should be used as background of the child window
+        /// <param name="texture">Texture that should be used as background of the child window</param>
         ///
-        /// If the texture has a different size than the child window then it will be scaled to fill the whole window.
-        /// Pass null to this function to remove the background texture.
+        /// <remarks>If the texture has a different size than the child window then it will be scaled to fill the whole window.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Texture BackgroundTexture
@@ -249,9 +211,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the height of the title bar.
-        ///
-        /// The default height is the height of the title bar image that is loaded in the constructor.
+        /// <summary>
+        /// Height of the title bar
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint TitleBarHeight
@@ -296,9 +258,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the background color of the child window.
+        /// <summary>
+        /// Background color of the child window
+        /// </summary>
         ///
-        /// The background is fully transparent by default.
+        /// <remarks>The background is fully transparent by default.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color BackgroundColor
@@ -315,13 +279,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
+        /// <summary>
+        /// Transparency of the widget.
+        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// </summary>
         ///
-        /// \param transparency  The transparency of the widget.
-        ///                      0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
-        /// be changed. You must change them yourself by setting the alpha channel of the color.
+        /// <remarks>This will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -344,7 +308,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the title that is displayed in the title bar of the child window.
+        /// <summary>
+        /// Title that is displayed in the title bar of the child window
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string Title
@@ -361,7 +327,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the color of the title that is displayed in the title bar of the child window.
+        /// <summary>
+        /// Color of the title that is displayed in the title bar of the child window
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color TitleColor
@@ -378,7 +346,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the color of the borders.
+        /// <summary>
+        /// Color of the borders
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color BorderColor
@@ -395,7 +365,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the border width and border height of the child window.
+        /// <summary>
+        /// Borders of the chlld window
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Borders Borders
@@ -433,7 +405,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the distance between the title and the side of the title bar.
+        /// <summary>
+        /// Distance to keep from the side of the title bar.
+        /// Used to position the title, icon and close button.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint DistanceToSide
@@ -450,7 +425,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the title alignment.
+        /// <summary>
+        /// The title alignment
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Alignment TitleAlignment
@@ -467,13 +444,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the icon in the top left corner of the child window.
+        /// <summary>
+        /// The icon in the left size of the title bar
+        /// </summary>
         ///
-        /// \param filename  Filename of the icon image
+        /// <param name="filename">Filename of the icon image</param>
         ///
-        /// There is no icon by default.
-        ///
-        /// Passing an empty filename will remove the current icon.
+        /// <remarks>Passing an empty filename will remove the current icon.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void SetIcon (string filename)
@@ -493,12 +470,15 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Destroys the window.
+        /// <summary>
+        /// Destroys the window
+        /// </summary>
         ///
+        /// <remarks>
         /// When no callback is requested when closing the window, this function will be called automatically.
-        ///
         /// When you requested a callback then you get the opportunity to cancel the closure of the window.
         /// If you want to keep it open then don't do anything, if you want to close it then just call this function.
+        /// </remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void Destroy ()
@@ -508,11 +488,15 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Set the child window to be kept inside its parent.
+        /// <summary>
+        /// Should the child window to be kept inside its parent?
+        /// </summary>
         ///
+        /// <remarks>
         /// When it's set to true, the child window will always be kept automatically inside its parent.
         /// It will be fully kept on left, right and top. At the bottom of the parent only the title bar will be kept inside.
         /// It's set to false by default.
+        /// </remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool KeepInParent
@@ -529,9 +513,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the position of the widget
-        ///
-        /// The default position of a transformable widget is (0, 0).
+        /// <summary>
+        /// Position of the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Position
@@ -565,7 +549,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Ask the widget if the mouse is on top of it
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override bool MouseOnWidget(float x, float y)
         {
@@ -596,7 +583,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse has moved on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnMouseMoved (MouseMoveEventArgs e)
         {
@@ -648,7 +638,10 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been pressed on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnLeftMousePressed (MouseButtonEventArgs e)
         {
@@ -700,7 +693,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been released on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnLeftMouseReleased (MouseButtonEventArgs e)
         {
@@ -764,7 +760,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse wheel has moved while the mouse was on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnMouseWheelMoved (MouseWheelEventArgs e)
         {
@@ -775,7 +774,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been released
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void MouseNoLongerDown()
         {
@@ -785,8 +787,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // This function is called when the widget is added to a container.
+        /// <summary>
+        /// Initializes the widget now that it has been added to a parent widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void Initialize(Container parent)
         {
@@ -797,8 +801,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -981,7 +987,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Loads the child window
+        /// </summary>
+        ///
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a ChildWindow section with the needed information.</param>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected void InternalLoad(string configFileFilename)
         {
@@ -1083,7 +1095,62 @@ namespace TGUI
             }
         }
 
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Enumeration of the different title alignments
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public enum Alignment
+        {
+            /// <summary>Places the title on the left side of the title bar</summary>
+            Left,
+
+            /// <summary>Places the title in the middle of the title bar</summary>
+            Centered,
+
+            /// <summary>Places the title on the right side of the title bar</summary>
+            Right
+        };
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>Event handler for the Closed event</summary>
+        public event EventHandler<CallbackArgs> ClosedCallback;
+
+        /// <summary>Event handler for the Moved event</summary>
+        public event EventHandler<CallbackArgs> MovedCallback;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private string     m_LoadedConfigFile = "";
+
+        private Vector2f   m_Size = new Vector2f(200, 150);
+
+        private Color      m_BackgroundColor = new Color(0, 0, 0);
+        private Texture    m_BackgroundTexture = null;
+        private Sprite     m_BackgroundSprite = new Sprite();
+
+        private Impl.Sprite m_IconTexture = new Impl.Sprite();
+
+        private Text       m_TitleText = new Text();
+        private uint       m_TitleBarHeight = 0;
+        private bool       m_SplitImage = false;
+        private Vector2f   m_DraggingPosition = new Vector2f(0, 0);
+        private uint       m_DistanceToSide = 0;
+        private Alignment  m_TitleAlignment = Alignment.Centered;
+        private Color      m_BorderColor = new Color(0, 0, 0);
+        private Borders    m_Borders;
+
+        private Impl.Sprite m_TextureTitleBar_L = new Impl.Sprite();
+        private Impl.Sprite m_TextureTitleBar_M = new Impl.Sprite();
+        private Impl.Sprite m_TextureTitleBar_R = new Impl.Sprite();
+
+        private Button     m_CloseButton = new Button();
+
+        private bool       m_KeepInParent = false;
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-

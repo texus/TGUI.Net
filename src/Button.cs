@@ -30,44 +30,10 @@ namespace TGUI
 {
     public class Button : ClickableWidget
     {
-        public event EventHandler<CallbackArgs> SpaceKeyPressedCallback;
-        public event EventHandler<CallbackArgs> ReturnKeyPressedCallback;
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        private string  m_LoadedConfigFile = "";
-
-        private Impl.Sprite  m_TextureNormal_L = new Impl.Sprite();
-        private Impl.Sprite  m_TextureHover_L = new Impl.Sprite();
-        private Impl.Sprite  m_TextureDown_L = new Impl.Sprite();
-        private Impl.Sprite  m_TextureFocused_L = new Impl.Sprite();
-
-        internal Impl.Sprite m_TextureNormal_M = new Impl.Sprite();
-        internal Impl.Sprite m_TextureHover_M = new Impl.Sprite();
-        internal Impl.Sprite m_TextureDown_M = new Impl.Sprite();
-        private  Impl.Sprite m_TextureFocused_M = new Impl.Sprite();
-
-        private Impl.Sprite  m_TextureNormal_R = new Impl.Sprite();
-        private Impl.Sprite  m_TextureHover_R = new Impl.Sprite();
-        private Impl.Sprite  m_TextureDown_R = new Impl.Sprite();
-        private Impl.Sprite  m_TextureFocused_R = new Impl.Sprite();
-
-        // If this is true then the L, M and R images will be used.
-        // If it is false then the button is just one big image that will be stored in the M image.
-        private bool m_SplitImage = false;
-
-        // Is there a separate hover image, or is it a semi-transparent image that is drawn on top of the others?
-        internal bool m_SeparateHoverImage = false;
-
-        // The SFML text
-        private Text m_Text = new Text();
-
-        // This will store the size of the text ( 0 to auto size )
-        private uint m_TextSize = 0;
-       
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Constructor, only intended for internal use
+        /// <summary>
+        /// Constructor, only intended for internal use
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal Button ()
@@ -76,9 +42,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Button (Button copy) : base(copy)
@@ -108,11 +76,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads the widget.
+        /// <summary>
+        /// Loads the widget
+        /// </summary>
         ///
-        /// \param configFileFilename  Filename of the config file.
-        ///
-        /// The config file must contain a Button section with the needed information.
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a Button section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Button (string configFileFilename)
@@ -242,7 +211,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Destructor
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ~Button ()
@@ -266,10 +237,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the filename of the config file that was used to load the widget.
-        ///
-        /// \return Filename of loaded config file.
-        ///         Empty string when no config file was loaded yet.
+        /// <summary>
+        /// Filename of the config file that was used to load the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string LoadedConfigFile
@@ -282,9 +252,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the position of the widget
-        ///
-        /// The default position of a transformable widget is (0, 0).
+        /// <summary>
+        /// Position of the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Position
@@ -342,7 +312,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the size of the button.
+        /// <summary>
+        /// Size of the button
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -407,7 +379,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the caption of the button.
+        /// <summary>
+        /// Caption of the button
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string Text
@@ -452,10 +426,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the font of the text.
-        ///
-        /// When you don't call this function then the global font will be use.
-        /// This global font can be changed with the setGlobalFont function from the parent.
+        /// <summary>
+        /// Font of the caption text.
+        /// By default, the GlobalFont of the parent is used.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Font TextFont
@@ -472,7 +446,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the color of the text.
+        /// <summary>
+        /// Color of the caption text
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color TextColor
@@ -489,9 +465,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the character size of the text.
-        ///
+        /// <summary>
+        /// Character size of the caption text.
         /// If the size is set to 0 then the text will be auto-sized to fit inside the button.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint TextSize
@@ -511,13 +488,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
+        /// <summary>
+        /// Transparency of the widget.
+        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// </summary>
         ///
-        /// \param transparency  The transparency of the widget.
-        ///                      0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
-        /// be changed. You must change them yourself by setting the alpha channel of the color.
+        /// <remarks>This will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -548,9 +525,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that a special key has been pressed while the widget was focused
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnKeyPressed(KeyEventArgs e)
+        protected internal override void OnKeyPressed (KeyEventArgs e)
         {
             // Check if the space key or the return key was pressed
             if (e.Code == Keyboard.Key.Space)
@@ -573,7 +553,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that it has been focused
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnWidgetFocused()
         {
@@ -586,8 +569,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // This function is called when the widget is added to a container.
+        /// <summary>
+        /// Initializes the widget now that it has been added to a parent widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void Initialize(Container parent)
         {
@@ -597,8 +582,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -704,8 +691,47 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>Event handler for the SpaceKeyPressed event</summary>
+        public event EventHandler<CallbackArgs> SpaceKeyPressedCallback;
+
+        /// <summary>Event handler for the ReturnKeyPressed event</summary>
+        public event EventHandler<CallbackArgs> ReturnKeyPressedCallback;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private string  m_LoadedConfigFile = "";
+
+        private Impl.Sprite  m_TextureNormal_L = new Impl.Sprite();
+        private Impl.Sprite  m_TextureHover_L = new Impl.Sprite();
+        private Impl.Sprite  m_TextureDown_L = new Impl.Sprite();
+        private Impl.Sprite  m_TextureFocused_L = new Impl.Sprite();
+
+        internal Impl.Sprite m_TextureNormal_M = new Impl.Sprite();
+        internal Impl.Sprite m_TextureHover_M = new Impl.Sprite();
+        internal Impl.Sprite m_TextureDown_M = new Impl.Sprite();
+        private  Impl.Sprite m_TextureFocused_M = new Impl.Sprite();
+
+        private Impl.Sprite  m_TextureNormal_R = new Impl.Sprite();
+        private Impl.Sprite  m_TextureHover_R = new Impl.Sprite();
+        private Impl.Sprite  m_TextureDown_R = new Impl.Sprite();
+        private Impl.Sprite  m_TextureFocused_R = new Impl.Sprite();
+
+        // If this is true then the L, M and R images will be used.
+        // If it is false then the button is just one big image that will be stored in the M image.
+        private bool m_SplitImage = false;
+
+        // Is there a separate hover image, or is it a semi-transparent image that is drawn on top of the others?
+        internal bool m_SeparateHoverImage = false;
+
+        // The SFML text
+        private Text m_Text = new Text();
+
+        // This will store the size of the text ( 0 to auto size )
+        private uint m_TextSize = 0;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
-

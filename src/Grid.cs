@@ -33,40 +33,9 @@ namespace TGUI
     public class Grid : Container
     {
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief The layout of the widget.
-        ///
-        /// Where in the cell is the widget located?
-        /// The widget is centered by default.
-        ///
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public enum Layouts
-        {
-            UpperLeft,   /// Draw the widget in the upper left corner of the cell
-            Up,          /// Draw the widget at the upper side of the cell (horizontally centered)
-            UpperRight,  /// Draw the widget in the upper right corner of the cell
-            Right,       /// Draw the widget at the right side of the cell (vertically centered)
-            BottomRight, /// Draw the widget in the bottom right corner of the cell
-            Bottom,      /// Draw the widget at the bottom of the cell (horizontally centered)
-            BottomLeft,  /// Draw the widget in the bottom left corner of the cell
-            Left,        /// Draw the widget at the left side of the cell (vertically centered)
-            Center       /// Center the widget in the cell
-        };
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        private List<List<Widget>> m_GridWidgets = new List<List<Widget>> ();
-        private List<List<Borders>> m_ObjBorders = new List<List<Borders>> ();
-        private List<List<Layouts>> m_ObjLayout = new List<List<Layouts>> ();
-
-        private List<uint> m_RowHeight = new List<uint> ();
-        private List<uint> m_ColumnWidth = new List<uint> ();
-
-        private Vector2f m_Size = new Vector2f(0, 0);
-        private Vector2f m_IntendedSize = new Vector2f(0, 0);
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Default constructor
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Grid ()
@@ -75,9 +44,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Grid (Grid copy) : base(copy)
@@ -104,7 +75,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the size of the widget.
+        /// <summary>
+        /// Size of the grid
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -128,6 +101,20 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Removes a single widget that was added to the grid
+        /// </summary>
+        ///
+        /// <param name="widget">The widget to remove</param>
+        ///
+        /// Usage example:
+        /// <code>
+        /// Picture pic = grid.Add(new Picture("1.png"), "picName");
+        /// Picture pic2 = grid.Add(new Picture("2.png"), "picName2")
+        /// grid.remove(pic);
+        /// grid.remove(grid.get("picName2"));
+        /// </code>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Remove(Widget widget)
         {
@@ -180,6 +167,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Removes all widgets that were added to the container
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void RemoveAllWidgets()
         {
@@ -198,6 +189,23 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Add a widget to the grid
+        /// </summary>
+        ///
+        /// <param name="widget">Fully created widget that will be added to the grid</param>
+        /// <param name="row">The row in which the widget should be placed</param>
+        /// <param name="col">The column in which the widget should be placed</param>
+        /// <param name="borders">Distance from the grid square to the widget (left, top, right, bottom)</param>
+        /// <param name="layout">Where the widget is located in the square</param>
+        ///
+        /// Usage example:
+        /// <code>
+        /// Picture pic = grid.Add(new Picture("1.png"));
+        /// pic.Size = new Vector2f(400, 300);
+        /// grid.AddWidget(pic, 0, 0);
+        /// </code>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void AddWidget (Widget widget, uint row, uint col, Borders borders, Layouts layout)
         {
@@ -228,6 +236,15 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Returns the widget in a specific square of the grid
+        /// </summary>
+        ///
+        /// <param name="row">The row that the widget is in</param>
+        /// <param name="col">The column that the widget is in</param>
+        ///
+        /// <returns>The widget inside the given square, or null when the square doesn't contain a widget</returns>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Widget getWidget (uint row, uint col)
         {
@@ -239,6 +256,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Updates the position and size of the widget.
+        /// </summary>
+        ///
+        /// Once a widget has been added to the grid, you will have to call this function every time you change the size of the widget.
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void UpdateWidgets ()
         {
@@ -273,6 +296,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Changes borders of a given widget
+        /// </summary>
+        ///
+        /// <param name="widget">The widget to which borders should be added</param>
+        /// <param name="borders">The new borders around the widget</param>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void ChangeWidgetBorders(Widget widget, Borders borders)
         {
@@ -295,6 +325,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Changes the layout of a given widget
+        /// </summary>
+        ///
+        /// <param name="widget">The widget for which the layout should be changed</param>
+        /// <param name="layout">The new layout</param>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void changeWidgetLayout (Widget widget, Layouts layout)
         {
@@ -386,6 +423,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Returns the minimum size required by the grid to display correctly all widgets
+        /// </summary>
+        ///
+        /// <returns>Minimum size</returns>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private Vector2f GetMinSize ()
         {
@@ -405,6 +448,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Reposition all the widgets
+        /// </summary>
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void UpdatePositionsOfAllWidgets ()
         {
@@ -507,7 +553,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Ask the widget if the mouse is on top of it
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override bool MouseOnWidget(float x, float y)
         {
@@ -535,8 +584,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -553,6 +604,41 @@ namespace TGUI
                 }
             }
         }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// The layout of the widget
+        /// </summary>
+        ///
+        /// Where in the cell is the widget located?
+        /// The widget is centered by default.
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public enum Layouts
+        {
+            UpperLeft,   /// Draw the widget in the upper left corner of the cell
+            Up,          /// Draw the widget at the upper side of the cell (horizontally centered)
+            UpperRight,  /// Draw the widget in the upper right corner of the cell
+            Right,       /// Draw the widget at the right side of the cell (vertically centered)
+            BottomRight, /// Draw the widget in the bottom right corner of the cell
+            Bottom,      /// Draw the widget at the bottom of the cell (horizontally centered)
+            BottomLeft,  /// Draw the widget in the bottom left corner of the cell
+            Left,        /// Draw the widget at the left side of the cell (vertically centered)
+            Center       /// Center the widget in the cell
+        };
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private List<List<Widget>> m_GridWidgets = new List<List<Widget>> ();
+        private List<List<Borders>> m_ObjBorders = new List<List<Borders>> ();
+        private List<List<Layouts>> m_ObjLayout = new List<List<Layouts>> ();
+
+        private List<uint> m_RowHeight = new List<uint> ();
+        private List<uint> m_ColumnWidth = new List<uint> ();
+
+        private Vector2f m_Size = new Vector2f(0, 0);
+        private Vector2f m_IntendedSize = new Vector2f(0, 0);
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }

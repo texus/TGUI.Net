@@ -30,25 +30,10 @@ namespace TGUI
 {
     public class ChatBox : Widget, WidgetBorders
     {
-        private string    m_LoadedConfigFile = "";
-
-        private uint      m_TextSize = 15;
-        private Color     m_BorderColor = Color.Black;
-        private Borders   m_Borders = new Borders();
-
-        private uint      m_MaxLines = 0;
-
-        private float     m_FullTextHeight = 0;
-
-        // The panel containing the labels
-        private Panel     m_Panel = new Panel();
-
-        // The scrollbar
-        private Scrollbar m_Scroll = null;
-
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Constructor, only intended for internal use
+        /// <summary>
+        /// Constructor, only intended for internal use
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal ChatBox ()
@@ -57,9 +42,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public ChatBox (ChatBox copy) : base(copy)
@@ -78,11 +65,12 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads the widget.
+        /// <summary>
+        /// Loads the widget
+        /// </summary>
         ///
-        /// \param configFileFilename  Filename of the config file.
-        ///
-        /// The config file must contain a ChatBox section with the needed information.
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a ChatBox section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public ChatBox (string configFileFilename)
@@ -128,10 +116,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the filename of the config file that was used to load the widget.
-        ///
-        /// \return Filename of loaded config file.
-        ///         Empty string when no config file was loaded yet.
+        /// <summary>
+        /// Filename of the config file that was used to load the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string LoadedConfigFile
@@ -144,7 +131,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the size of the chat box.
+        /// <summary>
+        /// Size of the chat box
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -185,13 +174,15 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Add a new line of text to the chat box.
+        /// <summary>
+        /// Add a new line of text to the chat box
+        /// </summary>
         ///
-        /// The whole text passed to this function will be considered as one line for the \a getLine and \a removeLine functions,
-        /// even if it is too long and gets split over multiple lines.
+        /// <param name="text">Text that will be added to the chat box</param>
+        /// <param name="color">Color of the text</param>
         ///
-        /// \param text  Text that will be added to the chat box
-        /// \param color Color of the text
+        /// <remarks>The whole text passed to this function will be considered as one line for the GetLine and RemoveLine functions,
+        /// even if it is too long and gets split over multiple lines.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void AddLine (string text, Color color)
@@ -245,13 +236,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the contents of the requested line.
+        /// <summary>
+        /// Returns the contents of the requested line
+        /// </summary>
         ///
-        /// \param lineIndex  The index of the line of which you request the contents.
-        ///                   The first line has index 0.
+        /// <param name="lineIndex">The index of the line of which you request the contents. The first line has index 0.</param>
         ///
-        /// \return The contents of the requested line.
-        ///         An empty string will be returned when the index is too high.
+        /// <returns>The contents of the requested line</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string GetLine (uint lineIndex)
@@ -266,12 +257,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes the requested line.
+        /// <summary>
+        /// Removes the requested line
+        /// </summary>
         ///
-        /// \param lineIndex  The index of the line that should be removed.
-        ///                   The first line has index 0.
+        /// <param name="lineIndex">The index of the line that should be removed. The first line has index 0.</param>
         ///
-        /// \return True if the line was removed, false if no such line existed (index too high).
+        /// <returns>True if the line was removed, false if no such line existed (index too high).</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool RemoveLine (uint lineIndex)
@@ -294,7 +286,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes all lines from the chat box.
+        /// <summary>
+        /// Removes all lines from the chat box
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void RemoveAllLines ()
@@ -311,9 +305,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the amount of lines in the chat box.
+        /// <summary>
+        /// Returns the amount of lines in the chat box
+        /// </summary>
         ///
-        /// \return Number of lines in the chat box
+        /// <returns>Number of lines in the chat box</returns>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint GetLineAmount ()
@@ -323,10 +319,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Set a maximum amount of lines in the chat box.
+        /// <summary>
+        /// Maximum amount of lines in the chat box
+        /// </summary>
         ///
-        /// Only the last lines will be kept. Lines above those will be removed.
-        /// Set to 0 to disable the line limit (default).
+        /// <remarks>Only the last lines will be kept. Lines above those will be removed.
+        /// Set to 0 to disable the line limit (default).</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint MaxLines
@@ -354,10 +352,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the font of the text.
-        ///
-        /// When you don't call this function then the global font will be use.
-        /// This global font can be changed with the setGlobalFont function from the parent.
+        /// <summary>
+        /// The font of the text.
+        /// By default, the GlobalFont of the parent is used.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Font TextFont
@@ -377,9 +375,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the character size of the text.
-        ///
+        /// <summary>
+        /// The character size of a new line of text.
         /// The minimum text size is 8.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint TextSize
@@ -400,7 +399,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the border width and border height of the chat box.
+        /// <summary>
+        /// Borders of the chat box
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Borders Borders
@@ -436,7 +437,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the background color that will be used inside the chat box.
+        /// <summary>
+        /// The background color that will be used inside the chat box
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color BackgroundColor
@@ -453,7 +456,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the border color that will be used inside the chat box.
+        /// <summary>
+        /// The border color that will be used inside the chat box
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color BorderColor
@@ -470,10 +475,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the scrollbar of the chat box.
+        /// <summary>
+        /// Changes the scrollbar of the chat box
+        /// </summary>
         ///
-        /// \param scrollbarConfigFileFilename  Filename of the config file.
-        ///                                     The config file must contain a Scrollbar section with the needed information.
+        /// <param name="scrollbarConfigFileFilename">Filename of the config file.
+        /// The config file must contain a Scrollbar section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void SetScrollbar (string scrollbarConfigFileFilename)
@@ -495,9 +502,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes the scrollbar from the chat box (if there is one).
+        /// <summary>
+        /// Removes the scrollbar from the chat box
+        /// </summary>
         ///
-        /// When there are too many lines to fit in the chat box then some lines will be removed.
+        /// <remarks>When there are too many lines to fit in the chat box then some lines will be removed.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void RemoveScrollbar ()
@@ -507,13 +516,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
+        /// <summary>
+        /// Transparency of the widget.
+        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// </summary>
         ///
-        /// \param transparency  The transparency of the widget.
-        ///                      0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
-        /// be changed. You must change them yourself by setting the alpha channel of the color.
+        /// <remarks>This will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -531,7 +540,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Ask the widget if the mouse is on top of it
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override bool MouseOnWidget(float x, float y)
         {
@@ -567,9 +579,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been pressed on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnLeftMousePressed(MouseButtonEventArgs e)
+        protected internal override void OnLeftMousePressed (MouseButtonEventArgs e)
         {
             // Set the mouse down flag to true
             m_MouseDown = true;
@@ -598,9 +613,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been released on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnLeftMouseReleased(MouseButtonEventArgs e)
+        protected internal override void OnLeftMouseReleased (MouseButtonEventArgs e)
         {
             // If there is a scrollbar then pass it the event
             if (m_Scroll != null)
@@ -654,9 +672,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse has moved on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnMouseMoved(MouseMoveEventArgs e)
+        protected internal override void OnMouseMoved (MouseMoveEventArgs e)
         {
             if (m_MouseHover == false)
                 MouseEnteredWidget();
@@ -697,9 +718,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse is no longer on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void MouseNotOnWidget ()
+        protected internal override void MouseNotOnWidget()
         {
             if (m_MouseHover)
                 MouseLeftWidget();
@@ -712,9 +736,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been released
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void MouseNoLongerDown ()
+        protected internal override void MouseNoLongerDown()
         {
             m_MouseDown = false;
 
@@ -724,9 +751,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse wheel has moved while the mouse was on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnMouseWheelMoved(MouseWheelEventArgs e)
+        protected internal override void OnMouseWheelMoved (MouseWheelEventArgs e)
         {
             // Only do something when there is a scrollbar
             if (m_Scroll != null)
@@ -757,8 +787,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // This function is called when the widget is added to a container.
+        /// <summary>
+        /// Initializes the widget now that it has been added to a parent widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void Initialize(Container parent)
         {
@@ -768,8 +800,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Update the position of the labels.
+        /// <summary>
+        /// Update the position of the labels
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void UpdateDisplayedText ()
         {
@@ -804,8 +838,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -844,8 +880,25 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private string    m_LoadedConfigFile = "";
+
+        private uint      m_TextSize = 15;
+        private Color     m_BorderColor = Color.Black;
+        private Borders   m_Borders = new Borders();
+
+        private uint      m_MaxLines = 0;
+
+        private float     m_FullTextHeight = 0;
+
+        // The panel containing the labels
+        private Panel     m_Panel = new Panel();
+
+        // The scrollbar
+        private Scrollbar m_Scroll = null;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
-

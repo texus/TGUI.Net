@@ -29,13 +29,10 @@ namespace TGUI
 {
     public class Picture : ClickableWidget
     {
-        private string  m_LoadedFilename = "";
-
-        protected Impl.Sprite  m_Sprite = new Impl.Sprite();
-
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Constructor, only intended for internal use
+        /// <summary>
+        /// Constructor, only intended for internal use
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal Picture ()
@@ -44,9 +41,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Picture (Picture copy) : base(copy)
@@ -61,7 +60,9 @@ namespace TGUI
         /// <summary>
         /// Construct the picture by loading an image from a file.
         /// </summary>
+        ///
         /// <param name="filename">The absolute or relative filename of the image that should be loaded.</param>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Picture (string filename)
         {
@@ -75,7 +76,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Destructor
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ~Picture()
@@ -85,9 +88,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the position of the widget
-        ///
-        /// The default position of a transformable widget is (0, 0).
+        /// <summary>
+        /// Position of the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Position
@@ -105,7 +108,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the size of the widget.
+        /// <summary>
+        /// Size of the picture
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -122,10 +127,9 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the filename of the config file that was used to load the widget.
-        ///
-        /// \return Filename of loaded config file.
-        ///         Empty string when no config file was loaded yet.
+        /// <summary>
+        /// Filename of the config file that was used to load the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string LoadedFilename
@@ -138,15 +142,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Enable or disable the smooth filter.
+        /// <summary>
+        /// Enable or disable the smooth filter
+        /// </summary>
         ///
         /// When the filter is activated, the texture appears smoother so that pixels are less noticeable.
         /// However if you want the texture to look exactly the same as its source file, you should leave it disabled.
         /// The smooth filter is disabled by default.
-        ///
-        /// \param smooth True to enable smoothing, false to disable it
-        ///
-        /// \see isSmooth
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool Smooth
@@ -163,13 +165,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
+        /// <summary>
+        /// Transparency of the widget.
+        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// </summary>
         ///
-        /// \param transparency  The transparency of the widget.
-        ///                      0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
-        /// be changed. You must change them yourself by setting the alpha channel of the color.
+        /// <remarks>This will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -184,7 +186,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Ask the widget if the mouse is on top of it
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override bool MouseOnWidget(float x, float y)
         {
@@ -206,15 +211,23 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
             target.Draw (m_Sprite.sprite, states);
         }
 
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private string  m_LoadedFilename = "";
+
+        protected Impl.Sprite  m_Sprite = new Impl.Sprite();
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-

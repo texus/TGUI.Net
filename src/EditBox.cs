@@ -32,103 +32,9 @@ namespace TGUI
     public class EditBox : ClickableWidget, WidgetBorders
     {
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        /// The text alignment
-        enum Alignment
-        {
-            /// Put the text on the left side (default)
-            Left,
-
-            /// Center the text
-            Center,
-
-            /// Put the text on the right side (e.g. for numbers)
-            Right
-        }
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        public event EventHandler<CallbackArgs> TextChangedCallback;
-        public event EventHandler<CallbackArgs> ReturnKeyPressedCallback;
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        private string         m_LoadedConfigFile = "";
-
-        // Is the selection point visible or not?
-        private bool           m_SelectionPointVisible = true;
-
-        // When this boolean is true then you can no longer add text when the EditBox is full.
-        // Changing it to false will allow you to scroll the text (default).
-        // You can change the boolean with the limitTextWidth(bool) function.
-        private bool           m_LimitTextWidth = false;
-
-        // The text inside the edit box
-        private string         m_DisplayedText = "";
-        private string         m_Text = "";
-
-        // This will store the size of the text ( 0 to auto size )
-        private uint           m_TextSize = 0;
-
-        // The text alignment
-        private Alignment      m_TextAlignment = Alignment.Left;
-
-        // The selection
-        private uint           m_SelChars = 0;
-        private uint           m_SelStart = 0;
-        private uint           m_SelEnd = 0;
-
-        // The password character
-        private string         m_PasswordChar = "";
-
-        // The maximum allowed characters.
-        // Zero by default, meaning no limit.
-        private uint           m_MaxChars = 0;
-
-        // If this is true then the L, M and R images will be used.
-        // If it is false then the button is just one big image that will be stored in the M image.
-        private bool           m_SplitImage = false;
-
-        // When the text width is not limited, you can scroll the edit box and only a part will be visible.
-        private uint           m_TextCropPosition = 0;
-
-        // The rectangle behind the selected text
-        private RectangleShape m_SelectedTextBackground = new RectangleShape();
-
-        // The flickering selection point
-        private RectangleShape m_SelectionPoint = new RectangleShape(new Vector2f(1, 0));
-
-        // We need three SFML texts to draw our text, and one more for calculations.
-        private Text           m_TextBeforeSelection = new Text();
-        private Text           m_TextSelection = new Text();
-        private Text           m_TextAfterSelection = new Text();
-        private Text           m_TextFull = new Text();
-
-        private Impl.Sprite m_TextureNormal_L = new Impl.Sprite();
-        private Impl.Sprite m_TextureHover_L = new Impl.Sprite();
-        private Impl.Sprite m_TextureFocused_L = new Impl.Sprite();
-
-        private Impl.Sprite m_TextureNormal_M = new Impl.Sprite();
-        private Impl.Sprite m_TextureHover_M = new Impl.Sprite();
-        private Impl.Sprite m_TextureFocused_M = new Impl.Sprite();
-
-        private Impl.Sprite m_TextureNormal_R = new Impl.Sprite();
-        private Impl.Sprite m_TextureHover_R = new Impl.Sprite();
-        private Impl.Sprite m_TextureFocused_R = new Impl.Sprite();
-
-        // Is there a possibility that the user is going to double click?
-        private bool           m_PossibleDoubleClick = false;
-
-        private bool           m_NumbersOnly = false;
-
-        // Is there a separate hover image, or is it a semi-transparent image that is drawn on top of the others?
-        private bool           m_SeparateHoverImage = false;
-
-        private Borders        m_Borders = new Borders();
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Constructor, only intended for internal use
+        /// <summary>
+        /// Constructor, only intended for internal use
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal EditBox ()
@@ -140,9 +46,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public EditBox (EditBox copy) : base(copy)
@@ -187,11 +95,12 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads the widget.
+        /// <summary>
+        /// Loads the widget
+        /// </summary>
         ///
-        /// \param configFileFilename  Filename of the config file.
-        ///
-        /// The config file must contain a EditBox section with the needed information.
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a EditBox section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public EditBox (string configFileFilename)
@@ -326,7 +235,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Destructor
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ~EditBox ()
@@ -346,10 +257,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the filename of the config file that was used to load the widget.
-        ///
-        /// \return Filename of loaded config file.
-        ///         Empty string when no config file was loaded yet.
+        /// <summary>
+        /// Filename of the config file that was used to load the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string LoadedConfigFile
@@ -362,9 +272,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the position of the widget
-        ///
-        /// The default position of a transformable widget is (0, 0).
+        /// <summary>
+        /// Position of the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Position
@@ -416,7 +326,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the size of the widget.
+        /// <summary>
+        /// Size of the edit box
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -480,16 +392,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the text of the editbox.
-        ///
-        /// \param text  The new text.
+        /// <summary>
+        /// The text of the edit box
+        /// </summary>
         ///
         /// The last characters of the text might be removed in the following situations:
         /// - You have set a character limit and this text contains too much characters.
         /// - You have limited the text width and the text does not fit inside the EditBox.
-        ///
-        /// \see setMaximumCharacters
-        /// \see limitTextWidth
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string Text
@@ -602,10 +511,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the character size of the text.
-        ///
-        /// \param textSize  The new size of the text.
-        ///                  If the size is 0 (default) then the text will be scaled to fit in the edit box.
+        /// <summary>
+        /// The character size of the text.
+        /// If the size is 0 (default) then the text will be scaled to fit in the edit box.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint TextSize
@@ -625,10 +534,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the font of the text.
-        ///
-        /// When you don't call this function then the global font will be use.
-        /// This global font can be changed with the setGlobalFont function from the parent.
+        /// <summary>
+        /// Font of the text.
+        /// By default, the GlobalFont of the parent is used.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Font TextFont
@@ -648,15 +557,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Sets a password character.
-        ///
-        /// \param passwordChar  The new password character.
-        ///                      If set to 0 then there is no password character.
+        /// <summary>
+        /// The password character
+        /// </summary>
         ///
         /// When the text width is limited then this function might remove the last characters in the text if they no
         /// longer fit in the EditBox. You can avoid this by setting LimitTextWidth to false (which is the default).
-        ///
-        /// \see limitTextWidth
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string PasswordCharacter
@@ -676,11 +582,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Change the character limit.
-        ///
-        /// \param maxChars  The new character limit. Set it to 0 to disable the limit.
-        ///
-        /// This character limit is disabled by default.
+        /// <summary>
+        /// The character limit.
+        /// Set it to 0 to disable the limit.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint MaximumCharacters
@@ -714,7 +619,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the border width and border height of the edit box.
+        /// <summary>
+        /// Borders of the edit box
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Borders Borders
@@ -738,7 +645,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes/Returns the color of the text.
+        /// <summary>
+        /// The color of the text
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color TextColor
@@ -756,9 +665,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Set the text color of the selected text that will be used inside the edit box.
-        ///
-        /// \param selectedTextColor  The new text color.
+        /// <summary>
+        /// The color of the selected text
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color SelectedTextColor
@@ -775,9 +684,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Set the background color of the selected text that will be used inside the edit box.
-        ///
-        /// \param selectedTextBackgroundColor  The new background color.
+        /// <summary>
+        /// The background color of the selected text
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color SelectedTextBackgroundColor
@@ -794,9 +703,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Set the color that will be used inside the edit box for the flickering selection point.
-        ///
-        /// \param selectionPointColor  The color of the flickering selection point
+        /// <summary>
+        /// The color of the flickering caret
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Color SelectionPointColor
@@ -813,9 +722,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Should the text width be limited or should you be able to type even if the edit box is full?
+        /// <summary>
+        /// Should the text width be limited or should you be able to type even if the edit box is full?
+        /// </summary>
         ///
-        /// \param limitWidth  Should there be a text width limit or not.
+        /// <param name="limitWidth">Should there be a text width limit or not?</param>
         ///
         /// When set to true, you will no longer be able to add text when the edit box is full.
         /// The default value is false.
@@ -862,9 +773,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Sets the flickering selection point to after a specific character.
+        /// <summary>
+        /// Sets the caret to after a specific character
+        /// </summary>
         ///
-        /// \param charactersBeforeSelectionPoint  The new position.
+        /// <param name="charactersBeforeSelectionPoint">The new caret position</param>
         ///
         /// Normally you will not need this function.
         ///
@@ -920,9 +833,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the width of the selection point.
-        ///
-        /// \return width  Width of the flickering selection point
+        /// <summary>
+        /// The width of the flickering caret
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public uint SelectionPointWidth
@@ -939,9 +852,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes whether the edit box accepts all characters or only numeric input.
+        /// <summary>
+        /// Changes whether the edit box accepts all characters or only numeric input
+        /// </summary>
         ///
-        /// \param numbersOnly  Should the edit box only accept numbers?
+        /// <param name="numbersOnly">Should the edit box only accept numbers?</param>
         ///
         /// By default the edit box accepts all text characters.
         ///
@@ -982,13 +897,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
+        /// <summary>
+        /// Transparency of the widget.
+        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// </summary>
         ///
-        /// \param transparency  The transparency of the widget.
-        ///                      0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
-        /// be changed. You must change them yourself by setting the alpha channel of the color.
+        /// <remarks>This will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -1016,7 +931,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been pressed on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnLeftMousePressed(MouseButtonEventArgs e)
         {
@@ -1088,9 +1006,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse has moved on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnMouseMoved(MouseMoveEventArgs e)
+        protected internal override void OnMouseMoved (MouseMoveEventArgs e)
         {
             if (m_MouseHover == false)
                 MouseEnteredWidget();
@@ -1216,9 +1137,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that a special key has been pressed while the widget was focused
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnKeyPressed(KeyEventArgs e)
+        protected internal override void OnKeyPressed (KeyEventArgs e)
         {
             // Check if one of the correct keys was pressed
             if (e.Code == Keyboard.Key.Left)
@@ -1405,7 +1329,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that text has been typed while the widget was focused
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnTextEntered (TextEventArgs e)
         {
@@ -1499,7 +1426,10 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that it has been unfocused
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnWidgetUnfocused()
         {
@@ -1512,8 +1442,15 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // This function will search where the selection point should be. It will not change the selection point.
-        // It will return after which character the selection point should be.
+        /// <summary>
+        /// This function will return after which character the selection point should be.
+        /// It will not change the selection point.
+        /// </summary>
+        ///
+        /// <param name="posX">Position in the text</param>
+        ///
+        /// <returns>After which character the selection point should be placed</returns>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private uint FindSelectionPointPosition (float posX)
         {
@@ -1616,8 +1553,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Removes the selected characters. This function is called when pressing backspace, delete or a letter while there were
-        // some characters selected.
+        /// <summary>
+        /// Removes the selected characters. This function is called when pressing backspace, delete or a letter while there were
+        /// some characters selected.
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void DeleteSelectedCharacters ()
         {
@@ -1667,7 +1607,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Recalculates the position of the texts.
+        /// <summary>
+        /// Recalculates the position of the texts
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void RecalculateTextPositions ()
         {
@@ -1751,8 +1694,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // This function is called when the widget is added to a container.
+        /// <summary>
+        /// Initializes the widget now that it has been added to a parent widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void Initialize(Container parent)
         {
@@ -1762,7 +1707,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Update the flickering caret
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnUpdate ()
         {
@@ -1786,8 +1734,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -1913,9 +1863,107 @@ namespace TGUI
             Gl.glScissor(scissor[0], scissor[1], scissor[2], scissor[3]);
         }
 
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>The text alignment</summary>
+        enum Alignment
+        {
+            /// <summary>Put the text on the left side (default)</summary>
+            Left,
+
+            /// <summary>Center the text</summary>
+            Center,
+
+            /// <summary>Put the text on the right side (e.g. for numbers)</summary>
+            Right
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>Event handler for the TextChanged event</summary>
+        public event EventHandler<CallbackArgs> TextChangedCallback;
+
+        /// <summary>Event handler for the ReturnKeyPressed event</summary>
+        public event EventHandler<CallbackArgs> ReturnKeyPressedCallback;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private string         m_LoadedConfigFile = "";
+
+        // Is the selection point visible or not?
+        private bool           m_SelectionPointVisible = true;
+
+        // When this boolean is true then you can no longer add text when the EditBox is full.
+        // Changing it to false will allow you to scroll the text (default).
+        // You can change the boolean with the limitTextWidth(bool) function.
+        private bool           m_LimitTextWidth = false;
+
+        // The text inside the edit box
+        private string         m_DisplayedText = "";
+        private string         m_Text = "";
+
+        // This will store the size of the text ( 0 to auto size )
+        private uint           m_TextSize = 0;
+
+        // The text alignment
+        private Alignment      m_TextAlignment = Alignment.Left;
+
+        // The selection
+        private uint           m_SelChars = 0;
+        private uint           m_SelStart = 0;
+        private uint           m_SelEnd = 0;
+
+        // The password character
+        private string         m_PasswordChar = "";
+
+        // The maximum allowed characters.
+        // Zero by default, meaning no limit.
+        private uint           m_MaxChars = 0;
+
+        // If this is true then the L, M and R images will be used.
+        // If it is false then the button is just one big image that will be stored in the M image.
+        private bool           m_SplitImage = false;
+
+        // When the text width is not limited, you can scroll the edit box and only a part will be visible.
+        private uint           m_TextCropPosition = 0;
+
+        // The rectangle behind the selected text
+        private RectangleShape m_SelectedTextBackground = new RectangleShape();
+
+        // The flickering selection point
+        private RectangleShape m_SelectionPoint = new RectangleShape(new Vector2f(1, 0));
+
+        // We need three SFML texts to draw our text, and one more for calculations.
+        private Text           m_TextBeforeSelection = new Text();
+        private Text           m_TextSelection = new Text();
+        private Text           m_TextAfterSelection = new Text();
+        private Text           m_TextFull = new Text();
+
+        private Impl.Sprite m_TextureNormal_L = new Impl.Sprite();
+        private Impl.Sprite m_TextureHover_L = new Impl.Sprite();
+        private Impl.Sprite m_TextureFocused_L = new Impl.Sprite();
+
+        private Impl.Sprite m_TextureNormal_M = new Impl.Sprite();
+        private Impl.Sprite m_TextureHover_M = new Impl.Sprite();
+        private Impl.Sprite m_TextureFocused_M = new Impl.Sprite();
+
+        private Impl.Sprite m_TextureNormal_R = new Impl.Sprite();
+        private Impl.Sprite m_TextureHover_R = new Impl.Sprite();
+        private Impl.Sprite m_TextureFocused_R = new Impl.Sprite();
+
+        // Is there a possibility that the user is going to double click?
+        private bool           m_PossibleDoubleClick = false;
+
+        private bool           m_NumbersOnly = false;
+
+        // Is there a separate hover image, or is it a semi-transparent image that is drawn on top of the others?
+        private bool           m_SeparateHoverImage = false;
+
+        private Borders        m_Borders = new Borders();
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
-

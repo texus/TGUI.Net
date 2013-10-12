@@ -28,50 +28,80 @@ using SFML.Window;
 namespace TGUI
 {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    /// <summary>
+    /// Triggers that cause a callback.
+    ///
+    /// The description of the triggers also mention which CallbackArgs are set.
+    /// The Id and Trigger members are always set, so they are not explicitly mentioned.
+    /// </summary>
+    ///
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public enum CallbackTrigger
     {
-        // In comment you can find which part of the callback is used when this trigger is past.
-        // Id and Trigger are always filled and are not explicitly mentioned.
+        /// <summary>Callback triggered when a widget is focused. Sets no special CallbackArgs.</summary>
+        Focused,
 
-        Focused,            //
-        Unfocused,          //
+        /// <summary>Callback triggered when a widget is unfocused. Sets no special CallbackArgs.</summary>
+        Unfocused,
 
-        MouseEntered,       //
-        MouseLeft,          //
+        /// <summary>Callback triggered when the mouse entered the widget. Sets no special CallbackArgs.</summary>
+        MouseEntered,
 
-        LeftMousePressed,   // Mouse
-        LeftMouseReleased,  // Mouse
-        LeftMouseClicked,   // Mouse
+        /// <summary>Callback triggered when the mouse left the widget. Sets no special CallbackArgs.</summary>
+        MouseLeft,
 
-        SpaceKeyPressed,    //
-        ReturnKeyPressed,   //
+        /// <summary>Callback triggered when the left mouse button is pressed on a widget. Sets the Mouse in CallbackArgs.</summary>
+        LeftMousePressed,
 
-        Checked,            //
-        Unchecked,          //
+        /// <summary>Callback triggered when the left mouse button is released on a widget. Sets the Mouse in CallbackArgs.</summary>
+        LeftMouseReleased,
 
-        TextChanged,        // Text
+        /// <summary>Callback triggered when the left mouse button is clicked on a widget. Sets the Mouse in CallbackArgs.</summary>
+        LeftMouseClicked,
 
-        ValueChanged,       // Value / Value2d
+        /// <summary>Callback triggered when the space key is pressed while the widget was focused. Sets no special CallbackArgs.</summary>
+        SpaceKeyPressed,
 
-        LoadingBarFull,     // Value
+        /// <summary>Callback triggered when the return key (enter key) is pressed while the widget was focused. Sets no special CallbackArgs.</summary>
+        ReturnKeyPressed,
 
-        ItemSelected,       // Text, Value
+        /// <summary>Callback triggered when the checkbox was checked. Sets no special CallbackArgs.</summary>
+        Checked,
 
-        TabChanged,         // Mouse, Text, Value
+        /// <summary>Callback triggered when the checkbox was unchecked. Sets no special CallbackArgs.</summary>
+        Unchecked,
 
-        MenuItemClicked,    // Text, Index
+        /// <summary>Callback triggered when the text was changed. Sets the Text in CallbackArgs.</summary>
+        TextChanged,
 
-        ThumbReturnedToCenter, // Value2d
+        /// <summary>Callback triggered when the value changed. Sets the Value (or Value2d) in CallbackArgs.</summary>
+        ValueChanged,
 
-        // ChildWindow
-        Closed,             //
-        Moved,              // Position
+        /// <summary>Callback triggered when the loading bar is full. Sets the Value in CallbackArgs.</summary>
+        LoadingBarFull,
 
-        // MessageBox
-        ButtonClicked,      // Text
+        /// <summary>Callback triggered when another item was selected in the list. Sets the Text and Value in CallbackArgs.</summary>
+        ItemSelected,
 
-        // AnimatedPicture
+        /// <summary>Callback triggered when another tab was selected. Sets the Mouse, Text and Value in CallbackArgs.</summary>
+        TabChanged,
+
+        /// <summary>Callback triggered when a menu item of the menu bar was clicked. Sets the Text and Index in CallbackArgs.</summary>
+        MenuItemClicked,
+
+        /// <summary>Callback triggered when the thumb of Slider2d got reset. Sets the Value2d in CallbackArgs.</summary>
+        ThumbReturnedToCenter,
+
+        /// <summary>Callback triggered when the child window is closed. Sets no special CallbackArgs.</summary>
+        Closed,
+
+        /// <summary>Callback triggered when the child window is moved. Sets the Position in CallbackArgs.</summary>
+        Moved,
+
+        /// <summary>Callback triggered when a button in the message box was clicked. Sets the Text in CallbackArgs.</summary>
+        ButtonClicked,
+
+        /// <summary>Callback triggered when the animation of an AnimatedPicture finished. Sets no special CallbackArgs.</summary>
         AnimationFinished
     }
 
@@ -79,30 +109,33 @@ namespace TGUI
 
     public class CallbackArgs : EventArgs
     {
-        // The callback id that was passed to the widget. It is used to identify from what widget the callback came from.
+        /// <summary>The CallbackId of to the widget. It is used to identify from which widget the callback came from. Set for all callbacks.</summary>
         public uint Id;
 
-        // How did the callbak occur?
+        /// <summary>The trigger that caused the callback. Set for all callbacks.</summary>
         public CallbackTrigger Trigger;
 
-        // When the mouse has something to do with the callback then this data will be filled
+        /// <summary>Position of the mouse</summary>
         public Vector2i Mouse;
 
+        /// <summary>Text passed by the callback</summary>
         public string Text;
 
-        // Used when moving child windows.
+        /// <summary>Position passed by the callback</summary>
         public Vector2f Position;
 
-        // Used in any callback coming from Checkbox or RadioButton.
+        /// <summary>Whether the checkbox or radio button is checked</summary>
         public bool Checked;
 
+        /// <summary>Value passed by the callback</summary>
         public int Value;
 
+        /// <summary>Index passed by the callback</summary>
         public uint Index;
 
+        /// <summary>Value2d passed by the callback</summary>
         public Vector2f Value2d;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
-

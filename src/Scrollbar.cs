@@ -31,25 +31,10 @@ namespace TGUI
     public class Scrollbar : Slider
     {
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        // Maximum should be above this value before the scrollbar is needed
-        private int    m_LowValue = 6;
-
-        // When no scrollbar is needed, should the scrollbar be drawn or stay hidden?
-        private bool   m_AutoHide = true;
-
-        // Did the mouse went down on one of the arrows?
-        private bool   m_MouseDownOnArrow = false;
-
-        private Impl.Sprite m_TextureArrowUpNormal = new Impl.Sprite();
-        private Impl.Sprite m_TextureArrowUpHover = new Impl.Sprite();
-
-        private Impl.Sprite m_TextureArrowDownNormal = new Impl.Sprite();
-        private Impl.Sprite m_TextureArrowDownHover = new Impl.Sprite();
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Default constructor
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Scrollbar ()
         {
@@ -57,9 +42,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Scrollbar (Scrollbar copy) : base(copy)
@@ -76,11 +63,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads the widget.
+        /// <summary>
+        /// Loads the widget
+        /// </summary>
         ///
-        /// \param configFileFilename  Filename of the config file.
-        ///
-        /// The config file must contain a Scrollbar section with the needed information.
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a Scrollbar section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Scrollbar (string configFileFilename)
@@ -194,7 +182,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Destructor
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ~Scrollbar ()
@@ -207,12 +197,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Does nothing.
-        ///
-        /// \param minimum  Unused parameter
-        ///
+        /// <summary>
         /// This function is overridden from Slider so that the minimum can't be changed.
         /// The minimum will always stay 0.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override int Minimum
@@ -229,11 +217,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Sets a maximum value.
+        /// <summary>
+        /// Maximum value of the scrollbar
+        /// </summary>
         ///
-        /// \param maximum  The new maximum value
-        ///
-        /// When the minimum value is higher than the new maximum then it will be changed to this new maximum value.
         /// When the value is bigger than (maximum - low value), the value is set to maximum - low value.
         /// The default maximum value is 10.
         ///
@@ -258,11 +245,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the current value.
-        ///
-        /// \param value  The new value
-        ///
-        /// The value has to be smaller than maximum - low value.
+        /// <summary>
+        /// Value of the scrollbar.
+        /// The value has to be smaller than Maximum - LowValue.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override int Value
@@ -292,13 +278,16 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the 'low value'.
+        /// <summary>
+        /// Low value of the scrollbar.
+        /// Until the maximum is bigger than this value, no scrollbar will be drawn (when AutoHide is true).
+        /// </summary>
         ///
-        /// \param lowValue  The new low value.
-        ///                  In e.g. a list box, this value is the amount of items that fit inside the list box.
+        /// In e.g. a list box, this value is the amount of items that fit inside the list box,
+        /// while the maximum is the amount of items that are in the list box at that moment.
         ///
-        /// Until the maximum is bigger than this value, no scrollbar will be drawn.
-        /// You can however choose to always draw the scrollbar by calling setAutoHide(false).
+        /// You can choose to always draw the scrollbar by calling AutoHide to false.
+        ///
         /// The default low value is 6.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -327,11 +316,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes whether the scrollbar should hide automatically or not.
-        ///
-        /// When true (default), the scrollbar will not be drawn when the maximum is smaller than the low value.
-        ///
-        /// \param autoHide  Should the scrollbar be invisible when you can't scroll?
+        /// <summary>
+        /// Should the scrollbar be hidden when you can't scroll (LowValue >= Maximum)?
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool AutoHide
@@ -348,13 +335,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
+        /// <summary>
+        /// Transparency of the widget.
+        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// </summary>
         ///
-        /// \param transparency  The transparency of the widget.
-        ///                      0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
-        /// be changed. You must change them yourself by setting the alpha channel of the color.
+        /// <remarks>This will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -372,7 +359,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Ask the widget if the mouse is on top of it
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override bool MouseOnWidget(float x, float y)
         {
@@ -468,9 +458,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been pressed on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnLeftMousePressed(MouseButtonEventArgs e)
+        protected internal override void OnLeftMousePressed (MouseButtonEventArgs e)
         {
             m_MouseDown = true;
             m_MouseDownOnArrow = false;
@@ -529,9 +522,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been released on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnLeftMouseReleased(MouseButtonEventArgs e)
+        protected internal override void OnLeftMouseReleased (MouseButtonEventArgs e)
         {
             // Check if one of the arrows was clicked
             if ((m_MouseDown) && (m_MouseDownOnArrow))
@@ -629,9 +625,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse has moved on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnMouseMoved(MouseMoveEventArgs e)
+        protected internal override void OnMouseMoved (MouseMoveEventArgs e)
         {
             if (m_MouseHover == false)
                 MouseEnteredWidget();
@@ -781,8 +780,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -1086,7 +1087,24 @@ namespace TGUI
             }
         }
 
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Maximum should be above this value before the scrollbar is needed
+        private int    m_LowValue = 6;
+
+        // When no scrollbar is needed, should the scrollbar be drawn or stay hidden?
+        private bool   m_AutoHide = true;
+
+        // Did the mouse went down on one of the arrows?
+        private bool   m_MouseDownOnArrow = false;
+
+        private Impl.Sprite m_TextureArrowUpNormal = new Impl.Sprite();
+        private Impl.Sprite m_TextureArrowUpHover = new Impl.Sprite();
+
+        private Impl.Sprite m_TextureArrowDownNormal = new Impl.Sprite();
+        private Impl.Sprite m_TextureArrowDownHover = new Impl.Sprite();
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-

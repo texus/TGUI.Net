@@ -32,21 +32,14 @@ namespace TGUI
 {
     public class TextureManager
     {
-        public struct ImageMapData
-        {
-            public SFML.Graphics.Image image;
-            public List<Impl.Texture> data;
-        };
-
-        internal Dictionary<string, ImageMapData> m_ImageMap = new Dictionary<string, ImageMapData>();
-
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads a texture.
+        /// <summary>
+        /// Loads a texture
+        /// </summary>
         ///
-        /// \param filename  Filename of the image to load.
-        /// \param texture   The texture widget to store the loaded image.
-        /// \param rect      Load only part of the image. Don't pass this parameter if you want to load the full image.
+        /// <param name="filename">Filename of the image to load</param>
+        /// <param name="texture">The texture object to store the loaded image</param>
+        /// <param name="rect">Load only this part of the image.</param>
         ///
         /// The second time you call this function with the same filename, the previously loaded image will be reused.
         ///
@@ -135,10 +128,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Share the image with another texture.
+        /// <summary>
+        /// Share the image with another sprite
+        /// </summary>
         ///
-        /// \param textureToCopy  The original texture.
-        /// \param newTexture     The texture that will get the same image as the texture that is being c
+        /// <param name="spriteToCopy">The original sprite</param>
+        /// <param name="newSprite">The sprite that will get the same image as the sprite that is being copied</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool CopyTexture(Impl.Sprite spriteToCopy, Impl.Sprite newSprite)
@@ -175,11 +170,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Removes the texture.
+        /// <summary>
+        /// Removes the sprite
+        /// </summary>
         ///
-        /// \param textureToRemove  The texture that should be removed.
+        /// <param name="sprite">The sprite that should be removed</param>
         ///
-        /// When no other texture is using the same image then the image will be removed from memory.
+        /// When no other sprite is using the same image then the image will be removed from memory.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void RemoveTexture(Impl.Sprite sprite)
@@ -227,6 +224,15 @@ namespace TGUI
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        public struct ImageMapData
+        {
+            public SFML.Graphics.Image image;
+            public List<Impl.Texture> data;
+        };
+
+        internal Dictionary<string, ImageMapData> m_ImageMap = new Dictionary<string, ImageMapData>();
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-

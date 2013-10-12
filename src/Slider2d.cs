@@ -31,30 +31,10 @@ namespace TGUI
 {
     public class Slider2d : ClickableWidget
     {
-        public event EventHandler<CallbackArgs> ValueChangedCallback;
-        public event EventHandler<CallbackArgs> ThumbReturnedToCenterCallback;
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        private string   m_LoadedConfigFile = "";
-
-        private Vector2f m_Minimum = new Vector2f(-1, -1);
-        private Vector2f m_Maximum = new Vector2f(1, 1);
-        private Vector2f m_Value = new Vector2f(0, 0);
-
-        private bool     m_ReturnThumbToCenter = false;
-        private bool     m_FixedThumbSize = true;
-
-        private Impl.Sprite m_TextureTrackNormal = new Impl.Sprite();
-        private Impl.Sprite m_TextureTrackHover = new Impl.Sprite();
-        private Impl.Sprite m_TextureThumbNormal = new Impl.Sprite();
-        private Impl.Sprite m_TextureThumbHover = new Impl.Sprite();
-
-        private bool     m_SeparateHoverImage = false;
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Constructor, only intended for internal use
+        /// <summary>
+        /// Constructor, only intended for internal use
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal Slider2d ()
@@ -64,9 +44,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         ///
-        /// \param copy  Instance to copy
+        /// <param name="copy">Instance to copy</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Slider2d (Slider2d copy) : base(copy)
@@ -90,11 +72,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Loads the widget.
+        /// <summary>
+        /// Loads the widget
+        /// </summary>
         ///
-        /// \param configFileFilename  Filename of the config file.
-        ///
-        /// The config file must contain a Slider2d section with the needed information.
+        /// <param name="configFileFilename">Filename of the config file.
+        /// The config file must contain a Slider2d section with the needed information.</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Slider2d (string configFileFilename)
@@ -146,7 +129,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Destructor
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ~Slider2d ()
@@ -159,10 +144,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Returns the filename of the config file that was used to load the widget.
-        ///
-        /// \return Filename of loaded config file.
-        ///         Empty string when no config file was loaded yet.
+        /// <summary>
+        /// Filename of the config file that was used to load the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public string LoadedConfigFile
@@ -175,7 +159,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the size of the widget.
+        /// <summary>
+        /// Size of the widget
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -192,9 +178,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Sets a minimum value.
-        ///
-        /// \param minimum  The new minimum value
+        /// <summary>
+        /// Minimum value of the slider
+        /// </summary>
         ///
         /// When the value is too small then it will be changed to this minimum.
         /// The default minimum value is (-1, -1).
@@ -226,9 +212,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Sets a maximum value.
-        ///
-        /// \param maximum  The new maximum value
+        /// <summary>
+        /// Maximum value of the slider
+        /// </summary>
         ///
         /// When the value is too big then it will be changed to this maximum.
         /// The default maximum value is (1, 1).
@@ -260,9 +246,9 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the current value.
-        ///
-        /// \param value  The new value
+        /// <summary>
+        /// Value of the slider
+        /// </summary>
         ///
         /// The value can't be smaller than the minimum or bigger than the maximum.
         ///
@@ -292,13 +278,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Change whether the thumb size changes when you change the size of the slider.
-        ///
-        /// \param fixedSize  If true then the size of the thumb doesn't change when calling setSize
-        ///
-        /// When \a fixedSize is set to false then the thumb will change size together with the slider.
-        /// So if the slider is two times bigger than the loaded image, the thumb will also be two times bigger as its image.
-        /// When \a fixedSize is set to true then the size of the thumb will always stay the same as the loaded image.
+        /// <summary>
+        /// Should the thumb image be scaled together with the slider image,
+        /// or should the thumb keep its size even if your slider is twice as big as the image itself.
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool FixedThumbSize
@@ -315,9 +298,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Decide whether or not the thumb will jump back to the center when the mouse is released.
+        /// <summary>
+        /// Decide whether or not the thumb will jump back to the center when the mouse is released
+        /// </summary>
         ///
-        /// \param autoCenterThumb  Place the thumb in the center on mouse release?
+        /// <param name="autoCenterThumb">Place the thumb in the center on mouse release?</param>
         ///
         /// This behavior is disabled by default.
         ///
@@ -329,9 +314,11 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Places the thumb back in the center.
+        /// <summary>
+        /// Place the thumb back in the center
+        /// </summary>
         ///
-        /// When enableThumbCenter(true) was called then this will happen automatically when the mouse is released.
+        /// When EnableThumbCenter(true) was called then this will happen automatically when the mouse is released.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void CenterThumb ()
@@ -341,13 +328,13 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \brief Changes the transparency of the widget.
+        /// <summary>
+        /// Transparency of the widget.
+        /// 0 is completely transparent, while 255 (default) means fully opaque.
+        /// </summary>
         ///
-        /// \param transparency  The transparency of the widget.
-        ///                      0 is completely transparent, while 255 (default) means fully opaque.
-        ///
-        /// Note that this will only change the transparency of the images. The parts of the widgets that use a color will not
-        /// be changed. You must change them yourself by setting the alpha channel of the color.
+        /// <remarks>This will only change the transparency of the images. The parts of the widgets that use a color will not
+        /// be changed. You must change them yourself by setting the alpha channel of the color.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override byte Transparency
@@ -365,9 +352,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been pressed on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnLeftMousePressed(MouseButtonEventArgs e)
+        protected internal override void OnLeftMousePressed (MouseButtonEventArgs e)
         {
             m_MouseDown = true;
 
@@ -380,9 +370,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been released on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnLeftMouseReleased(MouseButtonEventArgs e)
+        protected internal override void OnLeftMouseReleased (MouseButtonEventArgs e)
         {
             base.OnLeftMouseReleased(e);
 
@@ -401,9 +394,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the mouse has moved on top of the widget
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void OnMouseMoved(MouseMoveEventArgs e)
+        protected internal override void OnMouseMoved (MouseMoveEventArgs e)
         {
             if (m_MouseHover == false)
                 MouseEnteredWidget ();
@@ -443,7 +439,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that it has been focused
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnWidgetFocused()
         {
@@ -452,9 +451,12 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
+        /// <summary>
+        /// Tells the widget that the left mouse has been released
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected internal override void MouseNoLongerDown ()
+        protected internal override void MouseNoLongerDown()
         {
             m_MouseDown = false;
 
@@ -476,8 +478,10 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// \internal
-        // Draws the widget on the render target.
+        /// <summary>
+        /// Draws the widget on the render target
+        /// </summary>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
@@ -575,6 +579,31 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>Event handler for the ValueChanged event</summary>
+        public event EventHandler<CallbackArgs> ValueChangedCallback;
+
+        /// <summary>Event handler for the ThumbReturnedToCenter event</summary>
+        public event EventHandler<CallbackArgs> ThumbReturnedToCenterCallback;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private string   m_LoadedConfigFile = "";
+
+        private Vector2f m_Minimum = new Vector2f(-1, -1);
+        private Vector2f m_Maximum = new Vector2f(1, 1);
+        private Vector2f m_Value = new Vector2f(0, 0);
+
+        private bool     m_ReturnThumbToCenter = false;
+        private bool     m_FixedThumbSize = true;
+
+        private Impl.Sprite m_TextureTrackNormal = new Impl.Sprite();
+        private Impl.Sprite m_TextureTrackHover = new Impl.Sprite();
+        private Impl.Sprite m_TextureThumbNormal = new Impl.Sprite();
+        private Impl.Sprite m_TextureThumbHover = new Impl.Sprite();
+
+        private bool     m_SeparateHoverImage = false;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
-
