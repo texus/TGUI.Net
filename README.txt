@@ -17,7 +17,7 @@ Tutorials
 ---------
 
 Linux:   http://tgui.net/linux/
-Windows: http://en.sfml-dev.org/forums/index.php?topic=11936.msg89335#msg89335
+Windows: http://tgui.net/visual-studio/
 
 
 
