@@ -550,7 +550,7 @@ namespace TGUI
 
         private int m_StartTime = Environment.TickCount;
 
-        private bool m_Focused = false;
+        private bool m_Focused = true;
 
         private GuiContainer m_Container = new GuiContainer();
 
