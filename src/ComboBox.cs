@@ -43,6 +43,8 @@ namespace TGUI
             m_DraggableWidget = true;
 
             m_ListBox.Visible = false;
+            m_ListBox.Size = new Vector2f(50, 24);
+            m_ListBox.ItemHeight = 24;
             m_ListBox.ItemSelectedCallback += NewItemSelectedCallbackFunction;
             m_ListBox.UnfocusedCallback += ListBoxUnfocusedCallbackFunction;
         }
@@ -93,6 +95,12 @@ namespace TGUI
         public ComboBox (string configFileFilename)
         {
             m_DraggableWidget = true;
+
+            m_ListBox.Visible = false;
+            m_ListBox.Size = new Vector2f(50, 24);
+            m_ListBox.ItemHeight = 24;
+            m_ListBox.ItemSelectedCallback += NewItemSelectedCallbackFunction;
+            m_ListBox.UnfocusedCallback += ListBoxUnfocusedCallbackFunction;
 
             m_LoadedConfigFile = configFileFilename;
 
@@ -981,11 +989,6 @@ namespace TGUI
                     if ((m_MouseHover) && ((m_WidgetPhase & (byte)WidgetPhase.Focused) != 0))
                         target.Draw(m_TextureArrowUpHover.sprite, states);
                 }
-
-                // Set the list box to the correct position and draw it
-                states.Transform = oldTransform;
-                states.Transform.Translate(0, (float)(m_ListBox.ItemHeight + m_Borders.Top + m_Borders.Bottom));
-                target.Draw(m_ListBox, states);
             }
             else
             {
