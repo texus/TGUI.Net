@@ -169,9 +169,7 @@ namespace TGUI
                 // Change the size of the label if necessary
                 if (m_AutoSize)
                 {
-                    m_Size = new Vector2f(m_Text.FindCharacterPos((uint)m_Text.DisplayedString.Length).X - Position.X,
-                                          m_Text.GetLocalBounds().Top + m_Text.GetLocalBounds().Height);
-
+                    m_Size = new Vector2f (m_Text.GetLocalBounds ().Width, m_Text.GetLocalBounds ().Height);
                     m_Background.Size = m_Size;
                 }
             }
@@ -239,9 +237,7 @@ namespace TGUI
                 // Change the size of the label if necessary
                 if (m_AutoSize)
                 {
-                    m_Size = new Vector2f(m_Text.FindCharacterPos((uint)m_Text.DisplayedString.Length).X - Position.X,
-                                          m_Text.GetLocalBounds().Top + m_Text.GetLocalBounds().Height);
-
+                    m_Size = new Vector2f (m_Text.GetLocalBounds ().Width, m_Text.GetLocalBounds ().Height);
                     m_Background.Size = m_Size;
                 }
             }
@@ -291,9 +287,7 @@ namespace TGUI
                 // Change the size of the label if necessary
                 if (m_AutoSize)
                 {
-                    m_Size = new Vector2f(m_Text.FindCharacterPos((uint)m_Text.DisplayedString.Length).X - Position.X,
-                                          m_Text.GetLocalBounds().Top + m_Text.GetLocalBounds().Height);
-
+                    m_Size = new Vector2f (m_Text.GetLocalBounds ().Width, m_Text.GetLocalBounds ().Height);
                     m_Background.Size = m_Size;
                 }
             }
