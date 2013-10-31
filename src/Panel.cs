@@ -42,6 +42,7 @@ namespace TGUI
         {
         }
 
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
         /// Copy constructor
@@ -316,9 +317,9 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private Vector2f m_Size = new Vector2f();
+        private Vector2f m_Size = new Vector2f(100, 100);
 
-        private Color    m_BackgroundColor = new Color(0, 0, 0, 0);
+        private Color    m_BackgroundColor = new Color(220, 220, 220, 255);
 
         private SFML.Graphics.Texture m_Texture = null;
         private Sprite  m_Sprite = new Sprite();
