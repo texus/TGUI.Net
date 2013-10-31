@@ -194,9 +194,12 @@ namespace TGUI
                 RemoveLine (0);
 
             Label label = m_Panel.Add (new Label ());
-            label.Text = text;
             label.TextColor = color;
             label.TextSize = m_TextSize;
+
+            Label tempLine = new Label();
+            tempLine.TextSize = m_TextSize;
+            tempLine.TextFont = label.TextFont;
 
             float width;
             if (m_Scroll == null)
@@ -208,17 +211,21 @@ namespace TGUI
                 width = 0;
 
             // Split the label over multiple lines if necessary
-            int character = 1;
-            while (label.Size.X + 4.0f > width)
+            int pos = 0;
+            int size = 0;
+            while (pos + size < text.Length)
             {
-                label.Text = text.Substring(0, character);
+                tempLine.Text = text.Substring(pos, ++size);
 
-                while (label.Size.X + 4.0f <= width)
-                    label.Text = text.Substring(0, ++character);
+                if (tempLine.Size.X + 4.0f > width)
+                {
+                    label.Text = label.Text + text.Substring(pos, size - 1) + "\n";
 
-                text.Insert(character - 1, "\n");
-                label.Text = text;
+                    pos = pos + size - 1;
+                    size = 0;
+                }
             }
+            label.Text = label.Text + tempLine.Text;
 
             m_FullTextHeight += label.Size.Y + (label.TextFont.GetLineSpacing(label.TextSize) - label.TextSize);
 
