@@ -37,6 +37,8 @@ namespace TGUI
         public static ResourceManager ResourceManager = null;
 
         public static bool TabKeyUsageEnabled = true;
+
+        public static string Clipboard;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

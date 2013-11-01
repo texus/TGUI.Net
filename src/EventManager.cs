@@ -135,19 +135,8 @@ namespace TGUI
                 // Check if there is a focused widget
                 if (m_FocusedWidget != null)
                 {
-                    // Check the pressed key
-                    if ((e.Code == Keyboard.Key.Left)
-                        || (e.Code == Keyboard.Key.Right)
-                        || (e.Code == Keyboard.Key.Up)
-                        || (e.Code == Keyboard.Key.Down)
-                        || (e.Code == Keyboard.Key.Back)
-                        || (e.Code == Keyboard.Key.Delete)
-                        || (e.Code == Keyboard.Key.Space)
-                        || (e.Code == Keyboard.Key.Return))
-                    {
-                        // Tell the widget that the key was pressed
-                        m_FocusedWidget.OnKeyPressed(e);
-                    }
+                    // Tell the widget that the key was pressed
+                    m_FocusedWidget.OnKeyPressed(e);
                 }
             }
         }

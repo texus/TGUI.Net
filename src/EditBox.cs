@@ -1325,6 +1325,51 @@ namespace TGUI
                     TextChangedCallback (this, m_Callback);
                 }
             }
+            else
+            {
+                /*
+                // Check if you are copying, pasting or cutting text
+                if (Keyboard.IsKeyPressed(Keyboard.Key.LControl) || Keyboard.IsKeyPressed(Keyboard.Key.RControl))
+                {
+                    if (e.Code == Keyboard.Key.C)
+                    {
+                        Global.Clipboard = m_TextSelection.DisplayedString;
+                    }
+                    else if (e.Code == Keyboard.Key.V)
+                    {
+                        string clipboardContents = Global.Clipboard;
+
+                        // Only continue pasting if you actually have to do something
+                        if ((m_SelChars > 0) || (clipboardContents.Length > 0))
+                        {
+                            DeleteSelectedCharacters();
+
+                            int oldCaretPos = (int)m_SelEnd;
+
+                            if (m_Text.Length > oldCaretPos)
+                                Text = m_Text.Substring(0, oldCaretPos) + Global.Clipboard + m_Text.Substring(oldCaretPos, m_Text.Length - oldCaretPos);
+                            else
+                                Text = m_Text + clipboardContents;
+
+                            SetSelectionPointPosition((uint)(oldCaretPos + clipboardContents.Length));
+
+                            // Add the callback (if the user requested it)
+                            if (TextChangedCallback != null)
+                            {
+                                m_Callback.Trigger = CallbackTrigger.TextChanged;
+                                m_Callback.Text    = m_Text;
+                                TextChangedCallback (this, m_Callback);
+                            }
+                        }
+                    }
+                    else if (e.Code == Keyboard.Key.X)
+                    {
+                        Global.Clipboard = m_TextSelection.DisplayedString;
+                        DeleteSelectedCharacters();
+                    }
+                }
+                */
+            }
         }
 
 
