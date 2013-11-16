@@ -1327,7 +1327,6 @@ namespace TGUI
             }
             else
             {
-                /*
                 // Check if you are copying, pasting or cutting text
                 if (Keyboard.IsKeyPressed(Keyboard.Key.LControl) || Keyboard.IsKeyPressed(Keyboard.Key.RControl))
                 {
@@ -1368,7 +1367,6 @@ namespace TGUI
                         DeleteSelectedCharacters();
                     }
                 }
-                */
             }
         }
 
