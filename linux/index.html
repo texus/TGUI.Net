@@ -70,7 +70,16 @@
     <p>Because SFML.Net is a binding instead of a port, you need to map the CSFML .dll files to corresponding .so files.<br />
        Although TGUI.Net is a port and does not require this, it does require opengl which you will have to map.<br />
        <br />
-       So next to your executable you will need the following two files (with similar contents) in order to run the executable.</p>
+       So next to your executable you will need the following three files (with similar contents) in order to run the executable.</p>
+
+<p class="SmallBottomMargin">sfmlnet-window-2.dll.config</p>
+<pre>
+{% highlight xml %}
+<configuration>
+<dllmap dll="csfml-window-2" target="/usr/local/lib/libcsfml-window.so.2.1"/>
+</configuration>
+{% endhighlight %}
+</pre>
 
 <p class="SmallBottomMargin">sfmlnet-graphics-2.dll.config</p>
 <pre>
