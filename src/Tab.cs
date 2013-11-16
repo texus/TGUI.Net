@@ -248,7 +248,7 @@ namespace TGUI
         /// </summary>
         ///
         /// <param name="name">The name of the tab (this is the text that will be drawn on top of the tab)</param>
-        /// <param name="select">Do you want the new tab to be selected immediately?</param>
+        /// <param name="selectTab">Do you want the new tab to be selected immediately?</param>
         ///
         /// <returns>The index of the tab in the list</returns>
         ///

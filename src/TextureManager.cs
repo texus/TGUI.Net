@@ -38,7 +38,7 @@ namespace TGUI
         /// </summary>
         ///
         /// <param name="filename">Filename of the image to load</param>
-        /// <param name="texture">The texture object to store the loaded image</param>
+        /// <param name="sprite">The sprite object to store the loaded image</param>
         /// <param name="rect">Load only this part of the image.</param>
         ///
         /// The second time you call this function with the same filename, the previously loaded image will be reused.

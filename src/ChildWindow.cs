@@ -185,8 +185,6 @@ namespace TGUI
         /// Background texture of the child window
         /// </summary>
         ///
-        /// <param name="texture">Texture that should be used as background of the child window</param>
-        ///
         /// <remarks>If the texture has a different size than the child window then it will be scaled to fill the whole window.</remarks>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

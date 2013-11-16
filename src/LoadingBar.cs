@@ -362,10 +362,9 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
-        /// Caption of the loading bar
+        /// Caption of the loading bar.
+        /// This is the text that is drawn on top of the loading bar.
         /// </summary>
-        ///
-        /// <param name="text">Text to draw on top of the loading bar</param>
         ///
         /// This text will be centered in the loading bar. It could e.g. contain the progress.
         ///

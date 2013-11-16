@@ -66,7 +66,7 @@ namespace TGUI
         /// </summary>
         ///
         /// <param name="window">The sfml window that will be used by the gui</param>
-        /// <param name="window">The resource manager to use when loading widgets</param>
+        /// <param name="manager">The resource manager to use when loading widgets</param>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Gui(RenderWindow window, ResourceManager manager) :
@@ -134,6 +134,7 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
         /// Window on which the gui should be drawn
+        /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public RenderWindow Window

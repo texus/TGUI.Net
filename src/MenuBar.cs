@@ -170,7 +170,7 @@ namespace TGUI
         /// Adds a new menu item
         /// </summary>
         ///
-        /// <param name="menu">The name of the menu to which the menu item will be added</param>
+        /// <param name="menuText">The name of the menu to which the menu item will be added</param>
         /// <param name="text">The text written on this menu item</param>
         ///
         /// <returns>True when the item was added, false when \a menu was not found</returns>
@@ -211,7 +211,7 @@ namespace TGUI
         /// Removes a menu and all its menu items
         /// </summary>
         ///
-        /// <param name="menu">The name of the menu to remove</param>
+        /// <param name="menuText">The name of the menu to remove</param>
         ///
         /// <returns>True when the menu was removed, false when \a menu was not found</returns>
         ///
