@@ -142,8 +142,6 @@ namespace TGUI
             // Check if the image is split
             if (m_SplitImage)
             {
-                throw new Exception("SplitImage is not supported in Slider.");
-                /*
                 // Make sure the required textures were loaded
                 if ((m_TextureTrackNormal_L.texture != null) && (m_TextureTrackNormal_M.texture != null)
                     && (m_TextureTrackNormal_R.texture != null) && (m_TextureThumbNormal.texture != null))
@@ -170,7 +168,6 @@ namespace TGUI
 
                     m_TextureTrackHover_M.texture.texture.Repeated = true;
                 }
-                */
             }
             else // The image isn't split
             {
@@ -231,6 +228,89 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
+        /// Position of the widget
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public override Vector2f Position
+        {
+            get
+            {
+                return m_Position;
+            }
+            set
+            {
+                base.Position = value;
+
+                if (m_SplitImage)
+                {
+                    m_TextureTrackNormal_L.sprite.Position = new Vector2f(value.X, value.Y);
+                    m_TextureTrackHover_L.sprite.Position = new Vector2f(value.X, value.Y);
+
+                    // Swap the width and height meanings depending on how the slider lies
+                    float width;
+                    float height;
+                    if (m_VerticalScroll)
+                    {
+                        width = m_Size.X;
+                        height = m_Size.Y;
+                    }
+                    else
+                    {
+                        width = m_Size.Y;
+                        height = m_Size.X;
+                    }
+
+                    if (m_VerticalImage)
+                    {
+                        // Check if the middle image may be drawn
+                        if ((m_TextureTrackNormal_M.sprite.Scale.X * (m_TextureTrackNormal_L.Size.Y + m_TextureTrackNormal_R.Size.Y)) < height)
+                        {
+                            float scalingX = width / m_TextureTrackNormal_M.Size.X;
+
+                            m_TextureTrackNormal_M.sprite.Position = new Vector2f(value.X, value.Y + (m_TextureTrackNormal_L.Size.Y * m_TextureTrackNormal_L.sprite.Scale.Y));
+                            m_TextureTrackHover_M.sprite.Position = new Vector2f(value.X, value.Y + (m_TextureTrackHover_L.Size.Y * m_TextureTrackHover_L.sprite.Scale.Y));
+
+                            m_TextureTrackNormal_R.sprite.Position = new Vector2f(value.X, m_TextureTrackNormal_M.sprite.Position.Y + (m_TextureTrackNormal_M.sprite.TextureRect.Height * scalingX));
+                            m_TextureTrackHover_R.sprite.Position = new Vector2f(value.X, m_TextureTrackHover_M.sprite.Position.Y + (m_TextureTrackHover_M.sprite.TextureRect.Height * scalingX));
+                        }
+                        else // The middle image isn't drawn
+                        {
+                            m_TextureTrackNormal_R.sprite.Position = new Vector2f(value.X, value.Y + (m_TextureTrackNormal_L.Size.Y * m_TextureTrackNormal_L.sprite.Scale.Y));
+                            m_TextureTrackHover_R.sprite.Position = new Vector2f(value.X, value.Y + (m_TextureTrackHover_L.Size.Y * m_TextureTrackHover_L.sprite.Scale.Y));
+                        }
+                    }
+                    else // The slider image lies vertical
+                    {
+                        // Check if the middle image may be drawn
+                        if ((m_TextureTrackNormal_M.sprite.Scale.Y * (m_TextureTrackNormal_L.Size.X + m_TextureTrackNormal_R.Size.X)) < height)
+                        {
+                            float scalingY = width / m_TextureTrackNormal_M.Size.Y;
+
+                            m_TextureTrackNormal_M.sprite.Position = new Vector2f(value.X + (m_TextureTrackNormal_L.Size.X * m_TextureTrackNormal_L.sprite.Scale.X), value.Y);
+                            m_TextureTrackHover_M.sprite.Position = new Vector2f(value.X + (m_TextureTrackHover_L.Size.X * m_TextureTrackHover_L.sprite.Scale.X), value.Y);
+
+                            m_TextureTrackNormal_R.sprite.Position = new Vector2f(m_TextureTrackNormal_M.sprite.Position.X + (m_TextureTrackNormal_M.sprite.TextureRect.Width * scalingY), value.Y);
+                            m_TextureTrackHover_R.sprite.Position = new Vector2f(m_TextureTrackHover_M.sprite.Position.X + (m_TextureTrackHover_M.sprite.TextureRect.Width * scalingY), value.Y);
+                        }
+                        else // The middle image isn't drawn
+                        {
+                            m_TextureTrackNormal_R.sprite.Position = new Vector2f(value.X + (m_TextureTrackNormal_L.Size.X * m_TextureTrackNormal_L.sprite.Scale.X), value.Y);
+                            m_TextureTrackHover_R.sprite.Position = new Vector2f(value.X + (m_TextureTrackHover_L.Size.X * m_TextureTrackHover_L.sprite.Scale.X), value.Y);
+                        }
+                    }
+                }
+                else // The images aren't split
+                {
+                    m_TextureTrackNormal_M.sprite.Position = new Vector2f(value.X, value.Y);
+                    m_TextureTrackHover_M.sprite.Position = new Vector2f(value.X, value.Y);
+                }
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
         /// Size of the slider
         /// </summary>
         ///
@@ -248,25 +328,106 @@ namespace TGUI
                 // Apply the miniumum size and set the texture rect of the middle image
                 if (m_SplitImage)
                 {
+                    float scaling;
                     if (m_VerticalImage)
                     {
-                        float scalingX = m_Size.X / m_TextureTrackNormal_M.Size.X;
-                        float minimumHeight = (m_TextureTrackNormal_L.Size.Y + m_TextureTrackNormal_R.Size.Y) * scalingX;
-                        if (m_Size.Y < minimumHeight)
-                            m_Size.Y = minimumHeight;
+                        if (m_VerticalScroll)
+                        {
+                            scaling = m_Size.X / m_TextureTrackNormal_M.Size.X;
+                            float minimumHeight = (m_TextureTrackNormal_L.Size.Y + m_TextureTrackNormal_R.Size.Y) * scaling;
 
-                        m_TextureTrackNormal_M.sprite.TextureRect = new IntRect(0, 0, (int)m_TextureTrackNormal_M.Size.X, (int)((m_Size.Y - minimumHeight) / scalingX));
-                        m_TextureTrackHover_M.sprite.TextureRect = new IntRect(0, 0, (int)m_TextureTrackHover_M.Size.X, (int)((m_Size.Y - minimumHeight) / scalingX));
+                            if (m_Size.Y < minimumHeight)
+                                m_Size.Y = minimumHeight;
+
+                            m_TextureTrackNormal_M.sprite.TextureRect = new IntRect(0, 0, (int)m_TextureTrackNormal_M.Size.X, (int)((m_Size.Y - minimumHeight) / scaling));
+                            m_TextureTrackHover_M.sprite.TextureRect = new IntRect(0, 0, (int)m_TextureTrackHover_M.Size.X, (int)((m_Size.Y - minimumHeight) / scaling));
+                        }
+                        else
+                        {
+                            scaling = m_Size.Y / m_TextureTrackNormal_M.Size.X;
+                            float minimumWidth = (m_TextureTrackNormal_L.Size.X + m_TextureTrackNormal_R.Size.X) * scaling;
+
+                            if (m_Size.X < minimumWidth)
+                                m_Size.X = minimumWidth;
+
+                            m_TextureTrackNormal_M.sprite.TextureRect = new IntRect(0, 0, (int)m_TextureTrackNormal_M.Size.X, (int)((m_Size.X - minimumWidth) / scaling));
+                            m_TextureTrackHover_M.sprite.TextureRect = new IntRect(0, 0, (int)m_TextureTrackNormal_M.Size.X, (int)((m_Size.X - minimumWidth) / scaling));
+                        }
                     }
-                    else // Slider image lies horizontal
+                    else
                     {
-                        float scalingY = m_Size.Y / m_TextureTrackNormal_M.Size.Y;
-                        float minimumWidth = (m_TextureTrackNormal_L.Size.X + m_TextureTrackNormal_R.Size.X) * scalingY;
-                        if (m_Size.X < minimumWidth)
-                            m_Size.X = minimumWidth;
+                        if (m_VerticalScroll)
+                        {
+                            scaling = m_Size.X / m_TextureTrackNormal_M.Size.Y;
+                            float minimumHeight = (m_TextureTrackNormal_L.Size.Y + m_TextureTrackNormal_R.Size.Y) * scaling;
 
-                        m_TextureTrackNormal_M.sprite.TextureRect = new IntRect(0, 0, (int)((m_Size.X - minimumWidth) / scalingY), (int)m_TextureTrackNormal_M.Size.Y);
-                        m_TextureTrackHover_M.sprite.TextureRect = new IntRect(0, 0, (int)((m_Size.X - minimumWidth) / scalingY), (int)m_TextureTrackHover_M.Size.Y);
+                            if (m_Size.Y < minimumHeight)
+                                m_Size.Y = minimumHeight;
+
+                            m_TextureTrackNormal_M.sprite.TextureRect = new IntRect(0, 0, (int)((m_Size.Y - minimumHeight) / scaling), (int)m_TextureTrackNormal_M.Size.Y);
+                            m_TextureTrackHover_M.sprite.TextureRect = new IntRect(0, 0, (int)((m_Size.Y - minimumHeight) / scaling), (int)m_TextureTrackHover_M.Size.Y);
+                        }
+                        else
+                        {
+                            scaling = m_Size.Y / m_TextureTrackNormal_M.Size.Y;
+                            float minimumWidth = (m_TextureTrackNormal_L.Size.X + m_TextureTrackNormal_R.Size.X) * scaling;
+
+                            if (m_Size.X < minimumWidth)
+                                m_Size.X = minimumWidth;
+
+                            m_TextureTrackNormal_M.sprite.TextureRect = new IntRect(0, 0, (int)((m_Size.X - minimumWidth) / scaling), (int)m_TextureTrackNormal_M.Size.Y);
+                            m_TextureTrackHover_M.sprite.TextureRect = new IntRect(0, 0, (int)((m_Size.X - minimumWidth) / scaling), (int)m_TextureTrackHover_M.Size.Y);
+                        }
+                    }
+
+                    m_TextureTrackNormal_L.sprite.Scale = new Vector2f(scaling, scaling);
+                    m_TextureTrackHover_L.sprite.Scale = new Vector2f(scaling, scaling);
+
+                    m_TextureTrackNormal_M.sprite.Scale = new Vector2f(scaling, scaling);
+                    m_TextureTrackHover_M.sprite.Scale = new Vector2f(scaling, scaling);
+
+                    m_TextureTrackNormal_R.sprite.Scale = new Vector2f(scaling, scaling);
+                    m_TextureTrackHover_R.sprite.Scale = new Vector2f(scaling, scaling);
+                }
+                else // The image is not split
+                {
+                    if (m_VerticalImage == m_VerticalScroll)
+                    {
+                        m_TextureTrackNormal_M.sprite.Scale = new Vector2f(m_Size.X / m_TextureTrackNormal_M.Size.X, m_Size.Y / m_TextureTrackNormal_M.Size.Y);
+                        m_TextureTrackHover_M.sprite.Scale = new Vector2f(m_Size.X / m_TextureTrackHover_M.Size.X, m_Size.Y / m_TextureTrackHover_M.Size.Y);
+                    }
+                    else
+                    {
+                        m_TextureTrackNormal_M.sprite.Scale = new Vector2f(m_Size.Y / m_TextureTrackNormal_M.Size.X, m_Size.X / m_TextureTrackNormal_M.Size.Y);
+                        m_TextureTrackHover_M.sprite.Scale = new Vector2f(m_Size.Y / m_TextureTrackHover_M.Size.X, m_Size.X / m_TextureTrackHover_M.Size.Y);
+                    }
+                }
+
+                // Apply the scaling to the thumb image
+                if (m_VerticalImage)
+                {
+                    if (m_VerticalScroll)
+                    {
+                        m_TextureThumbNormal.sprite.Scale = new Vector2f(m_Size.X / m_TextureTrackNormal_M.Size.X, m_Size.X / m_TextureTrackNormal_M.Size.X);
+                        m_TextureThumbHover.sprite.Scale = new Vector2f(m_Size.X / m_TextureTrackHover_M.Size.X, m_Size.X / m_TextureTrackHover_M.Size.X);
+                    }
+                    else // Slider is displayed horizontal
+                    {
+                        m_TextureThumbNormal.sprite.Scale = new Vector2f(m_Size.Y / m_TextureTrackNormal_M.Size.X, m_Size.Y / m_TextureTrackNormal_M.Size.X);
+                        m_TextureThumbHover.sprite.Scale = new Vector2f(m_Size.Y / m_TextureTrackHover_M.Size.X, m_Size.Y / m_TextureTrackHover_M.Size.X);
+                    }
+                }
+                else // Slider image lies horizontal
+                {
+                    if (m_VerticalScroll)
+                    {
+                        m_TextureThumbNormal.sprite.Scale = new Vector2f(m_Size.X / m_TextureTrackNormal_M.Size.Y, m_Size.X / m_TextureTrackNormal_M.Size.Y);
+                        m_TextureThumbHover.sprite.Scale = new Vector2f(m_Size.X / m_TextureTrackHover_M.Size.Y, m_Size.X / m_TextureTrackHover_M.Size.Y);
+                    }
+                    else // Slider is displayed horizontal
+                    {
+                        m_TextureThumbNormal.sprite.Scale = new Vector2f(m_Size.Y / m_TextureTrackNormal_M.Size.Y, m_Size.Y / m_TextureTrackNormal_M.Size.Y);
+                        m_TextureThumbHover.sprite.Scale = new Vector2f(m_Size.Y / m_TextureTrackHover_M.Size.Y, m_Size.Y / m_TextureTrackHover_M.Size.Y);
                     }
                 }
 
@@ -297,6 +458,9 @@ namespace TGUI
                         m_ThumbSize.Y = (m_Size.Y / m_TextureTrackNormal_M.Size.X) * m_TextureThumbNormal.Size.X;
                     }
                 }
+
+                // Recalculate the position of the images
+                Position = Position;
             }
         }
 
@@ -469,36 +633,22 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override bool MouseOnWidget(float x, float y)
         {
-            // Calculate the thumb size and position
-            float thumbWidth, thumbHeight;
-            float thumbLeft,  thumbTop;
-
-            // The size is different when the image is rotated
-            if (m_VerticalImage == m_VerticalScroll)
-            {
-                thumbWidth = m_ThumbSize.X;
-                thumbHeight = m_ThumbSize.Y;
-            }
-            else
-            {
-                thumbWidth = m_ThumbSize.Y;
-                thumbHeight = m_ThumbSize.X;
-            }
-
             // Calculate the thumb position
+            float thumbLeft;
+            float thumbTop;
             if (m_VerticalScroll)
             {
-                thumbLeft = (m_Size.X - thumbWidth) / 2.0f;
-                thumbTop = (((float)(Value - m_Minimum) / (m_Maximum - m_Minimum)) * m_Size.Y) - (thumbHeight / 2.0f);
+                thumbLeft = (m_Size.X - m_ThumbSize.X) / 2.0f;
+                thumbTop = (((float)(Value - m_Minimum) / (m_Maximum - m_Minimum)) * m_Size.Y) - (m_ThumbSize.Y / 2.0f);
             }
             else // The slider lies horizontal
             {
-                thumbLeft = (((float)(Value - m_Minimum) / (m_Maximum - m_Minimum)) * m_Size.X) - (thumbWidth / 2.0f);
-                thumbTop = (m_Size.Y - thumbHeight) / 2.0f;
+                thumbLeft = (((float)(Value - m_Minimum) / (m_Maximum - m_Minimum)) * m_Size.X) - (m_ThumbSize.X / 2.0f);
+                thumbTop = (m_Size.Y - m_ThumbSize.Y) / 2.0f;
             }
 
             // Check if the mouse is on top of the thumb
-            if (new FloatRect(Position.X + thumbLeft, Position.Y + thumbTop, thumbWidth, thumbHeight).Contains(x, y))
+            if (new FloatRect(Position.X + thumbLeft, Position.Y + thumbTop, m_ThumbSize.X, m_ThumbSize.Y).Contains(x, y))
             {
                 m_MouseDownOnThumb = true;
                 m_MouseDownOnThumbPos.X = x - Position.X - thumbLeft;
@@ -647,202 +797,120 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw(RenderTarget target, RenderStates states)
         {
-            Vector2f scaling = new Vector2f();
-
-            // Apply the transformation
-            states.Transform *= Transform;
-
             // Remember the current transformation
             Transform oldTransform = states.Transform;
 
             // Check if the image is split
             if (m_SplitImage)
             {
-                // Get the scale factors
-                if (m_VerticalScroll == m_VerticalImage)
+                // Set the rotation
+                if ((m_VerticalImage == true) && (m_VerticalScroll == false))
                 {
-                    scaling.X = m_Size.X / (m_TextureTrackNormal_L.Size.X + m_TextureTrackNormal_M.Size.X + m_TextureTrackNormal_R.Size.X);
-                    scaling.Y = m_Size.Y / m_TextureTrackNormal_M.Size.Y;
+                    states.Transform.Rotate(-90,
+                                            Position.X + m_TextureTrackNormal_L.Size.X * 0.5f * (m_Size.Y / m_TextureTrackNormal_L.Size.X),
+                                            Position.Y + m_TextureTrackNormal_L.Size.X * 0.5f * (m_Size.Y / m_TextureTrackNormal_M.Size.X));
                 }
-                else
+                else if ((m_VerticalImage == false) && (m_VerticalScroll == true))
                 {
-                    // Check in what direction the slider should rotate
-                    if ((m_VerticalImage == true) && (m_VerticalScroll == false))
-                    {
-                        // Set the rotation
-                        states.Transform.Rotate(-90,
-                                                (m_TextureTrackNormal_L.Size.X + m_TextureTrackNormal_M.Size.X + m_TextureTrackNormal_R.Size.X) * 0.5f,
-                                                m_TextureTrackNormal_M.Size.X * 0.5f);
-                    }
-                    else // if ((m_VerticalImage == false) && (m_VerticalScroll == true))
-                    {
-                        // Set the rotation
-                        states.Transform.Rotate(90,
-                                                (m_TextureTrackNormal_L.Size.Y + m_TextureTrackNormal_M.Size.Y + m_TextureTrackNormal_R.Size.Y) * 0.5f,
-                                                m_TextureTrackNormal_M.Size.Y * 0.5f);
-                    }
-
-                    scaling.X = m_Size.X / (m_TextureTrackNormal_L.Size.Y + m_TextureTrackNormal_M.Size.Y + m_TextureTrackNormal_R.Size.Y);
-                    scaling.Y = m_Size.Y / m_TextureTrackNormal_M.Size.X;
+                    states.Transform.Rotate(90,
+                                            Position.X + m_TextureTrackNormal_L.Size.Y * 0.5f * (m_Size.X / m_TextureTrackNormal_L.Size.Y),
+                                            Position.Y + m_TextureTrackNormal_L.Size.Y * 0.5f * (m_Size.X / m_TextureTrackNormal_L.Size.Y));
                 }
 
-                // Set the scale for the left image
-                states.Transform.Scale(scaling.Y, scaling.Y);
-
-                // Draw the left image
+                if (m_SeparateHoverImage)
                 {
-                    // Check if there is a separate hover image
-                    if (m_SeparateHoverImage)
+                    if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
                     {
-                        // Draw the correct image
-                        if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
-                            target.Draw(m_TextureTrackHover_L.sprite, states);
-                        else
-                            target.Draw(m_TextureTrackNormal_L.sprite, states);
+                        target.Draw(m_TextureTrackHover_L.sprite, states);
+                        target.Draw(m_TextureTrackHover_M.sprite, states);
+                        target.Draw(m_TextureTrackHover_R.sprite, states);
                     }
                     else
                     {
-                        // Draw the normal track image
                         target.Draw(m_TextureTrackNormal_L.sprite, states);
-
-                        // When the mouse is on top of the slider then draw the hover image
-                        if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
-                            target.Draw(m_TextureTrackHover_L.sprite, states);
-                    }
-                }
-
-                // Check if the middle image may be drawn
-                if ((scaling.Y * (m_TextureTrackNormal_L.Size.X + m_TextureTrackNormal_R.Size.X))
-                    < scaling.X * (m_TextureTrackNormal_L.Size.X + m_TextureTrackNormal_M.Size.X + m_TextureTrackNormal_R.Size.X))
-                {
-                    // Calculate the scale for our middle image
-                    float scaleX = (((m_TextureTrackNormal_L.Size.X + m_TextureTrackNormal_M.Size.X + m_TextureTrackNormal_R.Size.X)  * scaling.X)
-                                    - ((m_TextureTrackNormal_L.Size.X + m_TextureTrackNormal_R.Size.X) * scaling.Y))
-                        / m_TextureTrackNormal_M.Size.X;
-
-                    // Put the middle image on the correct position
-                    states.Transform.Translate((float)(m_TextureTrackNormal_L.Size.X), 0);
-
-                    // Set the scale for the middle image
-                    states.Transform.Scale(scaleX / scaling.Y, 1);
-
-                    // Draw the middle image
-                    {
-                        // Check if there is a separate hover image
-                        if (m_SeparateHoverImage)
-                        {
-                            // Draw the correct image
-                            if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
-                                target.Draw(m_TextureTrackHover_M.sprite, states);
-                            else
-                                target.Draw(m_TextureTrackNormal_M.sprite, states);
-                        }
-                        else
-                        {
-                            // Draw the normal track image
-                            target.Draw(m_TextureTrackNormal_M.sprite, states);
-
-                            // When the mouse is on top of the slider then draw the hover image
-                            if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
-                                target.Draw(m_TextureTrackHover_M.sprite, states);
-                        }
-                    }
-
-                    // Put the right image on the correct position
-                    states.Transform.Translate((float)(m_TextureTrackNormal_M.Size.X), 0);
-
-                    // Set the scale for the right image
-                    states.Transform.Scale(scaling.Y / scaleX, 1);
-                }
-                else // The middle image is not drawn
-                    states.Transform.Translate((float)(m_TextureTrackNormal_L.Size.X), 0);
-
-                // Draw the right image
-                {
-                    // Check if there is a separate hover image
-                    if (m_SeparateHoverImage)
-                    {
-                        // Draw the correct image
-                        if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
-                            target.Draw(m_TextureTrackHover_R.sprite, states);
-                        else
-                            target.Draw(m_TextureTrackNormal_R.sprite, states);
-                    }
-                    else
-                    {
-                        // Draw the normal track image
+                        target.Draw(m_TextureTrackNormal_M.sprite, states);
                         target.Draw(m_TextureTrackNormal_R.sprite, states);
+                    }
+                }
+                else // The hover image is drawn on top of the normal one
+                {
+                    target.Draw(m_TextureTrackNormal_L.sprite, states);
+                    target.Draw(m_TextureTrackNormal_M.sprite, states);
+                    target.Draw(m_TextureTrackNormal_R.sprite, states);
 
-                        // When the mouse is on top of the slider then draw the hover image
-                        if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
-                            target.Draw(m_TextureTrackHover_R.sprite, states);
+                    // When the mouse is on top of the button then draw an extra image
+                    if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
+                    {
+                        target.Draw(m_TextureTrackHover_L.sprite, states);
+                        target.Draw(m_TextureTrackHover_M.sprite, states);
+                        target.Draw(m_TextureTrackHover_R.sprite, states);
                     }
                 }
             }
             else // The image is not split
             {
-                if (m_VerticalScroll == m_VerticalImage)
+                // Set the rotation
+                if ((m_VerticalImage == true) && (m_VerticalScroll == false))
                 {
-                    // Set the scaling
-                    scaling.X = m_Size.X / m_TextureTrackNormal_M.Size.X;
-                    scaling.Y = m_Size.Y / m_TextureTrackNormal_M.Size.Y;
-                    states.Transform.Scale(scaling);
+                    states.Transform.Rotate(-90,
+                                            Position.X + m_TextureTrackNormal_M.Size.X * 0.5f * (m_Size.Y / m_TextureTrackNormal_M.Size.X),
+                                            Position.Y + m_TextureTrackNormal_M.Size.X * 0.5f * (m_Size.Y / m_TextureTrackNormal_M.Size.X));
+                }
+                else if ((m_VerticalImage == false) && (m_VerticalScroll == true))
+                {
+                    states.Transform.Rotate(90,
+                                            Position.X + m_TextureTrackNormal_M.Size.Y * 0.5f * (m_Size.X / m_TextureTrackNormal_M.Size.Y),
+                                            Position.Y + m_TextureTrackNormal_M.Size.Y * 0.5f * (m_Size.X / m_TextureTrackNormal_M.Size.Y));
+                }
+
+                if (m_SeparateHoverImage)
+                {
+                    if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
+                        target.Draw(m_TextureTrackHover_M.sprite, states);
+                    else
+                        target.Draw(m_TextureTrackNormal_M.sprite, states);
                 }
                 else
                 {
-                    // Set the scaling
-                    scaling.X = m_Size.X / m_TextureTrackNormal_M.Size.Y;
-                    scaling.Y = m_Size.Y / m_TextureTrackNormal_M.Size.X;
-                    states.Transform.Scale(scaling);
+                    // Draw the normal track image
+                    target.Draw(m_TextureTrackNormal_M.sprite, states);
 
-                    // Set the rotation
-                    if ((m_VerticalImage == true) && (m_VerticalScroll == false))
-                        states.Transform.Rotate(-90, m_TextureTrackNormal_M.Size.X * 0.5f, m_TextureTrackNormal_M.Size.X * 0.5f);
-                    else // if ((m_VerticalImage == false) && (m_VerticalScroll == true))
-                        states.Transform.Rotate(90, m_TextureTrackNormal_M.Size.Y * 0.5f, m_TextureTrackNormal_M.Size.Y * 0.5f);
+                    // When the mouse is on top of the slider then draw the hover image
+                    if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
+                        target.Draw(m_TextureTrackHover_M.sprite, states);
                 }
-
-                // Draw the normal track image
-                target.Draw(m_TextureTrackNormal_M.sprite, states);
-
-                // When the mouse is on top of the slider then draw the hover image
-                if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
-                    target.Draw(m_TextureTrackHover_M.sprite, states);
             }
 
             // Reset the transform
             states.Transform = oldTransform;
+            states.Transform *= Transform;
 
             // The thumb will be on a different position when we are scrolling vertically or not
             if (m_VerticalScroll)
             {
                 // Set the translation and scale for the thumb
-                states.Transform.Translate((int)(m_Size.X - m_ThumbSize.X) * 0.5f,
+                states.Transform.Translate((m_Size.X - m_ThumbSize.X) * 0.5f,
                                            (((float)(Value - m_Minimum) / (m_Maximum - m_Minimum)) * m_Size.Y) - (m_ThumbSize.Y * 0.5f));
-
-                // Set the scale for the thumb
-                states.Transform.Scale(scaling.X, scaling.X);
             }
             else // the slider lies horizontal
             {
                 // Set the translation and scale for the thumb
                 states.Transform.Translate((((float)(Value - m_Minimum) / (m_Maximum - m_Minimum)) * m_Size.X) - (m_ThumbSize.X * 0.5f),
                                            (m_Size.Y - m_ThumbSize.Y) * 0.5f);
-
-                // Set the scale for the thumb
-                states.Transform.Scale(scaling.Y, scaling.Y);
             }
 
             // It is possible that the image is not drawn in the same direction than the loaded image
             if ((m_VerticalImage == true) && (m_VerticalScroll == false))
             {
-                // Set the rotation
-                states.Transform.Rotate(-90, m_TextureThumbNormal.Size.X * 0.5f, m_TextureThumbNormal.Size.X * 0.5f);
+                states.Transform.Rotate(-90,
+                                        m_TextureThumbNormal.Size.X * 0.5f * (m_Size.Y / m_TextureTrackNormal_M.Size.X),
+                                        m_TextureThumbNormal.Size.X * 0.5f * (m_Size.Y / m_TextureTrackNormal_M.Size.X));
             }
             else if ((m_VerticalImage == false) && (m_VerticalScroll == true))
             {
-                // Set the rotation
-                states.Transform.Rotate(90, m_TextureThumbNormal.Size.Y * 0.5f, m_TextureThumbNormal.Size.Y * 0.5f);
+                states.Transform.Rotate(90,
+                                        m_TextureThumbNormal.Size.Y * 0.5f * (m_Size.X / m_TextureTrackNormal_M.Size.Y),
+                                        m_TextureThumbNormal.Size.Y * 0.5f * (m_Size.X / m_TextureTrackNormal_M.Size.Y));
             }
 
             // Draw the normal thumb image
