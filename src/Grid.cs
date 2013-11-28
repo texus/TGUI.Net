@@ -41,15 +41,32 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public enum Layouts
         {
-            UpperLeft,   /// Draw the widget in the upper left corner of the cell
-            Up,          /// Draw the widget at the upper side of the cell (horizontally centered)
-            UpperRight,  /// Draw the widget in the upper right corner of the cell
-            Right,       /// Draw the widget at the right side of the cell (vertically centered)
-            BottomRight, /// Draw the widget in the bottom right corner of the cell
-            Bottom,      /// Draw the widget at the bottom of the cell (horizontally centered)
-            BottomLeft,  /// Draw the widget in the bottom left corner of the cell
-            Left,        /// Draw the widget at the left side of the cell (vertically centered)
-            Center       /// Center the widget in the cell
+            /// Draw the widget in the upper left corner of the cell
+            UpperLeft,
+
+            /// Draw the widget at the upper side of the cell (horizontally centered)
+            Up,
+
+            /// Draw the widget in the upper right corner of the cell
+            UpperRight,
+
+            /// Draw the widget at the right side of the cell (vertically centered)
+            Right,
+
+            /// Draw the widget in the bottom right corner of the cell
+            BottomRight,
+
+            /// Draw the widget at the bottom of the cell (horizontally centered)
+            Bottom,
+
+            /// Draw the widget in the bottom left corner of the cell
+            BottomLeft,
+
+            /// Draw the widget at the left side of the cell (vertically centered)
+            Left,
+
+            /// Center the widget in the cell
+            Center
         };
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
