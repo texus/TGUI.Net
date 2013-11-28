@@ -35,6 +35,9 @@ namespace TGUI
         // Maximum should be above this value before the scrollbar is needed
         private int    m_LowValue = 6;
 
+        // How far should the value change when pressing one of the arrows?
+        private uint   m_scrollAmount = 1;
+
         // When no scrollbar is needed, should the scrollbar be drawn or stay hidden?
         private bool   m_AutoHide = true;
 
@@ -327,6 +330,25 @@ namespace TGUI
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// \brief Changes how much the value changes when pressing one of the arrows of the scrollbar
+        ///
+        /// \param scrollAmount  How far should the scrollbar scroll when an arrow is clicked?
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public uint ArrowScrollAmount
+        {
+            get
+            {
+                return m_scrollAmount;
+            }
+            set
+            {
+                m_scrollAmount = value;
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// \brief Changes whether the scrollbar should hide automatically or not.
         ///
         /// When true (default), the scrollbar will not be drawn when the maximum is smaller than the low value.
@@ -539,6 +561,9 @@ namespace TGUI
                 // Only continue when the calculations can be made
                 if (m_Maximum > m_LowValue)
                 {
+                    bool valueDown = false;
+                    bool valueUp = false;
+
                     // Check in which direction the scrollbar lies
                     if (m_VerticalScroll)
                     {
@@ -553,31 +578,19 @@ namespace TGUI
                         {
                             // Check if you clicked on the top arrow
                             if (e.Y < Position.Y + (m_TextureArrowUpNormal.Size.Y * scalingX))
-                            {
-                                if (Value > 0)
-                                    Value -= 1;
-                            }
+                                valueDown = true;
 
                             // Check if you clicked the down arrow
                             else if (e.Y > Position.Y + m_Size.Y - (m_TextureArrowUpNormal.Size.Y * scalingX))
-                            {
-                                if (Value < (m_Maximum - m_LowValue))
-                                    Value += 1;
-                            }
+                                valueUp = true;
                         }
                         else // The arrows are not drawn at full size
                         {
                             // Check on which arrow you clicked
                             if (e.Y < Position.Y + (m_TextureArrowUpNormal.Size.Y * ((m_Size.Y * 0.5f) / m_TextureArrowUpNormal.Size.Y)))
-                            {
-                                if (Value > 0)
-                                    Value -= 1;
-                            }
+                                valueDown = true;
                             else // You clicked on the bottom arrow
-                            {
-                                if (Value < (m_Maximum - m_LowValue))
-                                    Value += 1;
-                            }
+                                valueUp = true;
                         }
                     }
                     else // The scrollbar lies horizontal
@@ -593,32 +606,35 @@ namespace TGUI
                         {
                             // Check if you clicked on the left arrow
                             if (e.X < Position.X + (m_TextureArrowUpNormal.Size.Y * scalingY))
-                            {
-                                if (Value > 0)
-                                    Value -= 1;
-                            }
+                                valueDown = true;
 
                             // Check if you clicked the right arrow
                             else if (e.X > Position.X + m_Size.X - (m_TextureArrowUpNormal.Size.Y * scalingY))
-                            {
-                                if (Value < (m_Maximum - m_LowValue))
-                                    Value += 1;
-                            }
+                                valueUp = true;
                         }
                         else // The arrows are not drawn at full size
                         {
                             // Check on which arrow you clicked
                             if (e.X < Position.X + (m_TextureArrowUpNormal.Size.Y * ((m_Size.X * 0.5f) / m_TextureArrowUpNormal.Size.Y)))
-                            {
-                                if (Value > 0)
-                                    Value -= 1;
-                            }
+                                valueDown = true;
                             else // You clicked on the right arrow
-                            {
-                                if (Value < (m_Maximum - m_LowValue))
-                                    Value += 1;
-                            }
+                                valueUp = true;
                         }
+                    }
+
+                    if (valueDown)
+                    {
+                        if (Value > m_scrollAmount)
+                            Value = m_Value - (int)m_scrollAmount;
+                        else
+                            Value = 0;
+                    }
+                    else if (valueUp)
+                    {
+                        if (Value + m_scrollAmount < m_Maximum - m_LowValue + 1)
+                            Value = m_Value + (int)m_scrollAmount;
+                        else
+                            Value = m_Maximum - m_LowValue;
                     }
                 }
             }
