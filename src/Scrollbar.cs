@@ -804,32 +804,12 @@ namespace TGUI
             if ((m_AutoHide == true) && (m_Maximum <= m_LowValue))
                 return;
 
-            Vector2f scaling;
-
-            // Apply the transformation
-            states.Transform *= Transform;
-
             // Remember the current transformation
             Transform oldTransform = states.Transform;
 
-            // Get the scale factors
-            if (m_VerticalScroll == m_VerticalImage)
-            {
-                // Set the scaling
-                scaling.X = m_Size.X / m_TextureTrackNormal_M.Size.X;
-                scaling.Y = m_Size.Y / m_TextureTrackNormal_M.Size.Y;
-                states.Transform.Scale(scaling);
-            }
-            else
-            {
-                // Set the scaling
-                scaling.X = m_Size.X / m_TextureTrackNormal_M.Size.Y;
-                scaling.Y = m_Size.Y / m_TextureTrackNormal_M.Size.X;
-                states.Transform.Scale(scaling);
-
-                // Set the rotation
+            // Set the rotation
+            if (m_VerticalScroll != m_VerticalImage)
                 states.Transform.Rotate(-90, m_TextureTrackNormal_M.Size.X * 0.5f, m_TextureTrackNormal_M.Size.X * 0.5f);
-            }
 
             // Draw the track image
             if (m_SeparateHoverImage)
@@ -849,6 +829,20 @@ namespace TGUI
 
             // Reset the transformation (in case there was any rotation)
             states.Transform = oldTransform;
+            states.Transform *= Transform;
+
+            // Get the scale factors
+            Vector2f scaling;
+            if (m_VerticalScroll == m_VerticalImage)
+            {
+                scaling.X = m_Size.X / m_TextureTrackNormal_M.Size.X;
+                scaling.Y = m_Size.Y / m_TextureTrackNormal_M.Size.Y;
+            }
+            else
+            {
+                scaling.X = m_Size.X / m_TextureTrackNormal_M.Size.Y;
+                scaling.Y = m_Size.Y / m_TextureTrackNormal_M.Size.X;
+            }
 
             // The calculation depends on the direction of the scrollbar
             if (m_VerticalScroll)
