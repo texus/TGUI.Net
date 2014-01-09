@@ -826,6 +826,12 @@ namespace TGUI
                 label.Position = new Vector2f(m_Borders.Left + 2.0f, position);
 
                 position += label.Size.Y + (label.TextFont.GetLineSpacing(label.TextSize) - label.TextSize);
+
+                // Hide the label when it is no longer visible
+                if ((label.Position.Y + label.Size.Y < m_Borders.Top) || (label.Position.Y > m_Panel.Size.Y - m_Borders.Bottom))
+                    label.Visible = false;
+                else
+                    label.Visible = true;
             }
 
             // Correct the position when there is no scrollbar
