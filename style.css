@@ -96,6 +96,15 @@ img.SmallBottomMargin
     margin-bottom: 0.25em;
 }
 
+p
+{
+    line-height: 1.4em;
+}
+
+li
+{
+    line-height: 1.4em;
+}
 
 p.SmallBottomMargin
 {
