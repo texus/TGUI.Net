@@ -133,7 +133,7 @@ namespace TGUI
             // Check if the image is split
             if (m_SplitImage)
             {
-                 throw new Exception("SplitImage is not supported yet in Scrollbar.");
+                 throw new Exception("SplitImage is not yet supported yet in Scrollbar.");
 /*
                 // Make sure the required textures were loaded
                 if ((m_TextureTrackNormal_L.texture != null) && (m_TextureTrackNormal_M.texture != null) && (m_TextureTrackNormal_R.texture != null)
@@ -193,6 +193,57 @@ namespace TGUI
             if (m_TextureArrowUpHover.texture != null)  Global.TextureManager.RemoveTexture(m_TextureArrowUpHover);
             if (m_TextureArrowDownNormal.texture != null) Global.TextureManager.RemoveTexture(m_TextureArrowDownNormal);
             if (m_TextureArrowDownHover.texture != null)  Global.TextureManager.RemoveTexture(m_TextureArrowDownHover);
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Size of the Scrollbar
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public override Vector2f Size
+        {
+            get
+            {
+                return m_Size;
+            }
+            set
+            {
+                m_Size = value;
+
+                // A negative size is not allowed for this widget
+                if (m_Size.X < 0) m_Size.X = -m_Size.X;
+                if (m_Size.Y < 0) m_Size.Y = -m_Size.Y;
+
+                // Set the thumb size
+                if (m_VerticalImage == m_VerticalScroll)
+                {
+                    if (m_VerticalScroll)
+                    {
+                        m_ThumbSize.X = (m_Size.X / m_TextureTrackNormal_M.Size.X) * m_TextureThumbNormal.Size.X;
+                        m_ThumbSize.Y = (m_Size.X / m_TextureTrackNormal_M.Size.X) * m_TextureThumbNormal.Size.Y;
+                    }
+                    else
+                    {
+                        m_ThumbSize.X = (m_Size.Y / m_TextureTrackNormal_M.Size.Y) * m_TextureThumbNormal.Size.X;
+                        m_ThumbSize.Y = (m_Size.Y / m_TextureTrackNormal_M.Size.Y) * m_TextureThumbNormal.Size.Y;
+                    }
+                }
+                else // m_VerticalImage != m_VerticalScroll
+                {
+                    if (m_VerticalScroll)
+                    {
+                        m_ThumbSize.X = (m_Size.X / m_TextureTrackNormal_M.Size.Y) * m_TextureThumbNormal.Size.Y;
+                        m_ThumbSize.Y = (m_Size.X / m_TextureTrackNormal_M.Size.Y) * m_TextureThumbNormal.Size.X;
+                    }
+                    else
+                    {
+                        m_ThumbSize.X = (m_Size.Y / m_TextureTrackNormal_M.Size.X) * m_TextureThumbNormal.Size.Y;
+                        m_ThumbSize.Y = (m_Size.Y / m_TextureTrackNormal_M.Size.X) * m_TextureThumbNormal.Size.X;
+                    }
+                }
+            }
         }
 
 
@@ -804,8 +855,25 @@ namespace TGUI
             if ((m_AutoHide == true) && (m_Maximum <= m_LowValue))
                 return;
 
+            // Get the scale factors
+            Vector2f scaling;
+            if (m_VerticalScroll == m_VerticalImage)
+            {
+                scaling.X = m_Size.X / m_TextureTrackNormal_M.Size.X;
+                scaling.Y = m_Size.Y / m_TextureTrackNormal_M.Size.Y;
+            }
+            else
+            {
+                scaling.X = m_Size.X / m_TextureTrackNormal_M.Size.Y;
+                scaling.Y = m_Size.Y / m_TextureTrackNormal_M.Size.X;
+            }
+
             // Remember the current transformation
+            states.Transform *= Transform;
             Transform oldTransform = states.Transform;
+
+            // Set the scale of the track image
+            states.Transform.Scale(scaling.X, scaling.Y);
 
             // Set the rotation
             if (m_VerticalScroll != m_VerticalImage)
@@ -829,20 +897,6 @@ namespace TGUI
 
             // Reset the transformation (in case there was any rotation)
             states.Transform = oldTransform;
-            states.Transform *= Transform;
-
-            // Get the scale factors
-            Vector2f scaling;
-            if (m_VerticalScroll == m_VerticalImage)
-            {
-                scaling.X = m_Size.X / m_TextureTrackNormal_M.Size.X;
-                scaling.Y = m_Size.Y / m_TextureTrackNormal_M.Size.Y;
-            }
-            else
-            {
-                scaling.X = m_Size.X / m_TextureTrackNormal_M.Size.Y;
-                scaling.Y = m_Size.Y / m_TextureTrackNormal_M.Size.X;
-            }
 
             // The calculation depends on the direction of the scrollbar
             if (m_VerticalScroll)
@@ -908,13 +962,9 @@ namespace TGUI
                             target.Draw(m_TextureThumbHover.sprite, states);
                     }
 
-                    // Reset the transformation
+                    // Set the transformation of the second arrow
                     states.Transform = oldTransform;
-
-                    // Change the position of the second arrow
                     states.Transform.Translate(0, m_Size.Y - (m_TextureArrowDownNormal.Size.Y * scaling.X));
-
-                    // Set the scale of the arrow
                     states.Transform.Scale(scaling.X, scaling.X);
                 }
                 else // The arrows can't be drawn at full size
@@ -938,30 +988,8 @@ namespace TGUI
                             target.Draw(m_TextureArrowUpHover.sprite, states);
                     }
 
-                    // Reset the transformation
-                    states.Transform = oldTransform;
-
                     // Change the position of the second arrow
-                    states.Transform.Translate(0, m_Size.Y - (m_TextureArrowDownNormal.Size.Y * scaling.X));
-
-                    // Set the scale of the arrow
-                    states.Transform.Scale(scaling.X, (m_Size.Y * 0.5f) / m_TextureArrowUpNormal.Size.Y);
-                }
-
-                // Draw the second arrow
-                if (m_SeparateHoverImage)
-                {
-                    if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
-                        target.Draw(m_TextureArrowUpHover.sprite, states);
-                    else
-                        target.Draw(m_TextureArrowDownNormal.sprite, states);
-                }
-                else // The hover image should be drawn on top of the normal image
-                {
-                    target.Draw(m_TextureArrowDownNormal.sprite, states);
-
-                    if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
-                        target.Draw(m_TextureArrowUpHover.sprite, states);
+                    states.Transform.Translate(0, m_TextureArrowUpNormal.Size.Y);
                 }
             }
             else // The scrollbar lies horizontal
@@ -1030,14 +1058,11 @@ namespace TGUI
                             target.Draw(m_TextureThumbHover.sprite, states);
                     }
 
-                    // Reset the transformation
+                    // Set the transformation of the second arrow
                     states.Transform = oldTransform;
-
-                    // Change the position of the second arrow
                     states.Transform.Translate(m_Size.X - (m_TextureArrowDownNormal.Size.Y * scaling.Y), 0);
-
-                    // Set the scale of the arrow
                     states.Transform.Scale(scaling.Y, scaling.Y);
+                    states.Transform.Rotate(-90, m_TextureArrowUpNormal.Size.X * 0.5f, m_TextureArrowUpNormal.Size.X * 0.5f);
                 }
                 else // The arrows can't be drawn at full size
                 {
@@ -1063,34 +1088,25 @@ namespace TGUI
                             target.Draw(m_TextureArrowUpHover.sprite, states);
                     }
 
-                    // Reset the transformation
-                    states.Transform = oldTransform;
-
-                    // Change the position of the second arrow
-                    states.Transform.Translate(m_Size.X - (m_TextureArrowDownNormal.Size.Y * scaling.Y), 0);
-
-                    // Set the scale of the arrow
-                    states.Transform.Scale((m_Size.X * 0.5f) / m_TextureArrowUpNormal.Size.Y, scaling.Y);
+                    // Set the translation of the second arrow
+                    states.Transform.Translate(0, m_TextureArrowDownNormal.Size.Y);
                 }
+            }
 
-                // Rotate the arrow
-                states.Transform.Rotate(-90, m_TextureArrowUpNormal.Size.X * 0.5f, m_TextureArrowUpNormal.Size.X * 0.5f);
-
-                // Draw the second arrow
-                if (m_SeparateHoverImage)
-                {
-                    if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
-                        target.Draw(m_TextureArrowUpHover.sprite, states);
-                    else
-                        target.Draw(m_TextureArrowDownNormal.sprite, states);
-                }
-                else // The hover image should be drawn on top of the normal image
-                {
+            // Draw the second arrow
+            if (m_SeparateHoverImage)
+            {
+            if ((m_MouseHover) && (m_WidgetPhase & (byte)WidgetPhase.Hover != 0))
+                    target.Draw(m_TextureArrowDownHover.sprite, states);
+                else
                     target.Draw(m_TextureArrowDownNormal.sprite, states);
+            }
+            else // The hover image should be drawn on top of the normal image
+            {
+                target.Draw(m_TextureArrowDownNormal.sprite, states);
 
-                    if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
-                        target.Draw(m_TextureArrowUpHover.sprite, states);
-                }
+            if ((m_MouseHover) && (m_WidgetPhase & (byte)WidgetPhase.Hover != 0))
+                    target.Draw(m_TextureArrowDownHover.sprite, states);
             }
         }
 
