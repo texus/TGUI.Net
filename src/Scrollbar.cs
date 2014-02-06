@@ -28,7 +28,7 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-    public class Scrollbar : Slider
+    public class Scrollbar : Widget
     {
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
@@ -38,6 +38,7 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Scrollbar ()
         {
+            m_DraggableWidget = true;
         }
 
 
@@ -51,10 +52,31 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Scrollbar (Scrollbar copy) : base(copy)
         {
-            m_LowValue         = copy.m_LowValue;
-            m_AutoHide         = copy.m_AutoHide;
-            m_MouseDownOnArrow = copy.m_MouseDownOnArrow;
+            ValueChangedCallback = copy.ValueChangedCallback;
 
+            m_LoadedConfigFile    = copy.m_LoadedConfigFile;
+            m_MouseDownOnThumb    = copy.m_MouseDownOnThumb;
+            m_MouseDownOnThumbPos = copy.m_MouseDownOnThumbPos;
+            m_Maximum             = copy.m_Maximum;
+            m_Value               = copy.m_Value;
+            m_LowValue            = copy.m_LowValue;
+            m_VerticalScroll      = copy.m_VerticalScroll;
+            m_VerticalImage       = copy.m_VerticalImage;
+            m_AutoHide            = copy.m_AutoHide;
+            m_MouseDownOnArrow    = copy.m_MouseDownOnArrow;
+            m_SplitImage          = copy.m_SplitImage;
+            m_SeparateHoverImage  = copy.m_SeparateHoverImage;
+            m_Size                = copy.m_Size;
+            m_ThumbSize           = copy.m_ThumbSize;
+
+            Global.TextureManager.CopyTexture(copy.m_TextureTrackNormal_L, m_TextureTrackNormal_L);
+            Global.TextureManager.CopyTexture(copy.m_TextureTrackNormal_M, m_TextureTrackNormal_M);
+            Global.TextureManager.CopyTexture(copy.m_TextureTrackNormal_R, m_TextureTrackNormal_R);
+            Global.TextureManager.CopyTexture(copy.m_TextureTrackHover_L, m_TextureTrackHover_L);
+            Global.TextureManager.CopyTexture(copy.m_TextureTrackHover_M, m_TextureTrackHover_M);
+            Global.TextureManager.CopyTexture(copy.m_TextureTrackHover_R, m_TextureTrackHover_R);
+            Global.TextureManager.CopyTexture(copy.m_TextureThumbNormal, m_TextureThumbNormal);
+            Global.TextureManager.CopyTexture(copy.m_TextureThumbHover, m_TextureThumbHover);
             Global.TextureManager.CopyTexture(copy.m_TextureArrowUpNormal, m_TextureArrowUpNormal);
             Global.TextureManager.CopyTexture(copy.m_TextureArrowUpHover, m_TextureArrowUpHover);
             Global.TextureManager.CopyTexture(copy.m_TextureArrowDownNormal, m_TextureArrowDownNormal);
@@ -189,10 +211,33 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ~Scrollbar ()
         {
-            if (m_TextureArrowUpNormal.texture != null) Global.TextureManager.RemoveTexture(m_TextureArrowUpNormal);
-            if (m_TextureArrowUpHover.texture != null)  Global.TextureManager.RemoveTexture(m_TextureArrowUpHover);
+            if (m_TextureTrackNormal_L.texture != null)   Global.TextureManager.RemoveTexture(m_TextureTrackNormal_L);
+            if (m_TextureTrackHover_L.texture != null)    Global.TextureManager.RemoveTexture(m_TextureTrackHover_L);
+            if (m_TextureTrackNormal_M.texture != null)   Global.TextureManager.RemoveTexture(m_TextureTrackNormal_M);
+            if (m_TextureTrackHover_M.texture != null)    Global.TextureManager.RemoveTexture(m_TextureTrackHover_M);
+            if (m_TextureTrackNormal_R.texture != null)   Global.TextureManager.RemoveTexture(m_TextureTrackNormal_R);
+            if (m_TextureTrackHover_R.texture != null)    Global.TextureManager.RemoveTexture(m_TextureTrackHover_R);
+            if (m_TextureThumbNormal.texture != null)     Global.TextureManager.RemoveTexture(m_TextureThumbNormal);
+            if (m_TextureThumbHover.texture != null)      Global.TextureManager.RemoveTexture(m_TextureThumbHover);
+            if (m_TextureArrowUpNormal.texture != null)   Global.TextureManager.RemoveTexture(m_TextureArrowUpNormal);
+            if (m_TextureArrowUpHover.texture != null)    Global.TextureManager.RemoveTexture(m_TextureArrowUpHover);
             if (m_TextureArrowDownNormal.texture != null) Global.TextureManager.RemoveTexture(m_TextureArrowDownNormal);
             if (m_TextureArrowDownHover.texture != null)  Global.TextureManager.RemoveTexture(m_TextureArrowDownHover);
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Filename of the config file that was used to load the widget
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public string LoadedConfigFile
+        {
+            get
+            {
+                return m_LoadedConfigFile;
+            }
         }
 
 
@@ -249,26 +294,6 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
-        /// This function is overridden from Slider so that the minimum can't be changed.
-        /// The minimum will always stay 0.
-        /// </summary>
-        ///
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public override int Minimum
-        {
-            get
-            {
-                return 0;
-            }
-            set
-            {
-                // Do nothing. The minimum may not be changed.
-            }
-        }
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// <summary>
         /// Maximum value of the scrollbar
         /// </summary>
         ///
@@ -276,7 +301,7 @@ namespace TGUI
         /// The default maximum value is 10.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public override int Maximum
+        public int Maximum
         {
             get
             {
@@ -284,7 +309,11 @@ namespace TGUI
             }
             set
             {
-                base.Maximum = value;
+                // Set the new maximum
+                if (value > 0)
+                    m_Maximum = value;
+                else
+                    m_Maximum = 1;
 
                 // When the value is above the maximum then adjust it
                 if (m_Maximum < m_LowValue)
@@ -302,7 +331,7 @@ namespace TGUI
         /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public override int Value
+        public int Value
         {
             get
             {
@@ -314,15 +343,19 @@ namespace TGUI
                 {
                     m_Value = value;
 
-                    // When the value is below the minimum or above the maximum then adjust it
+                    // When the value is above the maximum then adjust it
                     if (m_Maximum < m_LowValue)
                         Value = 0;
-                    else if (m_Value < m_Minimum)
-                        m_Value = m_Minimum;
                     else if (m_Value > m_Maximum - m_LowValue)
                         m_Value = m_Maximum - m_LowValue;
 
-                    SendValueChangedCallback ();
+                    // Add the callback (if the user requested it)
+                    if (ValueChangedCallback != null)
+                    {
+                        m_Callback.Trigger = CallbackTrigger.ValueChanged;
+                        m_Callback.Value   = Value;
+                        ValueChangedCallback (this, m_Callback);
+                    }
                 }
             }
         }
@@ -350,8 +383,8 @@ namespace TGUI
             }
             set
             {
-                if (m_LowValue < m_Minimum)
-                    m_LowValue = m_Minimum;
+                if (value < 0)
+                    m_LowValue = 0;
                 else
                 {
                     m_LowValue = value;
@@ -361,6 +394,41 @@ namespace TGUI
                         Value = 0;
                     else if (m_Value > m_Maximum - m_LowValue)
                         Value = m_Maximum - m_LowValue;
+                }
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Does the scrollbar lie vertically?
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public bool VerticalScroll
+        {
+            get
+            {
+                return m_VerticalScroll;
+            }
+            set
+            {
+                m_VerticalScroll = value;
+
+                // Swap the width and height if needed
+                if (m_VerticalScroll)
+                {
+                    if (m_Size.X > m_Size.Y)
+                        Size = new Vector2f(m_Size.Y, m_Size.X);
+                    else
+                        Size = new Vector2f(m_Size.X, m_Size.Y);
+                }
+                else // The scrollbar lies horizontal
+                {
+                    if (m_Size.Y > m_Size.X)
+                        Size = new Vector2f(m_Size.Y, m_Size.X);
+                    else
+                        Size = new Vector2f(m_Size.X, m_Size.Y);
                 }
             }
         }
@@ -420,8 +488,19 @@ namespace TGUI
             {
                 base.Transparency = value;
 
+                m_TextureTrackNormal_L.sprite.Color = new Color(255, 255, 255, m_Opacity);
+                m_TextureTrackHover_L.sprite.Color = new Color(255, 255, 255, m_Opacity);
+                m_TextureTrackNormal_M.sprite.Color = new Color(255, 255, 255, m_Opacity);
+                m_TextureTrackHover_M.sprite.Color = new Color(255, 255, 255, m_Opacity);
+                m_TextureTrackNormal_R.sprite.Color = new Color(255, 255, 255, m_Opacity);
+                m_TextureTrackHover_R.sprite.Color = new Color(255, 255, 255, m_Opacity);
+
+                m_TextureThumbNormal.sprite.Color = new Color(255, 255, 255, m_Opacity);
+                m_TextureThumbHover.sprite.Color = new Color(255, 255, 255, m_Opacity);
+
                 m_TextureArrowUpNormal.sprite.Color = new Color(255, 255, 255, m_Opacity);
                 m_TextureArrowUpHover.sprite.Color = new Color(255, 255, 255, m_Opacity);
+
                 m_TextureArrowDownNormal.sprite.Color = new Color(255, 255, 255, m_Opacity);
                 m_TextureArrowDownHover.sprite.Color = new Color(255, 255, 255, m_Opacity);
             }
@@ -736,7 +815,7 @@ namespace TGUI
                                 Value = m_Maximum - m_LowValue;
                         }
                         else // The mouse was above the scrollbar
-                            Value = m_Minimum;
+                            Value = 0;
                     }
                     else // The click occured on the track
                     {
@@ -840,6 +919,33 @@ namespace TGUI
                     }
                 }
             }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Tells the widget that the mouse wheel has moved while the mouse was on top of the widget
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        protected internal override void OnMouseWheelMoved (MouseWheelEventArgs e)
+        {
+            if (Value - e.Delta < 0)
+                Value = 0;
+            else
+                Value = Value - e.Delta;
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Tells the widget that it has been focused
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        protected internal override void OnWidgetFocused()
+        {
+            Focused = false;
         }
 
 
@@ -1096,7 +1202,7 @@ namespace TGUI
             // Draw the second arrow
             if (m_SeparateHoverImage)
             {
-            if ((m_MouseHover) && (m_WidgetPhase & (byte)WidgetPhase.Hover != 0))
+            if ((m_MouseHover) && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
                     target.Draw(m_TextureArrowDownHover.sprite, states);
                 else
                     target.Draw(m_TextureArrowDownNormal.sprite, states);
@@ -1105,7 +1211,7 @@ namespace TGUI
             {
                 target.Draw(m_TextureArrowDownNormal.sprite, states);
 
-            if ((m_MouseHover) && (m_WidgetPhase & (byte)WidgetPhase.Hover != 0))
+            if ((m_MouseHover) && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
                     target.Draw(m_TextureArrowDownHover.sprite, states);
             }
         }
@@ -1113,8 +1219,28 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        /// <summary>Event handler for the ValueChanged event</summary>
+        public event EventHandler<CallbackArgs> ValueChangedCallback;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        protected string   m_LoadedConfigFile = "";
+
+        // When the mouse went down, did it go down on top of the thumb? If so, where?
+        protected internal bool m_MouseDownOnThumb = false;
+        protected Vector2f      m_MouseDownOnThumbPos = new Vector2f();
+
+        protected int  m_Maximum = 10;
+        protected int  m_Value = 0;
+
         // Maximum should be above this value before the scrollbar is needed
         private int    m_LowValue = 6;
+
+        // Is the scrollbar draw vertically?
+        protected bool m_VerticalScroll = true;
+
+        // Does the image lie vertically?
+        protected bool m_VerticalImage = true;
 
         // How far should the value change when pressing one of the arrows?
         private uint   m_scrollAmount = 1;
@@ -1124,6 +1250,26 @@ namespace TGUI
 
         // Did the mouse went down on one of the arrows?
         private bool   m_MouseDownOnArrow = false;
+
+        // If this is true then the L, M and R images will be used.
+        // If it is false then the scrollbar is just one big image that will be stored in the M image.
+        protected bool m_SplitImage = false;
+
+        // Is there a separate hover image, or is it a semi-transparent image that is drawn on top of the others?
+        protected bool m_SeparateHoverImage = false;
+
+        // The size of the scrollbar and its thumb
+        protected Vector2f m_Size;
+        protected Vector2f m_ThumbSize;
+
+        protected Impl.Sprite m_TextureTrackNormal_L = new Impl.Sprite();
+        protected Impl.Sprite m_TextureTrackNormal_M = new Impl.Sprite();
+        protected Impl.Sprite m_TextureTrackNormal_R = new Impl.Sprite();
+        protected Impl.Sprite m_TextureTrackHover_L = new Impl.Sprite();
+        protected Impl.Sprite m_TextureTrackHover_M = new Impl.Sprite();
+        protected Impl.Sprite m_TextureTrackHover_R = new Impl.Sprite();
+        protected Impl.Sprite m_TextureThumbNormal = new Impl.Sprite();
+        protected Impl.Sprite m_TextureThumbHover = new Impl.Sprite();
 
         private Impl.Sprite m_TextureArrowUpNormal = new Impl.Sprite();
         private Impl.Sprite m_TextureArrowUpHover = new Impl.Sprite();

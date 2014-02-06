@@ -556,7 +556,12 @@ namespace TGUI
                         m_Value = m_Maximum;
 
                     // Add the callback (if the user requested it)
-                    SendValueChangedCallback ();
+                    if (ValueChangedCallback != null)
+                    {
+                        m_Callback.Trigger = CallbackTrigger.ValueChanged;
+                        m_Callback.Value   = Value;
+                        ValueChangedCallback (this, m_Callback);
+                    }
                 }
             }
         }
@@ -919,23 +924,6 @@ namespace TGUI
             // When the mouse is on top of the slider then draw the hover image
             if (m_MouseHover && (m_WidgetPhase & (byte)WidgetPhase.Hover) != 0)
                 target.Draw(m_TextureThumbHover.sprite, states);
-        }
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// <summary>
-        /// Send a callback when the value of the slider changes
-        /// </summary>
-        ///
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        protected void SendValueChangedCallback ()
-        {
-            if (ValueChangedCallback != null)
-            {
-                m_Callback.Trigger = CallbackTrigger.ValueChanged;
-                m_Callback.Value   = Value;
-                ValueChangedCallback (this, m_Callback);
-            }
         }
 
 
