@@ -38,6 +38,7 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal ChatBox ()
         {
+            m_DraggableWidget = true;
         }
 
 
@@ -52,7 +53,9 @@ namespace TGUI
         public ChatBox (ChatBox copy) : base(copy)
         {
             m_LoadedConfigFile = copy.m_LoadedConfigFile;
+            m_LineSpacing      = copy.m_LineSpacing;
             m_TextSize         = copy.m_TextSize;
+            m_TextColor        = copy.m_TextColor;
             m_BorderColor      = copy.m_BorderColor;
             m_Borders          = copy.m_Borders;
             m_MaxLines         = copy.m_MaxLines;
@@ -75,6 +78,8 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public ChatBox (string configFileFilename)
         {
+            m_DraggableWidget = true;
+
             m_LoadedConfigFile = configFileFilename;
 
             // Parse the config file
@@ -179,13 +184,74 @@ namespace TGUI
         /// </summary>
         ///
         /// <param name="text">Text that will be added to the chat box</param>
+        ///
+        /// <remarks>The whole text passed to this function will be considered as one line for the GetLine and RemoveLine functions,
+        /// even if it is too long and gets split over multiple lines.</remarks>
+        ///
+        /// <remarks>The default text color and character size will be used.</remarks>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public void AddLine (string text)
+        {
+            AddLine (text, m_TextColor, m_TextSize);
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Add a new line of text to the chat box
+        /// </summary>
+        ///
+        /// <param name="text">Text that will be added to the chat box</param>
+        /// <param name="textSize">Size of the text</param>
+        ///
+        /// <remarks>The whole text passed to this function will be considered as one line for the GetLine and RemoveLine functions,
+        /// even if it is too long and gets split over multiple lines.</remarks>
+        ///
+        /// <remarks>The default text color will be used.</remarks>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public void AddLine (string text, uint textSize)
+        {
+            AddLine (text, m_TextColor, textSize);
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Add a new line of text to the chat box
+        /// </summary>
+        ///
+        /// <param name="text">Text that will be added to the chat box</param>
         /// <param name="color">Color of the text</param>
         ///
         /// <remarks>The whole text passed to this function will be considered as one line for the GetLine and RemoveLine functions,
         /// even if it is too long and gets split over multiple lines.</remarks>
         ///
+        /// <remarks>The default character size will be used.</remarks>
+        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void AddLine (string text, Color color)
+        {
+            AddLine (text, color, m_TextSize);
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Add a new line of text to the chat box
+        /// </summary>
+        ///
+        /// <param name="text">Text that will be added to the chat box</param>
+        /// <param name="color">Color of the text</param>
+        /// <param name="textSize">Size of the text</param>
+        /// <param name="font">Font of the text (null to use default font)</param>
+        ///
+        /// <remarks>The whole text passed to this function will be considered as one line for the GetLine and RemoveLine functions,
+        /// even if it is too long and gets split over multiple lines.</remarks>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public void AddLine (string text, Color color, uint textSize, Font font = null)
         {
             var widgets = m_Panel.GetWidgets ();
 
@@ -195,10 +261,13 @@ namespace TGUI
 
             Label label = m_Panel.Add (new Label ());
             label.TextColor = color;
-            label.TextSize = m_TextSize;
+            label.TextSize = textSize;
+
+            if (font != null)
+                label.TextFont = font;
 
             Label tempLine = new Label();
-            tempLine.TextSize = m_TextSize;
+            tempLine.TextSize = textSize;
             tempLine.TextFont = label.TextFont;
 
             float width;
@@ -227,7 +296,7 @@ namespace TGUI
             }
             label.Text = label.Text + tempLine.Text;
 
-            m_FullTextHeight += label.Size.Y + (label.TextFont.GetLineSpacing(label.TextSize) - label.TextSize);
+            m_FullTextHeight += GetLineSpacing((uint)widgets.Count - 1);
 
             if (m_Scroll != null)
             {
@@ -278,7 +347,7 @@ namespace TGUI
             if (lineIndex < m_Panel.GetWidgets().Count)
             {
                 Label label = (Label)m_Panel.GetWidgets()[(int)lineIndex];
-                m_FullTextHeight -= label.Size.Y + (label.TextFont.GetLineSpacing(label.TextSize) - label.TextSize);
+                m_FullTextHeight -= GetLineSpacing(lineIndex);
                 m_Panel.Remove(label);
 
                 if (m_Scroll != null)
@@ -347,6 +416,9 @@ namespace TGUI
                 var widgets = m_Panel.GetWidgets();
                 if ((m_MaxLines > 0) && (m_MaxLines < widgets.Count))
                 {
+                    for (uint i = 0; i < widgets.Count - m_MaxLines; i++)
+                        m_FullTextHeight -= GetLineSpacing(i);
+
                     widgets.RemoveRange(0, (int)(widgets.Count - m_MaxLines));
 
                     if (m_Scroll != null)
@@ -360,7 +432,7 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
-        /// The font of the text.
+        /// The default font of the text.
         /// By default, the GlobalFont of the parent is used.
         /// </summary>
         ///
@@ -383,7 +455,7 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
-        /// The character size of a new line of text.
+        /// The default character size of a new line of text.
         /// The minimum text size is 8.
         /// </summary>
         ///
@@ -401,6 +473,25 @@ namespace TGUI
                 // There is a minimum text size
                 if (m_TextSize < 8)
                     m_TextSize = 8;
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// The default text color of a new line of text.
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public Color TextColor
+        {
+            get
+            {
+                return m_TextColor;
+            }
+            set
+            {
+                m_TextColor = value;
             }
         }
 
@@ -477,6 +568,33 @@ namespace TGUI
             set
             {
                 m_BorderColor = value;
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Changes the line spacing of all lines
+        /// </summary>
+        ///
+        /// By default, line spacing is chosen based on the font and character size. This also means that when mixing different
+        /// text styles in ChatBox, lines can have different line spacings.
+        /// By calling this function, all line spacings will be set to the value passed to this function.
+        ///
+        /// The line spacing should be equal or greater than the text size to avoid overlapping lines.
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public uint LineSpacing
+        {
+            get
+            {
+                return m_LineSpacing;
+            }
+            set
+            {
+                m_LineSpacing = value;
+
+                UpdateDisplayedText();
             }
         }
 
@@ -799,6 +917,30 @@ namespace TGUI
         /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        private uint GetLineSpacing(uint lineNumber)
+        {
+            System.Diagnostics.Debug.Assert(lineNumber < m_Panel.GetWidgets().Count);
+
+            // If a line spacing was manually set then just return that one
+            if (m_LineSpacing > 0)
+                return m_LineSpacing;
+
+            Label line = m_Panel.GetWidgets()[(int)lineNumber] as Label;
+            int lineSpacing = m_Panel.GlobalFont.GetLineSpacing(line.TextSize);
+
+            if (lineSpacing > line.TextSize)
+                return (uint)lineSpacing;
+            else
+                return (uint)Math.Ceiling(line.Size.Y * 13.5 / 10.0);
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Initializes the widget now that it has been added to a parent widget
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void Initialize(Container parent)
         {
             base.Initialize(parent);
@@ -821,11 +963,12 @@ namespace TGUI
                 position = m_Borders.Top + 2.0f;
 
             var labels = m_Panel.GetWidgets();
-            foreach (Label label in labels)
+            for (int i = 0; i < labels.Count; ++i)
             {
+                Label label = labels[i] as Label;
                 label.Position = new Vector2f(m_Borders.Left + 2.0f, position);
 
-                position += label.Size.Y + (label.TextFont.GetLineSpacing(label.TextSize) - label.TextSize);
+                position += GetLineSpacing((uint)i);
 
                 // Hide the label when it is no longer visible
                 if ((label.Position.Y + label.Size.Y < m_Borders.Top) || (label.Position.Y > m_Panel.Size.Y - m_Borders.Bottom))
@@ -838,8 +981,6 @@ namespace TGUI
             if ((m_Scroll == null) && (labels.Count > 0))
             {
                 Label lastLabel = (Label)labels[labels.Count-1];
-                position -= (lastLabel.TextFont.GetLineSpacing(lastLabel.TextSize) - lastLabel.TextSize);
-
                 if (position > m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom)
                 {
                     float diff = position - (m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
@@ -896,7 +1037,9 @@ namespace TGUI
 
         private string    m_LoadedConfigFile = "";
 
-        private uint      m_TextSize = 15;
+        private uint      m_LineSpacing = 0;
+        private uint      m_TextSize = 16;
+        private Color     m_TextColor = Color.Black;
         private Color     m_BorderColor = Color.Black;
         private Borders   m_Borders = new Borders();
 
