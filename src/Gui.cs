@@ -81,20 +81,9 @@ namespace TGUI
         /// Draws all the widgets that were added to the gui
         /// </summary>
         ///
-        /// <param name="resetView">Reset the view of the window while drawing the gui.
-        /// If false, the current view will be used, otherwise the view will be reset.</param>
-        ///
-        /// When this function ends, the view will never be changed. Any changes to the view are temporary.
-        ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public void Draw (bool resetView = false)
+        public void Draw ()
         {
-            View oldView = m_Window.GetView();
-
-            // Reset the view when requested
-            if (resetView)
-                m_Window.SetView(m_Window.DefaultView);
-
             // Update the time
             int currentTime = Environment.TickCount;
             if (m_Focused)
@@ -126,8 +115,6 @@ namespace TGUI
                 Gl.glScissor(scissor[0], scissor[1], scissor[2], scissor[3]);
             else
                 Gl.glDisable(Gl.GL_SCISSOR_TEST);
-
-            m_Window.SetView(oldView);
         }
 
 
