@@ -388,7 +388,7 @@ namespace TGUI
                 RadioButton radioButton = widget as RadioButton;
 
                 if (radioButton != null)
-                    radioButton.ForceUncheck ();
+                    radioButton.Uncheck ();
             }
         }
 
