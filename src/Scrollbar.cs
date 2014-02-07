@@ -521,81 +521,7 @@ namespace TGUI
 
             // Check if the mouse is on top of the scrollbar
             if (Transform.TransformRect(new FloatRect(0, 0, m_Size.X, m_Size.Y)).Contains(x, y))
-            {
-                float thumbLeft = 0;
-                float thumbTop = 0;
-
-                // Calculate the thumb size
-                float thumbWidth = m_ThumbSize.X;
-                float thumbHeight = m_ThumbSize.Y;
-
-                // The scaling depends on how the scrollbar lies
-                if (m_VerticalScroll)
-                {
-                    float scalingX;
-                    if (m_VerticalImage == m_VerticalScroll)
-                        scalingX = m_Size.X / m_TextureTrackNormal_M.Size.X;
-                    else
-                        scalingX = m_Size.X / m_TextureTrackNormal_M.Size.Y;
-
-                    // Check if the arrows are drawn at full size
-                    if (m_Size.Y > (m_TextureArrowUpNormal.Size.Y + m_TextureArrowDownNormal.Size.Y) * scalingX)
-                    {
-                        // Calculate the track and thumb height
-                        float realTrackHeight = m_Size.Y - ((m_TextureArrowUpNormal.Size.Y + m_TextureArrowDownNormal.Size.Y) * scalingX);
-                        thumbHeight = (((float)(m_LowValue) / m_Maximum) * realTrackHeight);
-
-                        // Calculate the top position of the thumb
-                        thumbTop = (m_TextureArrowUpNormal.Size.Y * scalingX) + (((float)(Value) / (m_Maximum - m_LowValue)) * (realTrackHeight - thumbHeight));
-                    }
-                    else // The arrows are not drawn at full size
-                    {
-                        thumbHeight = 0;
-                        thumbTop = m_TextureArrowUpNormal.Size.Y;
-                    }
-                }
-                else // The scrollbar lies horizontal
-                {
-                    float scalingY;
-                    if (m_VerticalImage == m_VerticalScroll)
-                        scalingY = m_Size.Y / m_TextureTrackNormal_M.Size.Y;
-                    else
-                        scalingY = m_Size.Y / m_TextureTrackNormal_M.Size.X;
-
-                    // Check if the arrows are drawn at full size
-                    if (m_Size.X > (m_TextureArrowUpNormal.Size.Y + m_TextureArrowDownNormal.Size.Y) * scalingY)
-                    {
-                        // Calculate the track and thumb height
-                        float realTrackWidth = m_Size.X - ((m_TextureArrowUpNormal.Size.Y + m_TextureArrowDownNormal.Size.Y) * scalingY);
-                        thumbWidth = (((float)(m_LowValue) / m_Maximum) * realTrackWidth);
-
-                        // Calculate the left position of the thumb
-                        thumbLeft = (m_TextureArrowUpNormal.Size.Y * scalingY) + (((float)(Value) / (m_Maximum - m_LowValue)) * (realTrackWidth - thumbWidth));
-                    }
-                    else // The arrows are not drawn at full size
-                    {
-                        thumbWidth = 0;
-                        thumbLeft = m_TextureArrowUpNormal.Size.Y;
-                    }
-                }
-
-                // Check if the mouse is on top of the thumb
-                if (new FloatRect(Position.X + thumbLeft, Position.Y + thumbTop, thumbWidth, thumbHeight).Contains(x, y))
-                {
-                    if (m_MouseDown == false)
-                    {
-                        m_MouseDownOnThumbPos.X = x - Position.X - thumbLeft;
-                        m_MouseDownOnThumbPos.Y = y - Position.Y - thumbTop;
-                    }
-
-                    m_MouseDownOnThumb = true;
-                    return true;
-                }
-                else // The mouse is not on top of the thumb
-                    m_MouseDownOnThumb = false;
-
                 return true;
-            }
 
             if (m_MouseHover)
                 MouseLeftWidget();
@@ -658,6 +584,19 @@ namespace TGUI
                 else // The arrows are not drawn at full size (there is no track)
                     m_MouseDownOnArrow = true;
             }
+
+            FloatRect thumbRect = GetThumbRect();
+
+            // Check if the mouse is on top of the thumb
+            if (new FloatRect(Position.X + thumbRect.Left, Position.Y + thumbRect.Top, thumbRect.Width, thumbRect.Height).Contains(e.X, e.Y))
+            {
+                m_MouseDownOnThumbPos.X = e.X - Position.X - thumbRect.Left;
+                m_MouseDownOnThumbPos.Y = e.Y - Position.Y - thumbRect.Top;
+
+                m_MouseDownOnThumb = true;
+            }
+            else // The mouse is not on top of the thumb
+                m_MouseDownOnThumb = false;
 
             // Refresh the scrollbar value
             if (m_MouseDownOnArrow == false)
@@ -851,6 +790,12 @@ namespace TGUI
                                 }
                             }
                         }
+
+                        FloatRect thumbRect = GetThumbRect();
+
+                        m_MouseDownOnThumbPos.X = e.X - Position.X - thumbRect.Left;
+                        m_MouseDownOnThumbPos.Y = e.Y - Position.Y - thumbRect.Top;
+                        m_MouseDownOnThumb = true;
                     }
                 }
                 else // the scrollbar lies horizontal
@@ -916,6 +861,12 @@ namespace TGUI
                                 }
                             }
                         }
+
+                        FloatRect thumbRect = GetThumbRect();
+
+                        m_MouseDownOnThumbPos.X = e.X - Position.X - thumbRect.Left;
+                        m_MouseDownOnThumbPos.Y = e.Y - Position.Y - thumbRect.Top;
+                        m_MouseDownOnThumb = true;
                     }
                 }
             }
@@ -946,6 +897,70 @@ namespace TGUI
         protected internal override void OnWidgetFocused()
         {
             Focused = false;
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Returns the position and size of the thumb
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        private FloatRect GetThumbRect()
+        {
+            FloatRect thumbRect = new FloatRect(0, 0, m_ThumbSize.X, m_ThumbSize.Y);
+
+            // The scaling depends on how the scrollbar lies
+            if (m_VerticalScroll)
+            {
+                float scalingX;
+                if (m_VerticalImage == m_VerticalScroll)
+                    scalingX = m_Size.X / m_TextureTrackNormal_M.Size.X;
+                else
+                    scalingX = m_Size.X / m_TextureTrackNormal_M.Size.Y;
+
+                // Check if the arrows are drawn at full size
+                if (m_Size.Y > (m_TextureArrowUpNormal.Size.Y + m_TextureArrowDownNormal.Size.Y) * scalingX)
+                {
+                    // Calculate the track and thumb height
+                    float realTrackHeight = m_Size.Y - ((m_TextureArrowUpNormal.Size.Y + m_TextureArrowDownNormal.Size.Y) * scalingX);
+                    thumbRect.Height = (((float)m_LowValue / m_Maximum) * realTrackHeight);
+
+                    // Calculate the top position of the thumb
+                    thumbRect.Top = (m_TextureArrowUpNormal.Size.Y * scalingX) + (((float)m_Value / (m_Maximum - m_LowValue)) * (realTrackHeight - thumbRect.Height));
+                }
+                else // The arrows are not drawn at full size
+                {
+                    thumbRect.Height = 0;
+                    thumbRect.Top = (float)m_TextureArrowUpNormal.Size.Y;
+                }
+            }
+            else // The scrollbar lies horizontal
+            {
+                float scalingY;
+                if (m_VerticalImage == m_VerticalScroll)
+                    scalingY = m_Size.Y / m_TextureTrackNormal_M.Size.Y;
+                else
+                    scalingY = m_Size.Y / m_TextureTrackNormal_M.Size.X;
+
+                // Check if the arrows are drawn at full size
+                if (m_Size.X > (m_TextureArrowUpNormal.Size.Y + m_TextureArrowDownNormal.Size.Y) * scalingY)
+                {
+                    // Calculate the track and thumb height
+                    float realTrackWidth = m_Size.X - ((m_TextureArrowUpNormal.Size.Y + m_TextureArrowDownNormal.Size.Y) * scalingY);
+                    thumbRect.Width = (((float)m_LowValue / m_Maximum) * realTrackWidth);
+
+                    // Calculate the left position of the thumb
+                    thumbRect.Left = (m_TextureArrowUpNormal.Size.Y * scalingY) + (((float)m_Value / (m_Maximum - m_LowValue)) * (realTrackWidth - thumbRect.Width));
+                }
+                else // The arrows are not drawn at full size
+                {
+                    thumbRect.Width = 0;
+                    thumbRect.Left = (float)m_TextureArrowUpNormal.Size.Y;
+                }
+            }
+
+            return thumbRect;
         }
 
 
