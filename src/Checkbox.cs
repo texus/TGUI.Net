@@ -38,6 +38,7 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal Checkbox()
         {
+            m_DraggableWidget = true;
         }
 
 
@@ -52,6 +53,8 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Checkbox (string configFileFilename)
         {
+            m_DraggableWidget = true;
+
             m_LoadedConfigFile = configFileFilename;
 
             // Parse the config file

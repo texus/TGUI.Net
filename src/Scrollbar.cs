@@ -95,6 +95,8 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Scrollbar (string configFileFilename)
         {
+            m_DraggableWidget = true;
+
             m_LoadedConfigFile = configFileFilename;
 
             // Parse the config file

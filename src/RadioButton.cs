@@ -81,6 +81,8 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public RadioButton (string configFileFilename)
         {
+            m_Text.Color = Color.Black;
+
             m_LoadedConfigFile = configFileFilename;
 
             // Parse the config file
