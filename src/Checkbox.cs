@@ -55,13 +55,13 @@ namespace TGUI
         {
             m_DraggableWidget = true;
 
-            m_LoadedConfigFile = configFileFilename;
+            m_LoadedConfigFile = Global.ResourcePath + configFileFilename;
 
             // Parse the config file
-            ConfigFile configFile = new ConfigFile (configFileFilename, "Checkbox");
+            ConfigFile configFile = new ConfigFile (m_LoadedConfigFile, "Checkbox");
 
             // Find the folder that contains the config file
-            string configFileFolder = configFileFilename.Substring(0, configFileFilename.LastIndexOfAny(new char[] {'/', '\\'}) + 1);
+            string configFileFolder = m_LoadedConfigFile.Substring(0, m_LoadedConfigFile.LastIndexOfAny(new char[] {'/', '\\'}) + 1);
 
             // Loop over all properties
             for (int i = 0; i < configFile.Properties.Count; ++i)
@@ -78,7 +78,7 @@ namespace TGUI
                     configFile.ReadTexture (i, configFileFolder, m_TextureFocused);
                 else
                     Internal.Output("TGUI warning: Unrecognized property '" + configFile.Properties[i]
-                                    + "' in section Checkbox in " + configFileFilename + ".");
+                                    + "' in section Checkbox in " + m_LoadedConfigFile + ".");
             }
 
             // Make sure the required textures were loaded
@@ -87,7 +87,7 @@ namespace TGUI
                 Size = new Vector2f(m_TextureUnchecked.Size.X, m_TextureChecked.Size.Y);
             }
             else
-                throw new Exception("Not all needed images were loaded for the checkbox. Is the Checkbox section in " + configFileFilename + " complete?");
+                throw new Exception("Not all needed images were loaded for the checkbox. Is the Checkbox section in " + m_LoadedConfigFile + " complete?");
 
             // Check if optional textures were loaded
             if (m_TextureFocused.texture != null)

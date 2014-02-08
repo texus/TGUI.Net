@@ -80,10 +80,10 @@ namespace TGUI
         {
             m_DraggableWidget = true;
 
-            m_LoadedConfigFile = configFileFilename;
+            m_LoadedConfigFile = Global.ResourcePath + configFileFilename;
 
             // Parse the config file
-            ConfigFile configFile = new ConfigFile (configFileFilename, "ChatBox");
+            ConfigFile configFile = new ConfigFile (m_LoadedConfigFile, "ChatBox");
 
             // Find the folder that contains the config file
             string configFileFolder = configFileFilename.Substring(0, configFileFilename.LastIndexOfAny(new char[] {'/', '\\'}) + 1);
@@ -104,7 +104,7 @@ namespace TGUI
                 else if (configFile.Properties[i] == "scrollbar")
                 {
                     if ((configFile.Values[i].Length < 3) || (configFile.Values[i][0] != '"') || (configFile.Values[i][configFile.Values[i].Length-1] != '"'))
-                        throw new Exception("Failed to parse value for Scrollbar in section ChatBox in " + configFileFilename + ".");
+                        throw new Exception("Failed to parse value for Scrollbar in section ChatBox in " + m_LoadedConfigFile + ".");
 
                     // load the scrollbar
                     m_Scroll = new Scrollbar(configFileFolder + (configFile.Values[i]).Substring(1, configFile.Values[i].Length - 2));
@@ -115,7 +115,7 @@ namespace TGUI
                 }
                 else
                     Internal.Output("TGUI warning: Unrecognized property '" + configFile.Properties[i]
-                                    + "' in section ChatBox in " + configFileFilename + ".");
+                                    + "' in section ChatBox in " + m_LoadedConfigFile + ".");
             }
         }
 

@@ -81,10 +81,10 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public MenuBar (string configFileFilename)
         {
-            m_LoadedConfigFile = configFileFilename;
+            m_LoadedConfigFile = Global.ResourcePath + configFileFilename;
 
             // Parse the config file
-            ConfigFile configFile = new ConfigFile (configFileFilename, "MenuBar");
+            ConfigFile configFile = new ConfigFile (m_LoadedConfigFile, "MenuBar");
 
             // Loop over all properties
             for (int i = 0; i < configFile.Properties.Count; ++i)
@@ -101,7 +101,7 @@ namespace TGUI
                     DistanceToSide = Convert.ToUInt32(configFile.Values [i]);
                 else
                     Internal.Output("TGUI warning: Unrecognized property '" + configFile.Properties[i]
-                                    + "' in section MenuBar in " + configFileFilename + ".");
+                                    + "' in section MenuBar in " + m_LoadedConfigFile + ".");
             }
         }
 

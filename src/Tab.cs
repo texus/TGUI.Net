@@ -90,13 +90,13 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Tab (string configFileFilename)
         {
-            m_LoadedConfigFile = configFileFilename;
+            m_LoadedConfigFile = Global.ResourcePath + configFileFilename;
 
             // Parse the config file
-            ConfigFile configFile = new ConfigFile (configFileFilename, "Tab");
+            ConfigFile configFile = new ConfigFile (m_LoadedConfigFile, "Tab");
 
             // Find the folder that contains the config file
-            string configFileFolder = configFileFilename.Substring(0, configFileFilename.LastIndexOfAny(new char[] {'/', '\\'}) + 1);
+            string configFileFolder = m_LoadedConfigFile.Substring(0, m_LoadedConfigFile.LastIndexOfAny(new char[] {'/', '\\'}) + 1);
 
             // Loop over all properties
             for (int i = 0; i < configFile.Properties.Count; ++i)
@@ -133,7 +133,7 @@ namespace TGUI
                     configFile.ReadTexture(i, configFileFolder, m_TextureSelected_R);
                 else
                     Internal.Output("TGUI warning: Unrecognized property '" + configFile.Properties[i]
-                                    + "' in section Tab in " + configFileFilename + ".");
+                                    + "' in section Tab in " + m_LoadedConfigFile + ".");
             }
 
             // Check if the image is split
@@ -147,7 +147,7 @@ namespace TGUI
                     m_TextureNormal_M.texture.texture.Repeated = true;
                 }
                 else
-                    throw new Exception("Not all needed images were loaded for the tab. Is the Tab section in " + configFileFilename + " complete?");
+                    throw new Exception("Not all needed images were loaded for the tab. Is the Tab section in " + m_LoadedConfigFile + " complete?");
 
                 // Check if optional textures were loaded
                 if ((m_TextureSelected_L.texture != null) && (m_TextureSelected_M.texture != null) && (m_TextureSelected_R.texture != null))
@@ -165,7 +165,7 @@ namespace TGUI
                     m_TabHeight = (uint)m_TextureNormal_M.Size.Y;
                 }
                 else
-                    throw new Exception("NormalImage wasn't loaded. Is the Tab section in " + configFileFilename + " complete?");
+                    throw new Exception("NormalImage wasn't loaded. Is the Tab section in " + m_LoadedConfigFile + " complete?");
 
                 // Check if optional textures were loaded
                 if (m_TextureSelected_M.texture != null)

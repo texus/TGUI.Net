@@ -94,10 +94,10 @@ namespace TGUI
             Add(m_Label, "MessageBoxText");
             m_Label.TextSize = m_TextSize;
 
-            m_LoadedConfigFile = configFileFilename;
+            m_LoadedConfigFile = Global.ResourcePath + configFileFilename;
 
             // Parse the config file
-            ConfigFile configFile = new ConfigFile (configFileFilename, "MessageBox");
+            ConfigFile configFile = new ConfigFile (m_LoadedConfigFile, "MessageBox");
 
             // Find the folder that contains the config file
             string configFileFolder = configFileFilename.Substring(0, configFileFilename.LastIndexOfAny(new char[] {'/', '\\'}) + 1);
@@ -113,7 +113,7 @@ namespace TGUI
                 else if (configFile.Properties[i] == "childwindow")
                 {
                     if ((configFile.Values[i].Length < 3) || (configFile.Values[i][0] != '"') || (configFile.Values[i][configFile.Values[i].Length-1] != '"'))
-                        throw new Exception("Failed to parse value for ChildWindow in section MessageBox in " + configFileFilename + ".");
+                        throw new Exception("Failed to parse value for ChildWindow in section MessageBox in " + m_LoadedConfigFile + ".");
 
                     InternalLoad (configFileFolder + configFile.Values [i].Substring (1, configFile.Values [i].Length - 2));
                     childWindowPropertyFound = true;
@@ -121,21 +121,21 @@ namespace TGUI
                 else if (configFile.Properties[i] == "button")
                 {
                     if ((configFile.Values[i].Length < 3) || (configFile.Values[i][0] != '"') || (configFile.Values[i][configFile.Values[i].Length-1] != '"'))
-                        throw new Exception("Failed to parse value for Button in section MessageBox in " + configFileFilename + ".");
+                        throw new Exception("Failed to parse value for Button in section MessageBox in " + m_LoadedConfigFile + ".");
 
                     m_ButtonConfigFileFilename = configFileFolder + configFile.Values [i].Substring (1, configFile.Values [i].Length - 2);
                     buttonPropertyFound = true;
                 }
                 else
                     Internal.Output("TGUI warning: Unrecognized property '" + configFile.Properties[i]
-                                    + "' in section MessageBox in " + configFileFilename + ".");
+                                    + "' in section MessageBox in " + m_LoadedConfigFile + ".");
             }
 
             if (!childWindowPropertyFound)
-                throw new Exception("TGUI error: Missing a ChildWindow property in section MessageBox in " + configFileFilename + ".");
+                throw new Exception("TGUI error: Missing a ChildWindow property in section MessageBox in " + m_LoadedConfigFile + ".");
 
             if (!buttonPropertyFound)
-                throw new Exception("TGUI error: Missing a Button property in section MessageBox in " + configFileFilename + ".");
+                throw new Exception("TGUI error: Missing a Button property in section MessageBox in " + m_LoadedConfigFile + ".");
         }
 
 

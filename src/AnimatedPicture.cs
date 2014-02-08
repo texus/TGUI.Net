@@ -94,7 +94,7 @@ namespace TGUI
             Impl.Sprite tempTexture = new Impl.Sprite();
 
             // Load the texture from the file
-            Global.TextureManager.GetTexture (filename, tempTexture);
+            Global.TextureManager.GetTexture (Global.ResourcePath + filename, tempTexture);
 
             // If this is the first frame then set it as the current displayed frame
             if (m_Textures.Count == 0)

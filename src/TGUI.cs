@@ -36,15 +36,37 @@ namespace TGUI
 
         public static ResourceManager ResourceManager = null;
 
+        public static string Clipboard;
+
+        /// <summary>When disabling the tab key usage, pressing tab will no longer focus another widget.</summary>
         public static bool TabKeyUsageEnabled = true;
 
-        public static string Clipboard;
+        /// <summary>The resource path is added in front of every filename that is used to load a resource.</summary>
+        public static string ResourcePath
+        {
+            get
+            {
+                return Internal.ResourcePath;
+            }
+            set
+            {
+                Internal.ResourcePath = value;
+
+                if (Internal.ResourcePath.Length > 0)
+                {
+                    if (Internal.ResourcePath[Internal.ResourcePath.Length-1] != '/')
+                        Internal.ResourcePath += '/';
+                }
+            }
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static class Internal
     {
+        public static string ResourcePath;
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public static void Output(string message)

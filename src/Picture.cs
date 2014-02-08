@@ -66,9 +66,9 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Picture (string filename)
         {
-            m_LoadedFilename = filename;
+            m_LoadedFilename = Global.ResourcePath + filename;
 
-            Global.TextureManager.GetTexture (filename, m_Sprite);
+            Global.TextureManager.GetTexture (m_LoadedFilename, m_Sprite);
 
             // Remember the size of the texture
             Size = new Vector2f(m_Sprite.Size.X, m_Sprite.Size.Y);

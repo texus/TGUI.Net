@@ -102,10 +102,10 @@ namespace TGUI
             m_ListBox.ItemSelectedCallback += NewItemSelectedCallbackFunction;
             m_ListBox.UnfocusedCallback += ListBoxUnfocusedCallbackFunction;
 
-            m_LoadedConfigFile = configFileFilename;
+            m_LoadedConfigFile = Global.ResourcePath + configFileFilename;
 
             // Parse the config file
-            ConfigFile configFile = new ConfigFile (configFileFilename, "ComboBox");
+            ConfigFile configFile = new ConfigFile (m_LoadedConfigFile, "ComboBox");
 
             // Find the folder that contains the config file
             string configFileFolder = configFileFilename.Substring(0, configFileFilename.LastIndexOfAny(new char[] {'/', '\\'}) + 1);
@@ -142,19 +142,19 @@ namespace TGUI
                 else if (configFile.Properties[i] == "scrollbar")
                 {
                     if ((configFile.Values[i].Length < 3) || (configFile.Values[i][0] != '"') || (configFile.Values[i][configFile.Values[i].Length-1] != '"'))
-                        throw new Exception("Failed to parse value for Scrollbar in section ChatBox in " + configFileFilename + ".");
+                        throw new Exception("Failed to parse value for Scrollbar in section ChatBox in " + m_LoadedConfigFile + ".");
 
                     // load the scrollbar
                     m_ListBox.SetScrollbar (configFileFolder + (configFile.Values[i]).Substring(1, configFile.Values[i].Length - 2));
                 }
                 else
                     Internal.Output("TGUI warning: Unrecognized property '" + configFile.Properties[i]
-                                    + "' in section ComboBox in " + configFileFilename + ".");
+                                    + "' in section ComboBox in " + m_LoadedConfigFile + ".");
             }
 
             // Make sure the required textures were loaded
             if ((m_TextureArrowUpNormal.texture == null) || (m_TextureArrowDownNormal.texture == null))
-                throw new Exception("Not all needed images were loaded for the combo box. Is the ComboBox section in " + configFileFilename + " complete?");
+                throw new Exception("Not all needed images were loaded for the combo box. Is the ComboBox section in " + m_LoadedConfigFile + " complete?");
 
             // Check if optional textures were loaded
             if ((m_TextureArrowUpHover.texture != null) && (m_TextureArrowDownHover.texture != null))

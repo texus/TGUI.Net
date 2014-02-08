@@ -72,10 +72,10 @@ namespace TGUI
         {
             m_Background.FillColor = new Color (0, 0, 0, 0);
 
-            m_LoadedConfigFile = configFileFilename;
+            m_LoadedConfigFile = Global.ResourcePath + configFileFilename;
 
             // Parse the config file
-            ConfigFile configFile = new ConfigFile (configFileFilename, "Label");
+            ConfigFile configFile = new ConfigFile (m_LoadedConfigFile, "Label");
 
             // Loop over all properties
             for (int i = 0; i < configFile.Properties.Count; ++i)
@@ -84,7 +84,7 @@ namespace TGUI
                     m_Text.Color = configFile.ReadColor(i);
                 else
                     Internal.Output("TGUI warning: Unrecognized property '" + configFile.Properties[i]
-                                    + "' in section Label in " + configFileFilename + ".");
+                                    + "' in section Label in " + m_LoadedConfigFile + ".");
             }
         }
 

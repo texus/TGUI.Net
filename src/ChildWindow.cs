@@ -995,13 +995,13 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected void InternalLoad(string configFileFilename)
         {
-            m_LoadedConfigFile = configFileFilename;
+            m_LoadedConfigFile = Global.ResourcePath + configFileFilename;
 
             // Parse the config file
-            ConfigFile configFile = new ConfigFile (configFileFilename, "ChildWindow");
+            ConfigFile configFile = new ConfigFile (m_LoadedConfigFile, "ChildWindow");
 
             // Find the folder that contains the config file
-            string configFileFolder = configFileFilename.Substring(0, configFileFilename.LastIndexOfAny(new char[] {'/', '\\'}) + 1);
+            string configFileFolder = m_LoadedConfigFile.Substring(0, m_LoadedConfigFile.LastIndexOfAny(new char[] {'/', '\\'}) + 1);
 
             // Loop over all properties
             for (int i = 0; i < configFile.Properties.Count; ++i)
@@ -1044,7 +1044,7 @@ namespace TGUI
                     DistanceToSide = Convert.ToUInt32(configFile.Values [i]);
                 else
                     Internal.Output("TGUI warning: Unrecognized property '" + configFile.Properties[i]
-                                    + "' in section ChildWindow in " + configFileFilename + ".");
+                                    + "' in section ChildWindow in " + m_LoadedConfigFile + ".");
             }
 
             // Initialize the close button if it was loaded
@@ -1064,7 +1064,7 @@ namespace TGUI
                                                     m_CloseButton.m_TextureNormal_M.Size.Y);
             }
             else // Close button wan't loaded
-                throw new Exception("Missing a CloseButtonNormalImage property in section ChildWindow in " + configFileFilename + ".");
+                throw new Exception("Missing a CloseButtonNormalImage property in section ChildWindow in " + m_LoadedConfigFile + ".");
 
             // Check if the image is split
             if (m_SplitImage)
@@ -1076,7 +1076,7 @@ namespace TGUI
                     m_TextureTitleBar_M.texture.texture.Repeated = true;
                 }
                 else
-                    throw new Exception("TGUI error: Not all needed images were loaded for the child window. Is the ChildWindow section in " + configFileFilename + " complete?");
+                    throw new Exception("TGUI error: Not all needed images were loaded for the child window. Is the ChildWindow section in " + m_LoadedConfigFile + " complete?");
             }
             else // The image isn't split
             {
@@ -1086,7 +1086,7 @@ namespace TGUI
                     m_TitleBarHeight = m_TextureTitleBar_M.Size.Y;
                 }
                 else
-                    throw new Exception("Not all needed images were loaded for the child window. Is the ChildWindow section in " + configFileFilename + " complete?");
+                    throw new Exception("Not all needed images were loaded for the child window. Is the ChildWindow section in " + m_LoadedConfigFile + " complete?");
 
                 // Set the size of the title text
                 m_TitleText.CharacterSize = (uint)(m_TitleBarHeight * 8.0 / 10.0);

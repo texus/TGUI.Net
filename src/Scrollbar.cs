@@ -97,13 +97,13 @@ namespace TGUI
         {
             m_DraggableWidget = true;
 
-            m_LoadedConfigFile = configFileFilename;
+            m_LoadedConfigFile = Global.ResourcePath + configFileFilename;
 
             // Parse the config file
-            ConfigFile configFile = new ConfigFile (configFileFilename, "Scrollbar");
+            ConfigFile configFile = new ConfigFile (m_LoadedConfigFile, "Scrollbar");
 
             // Find the folder that contains the config file
-            string configFileFolder = configFileFilename.Substring(0, configFileFilename.LastIndexOfAny(new char[] {'/', '\\'}) + 1);
+            string configFileFolder = m_LoadedConfigFile.Substring(0, m_LoadedConfigFile.LastIndexOfAny(new char[] {'/', '\\'}) + 1);
 
             // Loop over all properties
             for (int i = 0; i < configFile.Properties.Count; ++i)
@@ -151,7 +151,7 @@ namespace TGUI
                     configFile.ReadTexture (i, configFileFolder, m_TextureTrackHover_R);
                 else
                     Internal.Output("TGUI warning: Unrecognized property '" + configFile.Properties[i]
-                                    + "' in section Scrollbar in " + configFileFilename + ".");
+                                    + "' in section Scrollbar in " + m_LoadedConfigFile + ".");
             }
 
             // Check if the image is split
@@ -173,7 +173,7 @@ namespace TGUI
                     m_ThumbSize = new Vector2f(m_TextureThumbNormal.Size.X, m_TextureThumbNormal.Size.Y);
                 }
                 else
-                    throw new Exception("Not all needed images were loaded for the scrollbar. Is the Scrollbar section in " + configFileFilename + " complete?");
+                    throw new Exception("Not all needed images were loaded for the scrollbar. Is the Scrollbar section in " + m_LoadedConfigFile + " complete?");
 
                 // Check if optional textures were loaded
                 if ((m_TextureTrackHover_L.texture != null) && (m_TextureTrackHover_M.texture != null) && (m_TextureTrackHover_R.texture != null)
@@ -193,7 +193,7 @@ namespace TGUI
                     Size = new Vector2f(m_TextureTrackNormal_M.Size.X, m_TextureTrackNormal_M.Size.Y);
                 }
                 else
-                    throw new Exception("TGUI error: Not all needed images were loaded for the scrollbar. Is the Scrollbar section in " + configFileFilename + " complete?");
+                    throw new Exception("TGUI error: Not all needed images were loaded for the scrollbar. Is the Scrollbar section in " + m_LoadedConfigFile + " complete?");
 
                 // Check if optional textures were loaded
                 if ((m_TextureTrackHover_M.texture != null) && (m_TextureThumbHover.texture != null)
