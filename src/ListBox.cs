@@ -121,8 +121,8 @@ namespace TGUI
                     // load the scrollbar
                     m_Scroll = new Scrollbar(configFileFolder + (configFile.Values[i]).Substring(1, configFile.Values[i].Length - 2));
                     m_Scroll.VerticalScroll = true;
-                    m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Size.Y - m_Borders.Top - m_Borders.Bottom);
-                    m_Scroll.LowValue = (int)(m_Size.Y - m_Borders.Top - m_Borders.Bottom);
+                    m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Size.Y);
+                    m_Scroll.LowValue = (int)(m_Size.Y);
                     m_Scroll.Maximum = (int)(m_Items.Count * m_ItemHeight);
                 }
                 else
@@ -149,7 +149,8 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
-        /// Size of the list box
+        /// Size of the list box.
+        /// The size does not include the borders.
         /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -165,23 +166,39 @@ namespace TGUI
 
                 // There is a minimum width
                 if (m_Scroll == null)
-                    m_Size.X = System.Math.Max(50.0f + m_Borders.Left + m_Borders.Right, m_Size.X);
+                    m_Size.X = System.Math.Max(50.0f, m_Size.X);
                 else
-                    m_Size.X = System.Math.Max(50.0f + m_Borders.Left + m_Borders.Right + m_Scroll.Size.X, m_Size.X);
+                    m_Size.X = System.Math.Max(50.0f + m_Scroll.Size.X, m_Size.X);
 
                 // There is also a minimum list box height
-                if (m_Size.Y < (m_ItemHeight + m_Borders.Top + m_Borders.Bottom))
-                    m_Size.Y = m_ItemHeight + m_Borders.Top + m_Borders.Bottom;
+                if (m_Size.Y < (m_ItemHeight))
+                    m_Size.Y = m_ItemHeight;
 
                 // If there is a scrollbar then reinitialize it
                 if (m_Scroll != null)
                 {
-                    m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Size.Y - m_Borders.Top - m_Borders.Bottom);
-                    m_Scroll.LowValue = (int)(m_Size.Y - m_Borders.Top - m_Borders.Bottom);
+                    m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Size.Y);
+                    m_Scroll.LowValue = (int)m_Size.Y;
                 }
             }
         }
 
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Full size of the list box.
+        /// The is the size including the borders.
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public override Vector2f FullSize
+        {
+            get
+            {
+                return new Vector2f(Size.X + m_Borders.Left + m_Borders.Right,
+                                    Size.Y + m_Borders.Top + m_Borders.Bottom);
+            }
+        }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
@@ -322,7 +339,7 @@ namespace TGUI
                 if (m_Scroll == null)
                 {
                     // Calculate the amount of items that fit in the list box
-                    uint maximumItems = ((uint)m_Size.Y - m_Borders.Top - m_Borders.Bottom) / m_ItemHeight;
+                    uint maximumItems = ((uint)m_Size.Y) / m_ItemHeight;
 
                     // Check if the item still fits in the list box
                     if (m_Items.Count == maximumItems)
@@ -630,8 +647,8 @@ namespace TGUI
             // load the scrollbar
             m_Scroll = new Scrollbar(scrollbarConfigFileFilename);
             m_Scroll.VerticalScroll = true;
-            m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Size.Y - m_Borders.Top - m_Borders.Bottom);
-            m_Scroll.LowValue = (int)(m_Size.Y - m_Borders.Top - m_Borders.Bottom);
+            m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Size.Y);
+            m_Scroll.LowValue = (int)(m_Size.Y);
             m_Scroll.Maximum = (int)(m_Items.Count * m_ItemHeight);
         }
 
@@ -757,32 +774,6 @@ namespace TGUI
             set
             {
                 m_Borders = value;
-
-                // There is a minimum width
-                if (m_Size.X < (50 + m_Borders.Left + m_Borders.Right))
-                    m_Size.X = 50 + m_Borders.Left + m_Borders.Right;
-
-                // There is also a minimum height (when there is no scrollbar)
-                if (m_Scroll == null)
-                {
-                    // If there are items then they should still fit inside the list box
-                    if (m_Items.Count > 0)
-                    {
-                        if (m_Size.Y < ((m_Items.Count * m_ItemHeight) - m_Borders.Top - m_Borders.Bottom))
-                            m_Size.Y = (m_Items.Count * m_ItemHeight) - m_Borders.Top - m_Borders.Bottom;
-                    }
-                    else // There are no items
-                    {
-                        // At least one item should fit inside the list box
-                        if (m_Size.Y < (m_ItemHeight - m_Borders.Top - m_Borders.Bottom))
-                            m_Size.Y = m_ItemHeight - m_Borders.Top - m_Borders.Bottom;
-                    }
-                }
-                else // There is a scrollbar, so reinitialize it
-                {
-                    m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Size.Y - m_Borders.Top - m_Borders.Bottom);
-                    m_Scroll.LowValue = (int)(m_Size.Y - m_Borders.Top - m_Borders.Bottom);
-                }
             }
         }
 
@@ -821,8 +812,7 @@ namespace TGUI
             if (m_Scroll != null)
             {
                 // Temporarily set the position of the scroll
-                m_Scroll.Position = new Vector2f(Position.X + m_Size.X - m_Borders.Right - m_Scroll.Size.X,
-                                                 Position.Y + m_Borders.Top);
+                m_Scroll.Position = new Vector2f(Position.X + m_Size.X - m_Scroll.Size.X, Position.Y);
 
                 // Pass the event
                 m_Scroll.MouseOnWidget(x, y);
@@ -832,7 +822,7 @@ namespace TGUI
             }
 
             // Check if the mouse is on top of the list box
-            if (Transform.TransformRect(new FloatRect(m_Borders.Left, m_Borders.Top, m_Size.X - m_Borders.Left - m_Borders.Right, m_Size.Y - m_Borders.Top - m_Borders.Bottom)).Contains(x, y))
+            if (Transform.TransformRect(new FloatRect(m_Borders.Left, m_Borders.Top, m_Size.X, m_Size.Y)).Contains(x, y))
                 return true;
             else // The mouse is not on top of the list box
             {
@@ -863,7 +853,7 @@ namespace TGUI
             if (m_Scroll != null)
             {
                 // Temporarily set the position of the scroll
-                m_Scroll.Position = new Vector2f(Position.X + m_Size.X - m_Borders.Right - m_Scroll.Size.X, Position.Y + m_Borders.Top);
+                m_Scroll.Position = new Vector2f(Position.X + m_Size.X - m_Scroll.Size.X, Position.Y);
 
                 // Pass the event
                 if (m_Scroll.MouseOnWidget(e.X, e.Y))
@@ -886,7 +876,7 @@ namespace TGUI
                 if ((m_Scroll != null) && (m_Scroll.LowValue < m_Scroll.Maximum))
                 {
                     // Check if we clicked on the first (perhaps partially) visible item
-                    if (e.Y - Position.Y - m_Borders.Top <= (m_ItemHeight - (m_Scroll.Value % m_ItemHeight)))
+                    if (e.Y - Position.Y <= (m_ItemHeight - (m_Scroll.Value % m_ItemHeight)))
                     {
                         // We clicked on the first visible item
                         m_SelectedItem = (int)(m_Scroll.Value / m_ItemHeight);
@@ -895,15 +885,15 @@ namespace TGUI
                     {
                         // Calculate on what item we clicked
                         if ((m_Scroll.Value % m_ItemHeight) == 0)
-                            m_SelectedItem = (int)((e.Y - Position.Y - m_Borders.Top) / m_ItemHeight + (m_Scroll.Value / m_ItemHeight));
+                            m_SelectedItem = (int)((e.Y - Position.Y) / m_ItemHeight + (m_Scroll.Value / m_ItemHeight));
                         else
-                            m_SelectedItem = (int)((((e.Y - Position.Y - m_Borders.Top) - (m_ItemHeight - (m_Scroll.Value % m_ItemHeight))) / m_ItemHeight) + (m_Scroll.Value / m_ItemHeight) + 1);
+                            m_SelectedItem = (int)((((e.Y - Position.Y) - (m_ItemHeight - (m_Scroll.Value % m_ItemHeight))) / m_ItemHeight) + (m_Scroll.Value / m_ItemHeight) + 1);
                     }
                 }
                 else // There is no scrollbar or it is not displayed
                 {
                     // Calculate on which item we clicked
-                    m_SelectedItem = (int)((e.Y - Position.Y - m_Borders.Top) / m_ItemHeight);
+                    m_SelectedItem = (int)((e.Y - Position.Y) / m_ItemHeight);
 
                     // When you clicked behind the last item then unselect the selected item
                     if (m_SelectedItem > (int)m_Items.Count - 1)
@@ -942,7 +932,7 @@ namespace TGUI
                 int oldValue = m_Scroll.Value;
 
                 // Temporarily set the position of the scroll
-                m_Scroll.Position = new Vector2f(Position.X + (m_Size.X - m_Borders.Right - m_Scroll.Size.X), Position.Y + m_Borders.Top);
+                m_Scroll.Position = new Vector2f(Position.X + (m_Size.X - m_Scroll.Size.X), Position.Y);
 
                 // Pass the event
                 m_Scroll.OnLeftMouseReleased(e);
@@ -993,7 +983,7 @@ namespace TGUI
             if (m_Scroll != null)
             {
                 // Temporarily set the position of the scroll
-                m_Scroll.Position = new Vector2f(Position.X + (m_Size.X - m_Borders.Right - m_Scroll.Size.X), Position.Y + m_Borders.Top);
+                m_Scroll.Position = new Vector2f(Position.X + (m_Size.X - m_Scroll.Size.X), Position.Y);
 
                 // Check if you are dragging the thumb of the scrollbar
                 if ((m_Scroll.m_MouseDown) && (m_Scroll.m_MouseDownOnThumb))
@@ -1113,13 +1103,13 @@ namespace TGUI
 
             if ((m_Scroll != null) && (m_Scroll.LowValue < m_Scroll.Maximum))
             {
-                topLeftPosition = states.Transform.TransformPoint(Position + new Vector2f(m_Borders.Left, m_Borders.Top) + viewPosition);
-                bottomRightPosition = states.Transform.TransformPoint(Position.X + m_Size.X - m_Borders.Right - m_Scroll.Size.X + viewPosition.X, Position.Y + m_Size.Y - m_Borders.Bottom + viewPosition.Y);
+                topLeftPosition = states.Transform.TransformPoint(Position + viewPosition);
+                bottomRightPosition = states.Transform.TransformPoint(Position.X + m_Size.X - m_Scroll.Size.X + viewPosition.X, Position.Y + m_Size.Y + viewPosition.Y);
             }
             else
             {
-                topLeftPosition = states.Transform.TransformPoint(Position + new Vector2f(m_Borders.Left, m_Borders.Top) + viewPosition);
-                bottomRightPosition = states.Transform.TransformPoint(Position + m_Size - new Vector2f(m_Borders.Right, m_Borders.Bottom) + viewPosition);
+                topLeftPosition = states.Transform.TransformPoint(Position + viewPosition);
+                bottomRightPosition = states.Transform.TransformPoint(Position + m_Size + viewPosition);
             }
 
             // Adjust the transformation
@@ -1131,35 +1121,31 @@ namespace TGUI
             // Draw the borders
             {
                 // Draw left border
-                RectangleShape border = new RectangleShape(new Vector2f(m_Borders.Left, m_Size.Y));
-                border.FillColor = m_BorderColor;
+                RectangleShape border = new RectangleShape(new Vector2f(m_Borders.Left, m_Size.Y + m_Borders.Top));
+                border.Position = new Vector2f(-(float)m_Borders.Left, -(float)m_Borders.Top);
+                border.FillColor = BorderColor;
                 target.Draw(border, states);
 
                 // Draw top border
-                border.Size = new Vector2f(m_Size.X, m_Borders.Top);
+                border.Size = new Vector2f(Size.X + m_Borders.Right, m_Borders.Top);
+                border.Position = new Vector2f(0, -(float)m_Borders.Top);
                 target.Draw(border, states);
 
                 // Draw right border
-                border.Position = new Vector2f(m_Size.X - m_Borders.Right, 0);
-                border.Size = new Vector2f(m_Borders.Right, m_Size.Y);
+                border.Size = new Vector2f(m_Borders.Right, m_Size.Y + m_Borders.Bottom);
+                border.Position = new Vector2f(Size.X, 0);
                 target.Draw(border, states);
 
                 // Draw bottom border
-                border.Position = new Vector2f(0, m_Size.Y - m_Borders.Bottom);
-                border.Size = new Vector2f(m_Size.X, m_Borders.Bottom);
+                border.Size = new Vector2f(Size.X + m_Borders.Left, m_Borders.Bottom);
+                border.Position = new Vector2f(-(float)m_Borders.Left, m_Size.Y);
                 target.Draw(border, states);
             }
 
-            // Move the front rect a little bit
-            states.Transform.Translate((float)(m_Borders.Left), (float)(m_Borders.Top));
-
             // Draw the background
-            {
-                RectangleShape front = new RectangleShape (new Vector2f((float)(m_Size.X - m_Borders.Left - m_Borders.Right),
-                                                                       (float)(m_Size.Y - m_Borders.Top - m_Borders.Bottom)));
-                front.FillColor = m_BackgroundColor;
-                target.Draw(front, states);
-            }
+            RectangleShape front = new RectangleShape (new Vector2f((float)m_Size.X, (float)m_Size.Y));
+            front.FillColor = m_BackgroundColor;
+            target.Draw(front, states);
 
             // Get the old clipping area
             int[] scissor = new int[4];
@@ -1217,7 +1203,7 @@ namespace TGUI
                             states.Transform.Translate(0, ((float)(i * m_ItemHeight) - m_Scroll.Value));
 
                             // Create and draw the background
-                            RectangleShape back = new RectangleShape(new Vector2f((m_Size.X - m_Borders.Left - m_Borders.Right), (float)m_ItemHeight));
+                            RectangleShape back = new RectangleShape(new Vector2f((float)m_Size.X, (float)m_ItemHeight));
                             back.FillColor = m_SelectedBackgroundColor;
                             target.Draw(back, states);
 
@@ -1263,7 +1249,7 @@ namespace TGUI
                             states.Transform.Translate(0, (float)(i * m_ItemHeight));
 
                             // Create and draw the background
-                            RectangleShape back = new RectangleShape(new Vector2f((float)(m_Size.X - m_Borders.Left - m_Borders.Right), (float)(m_ItemHeight)));
+                            RectangleShape back = new RectangleShape(new Vector2f((float)m_Size.X, (float)m_ItemHeight));
                             back.FillColor = m_SelectedBackgroundColor;
                             target.Draw(back, states);
 
@@ -1296,7 +1282,7 @@ namespace TGUI
             {
                 // Reset the transformation
                 states.Transform = oldTransform;
-                states.Transform.Translate((float)(m_Size.X) - m_Borders.Right - m_Scroll.Size.X, (float)(m_Borders.Top));
+                states.Transform.Translate((float)m_Size.X - m_Scroll.Size.X, 0);
 
                 // Draw the scrollbar
                 target.Draw(m_Scroll, states);

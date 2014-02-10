@@ -138,8 +138,10 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
-        /// Size of the child window
+        /// Size of the drawable area of the child window
         /// </summary>
+        ///
+        /// This size does not include the borders and the title bar of the child window.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override Vector2f Size
@@ -157,8 +159,8 @@ namespace TGUI
                     float scalingY = (float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y;
                     float minimumWidth = ((m_TextureTitleBar_L.Size.X + m_TextureTitleBar_R.Size.X) * scalingY);
 
-                    if (m_Size.X < minimumWidth + m_Borders.Left + m_Borders.Right)
-                        m_Size.X = minimumWidth + m_Borders.Left + m_Borders.Right;
+                    if (m_Size.X + m_Borders.Left + m_Borders.Right < minimumWidth)
+                        m_Size.X = minimumWidth - m_Borders.Left - m_Borders.Right;
 
                     m_TextureTitleBar_L.sprite.Scale = new Vector2f(scalingY, scalingY);
                     m_TextureTitleBar_M.sprite.Scale = new Vector2f(scalingY, scalingY);
@@ -176,6 +178,24 @@ namespace TGUI
                 if (m_BackgroundTexture != null)
                     m_BackgroundSprite.Scale = new Vector2f(m_Size.X / m_BackgroundTexture.Size.X,
                                                             m_Size.Y / m_BackgroundTexture.Size.Y);
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Full size of the child window.
+        /// </summary>
+        ///
+        /// This size includes the borders and the title bar of the child window.
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public override Vector2f FullSize
+        {
+            get
+            {
+                return new Vector2f(Size.X + m_Borders.Left + m_Borders.Right,
+                                    Size.Y + m_Borders.Top + m_Borders.Bottom + m_TitleBarHeight);
             }
         }
 
@@ -237,8 +257,8 @@ namespace TGUI
                     float scalingY = (float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y;
                     float minimumWidth = ((m_TextureTitleBar_L.Size.X + m_TextureTitleBar_R.Size.X) * scalingY);
 
-                    if (m_Size.X < minimumWidth + m_Borders.Left + m_Borders.Right)
-                        m_Size.X = minimumWidth + m_Borders.Left + m_Borders.Right;
+                    if (m_Size.X + m_Borders.Left + m_Borders.Right < minimumWidth)
+                        m_Size.X = minimumWidth - m_Borders.Left - m_Borders.Right;
 
                     m_TextureTitleBar_L.sprite.Scale = new Vector2f(scalingY, scalingY);
                     m_TextureTitleBar_M.sprite.Scale = new Vector2f(scalingY, scalingY);
@@ -384,8 +404,8 @@ namespace TGUI
                     float scalingY = (float)(m_TitleBarHeight) / m_TextureTitleBar_M.Size.Y;
                     float minimumWidth = ((m_TextureTitleBar_L.Size.X + m_TextureTitleBar_R.Size.X) * scalingY);
 
-                    if (m_Size.X < minimumWidth + m_Borders.Left + m_Borders.Right)
-                        m_Size.X = minimumWidth + m_Borders.Left + m_Borders.Right;
+                    if (m_Size.X + m_Borders.Left + m_Borders.Right < minimumWidth)
+                        m_Size.X = minimumWidth - m_Borders.Left - m_Borders.Right;
 
                     m_TextureTitleBar_L.sprite.Scale = new Vector2f(scalingY, scalingY);
                     m_TextureTitleBar_M.sprite.Scale = new Vector2f(scalingY, scalingY);
@@ -555,7 +575,7 @@ namespace TGUI
         protected internal override bool MouseOnWidget(float x, float y)
         {
             // Check if the mouse is on top of the title bar
-            if (Transform.TransformRect(new FloatRect(0, 0, m_Size.X + m_Borders.Left + m_Borders.Right, m_TitleBarHeight + m_Borders.Top)).Contains(x, y))
+            if (Transform.TransformRect(new FloatRect(0, 0, m_Size.X + m_Borders.Left + m_Borders.Right, m_TitleBarHeight)).Contains(x, y))
             {
                 m_EventManager.MouseNotOnWidget();
                 return true;
@@ -928,22 +948,22 @@ namespace TGUI
             states.Transform.Translate(0, m_TitleBarHeight);
 
             // Draw left border
-            RectangleShape border = new RectangleShape(new Vector2f(m_Borders.Left, m_Size.Y + m_Borders.Top + m_Borders.Bottom));
+            RectangleShape border = new RectangleShape(new Vector2f(m_Borders.Left, m_Size.Y + m_Borders.Top));
             border.FillColor = m_BorderColor;
             target.Draw(border, states);
 
             // Draw top border
-            border.Size = new Vector2f(m_Size.X + m_Borders.Left + m_Borders.Right, m_Borders.Top);
+            border.Size = new Vector2f(m_Size.X + m_Borders.Right, m_Borders.Top);
             target.Draw(border, states);
 
             // Draw right border
+            border.Size = new Vector2f(m_Borders.Right, m_Size.Y + m_Borders.Bottom);
             border.Position = new Vector2f(m_Size.X + m_Borders.Left, 0);
-            border.Size = new Vector2f(m_Borders.Right, m_Size.Y + m_Borders.Top + m_Borders.Bottom);
             target.Draw(border, states);
 
             // Draw bottom border
+            border.Size = new Vector2f(m_Size.X + m_Borders.Left, m_Borders.Bottom);
             border.Position = new Vector2f(0, m_Size.Y + m_Borders.Top);
-            border.Size = new Vector2f(m_Size.X + m_Borders.Left + m_Borders.Right, m_Borders.Bottom);
             target.Draw(border, states);
 
             // Make room for the borders

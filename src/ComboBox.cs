@@ -181,7 +181,8 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
-        /// Size of the combo box
+        /// Size of the combo box.
+        /// This size does not include the borders.
         /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -189,21 +190,35 @@ namespace TGUI
         {
             get
             {
-                return new Vector2f(m_ListBox.Size.X, m_ListBox.ItemHeight + m_Borders.Top + m_Borders.Bottom);
+                return new Vector2f(m_ListBox.Size.X, m_ListBox.ItemHeight);
             }
             set
             {
                 // Set the height of the combo box
-                if (value.Y > m_Borders.Top + m_Borders.Bottom)
-                    m_ListBox.ItemHeight = (uint)(value.Y - m_Borders.Top - m_Borders.Bottom);
-                else
-                    m_ListBox.ItemHeight = 10;
+                m_ListBox.ItemHeight = Math.Max(10, (uint)value.Y);
 
                 // Set the size of the list box
                 if (m_NrOfItemsToDisplay > 0)
-                    m_ListBox.Size = new Vector2f(value.X, m_ListBox.ItemHeight * (System.Math.Min(m_NrOfItemsToDisplay, m_ListBox.GetItems().Count)) - 2*m_Borders.Bottom);
+                    m_ListBox.Size = new Vector2f(value.X, m_ListBox.ItemHeight * (System.Math.Min(m_NrOfItemsToDisplay, m_ListBox.GetItems().Count)));
                 else
-                    m_ListBox.Size = new Vector2f(value.X, m_ListBox.ItemHeight * m_ListBox.GetItems().Count - 2*m_Borders.Bottom);
+                    m_ListBox.Size = new Vector2f(value.X, m_ListBox.ItemHeight * m_ListBox.GetItems().Count);
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Full size of the combo box.
+        /// This size includes the borders.
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public override Vector2f FullSize
+        {
+            get
+            {
+                return new Vector2f(Size.X + m_Borders.Left + m_Borders.Right,
+                                    Size.Y + m_Borders.Top + m_Borders.Bottom);
             }
         }
 
@@ -230,7 +245,7 @@ namespace TGUI
                 m_NrOfItemsToDisplay = value;
 
                 if (m_NrOfItemsToDisplay < m_ListBox.GetItems().Count)
-                    m_ListBox.Size = new Vector2f(m_ListBox.Size.X, (m_NrOfItemsToDisplay * m_ListBox.ItemHeight) + 2*m_Borders.Bottom);
+                    m_ListBox.Size = new Vector2f(m_ListBox.Size.X, m_NrOfItemsToDisplay * m_ListBox.ItemHeight);
             }
         }
 
@@ -363,19 +378,13 @@ namespace TGUI
             }
             set
             {
-                // Calculate the new item height
-                uint itemHeight = m_ListBox.ItemHeight + m_Borders.Top + m_Borders.Bottom - value.Top - value.Bottom;
-
                 // Set the new border size
                 m_Borders = value;
                 m_ListBox.Borders = new Borders(m_Borders.Left, m_Borders.Bottom, m_Borders.Right, m_Borders.Bottom);
 
                 // There is a minimum width
-                if (m_ListBox.Size.X < 50 + m_Borders.Left + m_Borders.Right + m_TextureArrowDownNormal.Size.X)
-                    m_ListBox.Size = new Vector2f(50 + m_Borders.Left + m_Borders.Right + m_TextureArrowDownNormal.Size.X, m_ListBox.Size.Y);
-
-                // The item height needs to change
-                m_ListBox.ItemHeight = itemHeight;
+                if (m_ListBox.Size.X < 50 + m_TextureArrowDownNormal.Size.X)
+                    m_ListBox.Size = new Vector2f(50 + m_TextureArrowDownNormal.Size.X, m_ListBox.Size.Y);
             }
         }
 
@@ -400,7 +409,7 @@ namespace TGUI
         {
             // Make room to add another item, until there are enough items
             if ((m_NrOfItemsToDisplay == 0) || (m_NrOfItemsToDisplay > m_ListBox.GetItems().Count))
-                m_ListBox.Size = new Vector2f(m_ListBox.Size.X, (m_ListBox.ItemHeight * (m_ListBox.GetItems().Count + 1)) + 2*m_Borders.Bottom);
+                m_ListBox.Size = new Vector2f(m_ListBox.Size.X, (m_ListBox.ItemHeight * (m_ListBox.GetItems().Count + 1)));
 
             // Add the item
             return m_ListBox.AddItem(itemName);
@@ -675,8 +684,8 @@ namespace TGUI
         protected internal override bool MouseOnWidget(float x, float y)
         {
             // Check if the mouse is on top of the combo box
-            if ((x > Position.X) && (x < Position.X + m_ListBox.Size.X)
-             && (y > Position.Y) && (y < Position.Y + m_ListBox.ItemHeight + m_Borders.Top + m_Borders.Bottom))
+            if ((x > Position.X - m_Borders.Left) && (x < Position.X + m_ListBox.Size.X + m_Borders.Right)
+             && (y > Position.Y - m_Borders.Top) && (y < Position.Y + m_ListBox.ItemHeight + m_Borders.Bottom))
             { 
                 return true;
             }
@@ -800,7 +809,7 @@ namespace TGUI
             {
                 m_ListBox.Visible = true;
 
-                Vector2f position = new Vector2f(Position.X, Position.Y + m_ListBox.ItemHeight + m_Borders.Top);
+                Vector2f position = new Vector2f(Position.X, Position.Y + m_ListBox.ItemHeight + m_Borders.Bottom);
 
                 Widget container = this;
                 while (container.Parent != null)
@@ -893,9 +902,9 @@ namespace TGUI
             Vector2f viewPosition = (target.GetView ().Size / 2.0f) - target.GetView ().Center;
 
             // Get the global position
-            Vector2f topLeftPosition = states.Transform.TransformPoint(Position + new Vector2f(m_Borders.Left, m_Borders.Top) + viewPosition);
-            Vector2f bottomRightPosition = states.Transform.TransformPoint(Position.X + m_ListBox.Size.X - m_Borders.Right - (m_TextureArrowDownNormal.Size.X * ((float)(m_ListBox.ItemHeight) / m_TextureArrowDownNormal.Size.Y)) + viewPosition.X,
-                                                                           Position.Y + m_ListBox.Size.Y - m_Borders.Bottom + viewPosition.Y);
+            Vector2f topLeftPosition = states.Transform.TransformPoint(Position + viewPosition);
+            Vector2f bottomRightPosition = states.Transform.TransformPoint(Position.X + m_ListBox.Size.X - (m_TextureArrowDownNormal.Size.X * ((float)(m_ListBox.ItemHeight) / m_TextureArrowDownNormal.Size.Y)) + viewPosition.X,
+                                                                           Position.Y + m_ListBox.Size.Y + viewPosition.Y);
 
             // Adjust the transformation
             states.Transform *= Transform;
@@ -904,32 +913,30 @@ namespace TGUI
             Transform oldTransform = states.Transform;
 
             // Draw left border
-            RectangleShape border = new RectangleShape(new Vector2f(m_Borders.Left, m_ListBox.ItemHeight + m_Borders.Top + m_Borders.Bottom));
+            RectangleShape border = new RectangleShape(new Vector2f(m_Borders.Left, m_ListBox.ItemHeight + m_Borders.Top));
+            border.Position = new Vector2f(-(float)m_Borders.Left, -(float)m_Borders.Top);
             border.FillColor = m_ListBox.BorderColor;
             target.Draw(border, states);
 
             // Draw top border
-            border.Size = new Vector2f(m_ListBox.Size.X, m_Borders.Top);
+            border.Size = new Vector2f(m_ListBox.Size.X + m_Borders.Right, m_Borders.Top);
+            border.Position = new Vector2f(0, -(float)m_Borders.Top);
             target.Draw(border, states);
 
             // Draw right border
-            border.Position = new Vector2f(m_ListBox.Size.X - m_Borders.Right, 0);
-            border.Size = new Vector2f(m_Borders.Right, m_ListBox.ItemHeight + m_Borders.Top + m_Borders.Bottom);
+            border.Size = new Vector2f(m_Borders.Right, m_ListBox.ItemHeight + m_Borders.Bottom);
+            border.Position = new Vector2f(m_ListBox.Size.X, 0);
             target.Draw(border, states);
 
             // Draw bottom border
-            border.Position = new Vector2f(0, m_ListBox.ItemHeight + m_Borders.Top);
-            border.Size = new Vector2f(m_ListBox.Size.X, m_Borders.Bottom);
+            border.Size = new Vector2f(m_ListBox.Size.X + m_Borders.Left, m_Borders.Bottom);
+            border.Position = new Vector2f(-(float)m_Borders.Left, m_ListBox.ItemHeight);
             target.Draw(border, states);
 
-            // Move the front rect a little bit
-            states.Transform.Translate((float)(m_Borders.Left), (float)(m_Borders.Top));
-
             // Draw the combo box
-            RectangleShape Front = new RectangleShape (new Vector2f((float)(m_ListBox.Size.X - m_Borders.Left - m_Borders.Right),
-                                                                    (float)(m_ListBox.ItemHeight)));
-            Front.FillColor = m_ListBox.BackgroundColor;
-            target.Draw(Front, states);
+            RectangleShape front = new RectangleShape (new Vector2f((float)(m_ListBox.Size.X), (float)(m_ListBox.ItemHeight)));
+            front.FillColor = m_ListBox.BackgroundColor;
+            target.Draw(front, states);
 
             // Create a text widget to draw it
             Text tempText = new Text("kg", m_ListBox.TextFont);
@@ -971,7 +978,7 @@ namespace TGUI
             if (m_ListBox.Visible)
             {
                 float scaleFactor =  (float)(m_ListBox.ItemHeight) / m_TextureArrowUpNormal.Size.Y;
-                states.Transform.Translate(m_ListBox.Size.X - m_Borders.Right - (m_TextureArrowUpNormal.Size.X * scaleFactor), (float)(m_Borders.Top));
+                states.Transform.Translate(m_ListBox.Size.X - m_TextureArrowUpNormal.Size.X * scaleFactor, 0);
                 states.Transform.Scale(scaleFactor, scaleFactor);
 
                 // Draw the arrow
@@ -993,7 +1000,7 @@ namespace TGUI
             else
             {
                 float scaleFactor =  (float)(m_ListBox.ItemHeight) / m_TextureArrowDownNormal.Size.Y;
-                states.Transform.Translate(m_ListBox.Size.X - m_Borders.Right - (m_TextureArrowDownNormal.Size.X * scaleFactor), (float)(m_Borders.Top));
+                states.Transform.Translate(m_ListBox.Size.X - m_TextureArrowDownNormal.Size.X * scaleFactor, 0);
                 states.Transform.Scale(scaleFactor, scaleFactor);
 
                 // Draw the arrow

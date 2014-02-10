@@ -193,7 +193,8 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
-        /// Size of the radio button
+        /// Size of the radio button.
+        /// This size is just the size of the image, the text is not included in the size.
         /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -201,10 +202,7 @@ namespace TGUI
         {
             get
             {
-                if (m_Text.DisplayedString.Length == 0)
-                    return m_Size;
-                else
-                    return new Vector2f((m_Size.X * 11.0f / 10.0f) + m_Text.GetLocalBounds().Left + m_Text.GetLocalBounds().Width, m_Size.Y);
+                return m_Size;
             }
             set
             {
@@ -222,6 +220,25 @@ namespace TGUI
 
                 // Reposition the text
                 Position = Position;
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Full size of the radio button.
+        /// This size includes the text next to the radio button.
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public override Vector2f FullSize
+        {
+            get
+            {
+                if (m_Text.DisplayedString.Length == 0)
+                    return m_Size;
+                else
+                    return new Vector2f((m_Size.X * 11.0f / 10.0f) + m_Text.GetLocalBounds().Left + m_Text.GetLocalBounds().Width, m_Size.Y);
             }
         }
 

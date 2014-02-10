@@ -281,12 +281,12 @@ namespace TGUI
                         continue;
 
                     // Remember the biggest column width
-                    if (m_ColumnWidth[col] < m_GridWidgets[row][col].Size.X + m_ObjBorders[row][col].Left + m_ObjBorders[row][col].Right)
-                        m_ColumnWidth[col] = (uint)(m_GridWidgets[row][col].Size.X + m_ObjBorders[row][col].Left + m_ObjBorders[row][col].Right);
+                    if (m_ColumnWidth[col] < m_GridWidgets[row][col].FullSize.X + m_ObjBorders[row][col].Left + m_ObjBorders[row][col].Right)
+                        m_ColumnWidth[col] = (uint)(m_GridWidgets[row][col].FullSize.X + m_ObjBorders[row][col].Left + m_ObjBorders[row][col].Right);
 
                     // Remember the biggest row height
-                    if (m_RowHeight[row] < m_GridWidgets[row][col].Size.Y + m_ObjBorders[row][col].Top + m_ObjBorders[row][col].Bottom)
-                        m_RowHeight[row] = (uint)(m_GridWidgets[row][col].Size.Y + m_ObjBorders[row][col].Top + m_ObjBorders[row][col].Bottom);
+                    if (m_RowHeight[row] < m_GridWidgets[row][col].FullSize.Y + m_ObjBorders[row][col].Top + m_ObjBorders[row][col].Bottom)
+                        m_RowHeight[row] = (uint)(m_GridWidgets[row][col].FullSize.Y + m_ObjBorders[row][col].Top + m_ObjBorders[row][col].Bottom);
                 }
             }
 
@@ -374,43 +374,43 @@ namespace TGUI
                                 break;
 
                             case Layouts.Up:
-                                left += m_ObjBorders[row][col].Left + (((m_ColumnWidth[col] - m_ObjBorders[row][col].Left - m_ObjBorders[row][col].Right) - m_GridWidgets[row][col].Size.X) / 2.0f) + availSpaceOffset.X;
+                                left += m_ObjBorders[row][col].Left + (((m_ColumnWidth[col] - m_ObjBorders[row][col].Left - m_ObjBorders[row][col].Right) - m_GridWidgets[row][col].FullSize.X) / 2.0f) + availSpaceOffset.X;
                                 top += m_ObjBorders[row][col].Top + availSpaceOffset.Y;
                                 break;
 
                             case Layouts.UpperRight:
-                                left += m_ColumnWidth[col] - m_ObjBorders[row][col].Right - m_GridWidgets[row][col].Size.X + availSpaceOffset.X;
+                                left += m_ColumnWidth[col] - m_ObjBorders[row][col].Right - m_GridWidgets[row][col].FullSize.X + availSpaceOffset.X;
                                 top += m_ObjBorders[row][col].Top + availSpaceOffset.Y;
                                 break;
 
                             case Layouts.Right:
-                                left += m_ColumnWidth[col] - m_ObjBorders[row][col].Right - m_GridWidgets[row][col].Size.X + availSpaceOffset.X;
-                                top += m_ObjBorders[row][col].Top + (((m_RowHeight[row] - m_ObjBorders[row][col].Top - m_ObjBorders[row][col].Bottom) - m_GridWidgets[row][col].Size.Y) / 2.0f) + availSpaceOffset.Y;
+                                left += m_ColumnWidth[col] - m_ObjBorders[row][col].Right - m_GridWidgets[row][col].FullSize.X + availSpaceOffset.X;
+                                top += m_ObjBorders[row][col].Top + (((m_RowHeight[row] - m_ObjBorders[row][col].Top - m_ObjBorders[row][col].Bottom) - m_GridWidgets[row][col].FullSize.Y) / 2.0f) + availSpaceOffset.Y;
                                 break;
 
                             case Layouts.BottomRight:
-                                left += m_ColumnWidth[col] - m_ObjBorders[row][col].Right - m_GridWidgets[row][col].Size.X + availSpaceOffset.X;
-                                top += m_RowHeight[row] - m_ObjBorders[row][col].Bottom - m_GridWidgets[row][col].Size.Y + availSpaceOffset.Y;
+                                left += m_ColumnWidth[col] - m_ObjBorders[row][col].Right - m_GridWidgets[row][col].FullSize.X + availSpaceOffset.X;
+                                top += m_RowHeight[row] - m_ObjBorders[row][col].Bottom - m_GridWidgets[row][col].FullSize.Y + availSpaceOffset.Y;
                                 break;
 
                             case Layouts.Bottom:
-                                left += m_ObjBorders[row][col].Left + (((m_ColumnWidth[col] - m_ObjBorders[row][col].Left - m_ObjBorders[row][col].Right) - m_GridWidgets[row][col].Size.X) / 2.0f) + availSpaceOffset.X;
-                                top += m_RowHeight[row] - m_ObjBorders[row][col].Bottom - m_GridWidgets[row][col].Size.Y + availSpaceOffset.Y;
+                                left += m_ObjBorders[row][col].Left + (((m_ColumnWidth[col] - m_ObjBorders[row][col].Left - m_ObjBorders[row][col].Right) - m_GridWidgets[row][col].FullSize.X) / 2.0f) + availSpaceOffset.X;
+                                top += m_RowHeight[row] - m_ObjBorders[row][col].Bottom - m_GridWidgets[row][col].FullSize.Y + availSpaceOffset.Y;
                                 break;
 
                             case Layouts.BottomLeft:
                                 left += m_ObjBorders[row][col].Left + availSpaceOffset.X;
-                                top += m_RowHeight[row] - m_ObjBorders[row][col].Bottom - m_GridWidgets[row][col].Size.Y + availSpaceOffset.Y;
+                                top += m_RowHeight[row] - m_ObjBorders[row][col].Bottom - m_GridWidgets[row][col].FullSize.Y + availSpaceOffset.Y;
                                 break;
 
                             case Layouts.Left:
                                 left += m_ObjBorders[row][col].Left + availSpaceOffset.X;
-                                top += m_ObjBorders[row][col].Top + (((m_RowHeight[row] - m_ObjBorders[row][col].Top - m_ObjBorders[row][col].Bottom) - m_GridWidgets[row][col].Size.Y) / 2.0f) + availSpaceOffset.Y;
+                                top += m_ObjBorders[row][col].Top + (((m_RowHeight[row] - m_ObjBorders[row][col].Top - m_ObjBorders[row][col].Bottom) - m_GridWidgets[row][col].FullSize.Y) / 2.0f) + availSpaceOffset.Y;
                                 break;
 
                             case Layouts.Center:
-                                left += m_ObjBorders[row][col].Left + (((m_ColumnWidth[col] - m_ObjBorders[row][col].Left - m_ObjBorders[row][col].Right) - m_GridWidgets[row][col].Size.X) / 2.0f) + availSpaceOffset.X;
-                                top += m_ObjBorders[row][col].Top + (((m_RowHeight[row] - m_ObjBorders[row][col].Top - m_ObjBorders[row][col].Bottom) - m_GridWidgets[row][col].Size.Y) / 2.0f) + availSpaceOffset.Y;
+                                left += m_ObjBorders[row][col].Left + (((m_ColumnWidth[col] - m_ObjBorders[row][col].Left - m_ObjBorders[row][col].Right) - m_GridWidgets[row][col].FullSize.X) / 2.0f) + availSpaceOffset.X;
+                                top += m_ObjBorders[row][col].Top + (((m_RowHeight[row] - m_ObjBorders[row][col].Top - m_ObjBorders[row][col].Bottom) - m_GridWidgets[row][col].FullSize.Y) / 2.0f) + availSpaceOffset.Y;
                                 break;
                             }
 
@@ -506,38 +506,38 @@ namespace TGUI
                         break;
 
                     case Layouts.UpperRight:
-                        cellPosition.X += m_ColumnWidth[col] - m_ObjBorders[row][col].Right - m_GridWidgets[row][col].Size.X + availSpaceOffset.X;
+                        cellPosition.X += m_ColumnWidth[col] - m_ObjBorders[row][col].Right - m_GridWidgets[row][col].FullSize.X + availSpaceOffset.X;
                         cellPosition.Y += m_ObjBorders[row][col].Top + availSpaceOffset.Y;
                         break;
 
                     case Layouts.Right:
-                        cellPosition.X += m_ColumnWidth[col] - m_ObjBorders[row][col].Right - m_GridWidgets[row][col].Size.X + availSpaceOffset.X;
-                        cellPosition.Y += m_ObjBorders[row][col].Top + (((m_RowHeight[row] - m_ObjBorders[row][col].Top - m_ObjBorders[row][col].Bottom) - m_GridWidgets[row][col].Size.Y) / 2.0f) + availSpaceOffset.Y;
+                        cellPosition.X += m_ColumnWidth[col] - m_ObjBorders[row][col].Right - m_GridWidgets[row][col].FullSize.X + availSpaceOffset.X;
+                        cellPosition.Y += m_ObjBorders[row][col].Top + (((m_RowHeight[row] - m_ObjBorders[row][col].Top - m_ObjBorders[row][col].Bottom) - m_GridWidgets[row][col].FullSize.Y) / 2.0f) + availSpaceOffset.Y;
                         break;
 
                     case Layouts.BottomRight:
-                        cellPosition.X += m_ColumnWidth[col] - m_ObjBorders[row][col].Right - m_GridWidgets[row][col].Size.X + availSpaceOffset.X;
-                        cellPosition.Y += m_RowHeight[row] - m_ObjBorders[row][col].Bottom - m_GridWidgets[row][col].Size.Y + availSpaceOffset.Y;
+                        cellPosition.X += m_ColumnWidth[col] - m_ObjBorders[row][col].Right - m_GridWidgets[row][col].FullSize.X + availSpaceOffset.X;
+                        cellPosition.Y += m_RowHeight[row] - m_ObjBorders[row][col].Bottom - m_GridWidgets[row][col].FullSize.Y + availSpaceOffset.Y;
                         break;
 
                     case Layouts.Bottom:
-                        cellPosition.X += m_ObjBorders[row][col].Left + (((m_ColumnWidth[col] - m_ObjBorders[row][col].Left - m_ObjBorders[row][col].Right) - m_GridWidgets[row][col].Size.X) / 2.0f) + availSpaceOffset.X;
-                        cellPosition.Y += m_RowHeight[row] - m_ObjBorders[row][col].Bottom - m_GridWidgets[row][col].Size.Y + availSpaceOffset.Y;
+                        cellPosition.X += m_ObjBorders[row][col].Left + (((m_ColumnWidth[col] - m_ObjBorders[row][col].Left - m_ObjBorders[row][col].Right) - m_GridWidgets[row][col].FullSize.X) / 2.0f) + availSpaceOffset.X;
+                        cellPosition.Y += m_RowHeight[row] - m_ObjBorders[row][col].Bottom - m_GridWidgets[row][col].FullSize.Y + availSpaceOffset.Y;
                         break;
 
                     case Layouts.BottomLeft:
                         cellPosition.X += m_ObjBorders[row][col].Left + availSpaceOffset.X;
-                        cellPosition.Y += m_RowHeight[row] - m_ObjBorders[row][col].Bottom - m_GridWidgets[row][col].Size.Y + availSpaceOffset.Y;
+                        cellPosition.Y += m_RowHeight[row] - m_ObjBorders[row][col].Bottom - m_GridWidgets[row][col].FullSize.Y + availSpaceOffset.Y;
                         break;
 
                     case Layouts.Left:
                         cellPosition.X += m_ObjBorders[row][col].Left + availSpaceOffset.Y;
-                        cellPosition.Y += m_ObjBorders[row][col].Top + (((m_RowHeight[row] - m_ObjBorders[row][col].Top - m_ObjBorders[row][col].Bottom) - m_GridWidgets[row][col].Size.Y) / 2.0f) + availSpaceOffset.Y;
+                        cellPosition.Y += m_ObjBorders[row][col].Top + (((m_RowHeight[row] - m_ObjBorders[row][col].Top - m_ObjBorders[row][col].Bottom) - m_GridWidgets[row][col].FullSize.Y) / 2.0f) + availSpaceOffset.Y;
                         break;
 
                     case Layouts.Center:
-                        cellPosition.X += m_ObjBorders[row][col].Left + (((m_ColumnWidth[col] - m_ObjBorders[row][col].Left - m_ObjBorders[row][col].Right) - m_GridWidgets[row][col].Size.X) / 2.0f) + availSpaceOffset.X;
-                        cellPosition.Y += m_ObjBorders[row][col].Top + (((m_RowHeight[row] - m_ObjBorders[row][col].Top - m_ObjBorders[row][col].Bottom) - m_GridWidgets[row][col].Size.Y) / 2.0f) + availSpaceOffset.Y;
+                        cellPosition.X += m_ObjBorders[row][col].Left + (((m_ColumnWidth[col] - m_ObjBorders[row][col].Left - m_ObjBorders[row][col].Right) - m_GridWidgets[row][col].FullSize.X) / 2.0f) + availSpaceOffset.X;
+                        cellPosition.Y += m_ObjBorders[row][col].Top + (((m_RowHeight[row] - m_ObjBorders[row][col].Top - m_ObjBorders[row][col].Bottom) - m_GridWidgets[row][col].FullSize.Y) / 2.0f) + availSpaceOffset.Y;
                         break;
                     }
 

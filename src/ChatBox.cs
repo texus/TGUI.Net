@@ -109,8 +109,8 @@ namespace TGUI
                     // load the scrollbar
                     m_Scroll = new Scrollbar(configFileFolder + (configFile.Values[i]).Substring(1, configFile.Values[i].Length - 2));
                     m_Scroll.VerticalScroll = true;
-                    m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
-                    m_Scroll.LowValue = (int)(m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
+                    m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Panel.Size.Y);
+                    m_Scroll.LowValue = (int)(m_Panel.Size.Y);
                     m_Scroll.Maximum = (int)m_FullTextHeight;
                 }
                 else
@@ -137,7 +137,8 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
-        /// Size of the chat box
+        /// Size of the chat box.
+        /// This size does not include the borders.
         /// </summary>
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -151,9 +152,9 @@ namespace TGUI
             {
                 // There is a minimum width
                 if (m_Scroll == null)
-                    value.X = System.Math.Max(50 + m_Borders.Left + m_Borders.Right, value.X);
+                    value.X = System.Math.Max(50, value.X);
                 else
-                    value.X = System.Math.Max(50 + m_Borders.Left + m_Borders.Right + m_Scroll.Size.X, value.X);
+                    value.X = System.Math.Max(50 + m_Scroll.Size.X, value.X);
 
                 // Remember the old height
                 float oldHeight = m_Panel.Size.Y;
@@ -164,8 +165,8 @@ namespace TGUI
                 // If there is a scrollbar then reinitialize it
                 if (m_Scroll != null)
                 {
-                    m_Scroll.LowValue = (int)(m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
-                    m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
+                    m_Scroll.LowValue = (int)(m_Panel.Size.Y);
+                    m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Panel.Size.Y);
                 }
 
                 // Find out how much the height has changed
@@ -174,6 +175,23 @@ namespace TGUI
                 // Reposition all labels in the chatbox
                 foreach (Widget widget in m_Panel.GetWidgets())
                     widget.Position = new Vector2f (widget.Position.X, widget.Position.Y + heightDiff);
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Full size of the chat box.
+        /// This is the size including the borders.
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public override Vector2f FullSize
+        {
+            get
+            {
+                return new Vector2f(Size.X + m_Borders.Left + m_Borders.Right,
+                                    Size.Y + m_Borders.Top + m_Borders.Bottom);
             }
         }
 
@@ -270,11 +288,9 @@ namespace TGUI
             tempLine.TextSize = textSize;
             tempLine.TextFont = label.TextFont;
 
-            float width;
-            if (m_Scroll == null)
-                width = m_Panel.Size.X - m_Borders.Left - m_Borders.Right;
-            else
-                width = m_Panel.Size.X - m_Borders.Left - m_Borders.Right - m_Scroll.Size.X;
+            float width = m_Panel.Size.X;
+            if (m_Scroll != null)
+                width -= m_Scroll.Size.X;
 
             if (width < 0)
                 width = 0;
@@ -510,26 +526,7 @@ namespace TGUI
             }
             set
             {
-                // Reposition the labels
-                foreach (Widget widget in m_Panel.GetWidgets())
-                    widget.Position = new Vector2f (widget.Position.X + value.Left - m_Borders.Left, widget.Position.Y);
-
                 m_Borders = value;
-
-                // There is a minimum width
-                float width = m_Panel.Size.X;
-                if (width < (50 + m_Borders.Left + m_Borders.Right))
-                    width = 50 + m_Borders.Left + m_Borders.Right;
-
-                // Make sure that the panel has a valid size
-                m_Panel.Size = new Vector2f(width, m_Panel.Size.Y);
-
-                // If there is a scrollbar then reinitialize it
-                if (m_Scroll != null)
-                {
-                    m_Scroll.LowValue = (int)(m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
-                    m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
-                }
             }
         }
 
@@ -620,8 +617,8 @@ namespace TGUI
             // load the scrollbar
             m_Scroll = new Scrollbar(scrollbarConfigFileFilename);
             m_Scroll.VerticalScroll = true;
-            m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
-            m_Scroll.LowValue = (int)(m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
+            m_Scroll.Size = new Vector2f(m_Scroll.Size.X, m_Panel.Size.Y);
+            m_Scroll.LowValue = (int)(m_Panel.Size.Y);
             m_Scroll.Maximum = (int)m_FullTextHeight;
         }
 
@@ -676,7 +673,7 @@ namespace TGUI
             if (m_Scroll != null)
             {
                 // Temporarily set the position of the scroll
-                m_Scroll.Position = new Vector2f(Position.X + m_Panel.Size.X - m_Borders.Right - m_Scroll.Size.X, Position.Y + m_Borders.Top);
+                m_Scroll.Position = new Vector2f(Position.X + m_Panel.Size.X - m_Scroll.Size.X, Position.Y);
 
                 // Pass the event
                 m_Scroll.MouseOnWidget(x, y);
@@ -685,10 +682,7 @@ namespace TGUI
                 m_Scroll.Position = new Vector2f(0, 0);
             }
 
-            if (Transform.TransformRect(new FloatRect(m_Borders.Left,
-                                                      m_Borders.Top,
-                                                      Size.X - m_Borders.Left - m_Borders.Right,
-                                                      Size.Y - m_Borders.Top - m_Borders.Bottom)).Contains(x, y))
+            if (Transform.TransformRect(new FloatRect(0, 0, Size.X, Size.Y)).Contains(x, y))
             {
                 return true;
             }
@@ -721,7 +715,7 @@ namespace TGUI
                 int oldValue = m_Scroll.Value;
 
                 // Temporarily set the position of the scroll
-                m_Scroll.Position = new Vector2f(Position.X + m_Panel.Size.X - m_Borders.Right - m_Scroll.Size.X, Position.Y + m_Borders.Top);
+                m_Scroll.Position = new Vector2f(Position.X + m_Panel.Size.X - m_Scroll.Size.X, Position.Y);
 
                 // Pass the event
                 if (m_Scroll.MouseOnWidget(e.X, e.Y))
@@ -755,7 +749,7 @@ namespace TGUI
                     int oldValue = m_Scroll.Value;
 
                     // Temporarily set the position of the scroll
-                    m_Scroll.Position = new Vector2f(Position.X + m_Panel.Size.X - m_Borders.Right - m_Scroll.Size.X, Position.Y + m_Borders.Top);
+                    m_Scroll.Position = new Vector2f(Position.X + m_Panel.Size.X - m_Scroll.Size.X, Position.Y);
 
                     // Pass the event
                     m_Scroll.OnLeftMouseReleased(e);
@@ -814,7 +808,7 @@ namespace TGUI
             if (m_Scroll != null)
             {
                 // Temporarily set the position of the scroll
-                m_Scroll.Position = new Vector2f(Position.X + m_Panel.Size.X - m_Borders.Right - m_Scroll.Size.X, Position.Y + m_Borders.Top);
+                m_Scroll.Position = new Vector2f(Position.X + m_Panel.Size.X - m_Scroll.Size.X, Position.Y);
                 
                 // Check if you are dragging the thumb of the scrollbar
                 if ((m_Scroll.m_MouseDown) && (m_Scroll.m_MouseDownOnThumb))
@@ -956,22 +950,20 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void UpdateDisplayedText ()
         {
-            float position;
+            float position = 2.0f;
             if (m_Scroll != null)
-                position = m_Borders.Top + 2.0f - m_Scroll.Value;
-            else
-                position = m_Borders.Top + 2.0f;
+                position -= m_Scroll.Value;
 
             var labels = m_Panel.GetWidgets();
             for (int i = 0; i < labels.Count; ++i)
             {
                 Label label = labels[i] as Label;
-                label.Position = new Vector2f(m_Borders.Left + 2.0f, position);
+                label.Position = new Vector2f(2.0f, position);
 
                 position += GetLineSpacing((uint)i);
 
                 // Hide the label when it is no longer visible
-                if ((label.Position.Y + label.Size.Y < m_Borders.Top) || (label.Position.Y > m_Panel.Size.Y - m_Borders.Bottom))
+                if ((label.Position.Y + label.Size.Y < 0) || (label.Position.Y > m_Panel.Size.Y))
                     label.Visible = false;
                 else
                     label.Visible = true;
@@ -981,9 +973,9 @@ namespace TGUI
             if ((m_Scroll == null) && (labels.Count > 0))
             {
                 Label lastLabel = (Label)labels[labels.Count-1];
-                if (position > m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom)
+                if (position > m_Panel.Size.Y)
                 {
-                    float diff = position - (m_Panel.Size.Y - m_Borders.Top - m_Borders.Bottom);
+                    float diff = position - m_Panel.Size.Y;
                     foreach (Label label in labels)
                         label.Position = new Vector2f(label.Position.X, label.Position.Y - diff);
                 }
@@ -1006,29 +998,31 @@ namespace TGUI
             target.Draw(m_Panel, states);
 
             // Draw left border
-            RectangleShape border = new RectangleShape(new Vector2f(m_Borders.Left, m_Panel.Size.Y));
+            RectangleShape border = new RectangleShape(new Vector2f(m_Borders.Left, m_Panel.Size.Y + m_Borders.Top));
+            border.Position = new Vector2f(-(float)m_Borders.Left, -(float)m_Borders.Top);
             border.FillColor = m_BorderColor;
             target.Draw(border, states);
 
             // Draw top border
-            border.Size = new Vector2f(m_Panel.Size.X, m_Borders.Top);
+            border.Size = new Vector2f(m_Panel.Size.X + m_Borders.Right, m_Borders.Top);
+            border.Position = new Vector2f(0, -(float)m_Borders.Top);
             target.Draw(border, states);
 
             // Draw right border
-            border.Position = new Vector2f(m_Panel.Size.X - m_Borders.Right, 0);
-            border.Size = new Vector2f(m_Borders.Right, m_Panel.Size.Y);
+            border.Size = new Vector2f(m_Borders.Right, m_Panel.Size.Y + m_Borders.Bottom);
+            border.Position = new Vector2f(m_Panel.Size.X, 0);
             target.Draw(border, states);
 
             // Draw bottom border
-            border.Position = new Vector2f(0, m_Panel.Size.Y - m_Borders.Bottom);
-            border.Size = new Vector2f(m_Panel.Size.X, m_Borders.Bottom);
+            border.Size = new Vector2f(m_Panel.Size.X + m_Borders.Left, m_Borders.Bottom);
+            border.Position = new Vector2f(-(float)m_Borders.Left, m_Panel.Size.Y);
             target.Draw(border, states);
 
             // Check if there is a scrollbar
             if (m_Scroll != null)
             {
                 // Draw the scrollbar
-                states.Transform.Translate(m_Panel.Size.X - m_Borders.Right - m_Scroll.Size.X, m_Borders.Top);
+                states.Transform.Translate(m_Panel.Size.X - m_Scroll.Size.X, 0);
                 target.Draw(m_Scroll, states);
             }
         }

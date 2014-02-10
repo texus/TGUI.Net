@@ -89,6 +89,24 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
+        /// Full size of the widget
+        /// </summary>
+        ///
+        /// FullSize will return a value equal or greater than what Size returns.
+        /// If the widget would e.g. have borders around it then FullSize will be the size, including these borders.
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public virtual Vector2f FullSize
+        {
+            get
+            {
+                return Size;
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
         /// Returns the transform
         /// </summary>
         ///
