@@ -182,7 +182,7 @@ namespace TGUI
         /// The default minimum value is 0.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public virtual int Minimum
+        public int Minimum
         {
             get
             {
@@ -212,7 +212,7 @@ namespace TGUI
         /// The default maximum value is 10.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public virtual int Maximum
+        public int Maximum
         {
             get
             {
@@ -242,7 +242,7 @@ namespace TGUI
         /// The default value is 0.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public virtual int Value
+        public int Value
         {
             get
             {
