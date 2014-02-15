@@ -63,6 +63,7 @@
     <Compile Include="EventManager.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="Gui.cs" />
+    <Compile Include="Knob.cs" />
     <Compile Include="Label.cs" />
     <Compile Include="ListBox.cs" />
     <Compile Include="LoadingBar.cs" />
