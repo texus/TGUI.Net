@@ -60,7 +60,6 @@
     <Compile Include="ConfigFile.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="EditBox.cs" />
-    <Compile Include="EventManager.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="Gui.cs" />
     <Compile Include="Knob.cs" />

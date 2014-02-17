@@ -50,9 +50,9 @@ namespace TGUI
             window.MouseMoved += new EventHandler<MouseMoveEventArgs>(OnMouseMoved);
             window.MouseButtonPressed += new EventHandler<MouseButtonEventArgs>(OnMousePressed);
             window.MouseButtonReleased += new EventHandler<MouseButtonEventArgs>(OnMouseReleased);
-            window.KeyPressed += new EventHandler<KeyEventArgs>(m_Container.m_EventManager.OnKeyPressed);
-            window.KeyReleased += new EventHandler<KeyEventArgs>(m_Container.m_EventManager.OnKeyReleased);
-            window.TextEntered += new EventHandler<TextEventArgs>(m_Container.m_EventManager.OnTextEntered);
+            window.KeyPressed += new EventHandler<KeyEventArgs>(m_Container.OnKeyPressed);
+            window.KeyReleased += new EventHandler<KeyEventArgs>(m_Container.OnKeyReleased);
+            window.TextEntered += new EventHandler<TextEventArgs>(m_Container.OnTextEntered);
             window.MouseWheelMoved += new EventHandler<MouseWheelEventArgs>(OnMouseWheelMoved);
 
             window.LostFocus += (s, e) => m_Focused = false;
@@ -87,7 +87,10 @@ namespace TGUI
             // Update the time
             int currentTime = Environment.TickCount;
             if (m_Focused)
-                m_Container.m_EventManager.UpdateTime (currentTime - m_StartTime);
+            {
+                m_Container.m_AnimationTimeElapsed += currentTime - m_StartTime;
+                m_Container.OnUpdate();
+            }
             m_StartTime = currentTime;
 
             // Check if clipping is enabled
@@ -480,7 +483,7 @@ namespace TGUI
             e.X = (int)mouseCoords.X;
             e.Y = (int)mouseCoords.Y;
 
-            m_Container.m_EventManager.OnMouseMoved (sender, e);
+            m_Container.OnMouseMoved (e);
         }
 
 
@@ -492,11 +495,14 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void OnMousePressed (object sender, MouseButtonEventArgs e)
         {
-            Vector2f mouseCoords = m_Window.MapPixelToCoords(new Vector2i(e.X, e.Y));
-            e.X = (int)mouseCoords.X;
-            e.Y = (int)mouseCoords.Y;
+            if (e.Button == Mouse.Button.Left)
+            {
+                Vector2f mouseCoords = m_Window.MapPixelToCoords(new Vector2i(e.X, e.Y));
+                e.X = (int)mouseCoords.X;
+                e.Y = (int)mouseCoords.Y;
 
-            m_Container.m_EventManager.OnMousePressed (sender, e);
+                m_Container.OnLeftMousePressed (e);
+            }
         }
 
 
@@ -508,11 +514,14 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void OnMouseReleased (object sender, MouseButtonEventArgs e)
         {
-            Vector2f mouseCoords = m_Window.MapPixelToCoords(new Vector2i(e.X, e.Y));
-            e.X = (int)mouseCoords.X;
-            e.Y = (int)mouseCoords.Y;
+            if (e.Button == Mouse.Button.Left)
+            {
+                Vector2f mouseCoords = m_Window.MapPixelToCoords(new Vector2i(e.X, e.Y));
+                e.X = (int)mouseCoords.X;
+                e.Y = (int)mouseCoords.Y;
 
-            m_Container.m_EventManager.OnMouseReleased (sender, e);
+                m_Container.OnLeftMouseReleased (e);
+            }
         }
 
 
@@ -528,7 +537,7 @@ namespace TGUI
             e.X = (int)mouseCoords.X;
             e.Y = (int)mouseCoords.Y;
 
-            m_Container.m_EventManager.OnMouseWheelMoved (sender, e);
+            m_Container.OnMouseWheelMoved (e);
         }
 
 

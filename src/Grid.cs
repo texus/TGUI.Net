@@ -573,8 +573,8 @@ namespace TGUI
                 MouseLeftWidget();
 
                 // Tell the widgets inside the grid that the mouse is no longer on top of them
-                for (int i = 0; i < m_EventManager.m_Widgets.Count; ++i)
-                    m_EventManager.m_Widgets[i].MouseNotOnWidget();
+                for (int i = 0; i < m_Widgets.Count; ++i)
+                    m_Widgets[i].MouseNotOnWidget();
 
                 m_MouseHover = false;
             }

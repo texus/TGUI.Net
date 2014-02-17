@@ -577,7 +577,9 @@ namespace TGUI
             // Check if the mouse is on top of the title bar
             if (Transform.TransformRect(new FloatRect(0, 0, m_Size.X + m_Borders.Left + m_Borders.Right, m_TitleBarHeight)).Contains(x, y))
             {
-                m_EventManager.MouseNotOnWidget();
+                for (int i = 0; i < m_Widgets.Count; ++i)
+                    m_Widgets[i].MouseNotOnWidget();
+
                 return true;
             }
             else
@@ -591,8 +593,10 @@ namespace TGUI
                         MouseLeftWidget();
 
                     // Tell the widgets inside the child window that the mouse is no longer on top of them
-                    m_CloseButton.MouseNotOnWidget(); 
-                    m_EventManager.MouseNotOnWidget();
+                    for (int i = 0; i < m_Widgets.Count; ++i)
+                        m_Widgets[i].MouseNotOnWidget();
+
+                    m_CloseButton.MouseNotOnWidget();
                     m_MouseHover = false;
                     return false;
                 }
@@ -753,7 +757,10 @@ namespace TGUI
                 m_CloseButton.Position = new Vector2f(0, 0);
 
                 // Tell the widgets that the mouse is no longer down
-                m_EventManager.MouseNoLongerDown();
+                for (int i = 0; i < m_Widgets.Count; ++i)
+                    m_Widgets[i].MouseNoLongerDown();
+
+                // Don't send the event to the widgets
                 return;
             }
             else // The mouse is not on top of the title bar
@@ -766,7 +773,10 @@ namespace TGUI
                     && (Transform.TransformRect(new FloatRect(m_Borders.Left, m_TitleBarHeight + m_Borders.Top, m_Size.X, m_Size.Y)).Contains(e.X, e.Y) == false))
                 {
                     // Tell the widgets that the mouse has been released
-                    m_EventManager.MouseNoLongerDown();
+                    for (int i = 0; i < m_Widgets.Count; ++i)
+                        m_Widgets[i].MouseNoLongerDown();
+
+                    // Don't send the event to the widgets
                     return;
                 }
             }

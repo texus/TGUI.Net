@@ -173,16 +173,19 @@ namespace TGUI
             // Check if the mouse is inside the panel
             if (Transform.TransformRect(new FloatRect(0, 0, m_Size.X, m_Size.Y)).Contains(x, y))
                 return true;
-            else
+
+            if (m_MouseHover)
             {
-                if (m_MouseHover)
-                    MouseLeftWidget();
+                MouseLeftWidget();
 
                 // Tell the widgets inside the panel that the mouse is no longer on top of them
-                m_EventManager.MouseNotOnWidget();
+                for (int i = 0; i < m_Widgets.Count; ++i)
+                    m_Widgets[i].MouseNotOnWidget();
+
                 m_MouseHover = false;
-                return false;
             }
+
+            return false;
         }
 
 
