@@ -54,7 +54,7 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Knob (Knob copy) : base(copy)
         {
-            ValueChangedCallback   = copy.ValueChangedCallback;
+            ValueChangedCallback = copy.ValueChangedCallback;
 
             m_loadedConfigFile = copy.m_loadedConfigFile;
             m_size             = copy.m_size;

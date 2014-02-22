@@ -1169,7 +1169,7 @@ namespace TGUI
         private uint       m_DistanceToSide = 0;
         private Alignment  m_TitleAlignment = Alignment.Centered;
         private Color      m_BorderColor = new Color(0, 0, 0);
-        private Borders    m_Borders;
+        private Borders    m_Borders = new Borders();
 
         private Impl.Sprite m_TextureTitleBar_L = new Impl.Sprite();
         private Impl.Sprite m_TextureTitleBar_M = new Impl.Sprite();

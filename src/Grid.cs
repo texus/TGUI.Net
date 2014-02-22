@@ -53,8 +53,8 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public Grid (Grid copy) : base(copy)
         {
-            m_Size                  = copy.m_Size;
-            m_IntendedSize          = copy.m_IntendedSize;
+            m_Size         = copy.m_Size;
+            m_IntendedSize = copy.m_IntendedSize;
 
             var widgets = copy.GetWidgets();
 

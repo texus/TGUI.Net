@@ -51,9 +51,9 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public ClickableWidget (ClickableWidget copy) : base(copy)
         {
-            LeftMousePressedCallback = copy.LeftMousePressedCallback;
+            LeftMousePressedCallback  = copy.LeftMousePressedCallback;
             LeftMouseReleasedCallback = copy.LeftMouseReleasedCallback;
-            LeftMouseClickedCallback = copy.LeftMouseClickedCallback;
+            LeftMouseClickedCallback  = copy.LeftMouseClickedCallback;
 
             m_Size = copy.m_Size;
         }

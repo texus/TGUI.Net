@@ -72,8 +72,8 @@ namespace TGUI
             m_MaxChars               = copy.m_MaxChars;
             m_SplitImage             = copy.m_SplitImage;
             m_TextCropPosition       = copy.m_TextCropPosition;
-            m_SelectedTextBackground = copy.m_SelectedTextBackground;
-            m_SelectionPoint         = copy.m_SelectionPoint;
+            m_SelectedTextBackground = new RectangleShape(copy.m_SelectedTextBackground);
+            m_SelectionPoint         = new RectangleShape(copy.m_SelectionPoint);
             m_TextBeforeSelection    = new Text(copy.m_TextBeforeSelection);
             m_TextSelection          = new Text(copy.m_TextSelection);
             m_TextAfterSelection     = new Text(copy.m_TextAfterSelection);
@@ -1468,6 +1468,7 @@ namespace TGUI
                 TextChangedCallback (this, m_Callback);
             }
         }
+
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>

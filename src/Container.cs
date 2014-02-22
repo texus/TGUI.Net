@@ -970,7 +970,7 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private Font m_GlobalFont;
+        private Font m_GlobalFont = null;
         private List<string> m_Names = new List<string>();
         protected List<Widget> m_Widgets = new List<Widget>();
 
@@ -985,7 +985,7 @@ namespace TGUI
 
     class GuiContainer : Container
     {
-        internal RenderWindow m_Window;
+        internal RenderWindow m_Window = null;
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>

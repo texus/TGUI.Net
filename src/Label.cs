@@ -53,7 +53,7 @@ namespace TGUI
         public Label (Label copy) : base(copy)
         {
             m_LoadedConfigFile = copy.m_LoadedConfigFile;
-            m_Background       = copy.m_Background;
+            m_Background       = new RectangleShape(copy.m_Background);
             m_Text             = new Text(copy.m_Text);
             m_AutoSize         = copy.m_AutoSize;
         }

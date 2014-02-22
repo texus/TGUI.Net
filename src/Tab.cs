@@ -65,9 +65,9 @@ namespace TGUI
             m_MaximumTabWidth       = copy.m_MaximumTabWidth;
             m_DistanceToSide        = copy.m_DistanceToSide;
             m_SelectedTab           = copy.m_SelectedTab;
-            m_TabNames              = copy.m_TabNames;
-            m_NameWidth             = copy.m_NameWidth;
-            m_Text                  = copy.m_Text;
+            m_TabNames              = new List<string>(copy.m_TabNames);
+            m_NameWidth             = new List<float>(copy.m_NameWidth);
+            m_Text                  = new Text(copy.m_Text);
 
             Global.TextureManager.CopyTexture(copy.m_TextureNormal_L, m_TextureNormal_L);
             Global.TextureManager.CopyTexture(copy.m_TextureNormal_M, m_TextureNormal_M);
@@ -977,8 +977,8 @@ namespace TGUI
         private uint         m_TabHeight = 0;
         private uint         m_TextSize = 0;
 
-        private Color        m_TextColor;
-        private Color        m_SelectedTextColor;
+        private Color        m_TextColor = new Color();
+        private Color        m_SelectedTextColor = new Color();
 
         private uint         m_MaximumTabWidth = 0;
 

@@ -61,8 +61,6 @@ namespace TGUI
             m_ButtonConfigFileFilename = copy.m_ButtonConfigFileFilename;
             m_TextSize                 = copy.m_TextSize;
 
-            RemoveAllWidgets();
-
             m_Label = Copy<Label>(copy.m_Label, "MessageBoxText");
 
             foreach (Button button in copy.m_Buttons)

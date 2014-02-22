@@ -57,7 +57,7 @@ namespace TGUI
             ItemSelectedCallback = copy.ItemSelectedCallback;
 
             m_LoadedConfigFile        = copy.m_LoadedConfigFile;
-            m_Items                   = copy.m_Items;
+            m_Items                   = new List<string>(copy.m_Items);
             m_SelectedItem            = copy.m_SelectedItem;
             m_Size                    = copy.m_Size;
             m_ItemHeight              = copy.m_ItemHeight;
@@ -70,6 +70,10 @@ namespace TGUI
             m_BorderColor             = copy.m_BorderColor;
             m_TextFont                = copy.m_TextFont;
             m_Borders                 = copy.m_Borders;
+
+            // If there is a scrollbar then copy it
+            if (copy.m_Scroll != null)
+                m_Scroll = new Scrollbar(copy.m_Scroll);
         }
 
 

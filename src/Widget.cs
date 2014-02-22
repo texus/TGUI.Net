@@ -66,7 +66,9 @@ namespace TGUI
             m_AnimatedWidget     = copy.m_AnimatedWidget;
             m_DraggableWidget    = copy.m_DraggableWidget;
             m_Container          = copy.m_Container;
-            m_Callback           = copy.m_Callback;
+
+            m_Callback = new CallbackArgs();
+            m_Callback.Id = copy.m_Callback.Id;
         }
 
 

@@ -1276,8 +1276,8 @@ namespace TGUI
         protected bool m_SeparateHoverImage = false;
 
         // The size of the scrollbar and its thumb
-        protected Vector2f m_Size;
-        protected Vector2f m_ThumbSize;
+        protected Vector2f m_Size = new Vector2f();
+        protected Vector2f m_ThumbSize = new Vector2f();
 
         protected Impl.Sprite m_TextureTrackNormal_L = new Impl.Sprite();
         protected Impl.Sprite m_TextureTrackNormal_M = new Impl.Sprite();

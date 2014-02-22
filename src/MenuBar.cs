@@ -56,8 +56,6 @@ namespace TGUI
             MenuItemClickedCallback   = copy.MenuItemClickedCallback;
 
             m_LoadedConfigFile        = copy.m_LoadedConfigFile;
-            m_Menus                   = copy.m_Menus;
-            m_VisibleMenu             = copy.m_VisibleMenu;
             m_TextFont                = copy.m_TextFont;
             m_Size                    = copy.m_Size;
             m_TextSize                = copy.m_TextSize;
@@ -67,6 +65,15 @@ namespace TGUI
             m_TextColor               = copy.m_TextColor;
             m_SelectedBackgroundColor = copy.m_SelectedBackgroundColor;
             m_SelectedTextColor       = copy.m_SelectedTextColor;
+
+            m_Menus = new List<Menu>();
+            foreach (Menu menu in copy.m_Menus)
+            {
+                AddMenu(menu.text.DisplayedString);
+
+                foreach (Text text in menu.menuItems)
+                    AddMenuItem(menu.text.DisplayedString, text.DisplayedString);
+            }
         }
 
 

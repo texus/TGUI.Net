@@ -53,7 +53,7 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public AnimatedPicture (AnimatedPicture copy) : base(copy)
         {
-            m_FrameDuration = copy.m_FrameDuration;
+            m_FrameDuration = new List<int>(copy.m_FrameDuration);
             m_CurrentFrame  = copy.m_CurrentFrame;
             m_Playing       = copy.m_Playing;
             m_Looping       = copy.m_Looping;
