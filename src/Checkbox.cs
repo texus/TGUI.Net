@@ -146,16 +146,23 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnLeftMouseReleased (MouseButtonEventArgs e)
         {
-            // Check or uncheck the checkbox
+            m_Callback.Checked = IsChecked();
+            SendLeftMouseReleasedCallback (e);
+
+            // Check if we clicked on the checkbox (not just mouse release)
             if (m_MouseDown == true)
             {
+                // Check or uncheck the checkbox
                 if (m_Checked)
                     Uncheck ();
                 else
                     Check ();
-            }
 
-            base.OnLeftMouseReleased (e);
+                // Add the callback (if the user requested it)
+                SendLeftMouseClickedCallback (e);
+
+                m_MouseDown = false;
+            }
         }
 
 

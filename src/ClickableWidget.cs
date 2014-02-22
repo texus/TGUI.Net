@@ -109,12 +109,7 @@ namespace TGUI
         {
             m_MouseDown = true;
 
-            if (LeftMousePressedCallback != null)
-            {
-                m_Callback.Mouse = new Vector2i (e.X, e.Y);
-                m_Callback.Trigger = CallbackTrigger.LeftMousePressed;
-                LeftMousePressedCallback (this, m_Callback);
-            }
+            SendLeftMousePressedCallback (e);
         }
 
 
@@ -126,21 +121,11 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         protected internal override void OnLeftMouseReleased (MouseButtonEventArgs e)
         {
-            if (LeftMouseReleasedCallback != null)
-            {
-                m_Callback.Mouse = new Vector2i (e.X, e.Y);
-                m_Callback.Trigger = CallbackTrigger.LeftMouseReleased;
-                LeftMouseReleasedCallback (this, m_Callback);
-            }
+            SendLeftMouseReleasedCallback (e);
 
             if (m_MouseDown == true)
             {
-                if (LeftMouseClickedCallback != null)
-                {
-                    m_Callback.Mouse = new Vector2i (e.X, e.Y);
-                    m_Callback.Trigger = CallbackTrigger.LeftMouseClicked;
-                    LeftMouseClickedCallback (this, m_Callback);
-                }
+                SendLeftMouseClickedCallback (e);
 
                 m_MouseDown = false;
             }
@@ -155,6 +140,57 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public override void Draw (SFML.Graphics.RenderTarget target, SFML.Graphics.RenderStates states)
         {
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Send a left mouse pressed callback
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        protected void SendLeftMousePressedCallback (MouseButtonEventArgs e)
+        {
+            if (LeftMousePressedCallback != null)
+            {
+                m_Callback.Mouse = new Vector2i (e.X, e.Y);
+                m_Callback.Trigger = CallbackTrigger.LeftMousePressed;
+                LeftMousePressedCallback (this, m_Callback);
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Send a left mouse released callback
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        protected void SendLeftMouseReleasedCallback (MouseButtonEventArgs e)
+        {
+            if (LeftMouseReleasedCallback != null)
+            {
+                m_Callback.Mouse = new Vector2i (e.X, e.Y);
+                m_Callback.Trigger = CallbackTrigger.LeftMousePressed;
+                LeftMouseReleasedCallback (this, m_Callback);
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Send a left mouse clicked callback
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        protected void SendLeftMouseClickedCallback (MouseButtonEventArgs e)
+        {
+            if (LeftMouseClickedCallback != null)
+            {
+                m_Callback.Mouse = new Vector2i (e.X, e.Y);
+                m_Callback.Trigger = CallbackTrigger.LeftMousePressed;
+                LeftMouseClickedCallback (this, m_Callback);
+            }
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
