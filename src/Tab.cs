@@ -977,8 +977,8 @@ namespace TGUI
         private uint         m_TabHeight = 0;
         private uint         m_TextSize = 0;
 
-        private Color        m_TextColor = new Color();
-        private Color        m_SelectedTextColor = new Color();
+        private Color        m_TextColor = new Color(0, 0, 0);
+        private Color        m_SelectedTextColor = new Color(0, 0, 0);
 
         private uint         m_MaximumTabWidth = 0;
 
