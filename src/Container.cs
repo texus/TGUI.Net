@@ -329,17 +329,21 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void FocusWidget (Widget widget)
         {
-            // Unfocus the currently focused widget
-            if (m_FocusedWidget != null)
+            // Don't do anything when the widget is already focused
+            if (m_FocusedWidget != widget)
             {
-                m_FocusedWidget.m_Focused = false;
-                m_FocusedWidget.OnWidgetUnfocused();
-            }
+                // Unfocus the currently focused widget
+                if (m_FocusedWidget != null)
+                {
+                    m_FocusedWidget.m_Focused = false;
+                    m_FocusedWidget.OnWidgetUnfocused();
+                }
 
-            // Focus the new widget
-            m_FocusedWidget = widget;
-            widget.m_Focused = true;
-            widget.OnWidgetFocused();
+                // Focus the new widget
+                m_FocusedWidget = widget;
+                widget.m_Focused = true;
+                widget.OnWidgetFocused();
+            }
         }
 
 
@@ -724,6 +728,45 @@ namespace TGUI
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
+        /// Tells the widget that a special key has been pressed while the widget was focused
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        protected internal override void OnKeyPressed (KeyEventArgs e)
+        {
+            // Only continue when the character was recognised
+            if (e.Code != Keyboard.Key.Unknown)
+            {
+                // Check if there is a focused widget
+                if (m_FocusedWidget != null)
+                {
+                    // Tell the widget that the key was pressed
+                    m_FocusedWidget.OnKeyPressed(e);
+                }
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Tells the widget that text has been typed while the widget was focused
+        /// </summary>
+        ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        protected internal override void OnTextEntered (TextEventArgs e)
+        {
+            // Check if the character that we pressed is allowed
+            if ((e.Unicode[0] >= 32) && (e.Unicode[0] != 127))
+            {
+                // Tell the focused widget that the key was pressed
+                if (m_FocusedWidget != null)
+                    m_FocusedWidget.OnTextEntered(e);
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
         /// Tells the widget that the mouse has moved on top of the widget
         /// </summary>
         ///
@@ -1036,16 +1079,7 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         internal void OnKeyPressed (object sender, KeyEventArgs e)
         {
-            // Only continue when the character was recognised
-            if (e.Code != Keyboard.Key.Unknown)
-            {
-                // Check if there is a focused widget
-                if (m_FocusedWidget != null)
-                {
-                    // Tell the widget that the key was pressed
-                    m_FocusedWidget.OnKeyPressed(e);
-                }
-            }
+            OnKeyPressed (e);
         }
 
 
@@ -1071,13 +1105,7 @@ namespace TGUI
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         internal void OnTextEntered (object sender, TextEventArgs e)
         {
-            // Check if the character that we pressed is allowed
-            if ((e.Unicode[0] >= 32) && (e.Unicode[0] != 127))
-            {
-                // Tell the focused widget that the key was pressed
-                if (m_FocusedWidget != null)
-                    m_FocusedWidget.OnTextEntered(e);
-            }
+            OnTextEntered (e);
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
