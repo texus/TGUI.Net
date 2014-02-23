@@ -117,6 +117,10 @@ namespace TGUI
                     configFile.ReadTexture (i, configFileFolder, m_TextureFront_M);
                 else if (configFile.Properties[i] == "frontimage_r")
                     configFile.ReadTexture (i, configFileFolder, m_TextureFront_R);
+                else if (configFile.Properties [i] == "textcolor")
+                    TextColor = configFile.ReadColor (i);
+                else if (configFile.Properties [i] == "textsize")
+                    TextSize = Convert.ToUInt32(configFile.Values [i]);
                 else
                     Internal.Output("TGUI warning: Unrecognized property '" + configFile.Properties[i]
                                     + "' in section LoadingBar in " + m_LoadedConfigFile + ".");
