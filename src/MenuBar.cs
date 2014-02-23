@@ -645,43 +645,47 @@ namespace TGUI
             // Check if the mouse is on top of the menu bar (not on an open menus)
             if (e.Y <= m_Size.Y + Position.Y)
             {
-                // Loop through the menus to check if the mouse is on top of them
-                float menuWidth = 0;
-                foreach (Menu menu in m_Menus)
+                // Don't open a menu without having clicked first
+                if (m_VisibleMenu != null)
                 {
-                    menuWidth += menu.text.GetLocalBounds().Width + (2 * m_DistanceToSide);
-                    if (e.X < menuWidth)
+                    // Loop through the menus to check if the mouse is on top of them
+                    float menuWidth = 0;
+                    foreach (Menu menu in m_Menus)
                     {
-                        // Check if the menu is already open
-                        if (m_VisibleMenu == menu)
+                        menuWidth += menu.text.GetLocalBounds().Width + (2 * m_DistanceToSide);
+                        if (e.X < menuWidth)
                         {
-                            // If one of the menu items is selected then unselect it
-                            if (m_VisibleMenu.selectedMenuItem != null)
+                            // Check if the menu is already open
+                            if (m_VisibleMenu == menu)
                             {
-                                m_VisibleMenu.selectedMenuItem.Color = m_TextColor;
-                                m_VisibleMenu.selectedMenuItem = null;
-                            }
-                        }
-                        else // The menu isn't open yet
-                        {
-                            // If there is another menu open then close it first
-                            if (m_VisibleMenu != null)
-                            {
-                                // If an item in that other menu was selected then unselect it first
+                                // If one of the menu items is selected then unselect it
                                 if (m_VisibleMenu.selectedMenuItem != null)
                                 {
                                     m_VisibleMenu.selectedMenuItem.Color = m_TextColor;
                                     m_VisibleMenu.selectedMenuItem = null;
                                 }
-
-                                m_VisibleMenu = null;
                             }
+                            else // The menu isn't open yet
+                            {
+                                // If there is another menu open then close it first
+                                if (m_VisibleMenu != null)
+                                {
+                                    // If an item in that other menu was selected then unselect it first
+                                    if (m_VisibleMenu.selectedMenuItem != null)
+                                    {
+                                        m_VisibleMenu.selectedMenuItem.Color = m_TextColor;
+                                        m_VisibleMenu.selectedMenuItem = null;
+                                    }
 
-                            // If this menu can be opened then do so
-                            if (menu.menuItems.Count != 0)
-                                m_VisibleMenu = menu;
+                                    m_VisibleMenu = null;
+                                }
+
+                                // If this menu can be opened then do so
+                                if (menu.menuItems.Count != 0)
+                                    m_VisibleMenu = menu;
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }
