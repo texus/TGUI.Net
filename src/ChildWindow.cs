@@ -1103,6 +1103,10 @@ namespace TGUI
                 if ((m_TextureTitleBar_L.texture != null) && (m_TextureTitleBar_M.texture != null) && (m_TextureTitleBar_R.texture != null))
                 {
                     m_TitleBarHeight = m_TextureTitleBar_M.Size.Y;
+
+                    float width = m_TextureTitleBar_L.Size.X + m_TextureTitleBar_M.Size.X + m_TextureTitleBar_R.Size.X;
+                    Size = new Vector2f(width, width * 3.0f / 4.0f);
+
                     m_TextureTitleBar_M.texture.texture.Repeated = true;
                 }
                 else
@@ -1114,6 +1118,8 @@ namespace TGUI
                 if ((m_TextureTitleBar_M.texture != null))
                 {
                     m_TitleBarHeight = m_TextureTitleBar_M.Size.Y;
+
+                    Size = new Vector2f(m_TextureTitleBar_M.Size.X, m_TextureTitleBar_M.Size.X * 3.0f / 4.0f);
                 }
                 else
                     throw new Exception("Not all needed images were loaded for the child window. Is the ChildWindow section in " + m_LoadedConfigFile + " complete?");
@@ -1154,7 +1160,7 @@ namespace TGUI
 
         private string     m_LoadedConfigFile = "";
 
-        private Vector2f   m_Size = new Vector2f(200, 150);
+        private Vector2f   m_Size = new Vector2f(0, 0);
 
         private Color      m_BackgroundColor = new Color(0, 0, 0);
         private Texture    m_BackgroundTexture = null;
