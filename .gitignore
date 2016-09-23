@@ -6,3 +6,4 @@ doc/build/*xml
 *.manifest
 *.pdb
 *.suo
+*.userprefs
