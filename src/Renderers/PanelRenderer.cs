@@ -25,64 +25,70 @@
 using System;
 using System.Security;
 using System.Runtime.InteropServices;
+using SFML.Graphics;
 
 namespace TGUI
 {
-	public class Button : ClickableWidget
+	public class PanelRenderer : WidgetRenderer
 	{
-		public Button(string text = "")
-			: base(tguiButton_create())
+		public PanelRenderer()
+			: base(tguiPanelRenderer_create())
 		{
-			if (text.Length > 0)
-				Text = text;
 		}
 
-		protected internal Button(IntPtr cPointer)
+		internal PanelRenderer(IntPtr cPointer)
 			: base(cPointer)
 		{
 		}
 
-		public Button(Button copy)
-			: base(copy)
+		public PanelRenderer(PanelRenderer copy)
+			: base(tguiPanelRenderer_copy(copy.CPointer))
 		{
 		}
 
-		public new ButtonRenderer Renderer
+		public Outline Borders
 		{
-			get { return new ButtonRenderer(tguiWidget_getRenderer(CPointer)); }
+			get { return tguiPanelRenderer_getBorders(CPointer); }
+			set { tguiPanelRenderer_setBorders(CPointer, value); }
 		}
 
-		public string Text
+		public Color BackgroundColor
 		{
-			get { return Util.GetStringFromC_UTF32(tguiButton_getText(CPointer)); }
-			set { tguiButton_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
+			get { return tguiPanelRenderer_getBackgroundColor(CPointer); }
+			set { tguiPanelRenderer_setBackgroundColor(CPointer, value); }
 		}
 
-		public uint TextSize
+		public Color BorderColor
 		{
-			get { return tguiButton_getTextSize(CPointer); }
-			set { tguiButton_setTextSize(CPointer, value); }
+			get { return tguiPanelRenderer_getBorderColor(CPointer); }
+			set { tguiPanelRenderer_setBorderColor(CPointer, value); }
 		}
 
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiButton_create();
+		static extern IntPtr tguiPanelRenderer_create();
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidget_getRenderer(IntPtr cPointer);
+		static extern IntPtr tguiPanelRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButton_setText(IntPtr cPointer, IntPtr value);
+		static extern void tguiPanelRenderer_setBorders(IntPtr cPointer, Outline borders);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiButton_getText(IntPtr cPointer);
+		static extern Outline tguiPanelRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButton_setTextSize(IntPtr cPointer, uint textSize);
+		static extern void tguiPanelRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern uint tguiButton_getTextSize(IntPtr cPointer);
+		static extern Color tguiPanelRenderer_getBackgroundColor(IntPtr cPointer);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern void tguiPanelRenderer_setBorderColor(IntPtr cPointer, Color color);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern Color tguiPanelRenderer_getBorderColor(IntPtr cPointer);
 
 		#endregion
 	}

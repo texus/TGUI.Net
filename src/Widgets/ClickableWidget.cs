@@ -25,14 +25,43 @@
 using System;
 using System.Security;
 using System.Runtime.InteropServices;
+using SFML.System;
 
 namespace TGUI
 {
-	public class GuiContainer : Container
+	public class ClickableWidget : Widget
 	{
-		public GuiContainer(IntPtr cPointer)
+		public ClickableWidget()
+			: base(tguiClickableWidget_create())
+		{
+		}
+
+		public ClickableWidget(Vector2f size)
+			: this()
+		{
+			Size = size;
+		}
+
+		public ClickableWidget(float width, float height)
+			: this(new Vector2f(width, height))
+		{
+		}
+
+		protected internal ClickableWidget(IntPtr cPointer)
 			: base(cPointer)
 		{
 		}
+
+		public ClickableWidget(ClickableWidget copy)
+			: base(copy)
+		{
+		}
+
+		#region Imports
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiClickableWidget_create();
+
+		#endregion
 	}
 }

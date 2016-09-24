@@ -30,8 +30,8 @@ using SFML.System;
 
 namespace TGUI
 {
-    public class RendererData : ObjectBase
-    {
+	public class RendererData : ObjectBase
+	{
 		public RendererData(IntPtr cPointer)
 			: base(cPointer)
 		{
@@ -39,22 +39,22 @@ namespace TGUI
 
 		public RendererData(RendererData copy)
 			: base(tguiRendererData_copy(copy.CPointer))
-        {
-        }
+		{
+		}
 
-        protected override void Destroy(bool disposing)
-        {
+		protected override void Destroy(bool disposing)
+		{
 			tguiRendererData_destroy(CPointer);
-        }
+		}
 
-        #region Imports
+		#region Imports
 
-		[DllImport ("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiRendererData_copy (IntPtr cPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiRendererData_copy(IntPtr cPointer);
 
-		[DllImport ("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiRendererData_destroy (IntPtr cPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern void tguiRendererData_destroy(IntPtr cPointer);
 
-        #endregion
-    }
+		#endregion
+	}
 }

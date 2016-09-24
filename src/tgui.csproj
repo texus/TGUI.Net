@@ -84,6 +84,15 @@
     <Compile Include="Widgets\Picture.cs" />
     <Compile Include="Widgets\Label.cs" />
     <Compile Include="Renderers\LabelRenderer.cs" />
+    <Compile Include="Widgets\Panel.cs" />
+    <Compile Include="Renderers\PanelRenderer.cs" />
+    <Compile Include="Alignment.cs" />
+    <Compile Include="Renderers\EditBoxRenderer.cs" />
+    <Compile Include="Widgets\EditBox.cs" />
+    <Compile Include="Renderers\RadioButtonRenderer.cs" />
+    <Compile Include="Widgets\RadioButton.cs" />
+    <Compile Include="Widgets\CheckBox.cs" />
+    <Compile Include="Widgets\ClickableWidget.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

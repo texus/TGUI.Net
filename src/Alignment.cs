@@ -22,17 +22,19 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Security;
-using System.Runtime.InteropServices;
-
 namespace TGUI
 {
-	public class GuiContainer : Container
+	public enum HorizontalAlignment
 	{
-		public GuiContainer(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+		Left,
+		Center,
+		Right
+	}
+
+	public enum VerticalAlignment
+	{
+		Top,
+		Center,
+		Bottom
 	}
 }

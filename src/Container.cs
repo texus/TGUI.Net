@@ -34,9 +34,14 @@ using SFML.Graphics;
 namespace TGUI
 {
 	public abstract class Container : Widget
-    {
+	{
 		protected Container(IntPtr cPointer)
 			: base(cPointer)
+		{
+		}
+
+		public Container(Container copy)
+			: base(copy)
 		{
 		}
 
@@ -52,7 +57,7 @@ namespace TGUI
 				return null;
 
 			Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
-			return (Widget)Activator.CreateInstance (type, new object[]{WidgetCPointer});
+			return (Widget)Activator.CreateInstance(type, new object[]{ WidgetCPointer });
 		}
 
 		public List<Widget> GetWidgets()
@@ -119,7 +124,7 @@ namespace TGUI
 		}
 
 
-        #region Imports
+		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern void tguiContainer_add(IntPtr cPointer, IntPtr cPointerWidget, IntPtr widgetName);
@@ -151,6 +156,6 @@ namespace TGUI
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern IntPtr tguiWidget_getWidgetType(IntPtr cPointer);
 
-        #endregion
-    }
+		#endregion
+	}
 }

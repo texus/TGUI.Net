@@ -29,8 +29,8 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-    public class Picture : Widget
-    {
+	public class Picture : ClickableWidget
+	{
 		public Picture(string filename = "")
 			: base(tguiPicture_create())
 		{
@@ -39,13 +39,13 @@ namespace TGUI
 		}
 
 		public Picture(Texture texture = null)
-            : base(tguiPicture_create())
-        {
+			: base(tguiPicture_create())
+		{
 			if (texture != null)
 				Texture = texture;
-        }
+		}
 
-		public Picture(IntPtr cPointer)
+		protected internal Picture(IntPtr cPointer)
 			: base(cPointer)
 		{
 		}
@@ -55,27 +55,27 @@ namespace TGUI
 		{
 		}
 
-        public new WidgetRenderer Renderer
-        {
+		public new WidgetRenderer Renderer
+		{
 			get { return new WidgetRenderer(tguiWidget_getRenderer(CPointer)); }
-        }
+		}
 
 		public Texture Texture
-        {
+		{
 			set { tguiPicture_setTexture(CPointer, value.CPointer); }
-        }
+		}
 
-        #region Imports
+		#region Imports
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern IntPtr tguiPicture_create();
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiPicture_create();
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern IntPtr tguiWidget_getRenderer(IntPtr cPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiWidget_getRenderer(IntPtr cPointer);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern void tguiPicture_setTexture(IntPtr cPointer, IntPtr textureCPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern void tguiPicture_setTexture(IntPtr cPointer, IntPtr textureCPointer);
 
-        #endregion
-    }
+		#endregion
+	}
 }

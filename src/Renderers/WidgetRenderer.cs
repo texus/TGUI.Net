@@ -32,65 +32,65 @@ namespace TGUI
 {
 	public class WidgetRenderer : ObjectBase
 	{
-		public WidgetRenderer() :
-			base(tguiWidgetRenderer_create())
+		public WidgetRenderer()
+			: base(tguiWidgetRenderer_create())
 		{
 		}
 
-		internal WidgetRenderer(IntPtr cPointer) :
-			base(cPointer)
+		internal WidgetRenderer(IntPtr cPointer)
+			: base(cPointer)
 		{
 		}
 
-		public WidgetRenderer (WidgetRenderer copy) :
-		base (tguiWidgetRenderer_copy (copy.CPointer))
+		public WidgetRenderer(WidgetRenderer copy)
+			: base(tguiWidgetRenderer_copy(copy.CPointer))
 		{
 		}
 
-		protected override void Destroy (bool disposing)
+		protected override void Destroy(bool disposing)
 		{
-			tguiWidgetRenderer_destroy (CPointer);
+			tguiWidgetRenderer_destroy(CPointer);
 		}
 
 		public float Opacity
 		{
-			get { return tguiWidgetRenderer_getOpacity (CPointer); }
-			set { tguiWidgetRenderer_setOpacity (CPointer, value); }
+			get { return tguiWidgetRenderer_getOpacity(CPointer); }
+			set { tguiWidgetRenderer_setOpacity(CPointer, value); }
 		}
 
 		public Font Font
 		{
-			set { tguiWidgetRenderer_setFont (CPointer, value.CPointer); }
+			set { tguiWidgetRenderer_setFont(CPointer, value.CPointer); }
 		}
 
 		public RendererData Data
 		{
-			get { return new RendererData(tguiWidgetRenderer_getData (CPointer)); }
+			get { return new RendererData(tguiWidgetRenderer_getData(CPointer)); }
 		}
 
-        #region Imports
+		#region Imports
 
-		[DllImport ("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidgetRenderer_create ();
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiWidgetRenderer_create();
 
-		[DllImport ("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidgetRenderer_copy (IntPtr cPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiWidgetRenderer_copy(IntPtr cPointer);
 
-		[DllImport ("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidgetRenderer_destroy (IntPtr cPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern void tguiWidgetRenderer_destroy(IntPtr cPointer);
 
-		[DllImport ("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidgetRenderer_setOpacity (IntPtr cPointer, float opacity);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern void tguiWidgetRenderer_setOpacity(IntPtr cPointer, float opacity);
 
-		[DllImport ("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern float tguiWidgetRenderer_getOpacity (IntPtr cPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern float tguiWidgetRenderer_getOpacity(IntPtr cPointer);
 
-		[DllImport ("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidgetRenderer_setFont (IntPtr cPointer, IntPtr font);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern void tguiWidgetRenderer_setFont(IntPtr cPointer, IntPtr font);
 
-		[DllImport ("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidgetRenderer_getData (IntPtr cPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiWidgetRenderer_getData(IntPtr cPointer);
 
-        #endregion
-    }
+		#endregion
+	}
 }

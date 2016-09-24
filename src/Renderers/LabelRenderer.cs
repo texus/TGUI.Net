@@ -29,28 +29,28 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-    public class LabelRenderer : WidgetRenderer
-    {
+	public class LabelRenderer : WidgetRenderer
+	{
 		public LabelRenderer()
 			: base(tguiLabelRenderer_create())
-        {
-        }
+		{
+		}
 
 		internal LabelRenderer(IntPtr cPointer)
-            : base(cPointer)
-        {
-        }
+			: base(cPointer)
+		{
+		}
 
 		public LabelRenderer(LabelRenderer copy)
 			: base(tguiLabelRenderer_copy(copy.CPointer))
-        {
-        }
+		{
+		}
 
-        public Outline Borders
-        {
+		public Outline Borders
+		{
 			get { return tguiLabelRenderer_getBorders(CPointer); }
 			set { tguiLabelRenderer_setBorders(CPointer, value); }
-        }
+		}
 
 		public Outline Padding
 		{
@@ -58,43 +58,43 @@ namespace TGUI
 			set { tguiLabelRenderer_setPadding(CPointer, value); }
 		}
 
-        public Color TextColor
-        {
-            get { return tguiLabelRenderer_getTextColor(CPointer); }
-            set { tguiLabelRenderer_setTextColor(CPointer, value); }
-        }
+		public Color TextColor
+		{
+			get { return tguiLabelRenderer_getTextColor(CPointer); }
+			set { tguiLabelRenderer_setTextColor(CPointer, value); }
+		}
 
-        public Color BackgroundColor
-        {
-            get { return tguiLabelRenderer_getBackgroundColor(CPointer); }
+		public Color BackgroundColor
+		{
+			get { return tguiLabelRenderer_getBackgroundColor(CPointer); }
 			set { tguiLabelRenderer_setBackgroundColor(CPointer, value); }
-        }
+		}
 
-        public Color BorderColor
-        {
+		public Color BorderColor
+		{
 			get { return tguiLabelRenderer_getBorderColor(CPointer); }
 			set { tguiLabelRenderer_setBorderColor(CPointer, value); }
-        }
+		}
 
-        public Text.Styles TextStyle
-        {
+		public Text.Styles TextStyle
+		{
 			get { return tguiLabelRenderer_getTextStyle(CPointer); }
 			set { tguiLabelRenderer_setTextStyle(CPointer, value); }
-        }
+		}
 
 
-        #region Imports
+		#region Imports
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern IntPtr tguiLabelRenderer_create();
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern IntPtr tguiLabelRenderer_copy(IntPtr cPointer);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern void tguiLabelRenderer_setBorders(IntPtr cPointer, Outline borders);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern Outline tguiLabelRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -103,30 +103,30 @@ namespace TGUI
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern Outline tguiLabelRenderer_getPadding(IntPtr cPointer);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern void tguiLabelRenderer_setTextColor(IntPtr cPointer, Color color);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern void tguiLabelRenderer_setTextColor(IntPtr cPointer, Color color);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern Color tguiLabelRenderer_getTextColor(IntPtr cPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern Color tguiLabelRenderer_getTextColor(IntPtr cPointer);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern void tguiLabelRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern Color tguiLabelRenderer_getBackgroundColor(IntPtr cPointer);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern void tguiLabelRenderer_setBorderColor(IntPtr cPointer, Color color);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern Color tguiLabelRenderer_getBorderColor(IntPtr cPointer);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern void tguiLabelRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern Text.Styles tguiLabelRenderer_getTextStyle(IntPtr cPointer);
 
-        #endregion
-    }
+		#endregion
+	}
 }

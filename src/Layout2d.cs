@@ -29,68 +29,68 @@ using SFML.System;
 
 namespace TGUI
 {
-    public class Layout2d : ObjectBase
-    {
-        public Layout2d()
-            : base(tguiLayout2d_create(new Vector2f(0, 0)))
-        {
-        }
+	public class Layout2d : ObjectBase
+	{
+		public Layout2d()
+			: base(tguiLayout2d_create(new Vector2f(0, 0)))
+		{
+		}
 
-        public Layout2d(Vector2f constant)
-            : base(tguiLayout2d_create(constant))
-        {
-        }
+		public Layout2d(Vector2f constant)
+			: base(tguiLayout2d_create(constant))
+		{
+		}
 
-        public Layout2d(Layout x, Layout y)
-            : base(tguiLayout2d_create_fromLayouts(x.CPointer, y.CPointer))
-        {
-        }
+		public Layout2d(Layout x, Layout y)
+			: base(tguiLayout2d_create_fromLayouts(x.CPointer, y.CPointer))
+		{
+		}
 
-        public Layout2d(string expression)
-            : base(tguiLayout2d_create_fromString(Util.ConvertStringForC_ASCII(expression)))
-        {
-        }
+		public Layout2d(string expression)
+			: base(tguiLayout2d_create_fromString(Util.ConvertStringForC_ASCII(expression)))
+		{
+		}
 
-        public Layout2d(string xExpression, string yExpression)
-            : this(new Layout(xExpression), new Layout(yExpression))
-        {
-        }
+		public Layout2d(string xExpression, string yExpression)
+			: this(new Layout(xExpression), new Layout(yExpression))
+		{
+		}
 
-        public Layout2d(Layout2d copy)
-            : base(tguiLayout2d_copy(copy.CPointer))
-        {
-        }
+		public Layout2d(Layout2d copy)
+			: base(tguiLayout2d_copy(copy.CPointer))
+		{
+		}
 
-        protected override void Destroy(bool disposing)
-        {
+		protected override void Destroy(bool disposing)
+		{
 			tguiLayout2d_destroy(CPointer);
-        }
+		}
 
 		public Vector2f Value
 		{
-         	get { return tguiLayout2d_getValue(CPointer); }
+			get { return tguiLayout2d_getValue(CPointer); }
 		}
 
-        #region Imports
+		#region Imports
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern IntPtr tguiLayout2d_create(Vector2f constant);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiLayout2d_create(Vector2f constant);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern IntPtr tguiLayout2d_create_fromLayouts(IntPtr x, IntPtr y);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiLayout2d_create_fromLayouts(IntPtr x, IntPtr y);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern IntPtr tguiLayout2d_create_fromString(IntPtr expression);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiLayout2d_create_fromString(IntPtr expression);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern IntPtr tguiLayout2d_copy(IntPtr cPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiLayout2d_copy(IntPtr cPointer);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern void tguiLayout2d_destroy(IntPtr cPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern void tguiLayout2d_destroy(IntPtr cPointer);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern Vector2f tguiLayout2d_getValue(IntPtr cPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern Vector2f tguiLayout2d_getValue(IntPtr cPointer);
 
-        #endregion
-    }
+		#endregion
+	}
 }

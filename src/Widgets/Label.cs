@@ -28,30 +28,16 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
-	public enum HorizontalAlignment
+	public class Label : ClickableWidget
 	{
-		Left,
-		Center,
-		Right
-	}
-
-	public enum VerticalAlignment
-	{
-		Top,
-		Center,
-		Bottom
-	}
-
-    public class Label : Widget
-    {
 		public Label(string text = "")
 			: base(tguiLabel_create())
-        {
-            if (text.Length > 0)
-                Text = text;
-        }
+		{
+			if (text.Length > 0)
+				Text = text;
+		}
 
-		public Label(IntPtr cPointer)
+		protected internal Label(IntPtr cPointer)
 			: base(cPointer)
 		{
 		}
@@ -62,21 +48,21 @@ namespace TGUI
 		}
 
 		public new LabelRenderer Renderer
-        {
+		{
 			get { return new LabelRenderer(tguiWidget_getRenderer(CPointer)); }
-        }
+		}
 
-        public string Text
-        {
+		public string Text
+		{
 			get { return Util.GetStringFromC_UTF32(tguiLabel_getText(CPointer)); }
 			set { tguiLabel_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
-        }
+		}
 
-        public uint TextSize
-        {
+		public uint TextSize
+		{
 			get { return tguiLabel_getTextSize(CPointer); }
 			set { tguiLabel_setTextSize(CPointer, value); }
-        }
+		}
 
 		public HorizontalAlignment HorizontalAlignment
 		{
@@ -102,24 +88,24 @@ namespace TGUI
 			set { tguiLabel_setMaximumTextWidth(CPointer, value); }
 		}
 
-        #region Imports
+		#region Imports
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern IntPtr tguiLabel_create();
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern IntPtr tguiWidget_getRenderer(IntPtr cPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiWidget_getRenderer(IntPtr cPointer);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern void tguiLabel_setText(IntPtr cPointer, IntPtr value);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern IntPtr tguiLabel_getText(IntPtr cPointer);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern void tguiLabel_setTextSize(IntPtr cPointer, uint textSize);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern uint tguiLabel_getTextSize(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -146,6 +132,6 @@ namespace TGUI
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern float tguiLabel_getMaximumTextWidth(IntPtr cPointer);
 
-        #endregion
-    }
+		#endregion
+	}
 }

@@ -25,14 +25,51 @@
 using System;
 using System.Security;
 using System.Runtime.InteropServices;
+using SFML.System;
 
 namespace TGUI
 {
-	public class GuiContainer : Container
+	public class Panel : Container
 	{
-		public GuiContainer(IntPtr cPointer)
+		public Panel()
+			: base(tguiPanel_create())
+		{
+		}
+
+		public Panel(Vector2f size)
+			: this()
+		{
+			Size = size;
+		}
+
+		public Panel(float width, float height)
+			: this(new Vector2f(width, height))
+		{
+		}
+
+		protected internal Panel(IntPtr cPointer)
 			: base(cPointer)
 		{
 		}
+
+		public Panel(Panel copy)
+			: base(copy)
+		{
+		}
+
+		public new PanelRenderer Renderer
+		{
+			get { return new PanelRenderer(tguiWidget_getRenderer(CPointer)); }
+		}
+
+		#region Imports
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiPanel_create();
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiWidget_getRenderer(IntPtr cPointer);
+
+		#endregion
 	}
 }

@@ -29,50 +29,50 @@ using SFML.System;
 
 namespace TGUI
 {
-    public class Layout : ObjectBase
-    {
-        public Layout(float constant)
-            : base(tguiLayout_create(constant))
-        {
-        }
+	public class Layout : ObjectBase
+	{
+		public Layout(float constant)
+			: base(tguiLayout_create(constant))
+		{
+		}
 
-        public Layout(string expression)
-            : base(tguiLayout_create_fromString(Util.ConvertStringForC_ASCII(expression)))
-        {
-        }
+		public Layout(string expression)
+			: base(tguiLayout_create_fromString(Util.ConvertStringForC_ASCII(expression)))
+		{
+		}
 
-        public Layout(Layout copy)
-            : base(tguiLayout_copy(copy.CPointer))
-        {
-        }
+		public Layout(Layout copy)
+			: base(tguiLayout_copy(copy.CPointer))
+		{
+		}
 
-        protected override void Destroy(bool disposing)
-        {
+		protected override void Destroy(bool disposing)
+		{
 			tguiLayout_destroy(CPointer);
-        }
+		}
 
-        public float Value
-        {
-            get { return tguiLayout_getValue(CPointer); }
-        }
+		public float Value
+		{
+			get { return tguiLayout_getValue(CPointer); }
+		}
 
-        #region Imports
+		#region Imports
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern IntPtr tguiLayout_create(float constant);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiLayout_create(float constant);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern IntPtr tguiLayout_create_fromString(IntPtr expression);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiLayout_create_fromString(IntPtr expression);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern IntPtr tguiLayout_copy(IntPtr cPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiLayout_copy(IntPtr cPointer);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern void tguiLayout_destroy(IntPtr cPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern void tguiLayout_destroy(IntPtr cPointer);
 
-        [DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern float tguiLayout_getValue(IntPtr cPointer);
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern float tguiLayout_getValue(IntPtr cPointer);
 
-        #endregion
-    }
+		#endregion
+	}
 }

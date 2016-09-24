@@ -28,61 +28,94 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
-	public class Button : ClickableWidget
+	public class RadioButton : ClickableWidget
 	{
-		public Button(string text = "")
-			: base(tguiButton_create())
+		public RadioButton(string text = "")
+			: base(tguiRadioButton_create())
 		{
 			if (text.Length > 0)
 				Text = text;
 		}
 
-		protected internal Button(IntPtr cPointer)
+		protected internal RadioButton(IntPtr cPointer)
 			: base(cPointer)
 		{
 		}
 
-		public Button(Button copy)
+		public RadioButton(RadioButton copy)
 			: base(copy)
 		{
 		}
 
-		public new ButtonRenderer Renderer
+		public new RadioButtonRenderer Renderer
 		{
-			get { return new ButtonRenderer(tguiWidget_getRenderer(CPointer)); }
+			get { return new RadioButtonRenderer(tguiWidget_getRenderer(CPointer)); }
+		}
+
+		public bool Checked
+		{
+			get { return tguiRadioButton_isChecked(CPointer); }
+			set
+			{
+				if (value)
+					tguiRadioButton_check(CPointer);
+				else
+					tguiRadioButton_uncheck(CPointer);
+			}
 		}
 
 		public string Text
 		{
-			get { return Util.GetStringFromC_UTF32(tguiButton_getText(CPointer)); }
-			set { tguiButton_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
+			get { return Util.GetStringFromC_UTF32(tguiRadioButton_getText(CPointer)); }
+			set { tguiRadioButton_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
 		}
 
 		public uint TextSize
 		{
-			get { return tguiButton_getTextSize(CPointer); }
-			set { tguiButton_setTextSize(CPointer, value); }
+			get { return tguiRadioButton_getTextSize(CPointer); }
+			set { tguiRadioButton_setTextSize(CPointer, value); }
+		}
+
+		public bool TextClickable
+		{
+			get { return tguiRadioButton_isTextClickable(CPointer); }
+			set { tguiRadioButton_setTextClickable(CPointer, value); }
 		}
 
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiButton_create();
+		static extern IntPtr tguiRadioButton_create();
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern IntPtr tguiWidget_getRenderer(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButton_setText(IntPtr cPointer, IntPtr value);
+		static extern void tguiRadioButton_check(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiButton_getText(IntPtr cPointer);
+		static extern void tguiRadioButton_uncheck(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButton_setTextSize(IntPtr cPointer, uint textSize);
+		static extern bool tguiRadioButton_isChecked(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern uint tguiButton_getTextSize(IntPtr cPointer);
+		static extern void tguiRadioButton_setText(IntPtr cPointer, IntPtr value);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern IntPtr tguiRadioButton_getText(IntPtr cPointer);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern void tguiRadioButton_setTextSize(IntPtr cPointer, uint textSize);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern uint tguiRadioButton_getTextSize(IntPtr cPointer);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern void tguiRadioButton_setTextClickable(IntPtr cPointer, bool clickable);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern bool tguiRadioButton_isTextClickable(IntPtr cPointer);
 
 		#endregion
 	}
