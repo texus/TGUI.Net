@@ -288,61 +288,61 @@ namespace TGUI
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiGui_create();
+		static extern protected IntPtr tguiGui_create();
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiGui_create_fromWindow(IntPtr cPointerRenderWindow);
+		static extern protected IntPtr tguiGui_create_fromWindow(IntPtr cPointerRenderWindow);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiGui_destroy(IntPtr cPointer);
+		static extern protected void tguiGui_destroy(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiGui_setWindow(IntPtr cPointer, IntPtr cPointerRenderWindow);
+		static extern protected void tguiGui_setWindow(IntPtr cPointer, IntPtr cPointerRenderWindow);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiGui_setView(IntPtr cPointer, IntPtr cPointerView);
+		static extern protected void tguiGui_setView(IntPtr cPointer, IntPtr cPointerView);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiGui_handleEvent(IntPtr cPointer, Event ev);
+		static extern protected void tguiGui_handleEvent(IntPtr cPointer, Event ev);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiGui_add(IntPtr cPointer, IntPtr cPointerWidget, IntPtr widgetName);
+		static extern protected void tguiGui_add(IntPtr cPointer, IntPtr cPointerWidget, IntPtr widgetName);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiGui_get(IntPtr cPointer, IntPtr widgetName);
+		static extern protected IntPtr tguiGui_get(IntPtr cPointer, IntPtr widgetName);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		unsafe static extern IntPtr* tguiGui_getWidgets(IntPtr cPointer, out uint count);
+		unsafe static extern protected IntPtr* tguiGui_getWidgets(IntPtr cPointer, out uint count);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		unsafe static extern IntPtr* tguiGui_getWidgetNames(IntPtr cPointer, out uint count);
+		unsafe static extern protected IntPtr* tguiGui_getWidgetNames(IntPtr cPointer, out uint count);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiGui_remove(IntPtr cPointer, IntPtr cPointerWidget);
+		static extern protected void tguiGui_remove(IntPtr cPointer, IntPtr cPointerWidget);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiGui_removeAllWidgets(IntPtr cPointer);
+		static extern protected void tguiGui_removeAllWidgets(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiGui_draw(IntPtr cPointer);
+		static extern protected void tguiGui_draw(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiGui_setFont(IntPtr cPointer, IntPtr font);
+		static extern protected void tguiGui_setFont(IntPtr cPointer, IntPtr font);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiGui_setOpacity(IntPtr cPointer, float opacity);
+		static extern protected void tguiGui_setOpacity(IntPtr cPointer, float opacity);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern float tguiGui_getOpacity(IntPtr cPointer);
+		static extern protected float tguiGui_getOpacity(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiGui_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename, out IntPtr error);
+		static extern protected void tguiGui_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename, out IntPtr error);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiGui_saveWidgetsToFile(IntPtr cPointer, IntPtr filename, out IntPtr error);
+		static extern protected void tguiGui_saveWidgetsToFile(IntPtr cPointer, IntPtr filename, out IntPtr error);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidget_getWidgetType(IntPtr cPointer);
+		static extern protected IntPtr tguiWidget_getWidgetType(IntPtr cPointer);
 
 		#endregion
 	}

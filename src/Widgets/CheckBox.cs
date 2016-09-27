@@ -51,7 +51,7 @@ namespace TGUI
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiCheckBox_create();
+		static extern protected IntPtr tguiCheckBox_create();
 
 		#endregion
 	}

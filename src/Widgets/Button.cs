@@ -64,25 +64,43 @@ namespace TGUI
 			set { tguiButton_setTextSize(CPointer, value); }
 		}
 
+
+		protected override void InitSignals()
+		{
+			base.InitSignals();
+
+			IntPtr error;
+			tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("Pressed"), ProcessPressedSignal, out error);
+			if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		}
+
+		private void ProcessPressedSignal(IntPtr text)
+		{
+			if (Pressed != null)
+				Pressed(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
+		}
+
+		/// <summary>Event handler for the Pressed signal</summary>
+		public event EventHandler<SignalArgsString> Pressed = null;
+
+
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiButton_create();
+		static extern protected IntPtr tguiButton_create();
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidget_getRenderer(IntPtr cPointer);
+		static extern protected void tguiButton_setText(IntPtr cPointer, IntPtr value);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButton_setText(IntPtr cPointer, IntPtr value);
+		static extern protected IntPtr tguiButton_getText(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiButton_getText(IntPtr cPointer);
+		static extern protected void tguiButton_setTextSize(IntPtr cPointer, uint textSize);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButton_setTextSize(IntPtr cPointer, uint textSize);
-
-		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern uint tguiButton_getTextSize(IntPtr cPointer);
+		static extern protected uint tguiButton_getTextSize(IntPtr cPointer);
 
 		#endregion
 	}

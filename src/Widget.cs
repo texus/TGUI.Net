@@ -35,11 +35,13 @@ namespace TGUI
 		protected Widget(IntPtr cPointer)
 			: base(cPointer)
 		{
+			InitSignals();
 		}
 
 		public Widget(Widget copy)
 			: base(tguiWidget_copy(copy.CPointer))
 		{
+			InitSignals();
 		}
 
 		protected override void Destroy(bool disposing)
@@ -88,6 +90,19 @@ namespace TGUI
 		{
 			IntPtr error;
 			tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII(signalName), func, out error);
+			if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		}
+
+		public void Connect(string signalName, Action<Widget> func)
+		{
+			Action funcWrapper = () =>
+			{
+				func(this);
+			};
+
+			IntPtr error;
+			tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII(signalName), funcWrapper, out error);
 			if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
@@ -169,85 +184,153 @@ namespace TGUI
 
 		// TODO: ToolTip
 
+
+		protected virtual void InitSignals()
+		{
+			IntPtr error;
+
+			tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("PositionChanged"), ProcessPositionChangedSignal, out error);
+			if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+
+			tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("SizeChanged"), ProcessSizeChangedSignal, out error);
+			if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+
+			tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MouseEntered"), ProcessMouseEnteredSignal, out error);
+			if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+
+			tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MouseLeft"), ProcessMouseLeftSignal, out error);
+			if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		}
+
+		private void ProcessPositionChangedSignal(Vector2f pos)
+		{
+			if (PositionChanged != null)
+				PositionChanged(this, new SignalArgsVector2f(pos));
+		}
+
+		private void ProcessSizeChangedSignal(Vector2f pos)
+		{
+			if (SizeChanged != null)
+				SizeChanged(this, new SignalArgsVector2f(pos));
+		}
+
+		private void ProcessMouseEnteredSignal()
+		{
+			if (MouseEntered != null)
+				MouseEntered(this, EventArgs.Empty);
+		}
+
+		private void ProcessMouseLeftSignal()
+		{
+			if (MouseLeft != null)
+				MouseLeft(this, EventArgs.Empty);
+		}
+
+		/// <summary>Event handler for the Clicked signal</summary>
+		public event EventHandler<SignalArgsVector2f> PositionChanged = null;
+
+		/// <summary>Event handler for the Clicked signal</summary>
+		public event EventHandler<SignalArgsVector2f> SizeChanged = null;
+
+		/// <summary>Event handler for the MouseEntered signal</summary>
+		public event EventHandler MouseEntered = null;
+
+		/// <summary>Event handler for the MouseLeft signal</summary>
+		public event EventHandler MouseLeft = null;
+
+
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidget_copy(IntPtr cPointer);
+		static extern protected IntPtr tguiWidget_copy(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidget_destroy(IntPtr cPointer);
+		static extern protected void tguiWidget_destroy(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidget_setPosition(IntPtr cPointer, Vector2f pos);
+		static extern protected void tguiWidget_setPosition(IntPtr cPointer, Vector2f pos);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidget_setPosition_fromLayout(IntPtr cPointer, IntPtr layout2d);
+		static extern protected void tguiWidget_setPosition_fromLayout(IntPtr cPointer, IntPtr layout2d);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Vector2f tguiWidget_getPosition(IntPtr cPointer);
+		static extern protected Vector2f tguiWidget_getPosition(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Vector2f tguiWidget_getAbsolutePosition(IntPtr cPointer);
+		static extern protected Vector2f tguiWidget_getAbsolutePosition(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Vector2f tguiWidget_getWidgetOffset(IntPtr cPointer);
+		static extern protected Vector2f tguiWidget_getWidgetOffset(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidget_setSize(IntPtr cPointer, Vector2f size);
+		static extern protected void tguiWidget_setSize(IntPtr cPointer, Vector2f size);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidget_setSize_fromLayout(IntPtr cPointer, IntPtr layout2d);
+		static extern protected void tguiWidget_setSize_fromLayout(IntPtr cPointer, IntPtr layout2d);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Vector2f tguiWidget_getSize(IntPtr cPointer);
+		static extern protected Vector2f tguiWidget_getSize(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Vector2f tguiWidget_getFullSize(IntPtr cPointer);
+		static extern protected Vector2f tguiWidget_getFullSize(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidget_connect(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] Action func, out IntPtr error);
+		static extern protected void tguiWidget_connect(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] Action func, out IntPtr error);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidget_setRenderer(IntPtr cPointer, IntPtr rendererDataCPointer, out IntPtr error);
+		static extern protected void tguiWidget_connect_vector2f(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] Action<Vector2f> func, out IntPtr error);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidget_getRenderer(IntPtr cPointer);
+		static extern protected void tguiWidget_connect_string(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] Action<IntPtr> func, out IntPtr error);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidget_show(IntPtr cPointer);
+		static extern protected void tguiWidget_connect_int(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] Action<int> func, out IntPtr error);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidget_showWithEffect(IntPtr cPointer, ShowAnimationType type, Time duration);
+		static extern protected void tguiWidget_setRenderer(IntPtr cPointer, IntPtr rendererDataCPointer, out IntPtr error);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidget_hide(IntPtr cPointer);
+		static extern protected IntPtr tguiWidget_getRenderer(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidget_hideWithEffect(IntPtr cPointer, ShowAnimationType type, Time duration);
+		static extern protected void tguiWidget_show(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern bool tguiWidget_isVisible(IntPtr cPointer);
+		static extern protected void tguiWidget_showWithEffect(IntPtr cPointer, ShowAnimationType type, Time duration);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidget_enable(IntPtr cPointer);
+		static extern protected void tguiWidget_hide(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidget_disable(IntPtr cPointer);
+		static extern protected void tguiWidget_hideWithEffect(IntPtr cPointer, ShowAnimationType type, Time duration);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern bool tguiWidget_isEnabled(IntPtr cPointer);
+		static extern protected bool tguiWidget_isVisible(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidget_getWidgetType(IntPtr cPointer);
+		static extern protected void tguiWidget_enable(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidget_moveToFront(IntPtr cPointer);
+		static extern protected void tguiWidget_disable(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidget_moveToBack(IntPtr cPointer);
+		static extern protected bool tguiWidget_isEnabled(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidget_getParent(IntPtr cPointer);
+		static extern protected IntPtr tguiWidget_getWidgetType(IntPtr cPointer);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiWidget_moveToFront(IntPtr cPointer);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiWidget_moveToBack(IntPtr cPointer);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected IntPtr tguiWidget_getParent(IntPtr cPointer);
 
 		#endregion
 	}

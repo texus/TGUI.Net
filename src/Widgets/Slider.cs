@@ -25,71 +25,99 @@
 using System;
 using System.Security;
 using System.Runtime.InteropServices;
-using SFML.System;
 
 namespace TGUI
 {
-	public class Layout2d : ObjectBase
+	public class Slider : Widget
 	{
-		public Layout2d()
-			: base(tguiLayout2d_create(new Vector2f(0, 0)))
+		public Slider()
+			: base(tguiSlider_create())
 		{
 		}
 
-		public Layout2d(Vector2f constant)
-			: base(tguiLayout2d_create(constant))
+		public Slider(int min, int max)
+			: this()
+		{
+			Minimum = min;
+			Maximum = max;
+		}
+
+		protected internal Slider(IntPtr cPointer)
+			: base(cPointer)
 		{
 		}
 
-		public Layout2d(Layout x, Layout y)
-			: base(tguiLayout2d_create_fromLayouts(x.CPointer, y.CPointer))
+		public Slider(Slider copy)
+			: base(copy)
 		{
 		}
 
-		public Layout2d(string expression)
-			: base(tguiLayout2d_create_fromString(Util.ConvertStringForC_ASCII(expression)))
+		public new SliderRenderer Renderer
 		{
+			get { return new SliderRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
-		public Layout2d(string xExpression, string yExpression)
-			: this(new Layout(xExpression), new Layout(yExpression))
+		public int Minimum
 		{
+			get { return tguiSlider_getMinimum(CPointer); }
+			set { tguiSlider_setMinimum(CPointer, value); }
 		}
 
-		public Layout2d(Layout2d copy)
-			: base(tguiLayout2d_copy(copy.CPointer))
+		public int Maximum
 		{
+			get { return tguiSlider_getMaximum(CPointer); }
+			set { tguiSlider_setMaximum(CPointer, value); }
 		}
 
-		protected override void Destroy(bool disposing)
+		public int Value
 		{
-			tguiLayout2d_destroy(CPointer);
+			get { return tguiSlider_getValue(CPointer); }
+			set { tguiSlider_setValue(CPointer, value); }
 		}
 
-		public Vector2f Value
+
+		protected override void InitSignals()
 		{
-			get { return tguiLayout2d_getValue(CPointer); }
+			base.InitSignals();
+
+			IntPtr error;
+			tguiWidget_connect_int(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ProcessValueChangedSignal, out error);
+			if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
+
+		private void ProcessValueChangedSignal(int value)
+		{
+			if (ValueChanged != null)
+				ValueChanged(this, new SignalArgsInt(value));
+		}
+
+		/// <summary>Event handler for the ValueChanged signal</summary>
+		public event EventHandler<SignalArgsInt> ValueChanged = null;
+
 
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiLayout2d_create(Vector2f constant);
+		static extern protected IntPtr tguiSlider_create();
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiLayout2d_create_fromLayouts(IntPtr x, IntPtr y);
+		static extern protected void tguiSlider_setMinimum(IntPtr cPointer, int minimum);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiLayout2d_create_fromString(IntPtr expression);
+		static extern protected int tguiSlider_getMinimum(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiLayout2d_copy(IntPtr cPointer);
+		static extern protected void tguiSlider_setMaximum(IntPtr cPointer, int maximum);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiLayout2d_destroy(IntPtr cPointer);
+		static extern protected int tguiSlider_getMaximum(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Vector2f tguiLayout2d_getValue(IntPtr cPointer);
+		static extern protected void tguiSlider_setValue(IntPtr cPointer, int value);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected int tguiSlider_getValue(IntPtr cPointer);
 
 		#endregion
 	}

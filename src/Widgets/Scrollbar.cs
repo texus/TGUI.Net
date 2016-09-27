@@ -28,58 +28,56 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
-	public class RadioButton : ClickableWidget
+	public class Scrollbar : Widget
 	{
-		public RadioButton(string text = "")
-			: base(tguiRadioButton_create())
+		public Scrollbar()
+			: base(tguiScrollbar_create())
 		{
-			if (text.Length > 0)
-				Text = text;
 		}
 
-		protected internal RadioButton(IntPtr cPointer)
+		protected internal Scrollbar(IntPtr cPointer)
 			: base(cPointer)
 		{
 		}
 
-		public RadioButton(RadioButton copy)
+		public Scrollbar(Scrollbar copy)
 			: base(copy)
 		{
 		}
 
-		public new RadioButtonRenderer Renderer
+		public new ScrollbarRenderer Renderer
 		{
-			get { return new RadioButtonRenderer(tguiWidget_getRenderer(CPointer)); }
+			get { return new ScrollbarRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
-		public bool Checked
+		public uint LowValue
 		{
-			get { return tguiRadioButton_isChecked(CPointer); }
-			set
-			{
-				if (value)
-					tguiRadioButton_check(CPointer);
-				else
-					tguiRadioButton_uncheck(CPointer);
-			}
+			get { return tguiScrollbar_getLowValue(CPointer); }
+			set { tguiScrollbar_setLowValue(CPointer, value); }
 		}
 
-		public string Text
+		public uint Maximum
 		{
-			get { return Util.GetStringFromC_UTF32(tguiRadioButton_getText(CPointer)); }
-			set { tguiRadioButton_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
+			get { return tguiScrollbar_getMaximum(CPointer); }
+			set { tguiScrollbar_setMaximum(CPointer, value); }
 		}
 
-		public uint TextSize
+		public uint Value
 		{
-			get { return tguiRadioButton_getTextSize(CPointer); }
-			set { tguiRadioButton_setTextSize(CPointer, value); }
+			get { return tguiScrollbar_getValue(CPointer); }
+			set { tguiScrollbar_setValue(CPointer, value); }
 		}
 
-		public bool TextClickable
+		public uint ScrollAmount
 		{
-			get { return tguiRadioButton_isTextClickable(CPointer); }
-			set { tguiRadioButton_setTextClickable(CPointer, value); }
+			get { return tguiScrollbar_getScrollAmount(CPointer); }
+			set { tguiScrollbar_setScrollAmount(CPointer, value); }
+		}
+
+		public bool AutoHide
+		{
+			get { return tguiScrollbar_getAutoHide(CPointer); }
+			set { tguiScrollbar_setAutoHide(CPointer, value); }
 		}
 
 
@@ -88,52 +86,55 @@ namespace TGUI
 			base.InitSignals();
 
 			IntPtr error;
-			tguiWidget_connect_int(CPointer, Util.ConvertStringForC_ASCII("Checked Unchecked"), ProcessToggledSignal, out error);
+			tguiWidget_connect_int(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ProcessValueChangedSignal, out error);
 			if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
-		private void ProcessToggledSignal(int value)
+		private void ProcessValueChangedSignal(int value)
 		{
-			if (Toggled != null)
-				Toggled(this, new SignalArgsBool(value != 0));
+			if (ValueChanged != null)
+				ValueChanged(this, new SignalArgsInt(value));
 		}
 
-		/// <summary>Event handler for the Checked/Unchecked signal</summary>
-		public event EventHandler<SignalArgsBool> Toggled = null;
+		/// <summary>Event handler for the ValueChanged signal</summary>
+		public event EventHandler<SignalArgsInt> ValueChanged = null;
 
 
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiRadioButton_create();
+		static extern protected IntPtr tguiScrollbar_create();
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRadioButton_check(IntPtr cPointer);
+		static extern protected void tguiScrollbar_setLowValue(IntPtr cPointer, uint lowValue);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRadioButton_uncheck(IntPtr cPointer);
+		static extern protected uint tguiScrollbar_getLowValue(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiRadioButton_isChecked(IntPtr cPointer);
+		static extern protected void tguiScrollbar_setMaximum(IntPtr cPointer, uint maximum);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRadioButton_setText(IntPtr cPointer, IntPtr value);
+		static extern protected uint tguiScrollbar_getMaximum(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiRadioButton_getText(IntPtr cPointer);
+		static extern protected void tguiScrollbar_setValue(IntPtr cPointer, uint value);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRadioButton_setTextSize(IntPtr cPointer, uint textSize);
+		static extern protected uint tguiScrollbar_getValue(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected uint tguiRadioButton_getTextSize(IntPtr cPointer);
+		static extern protected void tguiScrollbar_setScrollAmount(IntPtr cPointer, uint scrollAmount);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRadioButton_setTextClickable(IntPtr cPointer, bool clickable);
+		static extern protected uint tguiScrollbar_getScrollAmount(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiRadioButton_isTextClickable(IntPtr cPointer);
+		static extern protected void tguiScrollbar_setAutoHide(IntPtr cPointer, bool autoHide);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiScrollbar_getAutoHide(IntPtr cPointer);
 
 		#endregion
 	}

@@ -37,7 +37,7 @@ namespace TGUI
 		{
 		}
 
-		internal WidgetRenderer(IntPtr cPointer)
+		protected internal WidgetRenderer(IntPtr cPointer)
 			: base(cPointer)
 		{
 		}
@@ -71,25 +71,25 @@ namespace TGUI
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidgetRenderer_create();
+		static extern protected IntPtr tguiWidgetRenderer_create();
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidgetRenderer_copy(IntPtr cPointer);
+		static extern protected IntPtr tguiWidgetRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidgetRenderer_destroy(IntPtr cPointer);
+		static extern protected void tguiWidgetRenderer_destroy(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidgetRenderer_setOpacity(IntPtr cPointer, float opacity);
+		static extern protected void tguiWidgetRenderer_setOpacity(IntPtr cPointer, float opacity);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern float tguiWidgetRenderer_getOpacity(IntPtr cPointer);
+		static extern protected float tguiWidgetRenderer_getOpacity(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiWidgetRenderer_setFont(IntPtr cPointer, IntPtr font);
+		static extern protected void tguiWidgetRenderer_setFont(IntPtr cPointer, IntPtr font);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidgetRenderer_getData(IntPtr cPointer);
+		static extern protected IntPtr tguiWidgetRenderer_getData(IntPtr cPointer);
 
 		#endregion
 	}

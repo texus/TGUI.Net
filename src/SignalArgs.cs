@@ -23,38 +23,47 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
-using System.Text;
-using System.Security;
-using System.Runtime.InteropServices;
 using SFML.System;
 
 namespace TGUI
 {
-	public class RendererData : ObjectBase
+	public class SignalArgsVector2f : EventArgs
 	{
-		public RendererData(IntPtr cPointer)
-			: base(cPointer)
+		public SignalArgsVector2f(Vector2f value)
 		{
+			Value = value;
 		}
 
-		public RendererData(RendererData copy)
-			: base(tguiRendererData_copy(copy.CPointer))
+		public Vector2f Value;
+	}
+
+	public class SignalArgsString : EventArgs
+	{
+		public SignalArgsString(string value)
 		{
+			Value = value;
 		}
 
-		protected override void Destroy(bool disposing)
+		public string Value;
+	}
+
+	public class SignalArgsInt : EventArgs
+	{
+		public SignalArgsInt(int value)
 		{
-			tguiRendererData_destroy(CPointer);
+			Value = value;
 		}
 
-		#region Imports
+		public int Value;
+	}
 
-		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiRendererData_copy(IntPtr cPointer);
+	public class SignalArgsBool : EventArgs
+	{
+		public SignalArgsBool(bool value)
+		{
+			Value = value;
+		}
 
-		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRendererData_destroy(IntPtr cPointer);
-
-		#endregion
+		public bool Value;
 	}
 }

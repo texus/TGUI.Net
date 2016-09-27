@@ -25,6 +25,7 @@
 using System;
 using System.Security;
 using System.Runtime.InteropServices;
+using SFML.System;
 using SFML.Graphics;
 
 namespace TGUI
@@ -65,16 +66,34 @@ namespace TGUI
 			set { tguiPicture_setTexture(CPointer, value.CPointer); }
 		}
 
+
+		protected override void InitSignals()
+		{
+			base.InitSignals();
+
+			IntPtr error;
+			tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), ProcessDoubleClickedSignal, out error);
+			if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		}
+
+		private void ProcessDoubleClickedSignal()
+		{
+			if (DoubleClicked != null)
+				DoubleClicked(this, EventArgs.Empty);
+		}
+
+		/// <summary>Event handler for the DoubleClicked signal</summary>
+		public event EventHandler DoubleClicked = null;
+
+
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiPicture_create();
+		static extern protected IntPtr tguiPicture_create();
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidget_getRenderer(IntPtr cPointer);
-
-		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiPicture_setTexture(IntPtr cPointer, IntPtr textureCPointer);
+		static extern protected void tguiPicture_setTexture(IntPtr cPointer, IntPtr textureCPointer);
 
 		#endregion
 	}

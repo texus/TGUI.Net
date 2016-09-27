@@ -119,73 +119,104 @@ namespace TGUI
 			set { tguiEditBox_setInputValidator(CPointer, Util.ConvertStringForC_ASCII(value)); }
 		}
 
+
+		protected override void InitSignals()
+		{
+			base.InitSignals();
+			IntPtr error;
+
+			tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("TextChanged"), ProcessTextChangedSignal, out error);
+			if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+
+			tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("ReturnKeyPressed"), ProcessReturnKeyPressedSignal, out error);
+			if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		}
+
+		private void ProcessTextChangedSignal(IntPtr text)
+		{
+			if (TextChanged != null)
+				TextChanged(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
+		}
+
+		private void ProcessReturnKeyPressedSignal(IntPtr text)
+		{
+			if (ReturnKeyPressed != null)
+				ReturnKeyPressed(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
+		}
+
+		/// <summary>Event handler for the TextChanged signal</summary>
+		public event EventHandler<SignalArgsString> TextChanged = null;
+
+		/// <summary>Event handler for the ReturnKeyPressed signal</summary>
+		public event EventHandler<SignalArgsString> ReturnKeyPressed = null;
+
+
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiEditBox_create();
+		static extern protected IntPtr tguiEditBox_create();
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidget_getRenderer(IntPtr cPointer);
+		static extern protected void tguiEditBox_setText(IntPtr cPointer, IntPtr value);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBox_setText(IntPtr cPointer, IntPtr value);
+		static extern protected IntPtr tguiEditBox_getText(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiEditBox_getText(IntPtr cPointer);
+		static extern protected void tguiEditBox_setDefaultText(IntPtr cPointer, IntPtr value);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBox_setDefaultText(IntPtr cPointer, IntPtr value);
+		static extern protected IntPtr tguiEditBox_getDefaultText(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiEditBox_getDefaultText(IntPtr cPointer);
+		static extern protected void tguiEditBox_selectText(IntPtr cPointer, uint start, uint length);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBox_selectText(IntPtr cPointer, uint start, uint length);
+		static extern protected IntPtr tguiEditBox_getSelectedText(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiEditBox_getSelectedText(IntPtr cPointer);
+		static extern protected void tguiEditBox_setTextSize(IntPtr cPointer, uint textSize);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBox_setTextSize(IntPtr cPointer, uint textSize);
+		static extern protected uint tguiEditBox_getTextSize(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern uint tguiEditBox_getTextSize(IntPtr cPointer);
+		static extern protected void tguiEditBox_setPasswordCharacter(IntPtr cPointer, char passwordChar);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBox_setPasswordCharacter(IntPtr cPointer, char passwordChar);
+		static extern protected char tguiEditBox_getPasswordCharacter(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern char tguiEditBox_getPasswordCharacter(IntPtr cPointer);
+		static extern protected void tguiEditBox_setMaximumCharacters(IntPtr cPointer, uint maximumCharacters);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBox_setMaximumCharacters(IntPtr cPointer, uint maximumCharacters);
+		static extern protected uint tguiEditBox_getMaximumCharacters(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern uint tguiEditBox_getMaximumCharacters(IntPtr cPointer);
+		static extern protected void tguiEditBox_setAlignment(IntPtr cPointer, HorizontalAlignment alignment);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBox_setAlignment(IntPtr cPointer, HorizontalAlignment alignment);
+		static extern protected HorizontalAlignment tguiEditBox_getAlignment(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern HorizontalAlignment tguiEditBox_getAlignment(IntPtr cPointer);
+		static extern protected void tguiEditBox_limitTextWidth(IntPtr cPointer, bool limitWidth);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBox_limitTextWidth(IntPtr cPointer, bool limitWidth);
+		static extern protected bool tguiEditBox_isTextWidthLimited(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern bool tguiEditBox_isTextWidthLimited(IntPtr cPointer);
+		static extern protected void tguiEditBox_setCaretPosition(IntPtr cPointer, uint caretPosition);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBox_setCaretPosition(IntPtr cPointer, uint caretPosition);
+		static extern protected uint tguiEditBox_getCaretPosition(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern uint tguiEditBox_getCaretPosition(IntPtr cPointer);
+		static extern protected void tguiEditBox_setInputValidator(IntPtr cPointer, IntPtr validator);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBox_setInputValidator(IntPtr cPointer, IntPtr validator);
-
-		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiEditBox_getInputValidator(IntPtr cPointer);
+		static extern protected IntPtr tguiEditBox_getInputValidator(IntPtr cPointer);
 
 		#endregion
 	}

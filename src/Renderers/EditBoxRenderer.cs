@@ -36,7 +36,7 @@ namespace TGUI
 		{
 		}
 
-		internal EditBoxRenderer(IntPtr cPointer)
+		protected internal EditBoxRenderer(IntPtr cPointer)
 			: base(cPointer)
 		{
 		}
@@ -179,133 +179,133 @@ namespace TGUI
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiEditBoxRenderer_create();
+		static extern protected IntPtr tguiEditBoxRenderer_create();
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiEditBoxRenderer_copy(IntPtr cPointer);
+		static extern protected IntPtr tguiEditBoxRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiEditBoxRenderer_setBorders(IntPtr cPointer, Outline borders);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Outline tguiEditBoxRenderer_getBorders(IntPtr cPointer);
+		static extern protected Outline tguiEditBoxRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setPadding(IntPtr cPointer, Outline padding);
+		static extern protected void tguiEditBoxRenderer_setPadding(IntPtr cPointer, Outline padding);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Outline tguiEditBoxRenderer_getPadding(IntPtr cPointer);
+		static extern protected Outline tguiEditBoxRenderer_getPadding(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setCaretWidth(IntPtr cPointer, float width);
+		static extern protected void tguiEditBoxRenderer_setCaretWidth(IntPtr cPointer, float width);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern float tguiEditBoxRenderer_getCaretWidth(IntPtr cPointer);
+		static extern protected float tguiEditBoxRenderer_getCaretWidth(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setTextColor(IntPtr cPointer, Color color);
+		static extern protected void tguiEditBoxRenderer_setTextColor(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiEditBoxRenderer_getTextColor(IntPtr cPointer);
+		static extern protected Color tguiEditBoxRenderer_getTextColor(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setDefaultTextColor(IntPtr cPointer, Color color);
+		static extern protected void tguiEditBoxRenderer_setDefaultTextColor(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiEditBoxRenderer_getDefaultTextColor(IntPtr cPointer);
+		static extern protected Color tguiEditBoxRenderer_getDefaultTextColor(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
+		static extern protected void tguiEditBoxRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiEditBoxRenderer_getTextColorDisabled(IntPtr cPointer);
+		static extern protected Color tguiEditBoxRenderer_getTextColorDisabled(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setSelectedTextColor(IntPtr cPointer, Color color);
+		static extern protected void tguiEditBoxRenderer_setSelectedTextColor(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiEditBoxRenderer_getSelectedTextColor(IntPtr cPointer);
+		static extern protected Color tguiEditBoxRenderer_getSelectedTextColor(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setSelectedTextBackgroundColor(IntPtr cPointer, Color color);
+		static extern protected void tguiEditBoxRenderer_setSelectedTextBackgroundColor(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiEditBoxRenderer_getSelectedTextBackgroundColor(IntPtr cPointer);
+		static extern protected Color tguiEditBoxRenderer_getSelectedTextBackgroundColor(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+		static extern protected void tguiEditBoxRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiEditBoxRenderer_getBackgroundColor(IntPtr cPointer);
+		static extern protected Color tguiEditBoxRenderer_getBackgroundColor(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
+		static extern protected void tguiEditBoxRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiEditBoxRenderer_getBackgroundColorHover(IntPtr cPointer);
+		static extern protected Color tguiEditBoxRenderer_getBackgroundColorHover(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setBackgroundColorDisabled(IntPtr cPointer, Color color);
+		static extern protected void tguiEditBoxRenderer_setBackgroundColorDisabled(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiEditBoxRenderer_getBackgroundColorDisabled(IntPtr cPointer);
+		static extern protected Color tguiEditBoxRenderer_getBackgroundColorDisabled(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setCaretColor(IntPtr cPointer, Color color);
+		static extern protected void tguiEditBoxRenderer_setCaretColor(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiEditBoxRenderer_getCaretColor(IntPtr cPointer);
+		static extern protected Color tguiEditBoxRenderer_getCaretColor(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setCaretColorHover(IntPtr cPointer, Color color);
+		static extern protected void tguiEditBoxRenderer_setCaretColorHover(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiEditBoxRenderer_getCaretColorHover(IntPtr cPointer);
+		static extern protected Color tguiEditBoxRenderer_getCaretColorHover(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setCaretColorDisabled(IntPtr cPointer, Color color);
+		static extern protected void tguiEditBoxRenderer_setCaretColorDisabled(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiEditBoxRenderer_getCaretColorDisabled(IntPtr cPointer);
+		static extern protected Color tguiEditBoxRenderer_getCaretColorDisabled(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setBorderColor(IntPtr cPointer, Color color);
+		static extern protected void tguiEditBoxRenderer_setBorderColor(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiEditBoxRenderer_getBorderColor(IntPtr cPointer);
+		static extern protected Color tguiEditBoxRenderer_getBorderColor(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setBorderColorHover(IntPtr cPointer, Color color);
+		static extern protected void tguiEditBoxRenderer_setBorderColorHover(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiEditBoxRenderer_getBorderColorHover(IntPtr cPointer);
+		static extern protected Color tguiEditBoxRenderer_getBorderColorHover(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setBorderColorDisabled(IntPtr cPointer, Color color);
+		static extern protected void tguiEditBoxRenderer_setBorderColorDisabled(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiEditBoxRenderer_getBorderColorDisabled(IntPtr cPointer);
+		static extern protected Color tguiEditBoxRenderer_getBorderColorDisabled(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setTexture(IntPtr cPointer, IntPtr texture);
+		static extern protected void tguiEditBoxRenderer_setTexture(IntPtr cPointer, IntPtr texture);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setTextureHover(IntPtr cPointer, IntPtr texture);
+		static extern protected void tguiEditBoxRenderer_setTextureHover(IntPtr cPointer, IntPtr texture);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setTextureDisabled(IntPtr cPointer, IntPtr texture);
+		static extern protected void tguiEditBoxRenderer_setTextureDisabled(IntPtr cPointer, IntPtr texture);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);
+		static extern protected void tguiEditBoxRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Text.Styles tguiEditBoxRenderer_getTextStyle(IntPtr cPointer);
+		static extern protected Text.Styles tguiEditBoxRenderer_getTextStyle(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiEditBoxRenderer_setDefaultTextStyle(IntPtr cPointer, Text.Styles style);
+		static extern protected void tguiEditBoxRenderer_setDefaultTextStyle(IntPtr cPointer, Text.Styles style);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Text.Styles tguiEditBoxRenderer_getDefaultTextStyle(IntPtr cPointer);
+		static extern protected Text.Styles tguiEditBoxRenderer_getDefaultTextStyle(IntPtr cPointer);
 
 		#endregion
 	}

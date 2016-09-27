@@ -93,6 +93,15 @@
     <Compile Include="Widgets\RadioButton.cs" />
     <Compile Include="Widgets\CheckBox.cs" />
     <Compile Include="Widgets\ClickableWidget.cs" />
+    <Compile Include="SignalArgs.cs" />
+    <Compile Include="Widgets\Slider.cs" />
+    <Compile Include="Renderers\SliderRenderer.cs" />
+    <Compile Include="Widgets\Scrollbar.cs" />
+    <Compile Include="Widgets\SpinButton.cs" />
+    <Compile Include="Renderers\ScrollbarRenderer.cs" />
+    <Compile Include="Renderers\SpinButtonRenderer.cs" />
+    <Compile Include="Renderers\ProgressBarRenderer.cs" />
+    <Compile Include="Widgets\ProgressBar.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -25,6 +25,7 @@
 using System;
 using System.Security;
 using System.Runtime.InteropServices;
+using SFML.System;
 
 namespace TGUI
 {
@@ -88,49 +89,67 @@ namespace TGUI
 			set { tguiLabel_setMaximumTextWidth(CPointer, value); }
 		}
 
+
+		protected override void InitSignals()
+		{
+			base.InitSignals();
+			IntPtr error;
+
+			tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), ProcessDoubleClickedSignal, out error);
+			if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		}
+
+		private void ProcessDoubleClickedSignal(IntPtr text)
+		{
+			if (DoubleClicked != null)
+				DoubleClicked(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
+		}
+
+		/// <summary>Event handler for the DoubleClicked signal</summary>
+		public event EventHandler<SignalArgsString> DoubleClicked = null;
+
+
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiLabel_create();
+		static extern protected IntPtr tguiLabel_create();
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidget_getRenderer(IntPtr cPointer);
+		static extern protected void tguiLabel_setText(IntPtr cPointer, IntPtr value);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiLabel_setText(IntPtr cPointer, IntPtr value);
+		static extern protected IntPtr tguiLabel_getText(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiLabel_getText(IntPtr cPointer);
+		static extern protected void tguiLabel_setTextSize(IntPtr cPointer, uint textSize);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiLabel_setTextSize(IntPtr cPointer, uint textSize);
+		static extern protected uint tguiLabel_getTextSize(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern uint tguiLabel_getTextSize(IntPtr cPointer);
+		static extern protected void tguiLabel_setHorizontalAlignment(IntPtr cPointer, HorizontalAlignment alignment);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiLabel_setHorizontalAlignment(IntPtr cPointer, HorizontalAlignment alignment);
+		static extern protected HorizontalAlignment tguiLabel_getHorizontalAlignment(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern HorizontalAlignment tguiLabel_getHorizontalAlignment(IntPtr cPointer);
+		static extern protected void tguiLabel_setVerticalAlignment(IntPtr cPointer, VerticalAlignment alignment);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiLabel_setVerticalAlignment(IntPtr cPointer, VerticalAlignment alignment);
+		static extern protected VerticalAlignment tguiLabel_getVerticalAlignment(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern VerticalAlignment tguiLabel_getVerticalAlignment(IntPtr cPointer);
+		static extern protected void tguiLabel_setAutoSize(IntPtr cPointer, bool autoSize);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiLabel_setAutoSize(IntPtr cPointer, bool autoSize);
+		static extern protected bool tguiLabel_getAutoSize(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern bool tguiLabel_getAutoSize(IntPtr cPointer);
+		static extern protected void tguiLabel_setMaximumTextWidth(IntPtr cPointer, float maximumTextWidth);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiLabel_setMaximumTextWidth(IntPtr cPointer, float maximumTextWidth);
-
-		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern float tguiLabel_getMaximumTextWidth(IntPtr cPointer);
+		static extern protected float tguiLabel_getMaximumTextWidth(IntPtr cPointer);
 
 		#endregion
 	}

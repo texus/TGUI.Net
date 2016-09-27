@@ -36,7 +36,7 @@ namespace TGUI
 		{
 		}
 
-		internal ButtonRenderer(IntPtr cPointer)
+		protected internal ButtonRenderer(IntPtr cPointer)
 			: base(cPointer)
 		{
 		}
@@ -171,124 +171,124 @@ namespace TGUI
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiButtonRenderer_create();
+		static extern protected IntPtr tguiButtonRenderer_create();
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiButtonRenderer_copy(IntPtr cPointer);
+		static extern protected IntPtr tguiButtonRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiButtonRenderer_setBorders(IntPtr cPointer, Outline borders);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Outline tguiButtonRenderer_getBorders(IntPtr cPointer);
+		static extern protected Outline tguiButtonRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setTextColor(IntPtr cPointer, Color color);
+		static extern protected void tguiButtonRenderer_setTextColor(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiButtonRenderer_getTextColor(IntPtr cPointer);
+		static extern protected Color tguiButtonRenderer_getTextColor(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setTextColorHover(IntPtr cPointer, Color color);
+		static extern protected void tguiButtonRenderer_setTextColorHover(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiButtonRenderer_getTextColorHover(IntPtr cPointer);
+		static extern protected Color tguiButtonRenderer_getTextColorHover(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setTextColorDown(IntPtr cPointer, Color color);
+		static extern protected void tguiButtonRenderer_setTextColorDown(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiButtonRenderer_getTextColorDown(IntPtr cPointer);
+		static extern protected Color tguiButtonRenderer_getTextColorDown(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
+		static extern protected void tguiButtonRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiButtonRenderer_getTextColorDisabled(IntPtr cPointer);
+		static extern protected Color tguiButtonRenderer_getTextColorDisabled(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+		static extern protected void tguiButtonRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiButtonRenderer_getBackgroundColor(IntPtr cPointer);
+		static extern protected Color tguiButtonRenderer_getBackgroundColor(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
+		static extern protected void tguiButtonRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiButtonRenderer_getBackgroundColorHover(IntPtr cPointer);
+		static extern protected Color tguiButtonRenderer_getBackgroundColorHover(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setBackgroundColorDown(IntPtr cPointer, Color color);
+		static extern protected void tguiButtonRenderer_setBackgroundColorDown(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiButtonRenderer_getBackgroundColorDown(IntPtr cPointer);
+		static extern protected Color tguiButtonRenderer_getBackgroundColorDown(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setBackgroundColorDisabled(IntPtr cPointer, Color color);
+		static extern protected void tguiButtonRenderer_setBackgroundColorDisabled(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiButtonRenderer_getBackgroundColorDisabled(IntPtr cPointer);
+		static extern protected Color tguiButtonRenderer_getBackgroundColorDisabled(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setBorderColor(IntPtr cPointer, Color color);
+		static extern protected void tguiButtonRenderer_setBorderColor(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiButtonRenderer_getBorderColor(IntPtr cPointer);
+		static extern protected Color tguiButtonRenderer_getBorderColor(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setBorderColorHover(IntPtr cPointer, Color color);
+		static extern protected void tguiButtonRenderer_setBorderColorHover(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiButtonRenderer_getBorderColorHover(IntPtr cPointer);
+		static extern protected Color tguiButtonRenderer_getBorderColorHover(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setBorderColorDown(IntPtr cPointer, Color color);
+		static extern protected void tguiButtonRenderer_setBorderColorDown(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiButtonRenderer_getBorderColorDown(IntPtr cPointer);
+		static extern protected Color tguiButtonRenderer_getBorderColorDown(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setBorderColorDisabled(IntPtr cPointer, Color color);
+		static extern protected void tguiButtonRenderer_setBorderColorDisabled(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Color tguiButtonRenderer_getBorderColorDisabled(IntPtr cPointer);
+		static extern protected Color tguiButtonRenderer_getBorderColorDisabled(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setTexture(IntPtr cPointer, IntPtr texture);
+		static extern protected void tguiButtonRenderer_setTexture(IntPtr cPointer, IntPtr texture);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setTextureHover(IntPtr cPointer, IntPtr texture);
+		static extern protected void tguiButtonRenderer_setTextureHover(IntPtr cPointer, IntPtr texture);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setTextureDown(IntPtr cPointer, IntPtr texture);
+		static extern protected void tguiButtonRenderer_setTextureDown(IntPtr cPointer, IntPtr texture);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setTextureDisabled(IntPtr cPointer, IntPtr texture);
+		static extern protected void tguiButtonRenderer_setTextureDisabled(IntPtr cPointer, IntPtr texture);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);
+		static extern protected void tguiButtonRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Text.Styles tguiButtonRenderer_getTextStyle(IntPtr cPointer);
+		static extern protected Text.Styles tguiButtonRenderer_getTextStyle(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setTextStyleHover(IntPtr cPointer, Text.Styles style);
+		static extern protected void tguiButtonRenderer_setTextStyleHover(IntPtr cPointer, Text.Styles style);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Text.Styles tguiButtonRenderer_getTextStyleHover(IntPtr cPointer);
+		static extern protected Text.Styles tguiButtonRenderer_getTextStyleHover(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setTextStyleDown(IntPtr cPointer, Text.Styles style);
+		static extern protected void tguiButtonRenderer_setTextStyleDown(IntPtr cPointer, Text.Styles style);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Text.Styles tguiButtonRenderer_getTextStyleDown(IntPtr cPointer);
+		static extern protected Text.Styles tguiButtonRenderer_getTextStyleDown(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiButtonRenderer_setTextStyleDisabled(IntPtr cPointer, Text.Styles style);
+		static extern protected void tguiButtonRenderer_setTextStyleDisabled(IntPtr cPointer, Text.Styles style);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Text.Styles tguiButtonRenderer_getTextStyleDisabled(IntPtr cPointer);
+		static extern protected Text.Styles tguiButtonRenderer_getTextStyleDisabled(IntPtr cPointer);
 
 		#endregion
 	}

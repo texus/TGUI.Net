@@ -62,13 +62,57 @@ namespace TGUI
 			get { return new PanelRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+
+		protected override void InitSignals()
+		{
+			base.InitSignals();
+			IntPtr error;
+
+			tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), ProcessMousePressedSignal, out error);
+			if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+
+			tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("MouseReleased"), ProcessMouseReleasedSignal, out error);
+			if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+
+			tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("Clicked"), ProcessClickedSignal, out error);
+			if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		}
+
+		private void ProcessMousePressedSignal(Vector2f pos)
+		{
+			if (MousePressed != null)
+				MousePressed(this, new SignalArgsVector2f(pos));
+		}
+
+		private void ProcessMouseReleasedSignal(Vector2f pos)
+		{
+			if (MouseReleased != null)
+				MouseReleased(this, new SignalArgsVector2f(pos));
+		}
+
+		private void ProcessClickedSignal(Vector2f pos)
+		{
+			if (Clicked != null)
+				Clicked(this, new SignalArgsVector2f(pos));
+		}
+
+		/// <summary>Event handler for the MousePressed signal</summary>
+		public event EventHandler<SignalArgsVector2f> MousePressed = null;
+
+		/// <summary>Event handler for the MouseReleased signal</summary>
+		public event EventHandler<SignalArgsVector2f> MouseReleased = null;
+
+		/// <summary>Event handler for the Clicked signal</summary>
+		public event EventHandler<SignalArgsVector2f> Clicked = null;
+
+
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiPanel_create();
-
-		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr tguiWidget_getRenderer(IntPtr cPointer);
+		static extern protected IntPtr tguiPanel_create();
 
 		#endregion
 	}
