@@ -29,7 +29,7 @@ using SFML.System;
 
 namespace TGUI
 {
-	public class Layout : ObjectBase
+	public class Layout : SFML.ObjectBase
 	{
 		public Layout(float constant)
 			: base(tguiLayout_create(constant))

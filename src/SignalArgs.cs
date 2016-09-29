@@ -66,4 +66,16 @@ namespace TGUI
 
 		public bool Value;
 	}
+
+	public class SignalArgsItem : EventArgs
+	{
+		public SignalArgsItem(string item, string id)
+		{
+			Item = item;
+			Id = id;
+		}
+
+		public string Item;
+		public string Id;
+	}
 }

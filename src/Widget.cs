@@ -30,7 +30,7 @@ using SFML.System;
 
 namespace TGUI
 {
-	public class Widget : ObjectBase
+	public class Widget : SFML.ObjectBase
 	{
 		protected Widget(IntPtr cPointer)
 			: base(cPointer)
@@ -96,15 +96,7 @@ namespace TGUI
 
 		public void Connect(string signalName, Action<Widget> func)
 		{
-			Action funcWrapper = () =>
-			{
-				func(this);
-			};
-
-			IntPtr error;
-			tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII(signalName), funcWrapper, out error);
-			if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+			Connect(signalName, () => func(this));
 		}
 
 		public WidgetRenderer Renderer
@@ -183,6 +175,18 @@ namespace TGUI
 		}
 
 		// TODO: ToolTip
+
+
+		////////////////////////////////////////////////////////////
+		/// <summary>
+		/// Provide a string describing the object
+		/// </summary>
+		/// <returns>String description of the object</returns>
+		////////////////////////////////////////////////////////////
+		public override string ToString()
+		{
+			return "[Widget] Type(" + WidgetType + ")";
+		}
 
 
 		protected virtual void InitSignals()
@@ -289,6 +293,9 @@ namespace TGUI
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiWidget_connect_int(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] Action<int> func, out IntPtr error);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiWidget_connect_itemSelected(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] Action<IntPtr, IntPtr> func, out IntPtr error);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiWidget_setRenderer(IntPtr cPointer, IntPtr rendererDataCPointer, out IntPtr error);

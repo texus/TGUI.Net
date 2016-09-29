@@ -30,7 +30,7 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-	public class WidgetRenderer : ObjectBase
+	public class WidgetRenderer : SFML.ObjectBase
 	{
 		public WidgetRenderer()
 			: base(tguiWidgetRenderer_create())
@@ -67,6 +67,18 @@ namespace TGUI
 		{
 			get { return new RendererData(tguiWidgetRenderer_getData(CPointer)); }
 		}
+
+		////////////////////////////////////////////////////////////
+		/// <summary>
+		/// Provide a string describing the object
+		/// </summary>
+		/// <returns>String description of the object</returns>
+		////////////////////////////////////////////////////////////
+		public override string ToString()
+		{
+			return "[WidgetRenderer]";
+		}
+
 
 		#region Imports
 

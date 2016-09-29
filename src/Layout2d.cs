@@ -29,7 +29,7 @@ using SFML.System;
 
 namespace TGUI
 {
-	public class Layout2d : ObjectBase
+	public class Layout2d : SFML.ObjectBase
 	{
 		public Layout2d()
 			: base(tguiLayout2d_create(new Vector2f(0, 0)))

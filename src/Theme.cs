@@ -30,7 +30,7 @@ using SFML.System;
 
 namespace TGUI
 {
-	public class Theme : ObjectBase
+	public class Theme : SFML.ObjectBase
 	{
 		public Theme(string filename)
 			: base(tguiTheme_create())

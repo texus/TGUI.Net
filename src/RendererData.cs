@@ -30,7 +30,7 @@ using SFML.System;
 
 namespace TGUI
 {
-	public class RendererData : ObjectBase
+	public class RendererData : SFML.ObjectBase
 	{
 		public RendererData(IntPtr cPointer)
 			: base(cPointer)

@@ -33,7 +33,7 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-	public class Gui : ObjectBase
+	public class Gui : SFML.ObjectBase
 	{
 		public Gui()
 			: base(tguiGui_create())
