@@ -108,6 +108,14 @@
     <Compile Include="Widgets\Canvas.cs" />
     <Compile Include="Widgets\MenuBar.cs" />
     <Compile Include="Renderers\MenuBarRenderer.cs" />
+    <Compile Include="Widgets\Tabs.cs" />
+    <Compile Include="Renderers\TabsRenderer.cs" />
+    <Compile Include="Widgets\TextBox.cs" />
+    <Compile Include="Renderers\TextBoxRenderer.cs" />
+    <Compile Include="Renderers\ChatBoxRenderer.cs" />
+    <Compile Include="Widgets\ChatBox.cs" />
+    <Compile Include="Renderers\KnobRenderer.cs" />
+    <Compile Include="Widgets\Knob.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

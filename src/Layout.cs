@@ -37,7 +37,7 @@ namespace TGUI
 		}
 
 		public Layout(string expression)
-			: base(tguiLayout_create_fromString(Util.ConvertStringForC_ASCII(expression)))
+			: base(tguiLayout_createFromString(Util.ConvertStringForC_ASCII(expression)))
 		{
 		}
 
@@ -62,7 +62,7 @@ namespace TGUI
 		static extern protected IntPtr tguiLayout_create(float constant);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiLayout_create_fromString(IntPtr expression);
+		static extern protected IntPtr tguiLayout_createFromString(IntPtr expression);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiLayout_copy(IntPtr cPointer);

@@ -42,12 +42,12 @@ namespace TGUI
 		}
 
 		public Layout2d(Layout x, Layout y)
-			: base(tguiLayout2d_create_fromLayouts(x.CPointer, y.CPointer))
+			: base(tguiLayout2d_createFromLayouts(x.CPointer, y.CPointer))
 		{
 		}
 
 		public Layout2d(string expression)
-			: base(tguiLayout2d_create_fromString(Util.ConvertStringForC_ASCII(expression)))
+			: base(tguiLayout2d_createFromString(Util.ConvertStringForC_ASCII(expression)))
 		{
 		}
 
@@ -77,10 +77,10 @@ namespace TGUI
 		static extern protected IntPtr tguiLayout2d_create(Vector2f constant);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiLayout2d_create_fromLayouts(IntPtr x, IntPtr y);
+		static extern protected IntPtr tguiLayout2d_createFromLayouts(IntPtr x, IntPtr y);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiLayout2d_create_fromString(IntPtr expression);
+		static extern protected IntPtr tguiLayout2d_createFromString(IntPtr expression);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiLayout2d_copy(IntPtr cPointer);
