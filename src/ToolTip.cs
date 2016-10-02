@@ -22,32 +22,43 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using System;
+using System.Text;
+using System.Security;
+using System.Runtime.InteropServices;
+using SFML.System;
+
 namespace TGUI
 {
-	public enum HorizontalAlignment
+	public static class ToolTip
 	{
-		Left,
-		Center,
-		Right
-	}
+		public static Time TimeToDisplay
+		{
+			get { return tguiToolTip_getTimeToDisplay(); }
+			set { tguiToolTip_setTimeToDisplay(value); }
+		}
 
-	public enum VerticalAlignment
-	{
-		Top,
-		Center,
-		Bottom
-	}
+		public static Vector2f DistanceToMouse
+		{
+			get { return tguiToolTip_getDistanceToMouse(); }
+			set { tguiToolTip_setDistanceToMouse(value); }
+		}
 
-	public enum Alignment
-	{
-		Center,
-		UpperLeft,
-		Up,
-		UpperRight,
-		Right,
-		BottomRight,
-		Bottom,
-		BottomLeft,
-		Left
-	};
+
+		#region Imports
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern void tguiToolTip_setTimeToDisplay(Time time);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern Time tguiToolTip_getTimeToDisplay();
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern void tguiToolTip_setDistanceToMouse(Vector2f distance);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern Vector2f tguiToolTip_getDistanceToMouse();
+
+		#endregion
+	}
 }

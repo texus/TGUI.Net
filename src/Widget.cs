@@ -26,6 +26,7 @@ using System;
 using System.Text;
 using System.Security;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 using SFML.System;
 
 namespace TGUI
@@ -86,17 +87,70 @@ namespace TGUI
 			get { return tguiWidget_getWidgetOffset(CPointer); }
 		}
 
-		public void Connect(string signalName, Action func)
+		public uint Connect(string signalName, Action func)
 		{
 			IntPtr error;
-			tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII(signalName), func, out error);
+			uint id = tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII(signalName), func, out error);
 			if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+
+			// Add the function to our dictionary
+			signalName = signalName.ToLower();
+			if (!myConnectedSignals.ContainsKey(signalName))
+				myConnectedSignals[signalName] = new List<uint>();
+
+			myConnectedSignals[signalName].Add(id);
+
+			return id;
 		}
 
-		public void Connect(string signalName, Action<Widget> func)
+		public uint Connect(string signalName, Action<Widget> func)
 		{
-			Connect(signalName, () => func(this));
+			return Connect(signalName, () => func(this));
+		}
+
+		public void Disconnect(uint id)
+		{
+			tguiWidget_disconnect(CPointer, id);
+
+			// Find and remove the signal with this id
+			var signalNames = new List<string>(myConnectedSignals.Keys);
+			foreach (var signalName in signalNames)
+			{
+				var idList = myConnectedSignals[signalName];
+				if (idList.Contains(id))
+				{
+					if (idList.Count > 1)
+						idList.Remove(id);
+					else
+						myConnectedSignals.Remove(signalName);
+
+					break;
+				}
+			}
+		}
+
+		public void DisconnectAll(string signalName)
+		{
+			signalName = signalName.ToLower();
+			if (myConnectedSignals.ContainsKey(signalName))
+			{
+				foreach (var id in myConnectedSignals[signalName])
+					tguiWidget_disconnect(CPointer, id);
+
+				myConnectedSignals.Remove(signalName);
+			}
+		}
+
+		public void DisconnectAll()
+		{
+			foreach (var signal in myConnectedSignals)
+			{
+				foreach (var id in signal.Value)
+					tguiWidget_disconnect(CPointer, id);
+			}
+
+			myConnectedSignals.Clear();
 		}
 
 		public WidgetRenderer Renderer
@@ -174,7 +228,25 @@ namespace TGUI
 			tguiWidget_moveToBack(CPointer);
 		}
 
-		// TODO: ToolTip
+		public Widget ToolTip
+		{
+			get
+			{
+				IntPtr ToolTipCPointer = tguiWidget_getToolTip(CPointer);
+				if (ToolTipCPointer == IntPtr.Zero)
+					return null;
+
+				Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(ToolTipCPointer)));
+				return (Widget)Activator.CreateInstance(type, new object[]{ ToolTipCPointer });
+			}
+			set
+			{
+				if (value != null)
+					tguiWidget_setToolTip(CPointer, value.CPointer);
+				else
+					tguiWidget_setToolTip(CPointer, IntPtr.Zero);
+			}
+		}
 
 
 		////////////////////////////////////////////////////////////
@@ -247,6 +319,9 @@ namespace TGUI
 		public event EventHandler MouseLeft = null;
 
 
+		protected Dictionary<string, List<uint>> myConnectedSignals = new Dictionary<string, List<uint>>();
+
+
 		#region Imports
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -283,7 +358,7 @@ namespace TGUI
 		static extern protected Vector2f tguiWidget_getFullSize(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_connect(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] Action func, out IntPtr error);
+		static extern protected uint tguiWidget_connect(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] Action func, out IntPtr error);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiWidget_connect_vector2f(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] Action<Vector2f> func, out IntPtr error);
@@ -296,6 +371,9 @@ namespace TGUI
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiWidget_connect_itemSelected(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] Action<IntPtr, IntPtr> func, out IntPtr error);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiWidget_disconnect(IntPtr cPointer, uint id);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiWidget_setRenderer(IntPtr cPointer, IntPtr rendererDataCPointer, out IntPtr error);
@@ -335,6 +413,12 @@ namespace TGUI
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiWidget_moveToBack(IntPtr cPointer);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiWidget_setToolTip(IntPtr cPointer, IntPtr toolTipCPointer);
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected IntPtr tguiWidget_getToolTip(IntPtr cPointer);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiWidget_getParent(IntPtr cPointer);

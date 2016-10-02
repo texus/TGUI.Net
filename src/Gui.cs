@@ -41,7 +41,7 @@ namespace TGUI
 		}
 
 		public Gui(RenderWindow window)
-			: base(tguiGui_createFromWindow(window.CPointer))
+			: this()
 		{
 			Window = window;
 		}
@@ -289,9 +289,6 @@ namespace TGUI
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiGui_create();
-
-		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiGui_createFromWindow(IntPtr cPointerRenderWindow);
 
 		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_destroy(IntPtr cPointer);

@@ -22,32 +22,35 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using System;
+using System.Security;
+using System.Runtime.InteropServices;
+
 namespace TGUI
 {
-	public enum HorizontalAlignment
+	public class VerticalLayout : BoxLayout
 	{
-		Left,
-		Center,
-		Right
-	}
+		public VerticalLayout()
+			: base(tguiVerticalLayout_create())
+		{
+		}
 
-	public enum VerticalAlignment
-	{
-		Top,
-		Center,
-		Bottom
-	}
+		protected internal VerticalLayout(IntPtr cPointer)
+			: base(cPointer)
+		{
+		}
 
-	public enum Alignment
-	{
-		Center,
-		UpperLeft,
-		Up,
-		UpperRight,
-		Right,
-		BottomRight,
-		Bottom,
-		BottomLeft,
-		Left
-	};
+		public VerticalLayout(VerticalLayout copy)
+			: base(copy)
+		{
+		}
+
+
+		#region Imports
+
+		[DllImport("ctgui", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected IntPtr tguiVerticalLayout_create();
+
+		#endregion
+	}
 }

@@ -116,6 +116,15 @@
     <Compile Include="Widgets\ChatBox.cs" />
     <Compile Include="Renderers\KnobRenderer.cs" />
     <Compile Include="Widgets\Knob.cs" />
+    <Compile Include="Renderers\ChildWindowRenderer.cs" />
+    <Compile Include="Renderers\MessageBoxRenderer.cs" />
+    <Compile Include="Widgets\ChildWindow.cs" />
+    <Compile Include="Widgets\MessageBox.cs" />
+    <Compile Include="ToolTip.cs" />
+    <Compile Include="Widgets\BoxLayout.cs" />
+    <Compile Include="Widgets\VerticalLayout.cs" />
+    <Compile Include="Widgets\HorizontalLayout.cs" />
+    <Compile Include="Widgets\Grid.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
