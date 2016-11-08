@@ -1,11 +1,11 @@
 <div class="NavigationBar">
     <ul class="NavigationBar">
-        <li class="NavigationBar"><a href="{{site.url}}/index.html" class="NavigationBar">Home</a></li>
-        <li class="NavigationBar"><a href="{{site.url}}/example-code/index.html" class="NavigationBar">Example code</a></li>
+        <li class="NavigationBar"><a href="/index.html" class="NavigationBar">Home</a></li>
+        <li class="NavigationBar"><a href="/example-code/index.html" class="NavigationBar">Example code</a></li>
         <li class="NavigationBar"><a href="https://github.com/texus/TGUI.Net/archive/0.6-port.zip" class="NavigationBar">Download</a></li>
-        <li class="NavigationBar"><a href="{{site.url}}/visual-studio/index.html" class="NavigationBar">Windows (Visual Studio)</a></li>
-        <li class="NavigationBar"><a href="{{site.url}}/linux/index.html" class="NavigationBar">Linux (MonoDevelop)</a></li>
-        <li class="NavigationBar"><a href="{{site.url}}/mac/index.html" class="NavigationBar">Mac OS X (Xamarin Studio)</a></li>
+        <li class="NavigationBar"><a href="/visual-studio/index.html" class="NavigationBar">Windows (Visual Studio)</a></li>
+        <li class="NavigationBar"><a href="/linux/index.html" class="NavigationBar">Linux (MonoDevelop)</a></li>
+        <li class="NavigationBar"><a href="/mac/index.html" class="NavigationBar">Mac OS X (Xamarin Studio)</a></li>
         <li class="NavigationBar"><a href="http://forum.tgui.eu/index.php?board=7.0" class="NavigationBar">Forum</a></li>
     </ul>
 </div>
