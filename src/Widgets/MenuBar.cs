@@ -93,6 +93,11 @@ namespace TGUI
 			set { tguiMenuBar_setMinimumSubMenuWidth(CPointer, value); }
 		}
 
+		public bool InvertedMenuDirection {
+			get { return tguiMenuBar_getInvertedMenuDirection (CPointer); }
+			set { tguiMenuBar_setInvertedMenuDirection (CPointer, value); }
+		}
+
 		protected override void InitSignals()
 		{
 			base.InitSignals();
@@ -147,6 +152,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected float tguiMenuBar_getMinimumSubMenuWidth(IntPtr cPointer);
+
+		[DllImport ("ctgui-0.8", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiMenuBar_setInvertedMenuDirection (IntPtr cPointer, bool invertDirection);
+
+		[DllImport ("ctgui-0.8", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiMenuBar_getInvertedMenuDirection (IntPtr cPointer);
 
 		#endregion
 	}
