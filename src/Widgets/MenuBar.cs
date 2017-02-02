@@ -56,9 +56,14 @@ namespace TGUI
 			tguiMenuBar_addMenu(CPointer, Util.ConvertStringForC_UTF32(text));
 		}
 
-		public bool AddMenuItem(string text, string menu = "")
+		public bool AddMenuItem(string menu, string text)
 		{
-			return tguiMenuBar_addMenuItem(CPointer, Util.ConvertStringForC_UTF32(text), Util.ConvertStringForC_UTF32(menu));
+			return tguiMenuBar_addMenuItem(CPointer, Util.ConvertStringForC_UTF32(menu), Util.ConvertStringForC_UTF32(text));
+		}
+
+		public bool AddMenuItem(string text)
+		{
+			return tguiMenuBar_addMenuItemToLastMenu(CPointer, Util.ConvertStringForC_UTF32(text));
 		}
 
 		public bool RemoveMenu(string menu)
@@ -117,7 +122,10 @@ namespace TGUI
 		static extern protected void tguiMenuBar_addMenu(IntPtr cPointer, IntPtr text);
 
 		[DllImport("ctgui-0.8", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiMenuBar_addMenuItem(IntPtr cPointer, IntPtr text, IntPtr menu);
+		static extern protected bool tguiMenuBar_addMenuItem(IntPtr cPointer, IntPtr menu, IntPtr text);
+
+		[DllImport("ctgui-0.8", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiMenuBar_addMenuItemToLastMenu(IntPtr cPointer, IntPtr text);
 
 		[DllImport("ctgui-0.8", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiMenuBar_removeMenu(IntPtr cPointer, IntPtr menu);
