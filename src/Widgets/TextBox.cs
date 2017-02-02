@@ -83,6 +83,11 @@ namespace TGUI
 			set { tguiTextBox_setMaximumCharacters(CPointer, value); }
 		}
 
+		public uint CaretPosition {
+			get { return tguiTextBox_getCaretPosition (CPointer); }
+			set { tguiTextBox_setCaretPosition (CPointer, value); }
+		}
+
 		public bool ReadOnly
 		{
 			get { return tguiTextBox_isReadOnly(CPointer); }
@@ -93,6 +98,10 @@ namespace TGUI
 		{
 			get { return tguiTextBox_isVerticalScrollbarPresent(CPointer); }
 			set { tguiTextBox_setVerticalScrollbarPresent(CPointer, value); }
+		}
+
+		public uint LinesCount {
+			get { return tguiTextBox_getLinesCount (CPointer); }
 		}
 
 
@@ -145,6 +154,12 @@ namespace TGUI
 		[DllImport("ctgui-0.8", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected uint tguiTextBox_getMaximumCharacters(IntPtr cPointer);
 
+		[DllImport ("ctgui-0.8", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTextBox_setCaretPosition (IntPtr cPointer, uint charactersBeforeCaret);
+
+		[DllImport ("ctgui-0.8", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected uint tguiTextBox_getCaretPosition (IntPtr cPointer);
+
 		[DllImport("ctgui-0.8", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTextBox_setReadOnly(IntPtr cPointer, bool readOnly);
 
@@ -156,6 +171,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiTextBox_isVerticalScrollbarPresent(IntPtr cPointer);
+
+		[DllImport ("ctgui-0.8", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected uint tguiTextBox_getLinesCount (IntPtr cPointer);
 
 		#endregion
 	}
