@@ -36,13 +36,13 @@ namespace TGUI
 		protected Widget(IntPtr cPointer)
 			: base(cPointer)
 		{
-			InitSignals();
+			InitSignals(); // Calls the function in the derived class
 		}
 
 		public Widget(Widget copy)
 			: base(tguiWidget_copy(copy.CPointer))
 		{
-			InitSignals();
+			InitSignals(); // Calls the function in the derived class
 		}
 
 		protected override void Destroy(bool disposing)
