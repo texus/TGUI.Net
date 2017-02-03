@@ -6,7 +6,7 @@
     <ProjectGuid>{E84D1C21-CA81-415B-B417-15864279B398}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TGUI</RootNamespace>
-    <AssemblyName>tgui-0.8</AssemblyName>
+    <AssemblyName>tguinet-0.8</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
