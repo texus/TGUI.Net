@@ -200,7 +200,19 @@ namespace TGUI
 			}
 		}
 
-		public string WidgetType
+        public bool Focused
+        {
+            get { return tguiWidget_isFocused(CPointer); }
+            set
+            {
+                if (value == true)
+                    tguiWidget_focus(CPointer);
+                else
+                    tguiWidget_unfocus(CPointer);
+            }
+        }
+
+        public string WidgetType
 		{
 			get { return Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(CPointer)); }
 		}
@@ -420,7 +432,16 @@ namespace TGUI
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiWidget_isEnabled(IntPtr cPointer);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiWidget_focus(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiWidget_unfocus(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiWidget_isFocused(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiWidget_getWidgetType(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
