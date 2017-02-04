@@ -194,20 +194,24 @@ namespace TGUI
 			base.InitSignals();
 			IntPtr error;
 
-			tguiWidget_connect_itemSelected(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ProcessItemSelectedSignal, out error);
-			if (error != IntPtr.Zero)
+		    ItemSelectedCallback = new CallbackActionItemSelected(ProcessItemSelectedSignal);
+		    tguiWidget_connect_itemSelected(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ItemSelectedCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
-			tguiWidget_connect_itemSelected(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), ProcessMousePressedSignal, out error);
-			if (error != IntPtr.Zero)
+		    MousePressedCallback = new CallbackActionItemSelected(ProcessMousePressedSignal);
+		    tguiWidget_connect_itemSelected(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
-			tguiWidget_connect_itemSelected(CPointer, Util.ConvertStringForC_ASCII("MouseReleased"), ProcessMouseReleasedSignal, out error);
-			if (error != IntPtr.Zero)
+		    MouseReleasedCallback = new CallbackActionItemSelected(ProcessMouseReleasedSignal);
+		    tguiWidget_connect_itemSelected(CPointer, Util.ConvertStringForC_ASCII("MouseReleased"), MouseReleasedCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
-			tguiWidget_connect_itemSelected(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), ProcessDoubleClickedSignal, out error);
-			if (error != IntPtr.Zero)
+		    DoubleClickedCallback = new CallbackActionItemSelected(ProcessDoubleClickedSignal);
+		    tguiWidget_connect_itemSelected(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
@@ -248,7 +252,13 @@ namespace TGUI
 		public event EventHandler<SignalArgsItem> DoubleClicked = null;
 
 
-		#region Imports
+	    private CallbackActionItemSelected ItemSelectedCallback;
+	    private CallbackActionItemSelected MousePressedCallback;
+	    private CallbackActionItemSelected MouseReleasedCallback;
+	    private CallbackActionItemSelected DoubleClickedCallback;
+
+
+	    #region Imports
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiListBox_create();

@@ -70,8 +70,11 @@ namespace TGUI
 			base.InitSignals();
 
 			IntPtr error;
-			tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("Pressed"), ProcessPressedSignal, out error);
-			if (error != IntPtr.Zero)
+
+		    PressedCallback = new CallbackActionString(ProcessPressedSignal);
+		    tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("Pressed"), PressedCallback, out error);
+
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
@@ -84,8 +87,10 @@ namespace TGUI
 		/// <summary>Event handler for the Pressed signal</summary>
 		public event EventHandler<SignalArgsString> Pressed = null;
 
+	    private CallbackActionString PressedCallback;
 
-		#region Imports
+
+	    #region Imports
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiButton_create();

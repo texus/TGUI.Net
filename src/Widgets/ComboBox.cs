@@ -188,7 +188,8 @@ namespace TGUI
 			base.InitSignals();
 
 			IntPtr error;
-			tguiWidget_connect_itemSelected(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ProcessItemSelectedSignal, out error);
+		    ItemSelectedCallback = new CallbackActionItemSelected(ProcessItemSelectedSignal);
+		    tguiWidget_connect_itemSelected(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ItemSelectedCallback, out error);
 			if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
@@ -202,8 +203,9 @@ namespace TGUI
 		/// <summary>Event handler for the ItemSelected signal</summary>
 		public event EventHandler<SignalArgsItem> ItemSelected = null;
 
+	    private CallbackActionItemSelected ItemSelectedCallback;
 
-		#region Imports
+	    #region Imports
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiComboBox_create();

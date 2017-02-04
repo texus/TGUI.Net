@@ -63,16 +63,19 @@ namespace TGUI
 			base.InitSignals();
 			IntPtr error;
 
-			tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), ProcessMousePressedSignal, out error);
-			if (error != IntPtr.Zero)
+		    MousePressedCallback = new CallbackActionVector2f(ProcessMousePressedSignal);
+		    tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
-			tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("MouseReleased"), ProcessMouseReleasedSignal, out error);
-			if (error != IntPtr.Zero)
+		    MouseReleasedCallback = new CallbackActionVector2f(ProcessMouseReleasedSignal);
+		    tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("MouseReleased"), MouseReleasedCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
-			tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("Clicked"), ProcessClickedSignal, out error);
-			if (error != IntPtr.Zero)
+		    ClickedCallback = new CallbackActionVector2f(ProcessClickedSignal);
+		    tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("Clicked"), ClickedCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
@@ -103,8 +106,12 @@ namespace TGUI
 		/// <summary>Event handler for the Clicked signal</summary>
 		public event EventHandler<SignalArgsVector2f> Clicked = null;
 
+	    private CallbackActionVector2f MousePressedCallback;
+	    private CallbackActionVector2f MouseReleasedCallback;
+	    private CallbackActionVector2f ClickedCallback;
 
-		#region Imports
+
+	    #region Imports
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiClickableWidget_create();

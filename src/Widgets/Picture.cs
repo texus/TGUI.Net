@@ -72,8 +72,10 @@ namespace TGUI
 			base.InitSignals();
 
 			IntPtr error;
-			tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), ProcessDoubleClickedSignal, out error);
-			if (error != IntPtr.Zero)
+
+		    DoubleClickedCallback = new CallbackAction(ProcessDoubleClickedSignal);
+		    tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
@@ -86,8 +88,9 @@ namespace TGUI
 		/// <summary>Event handler for the DoubleClicked signal</summary>
 		public event EventHandler DoubleClicked = null;
 
+	    private CallbackAction DoubleClickedCallback;
 
-		#region Imports
+	    #region Imports
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiPicture_create();
