@@ -88,7 +88,7 @@ namespace TGUI
 
 			IntPtr error;
 		    ValueChangedCallback = new CallbackActionInt(ProcessValueChangedSignal);
-		    tguiWidget_connect_int(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ProcessValueChangedSignal, out error);
+		    tguiWidget_connect_int(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
