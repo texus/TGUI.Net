@@ -106,12 +106,14 @@ namespace TGUI
 			base.InitSignals();
 			IntPtr error;
 
-			tguiWidget_connect_int(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ProcessValueChangedSignal, out error);
-			if (error != IntPtr.Zero)
+		    ValueChangedCallback = new CallbackActionInt(ProcessValueChangedSignal);
+		    tguiWidget_connect_int(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
-			tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Full"), ProcessFullSignal, out error);
-			if (error != IntPtr.Zero)
+		    FullCallback = new CallbackAction(ProcessFullSignal);
+		    tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Full"), FullCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
@@ -133,8 +135,10 @@ namespace TGUI
 		/// <summary>Event handler for the Full signal</summary>
 		public event EventHandler Full = null;
 
+	    private CallbackActionInt ValueChangedCallback;
+	    private CallbackAction FullCallback;
 
-		#region Imports
+	    #region Imports
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiProgressBar_create();

@@ -265,20 +265,24 @@ namespace TGUI
 		{
 			IntPtr error;
 
-			tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("PositionChanged"), ProcessPositionChangedSignal, out error);
-			if (error != IntPtr.Zero)
+		    PositionChangedCallback = new CallbackActionVector2f(ProcessPositionChangedSignal);
+		    tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("PositionChanged"), PositionChangedCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
-			tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("SizeChanged"), ProcessSizeChangedSignal, out error);
-			if (error != IntPtr.Zero)
+		    SizeChangedCallback = new CallbackActionVector2f(ProcessSizeChangedSignal);
+		    tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("SizeChanged"), SizeChangedCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
-			tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MouseEntered"), ProcessMouseEnteredSignal, out error);
-			if (error != IntPtr.Zero)
+		    MouseEnteredCallback = new CallbackAction(ProcessMouseEnteredSignal);
+		    tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MouseEntered"), MouseEnteredCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
-			tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MouseLeft"), ProcessMouseLeftSignal, out error);
-			if (error != IntPtr.Zero)
+		    MouseLeftCallback = new CallbackAction(ProcessMouseLeftSignal);
+		    tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MouseLeft"), MouseLeftCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
@@ -318,8 +322,13 @@ namespace TGUI
 		/// <summary>Event handler for the MouseLeft signal</summary>
 		public event EventHandler MouseLeft = null;
 
+	    private CallbackActionVector2f PositionChangedCallback;
+	    private CallbackActionVector2f SizeChangedCallback;
+	    private CallbackAction         MouseEnteredCallback;
+	    private CallbackAction         MouseLeftCallback;
 
-		protected Dictionary<string, List<uint>> myConnectedSignals = new Dictionary<string, List<uint>>();
+
+	    protected Dictionary<string, List<uint>> myConnectedSignals = new Dictionary<string, List<uint>>();
 
 
 		protected delegate void CallbackAction();

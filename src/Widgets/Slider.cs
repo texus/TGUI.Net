@@ -81,8 +81,9 @@ namespace TGUI
 			base.InitSignals();
 
 			IntPtr error;
-			tguiWidget_connect_int(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ProcessValueChangedSignal, out error);
-			if (error != IntPtr.Zero)
+		    ValueChangedCallback = new CallbackActionInt(ProcessValueChangedSignal);
+		    tguiWidget_connect_int(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
@@ -95,8 +96,9 @@ namespace TGUI
 		/// <summary>Event handler for the ValueChanged signal</summary>
 		public event EventHandler<SignalArgsInt> ValueChanged = null;
 
+	    private CallbackActionInt ValueChangedCallback;
 
-		#region Imports
+	    #region Imports
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiSlider_create();

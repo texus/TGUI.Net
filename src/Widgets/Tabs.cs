@@ -140,8 +140,9 @@ namespace TGUI
 			base.InitSignals();
 
 			IntPtr error;
-			tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("TabSelected"), ProcessTabSelectedSignal, out error);
-			if (error != IntPtr.Zero)
+		    TabSelectedCallback = new CallbackActionString(ProcessTabSelectedSignal);
+		    tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("TabSelected"), TabSelectedCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
@@ -154,6 +155,7 @@ namespace TGUI
 		/// <summary>Event handler for the TabSelected signal</summary>
 		public event EventHandler<SignalArgsString> TabSelected = null;
 
+	    private CallbackActionString TabSelectedCallback;
 
 		#region Imports
 

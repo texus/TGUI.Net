@@ -88,8 +88,10 @@ namespace TGUI
 			base.InitSignals();
 
 			IntPtr error;
-			tguiWidget_connect_int(CPointer, Util.ConvertStringForC_ASCII("Checked Unchecked"), ProcessToggledSignal, out error);
-			if (error != IntPtr.Zero)
+
+		    ToggledCallback = new CallbackActionInt(ProcessToggledSignal);
+		    tguiWidget_connect_int(CPointer, Util.ConvertStringForC_ASCII("Checked Unchecked"), ToggledCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
@@ -102,6 +104,7 @@ namespace TGUI
 		/// <summary>Event handler for the Checked/Unchecked signal</summary>
 		public event EventHandler<SignalArgsBool> Toggled = null;
 
+	    private CallbackActionInt ToggledCallback;
 
 		#region Imports
 

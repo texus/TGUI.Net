@@ -103,8 +103,10 @@ namespace TGUI
 			base.InitSignals();
 
 			IntPtr error;
-			tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("MenuItemClicked"), ProcessMenuItemClickedSignal, out error);
-			if (error != IntPtr.Zero)
+
+		    MenuItemClickedCallback = new CallbackActionString(ProcessMenuItemClickedSignal);
+		    tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("MenuItemClicked"), MenuItemClickedCallback, out error);
+		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
@@ -117,8 +119,10 @@ namespace TGUI
 		/// <summary>Event handler for the ItemSelected signal</summary>
 		public event EventHandler<SignalArgsString> MenuItemClicked = null;
 
+	    private CallbackActionString MenuItemClickedCallback;
 
-		#region Imports
+
+	    #region Imports
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiMenuBar_create();
@@ -153,10 +157,10 @@ namespace TGUI
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected float tguiMenuBar_getMinimumSubMenuWidth(IntPtr cPointer);
 
-		[DllImport ("ctgui-0.8", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport ("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiMenuBar_setInvertedMenuDirection (IntPtr cPointer, bool invertDirection);
 
-		[DllImport ("ctgui-0.8", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport ("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiMenuBar_getInvertedMenuDirection (IntPtr cPointer);
 
 		#endregion
