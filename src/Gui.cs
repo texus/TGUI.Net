@@ -82,11 +82,22 @@ namespace TGUI
 		public void Add(Widget widget, string widgetName = "")
 		{
 			tguiGui_add(CPointer, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
-		}
+
+            Widgets.Add(widget);
+            WidgetIds.Add(widgetName);
+        }
 
 		public Widget Get(string widgetName)
 		{
-			IntPtr WidgetCPointer = tguiGui_get(CPointer, Util.ConvertStringForC_UTF32(widgetName));
+            // Search for the widget locally
+            for (var i = 0; i < WidgetIds.Count; ++i)
+            {
+                if (WidgetIds[i] == widgetName)
+                    return Widgets[i];
+            }
+
+            // If not found, it is still possible that it exists (e.g. it could have been loaded from a file inside the c++ code)
+            IntPtr WidgetCPointer = tguiGui_get(CPointer, Util.ConvertStringForC_UTF32(widgetName));
 			if (WidgetCPointer == IntPtr.Zero)
 				return null;
 
@@ -96,8 +107,10 @@ namespace TGUI
 
 		public List<Widget> GetWidgets()
 		{
-			unsafe
-			{
+            // We can't use our Widgets member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
+
+            unsafe
+            {
 				uint Count;
 				IntPtr* WidgetsPtr = tguiGui_getWidgets(CPointer, out Count);
 				List<Widget> Widgets = new List<Widget>();
@@ -114,8 +127,10 @@ namespace TGUI
 
 		public List<string> GetWidgetNames()
 		{
-			unsafe
-			{
+            // We can't use our WidgetIds member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
+
+            unsafe
+            {
 				uint Count;
 				IntPtr* NamesPtr = tguiGui_getWidgetNames(CPointer, out Count);
 				List<string> Names = new List<string>();
@@ -129,12 +144,22 @@ namespace TGUI
 		public void Remove(Widget widget)
 		{
 			tguiGui_remove(CPointer, widget.CPointer);
-		}
+
+            var index = Widgets.IndexOf(widget);
+            if (index != -1)
+            {
+                Widgets.RemoveAt(index);
+                WidgetIds.RemoveAt(index);
+            }
+        }
 
 		public void RemoveAllWidgets()
 		{
 			tguiGui_removeAllWidgets(CPointer);
-		}
+
+            Widgets.Clear();
+            WidgetIds.Clear();
+        }
 
 		public void Draw()
 		{
@@ -285,9 +310,13 @@ namespace TGUI
 		}
 
 
-		#region Imports
+        private List<Widget> Widgets = new List<Widget>();
+        private List<string> WidgetIds = new List<string>();
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+
+        #region Imports
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiGui_create();
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
