@@ -157,10 +157,10 @@ namespace TGUI
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected float tguiMenuBar_getMinimumSubMenuWidth(IntPtr cPointer);
 
-		[DllImport ("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiMenuBar_setInvertedMenuDirection (IntPtr cPointer, bool invertDirection);
 
-		[DllImport ("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiMenuBar_getInvertedMenuDirection (IntPtr cPointer);
 
 		#endregion
