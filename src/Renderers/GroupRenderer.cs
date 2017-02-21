@@ -29,66 +29,42 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-	public class PanelRenderer : GroupRenderer
+	public class GroupRenderer : WidgetRenderer
 	{
-		public PanelRenderer()
-			: base(tguiPanelRenderer_create())
+		public GroupRenderer()
+			: base(tguiGroupRenderer_create())
 		{
 		}
 
-		protected internal PanelRenderer(IntPtr cPointer)
+		protected internal GroupRenderer(IntPtr cPointer)
 			: base(cPointer)
 		{
 		}
 
-		public PanelRenderer(PanelRenderer copy)
-			: base(tguiPanelRenderer_copy(copy.CPointer))
+		public GroupRenderer(GroupRenderer copy)
+			: base(tguiGroupRenderer_copy(copy.CPointer))
 		{
 		}
 
-		public Outline Borders
+		public Outline Padding
 		{
-			get { return tguiPanelRenderer_getBorders(CPointer); }
-			set { tguiPanelRenderer_setBorders(CPointer, value); }
-		}
-
-		public Color BackgroundColor
-		{
-			get { return tguiPanelRenderer_getBackgroundColor(CPointer); }
-			set { tguiPanelRenderer_setBackgroundColor(CPointer, value); }
-		}
-
-		public Color BorderColor
-		{
-			get { return tguiPanelRenderer_getBorderColor(CPointer); }
-			set { tguiPanelRenderer_setBorderColor(CPointer, value); }
+			get { return tguiGroupRenderer_getPadding(CPointer); }
+			set { tguiGroupRenderer_setPadding(CPointer, value); }
 		}
 
 		#region Imports
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiPanelRenderer_create();
+		static extern protected IntPtr tguiGroupRenderer_create();
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiPanelRenderer_copy(IntPtr cPointer);
+		static extern protected IntPtr tguiGroupRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiPanelRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiGroupRenderer_setPadding(IntPtr cPointer, Outline borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiPanelRenderer_getBorders(IntPtr cPointer);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiPanelRenderer_setBackgroundColor(IntPtr cPointer, Color color);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiPanelRenderer_getBackgroundColor(IntPtr cPointer);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiPanelRenderer_setBorderColor(IntPtr cPointer, Color color);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiPanelRenderer_getBorderColor(IntPtr cPointer);
+		static extern protected Outline tguiGroupRenderer_getPadding(IntPtr cPointer);
 
 		#endregion
 	}

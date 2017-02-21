@@ -29,7 +29,7 @@ using SFML.System;
 
 namespace TGUI
 {
-	public class Panel : Container
+	public class Panel : Group
 	{
 		public Panel()
 			: base(tguiPanel_create())
