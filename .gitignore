@@ -1,9 +1,13 @@
 obj/
 lib/
-examples/*/*.dll
-doc/build/*xml
+/extlibs/bin/
+/extlibs/build/
+/extlibs/include/
+/examples/*/*.dll
+/doc/build/*xml
 *.exe
 *.manifest
 *.pdb
 *.suo
 *.userprefs
+/_site/

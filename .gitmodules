@@ -1,0 +1,15 @@
+[submodule "extlibs/TGUI"]
+	path = extlibs/TGUI
+	url = https://github.com/texus/TGUI
+[submodule "extlibs/CTGUI"]
+	path = extlibs/CTGUI
+	url = https://github.com/texus/CTGUI
+[submodule "extlibs/CSFML"]
+	path = extlibs/CSFML
+	url = https://github.com/SFML/CSFML
+[submodule "extlibs/SFML"]
+	path = extlibs/SFML
+	url = https://github.com/SFML/SFML
+[submodule "extlibs/SFML.Net"]
+	path = extlibs/SFML.Net
+	url = https://github.com/SFML/SFML.Net
