@@ -141,7 +141,7 @@ namespace TGUI
 
 			IntPtr error;
 		    TabSelectedCallback = new CallbackActionString(ProcessTabSelectedSignal);
-		    tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("TabSelected"), TabSelectedCallback, out error);
+		    tguiTabs_connect_onTabSelect(CPointer, TabSelectedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
@@ -218,6 +218,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected float tguiTabs_getMaximumTabWidth(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTabs_connect_onTabSelect(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
 
 		#endregion
 	}

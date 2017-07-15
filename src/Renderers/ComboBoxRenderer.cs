@@ -48,14 +48,14 @@ namespace TGUI
 
 		public Outline Borders
 		{
-			get { return tguiComboBoxRenderer_getBorders(CPointer); }
-			set { tguiComboBoxRenderer_setBorders(CPointer, value); }
+			get { return new Outline(tguiComboBoxRenderer_getBorders(CPointer)); }
+			set { tguiComboBoxRenderer_setBorders(CPointer, value.CPointer); }
 		}
 
 		public Outline Padding
 		{
-			get { return tguiComboBoxRenderer_getPadding(CPointer); }
-			set { tguiComboBoxRenderer_setPadding(CPointer, value); }
+			get { return new Outline(tguiComboBoxRenderer_getPadding(CPointer)); }
+			set { tguiComboBoxRenderer_setPadding(CPointer, value.CPointer); }
 		}
 
 		public Color BackgroundColor
@@ -147,16 +147,16 @@ namespace TGUI
 		static extern protected IntPtr tguiComboBoxRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiComboBoxRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiComboBoxRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiComboBoxRenderer_getBorders(IntPtr cPointer);
+		static extern protected IntPtr tguiComboBoxRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiComboBoxRenderer_setPadding(IntPtr cPointer, Outline borders);
+		static extern protected void tguiComboBoxRenderer_setPadding(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiComboBoxRenderer_getPadding(IntPtr cPointer);
+		static extern protected IntPtr tguiComboBoxRenderer_getPadding(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiComboBoxRenderer_setBackgroundColor(IntPtr cPointer, Color color);

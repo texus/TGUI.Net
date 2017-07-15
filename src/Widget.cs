@@ -58,7 +58,7 @@ namespace TGUI
 
 		public void SetPosition(Layout2d layout)
 		{
-			tguiWidget_setPosition_fromLayout(CPointer, layout.CPointer);
+			tguiWidget_setPositionFromLayout(CPointer, layout.CPointer);
 		}
 
 		public Vector2f AbsolultePosition
@@ -74,7 +74,7 @@ namespace TGUI
 
 		public void SetSize(Layout2d layout)
 		{
-			tguiWidget_setSize_fromLayout(CPointer, layout.CPointer);
+			tguiWidget_setSizeFromLayout(CPointer, layout.CPointer);
 		}
 
 		public Vector2f FullSize
@@ -109,24 +109,22 @@ namespace TGUI
 			return Connect(signalName, () => func(this));
 		}
 
-		public void Disconnect(uint id)
+        public uint Connect(string signalName, Action<Widget, string> func)
 		{
-			tguiWidget_disconnect(CPointer, id);
+			return Connect(signalName, () => func(this, signalName));
+		}
 
-			// Find and remove the signal with this id
-			var signalNames = new List<string>(myConnectedSignals.Keys);
-			foreach (var signalName in signalNames)
+		public void Disconnect(string signalName, uint id)
+		{
+			tguiWidget_disconnect(CPointer, Util.ConvertStringForC_ASCII(signalName), id);
+
+			var idList = myConnectedSignals[signalName];
+			if (idList.Contains(id))
 			{
-				var idList = myConnectedSignals[signalName];
-				if (idList.Contains(id))
-				{
-					if (idList.Count > 1)
-						idList.Remove(id);
-					else
-						myConnectedSignals.Remove(signalName);
-
-					break;
-				}
+				if (idList.Count > 1)
+					idList.Remove(id);
+				else
+					myConnectedSignals.Remove(signalName);
 			}
 		}
 
@@ -134,23 +132,9 @@ namespace TGUI
 		{
 			signalName = signalName.ToLower();
 			if (myConnectedSignals.ContainsKey(signalName))
-			{
-				foreach (var id in myConnectedSignals[signalName])
-					tguiWidget_disconnect(CPointer, id);
-
 				myConnectedSignals.Remove(signalName);
-			}
-		}
 
-		public void DisconnectAll()
-		{
-			foreach (var signal in myConnectedSignals)
-			{
-				foreach (var id in signal.Value)
-					tguiWidget_disconnect(CPointer, id);
-			}
-
-			myConnectedSignals.Clear();
+            tguiWidget_disconnectAll(CPointer, Util.ConvertStringForC_ASCII(signalName));
 		}
 
 		public WidgetRenderer Renderer
@@ -200,7 +184,7 @@ namespace TGUI
 			}
 		}
 
-        public bool Focused
+        public bool Focus
         {
             get { return tguiWidget_isFocused(CPointer); }
             set
@@ -259,6 +243,11 @@ namespace TGUI
 					tguiWidget_setToolTip(CPointer, IntPtr.Zero);
 			}
 		}
+		
+		public bool MouseOnWidget(Vector2f pos)
+		{
+			return tguiWidget_mouseOnWidget(CPointer, pos);
+		}
 
 
 		////////////////////////////////////////////////////////////
@@ -278,22 +267,32 @@ namespace TGUI
 			IntPtr error;
 
 		    PositionChangedCallback = new CallbackActionVector2f(ProcessPositionChangedSignal);
-		    tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("PositionChanged"), PositionChangedCallback, out error);
+		    tguiWidget_connect_onPositionChange(CPointer, PositionChangedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
 		    SizeChangedCallback = new CallbackActionVector2f(ProcessSizeChangedSignal);
-		    tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("SizeChanged"), SizeChangedCallback, out error);
+		    tguiWidget_connect_onSizeChange(CPointer, SizeChangedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
 		    MouseEnteredCallback = new CallbackAction(ProcessMouseEnteredSignal);
-		    tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MouseEntered"), MouseEnteredCallback, out error);
+		    tguiWidget_connect_onMouseEnter(CPointer, MouseEnteredCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
 		    MouseLeftCallback = new CallbackAction(ProcessMouseLeftSignal);
-		    tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MouseLeft"), MouseLeftCallback, out error);
+		    tguiWidget_connect_onMouseLeave(CPointer, MouseLeftCallback, out error);
+		    if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+
+            FocusedCallback = new CallbackAction(ProcessFocusedSignal);
+		    tguiWidget_connect_onFocus(CPointer, FocusedCallback, out error);
+		    if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+
+		    UnfocusedCallback = new CallbackAction(ProcessUnfocusedSignal);
+		    tguiWidget_connect_onUnfocus(CPointer, UnfocusedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
@@ -322,6 +321,18 @@ namespace TGUI
 				MouseLeft(this, EventArgs.Empty);
 		}
 
+        private void ProcessFocusedSignal()
+		{
+			if (Focused != null)
+				Focused(this, EventArgs.Empty);
+		}
+
+		private void ProcessUnfocusedSignal()
+		{
+			if (Unfocused != null)
+				Unfocused(this, EventArgs.Empty);
+		}
+
 		/// <summary>Event handler for the Clicked signal</summary>
 		public event EventHandler<SignalArgsVector2f> PositionChanged = null;
 
@@ -334,10 +345,18 @@ namespace TGUI
 		/// <summary>Event handler for the MouseLeft signal</summary>
 		public event EventHandler MouseLeft = null;
 
+        /// <summary>Event handler for the Focused signal</summary>
+		public event EventHandler Focused = null;
+
+		/// <summary>Event handler for the Unfocused signal</summary>
+		public event EventHandler Unfocused = null;
+
 	    private CallbackActionVector2f PositionChangedCallback;
 	    private CallbackActionVector2f SizeChangedCallback;
 	    private CallbackAction         MouseEnteredCallback;
 	    private CallbackAction         MouseLeftCallback;
+	    private CallbackAction         FocusedCallback;
+	    private CallbackAction         UnfocusedCallback;
 
 
 	    protected Dictionary<string, List<uint>> myConnectedSignals = new Dictionary<string, List<uint>>();
@@ -347,6 +366,7 @@ namespace TGUI
 		protected delegate void CallbackActionVector2f(Vector2f param);
 		protected delegate void CallbackActionString(IntPtr param);
 		protected delegate void CallbackActionInt(int param);
+		protected delegate void CallbackActionUInt(uint param);
 		protected delegate void CallbackActionItemSelected(IntPtr param1, IntPtr param2);
 
 		#region Imports
@@ -361,7 +381,7 @@ namespace TGUI
 		static extern protected void tguiWidget_setPosition(IntPtr cPointer, Vector2f pos);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_setPosition_fromLayout(IntPtr cPointer, IntPtr layout2d);
+		static extern protected void tguiWidget_setPositionFromLayout(IntPtr cPointer, IntPtr layout2d);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected Vector2f tguiWidget_getPosition(IntPtr cPointer);
@@ -376,7 +396,7 @@ namespace TGUI
 		static extern protected void tguiWidget_setSize(IntPtr cPointer, Vector2f size);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_setSize_fromLayout(IntPtr cPointer, IntPtr layout2d);
+		static extern protected void tguiWidget_setSizeFromLayout(IntPtr cPointer, IntPtr layout2d);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected Vector2f tguiWidget_getSize(IntPtr cPointer);
@@ -388,19 +408,28 @@ namespace TGUI
 		static extern protected uint tguiWidget_connect(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_connect_vector2f(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func, out IntPtr error);
+		static extern protected void tguiWidget_connect_onPositionChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func, out IntPtr error);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_connect_string(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
+		static extern protected void tguiWidget_connect_onSizeChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func, out IntPtr error);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_connect_int(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionInt func, out IntPtr error);
+		static extern protected void tguiWidget_connect_onMouseEnter(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_connect_itemSelected(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionItemSelected func, out IntPtr error);
+		static extern protected void tguiWidget_connect_onMouseLeave(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_disconnect(IntPtr cPointer, uint id);
+		static extern protected void tguiWidget_connect_onFocus(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiWidget_connect_onUnfocus(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiWidget_disconnect(IntPtr cPointer, IntPtr signalName, uint id);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiWidget_disconnectAll(IntPtr cPointer, IntPtr signalName);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiWidget_setRenderer(IntPtr cPointer, IntPtr rendererDataCPointer, out IntPtr error);
@@ -458,6 +487,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiWidget_getParent(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiWidget_mouseOnWidget(IntPtr cPointer, Vector2f pos);
 
 		#endregion
 	}

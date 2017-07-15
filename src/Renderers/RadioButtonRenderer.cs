@@ -54,8 +54,8 @@ namespace TGUI
 
 		public Outline Borders
 		{
-			get { return tguiRadioButtonRenderer_getBorders(CPointer); }
-			set { tguiRadioButtonRenderer_setBorders(CPointer, value); }
+			get { return new Outline(tguiRadioButtonRenderer_getBorders(CPointer)); }
+			set { tguiRadioButtonRenderer_setBorders(CPointer, value.CPointer); }
 		}
 
 		public Color TextColor
@@ -241,10 +241,10 @@ namespace TGUI
 		static extern protected float tguiRadioButtonRenderer_getTextDistanceRatio(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRadioButtonRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiRadioButtonRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiRadioButtonRenderer_getBorders(IntPtr cPointer);
+		static extern protected IntPtr tguiRadioButtonRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiRadioButtonRenderer_setTextColor(IntPtr cPointer, Color color);

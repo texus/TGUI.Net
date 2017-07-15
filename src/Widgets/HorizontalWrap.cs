@@ -28,49 +28,28 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
-	public abstract class BoxLayout : Group
+	public class HorizontalWrap : BoxLayout
 	{
-		protected internal BoxLayout(IntPtr cPointer)
+		public HorizontalWrap()
+			: base(tguiHorizontalWrap_create())
+		{
+		}
+
+		protected internal HorizontalWrap(IntPtr cPointer)
 			: base(cPointer)
 		{
 		}
 
-		public BoxLayout(BoxLayout copy)
+		public HorizontalWrap(HorizontalWrap copy)
 			: base(copy)
 		{
-		}
-
-		public bool Insert(uint index, Widget widget, string widgetName = "")
-		{
-			return tguiBoxLayout_insert(CPointer, index, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
-		}
-
-		public bool Remove(uint index)
-		{
-			return tguiBoxLayout_removeAtIndex(CPointer, index);
-		}
-
-		public Widget Get(uint index)
-		{
-			IntPtr WidgetCPointer = tguiBoxLayout_getAtIndex(CPointer, index);
-			if (WidgetCPointer == IntPtr.Zero)
-				return null;
-
-			Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
-			return (Widget)Activator.CreateInstance(type, new object[]{ WidgetCPointer });
 		}
 
 
 		#region Imports
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiBoxLayout_insert(IntPtr cPointer, uint index, IntPtr widgetCPointer, IntPtr widgetName);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiBoxLayout_removeAtIndex(IntPtr cPointer, uint index);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiBoxLayout_getAtIndex(IntPtr cPointer, uint index);
+		static extern protected IntPtr tguiHorizontalWrap_create();
 
 		#endregion
 	}

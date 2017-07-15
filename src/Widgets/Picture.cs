@@ -73,22 +73,22 @@ namespace TGUI
 
 			IntPtr error;
 
-		    DoubleClickedCallback = new CallbackAction(ProcessDoubleClickedSignal);
-		    tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback, out error);
+		    DoubleClickedCallback = new CallbackActionVector2f(ProcessDoubleClickedSignal);
+		    tguiPicture_connect_onDoubleClick(CPointer, DoubleClickedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
-		private void ProcessDoubleClickedSignal()
+		private void ProcessDoubleClickedSignal(Vector2f pos)
 		{
 			if (DoubleClicked != null)
-				DoubleClicked(this, EventArgs.Empty);
+				DoubleClicked(this, new SignalArgsVector2f(pos));
 		}
 
 		/// <summary>Event handler for the DoubleClicked signal</summary>
-		public event EventHandler DoubleClicked = null;
+		public event EventHandler<SignalArgsVector2f> DoubleClicked = null;
 
-	    private CallbackAction DoubleClickedCallback;
+	    private CallbackActionVector2f DoubleClickedCallback;
 
 	    #region Imports
 
@@ -97,6 +97,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiPicture_setTexture(IntPtr cPointer, IntPtr textureCPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiPicture_connect_onDoubleClick(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func, out IntPtr error);
 
 		#endregion
 	}

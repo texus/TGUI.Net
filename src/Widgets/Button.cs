@@ -72,7 +72,7 @@ namespace TGUI
 			IntPtr error;
 
 		    PressedCallback = new CallbackActionString(ProcessPressedSignal);
-		    tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("Pressed"), PressedCallback, out error);
+		    tguiButton_connect_onPress(CPointer, PressedCallback, out error);
 
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
@@ -106,6 +106,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected uint tguiButton_getTextSize(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiButton_connect_onPress(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
 
 		#endregion
 	}

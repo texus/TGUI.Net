@@ -48,8 +48,8 @@ namespace TGUI
 
 		public Outline Borders
 		{
-			get { return tguiProgressBarRenderer_getBorders(CPointer); }
-			set { tguiProgressBarRenderer_setBorders(CPointer, value); }
+			get { return new Outline(tguiProgressBarRenderer_getBorders(CPointer)); }
+			set { tguiProgressBarRenderer_setBorders(CPointer, value.CPointer); }
 		}
 
 		public Color TextColor
@@ -108,10 +108,10 @@ namespace TGUI
 		static extern protected IntPtr tguiProgressBarRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiProgressBarRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiProgressBarRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiProgressBarRenderer_getBorders(IntPtr cPointer);
+		static extern protected IntPtr tguiProgressBarRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiProgressBarRenderer_setTextColor(IntPtr cPointer, Color color);

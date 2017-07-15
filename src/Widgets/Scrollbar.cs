@@ -87,22 +87,22 @@ namespace TGUI
 
 			IntPtr error;
 
-		    ValueChangedCallback = new CallbackActionInt(ProcessValueChangedSignal);
-		    tguiWidget_connect_int(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback, out error);
+		    ValueChangedCallback = new CallbackActionUInt(ProcessValueChangedSignal);
+		    tguiScrollbar_connect_onValueChange(CPointer, ValueChangedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
-		private void ProcessValueChangedSignal(int value)
+		private void ProcessValueChangedSignal(uint value)
 		{
 			if (ValueChanged != null)
-				ValueChanged(this, new SignalArgsInt(value));
+				ValueChanged(this, new SignalArgsUInt(value));
 		}
 
 		/// <summary>Event handler for the ValueChanged signal</summary>
-		public event EventHandler<SignalArgsInt> ValueChanged = null;
+		public event EventHandler<SignalArgsUInt> ValueChanged = null;
 
-	    private CallbackActionInt ValueChangedCallback;
+	    private CallbackActionUInt ValueChangedCallback;
 
 		#region Imports
 
@@ -138,6 +138,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiScrollbar_getAutoHide(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiScrollbar_connect_onValueChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionUInt func, out IntPtr error);
 
 		#endregion
 	}

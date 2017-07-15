@@ -48,14 +48,14 @@ namespace TGUI
 
 		public Outline Borders
 		{
-			get { return tguiLabelRenderer_getBorders(CPointer); }
-			set { tguiLabelRenderer_setBorders(CPointer, value); }
+			get { return new Outline(tguiLabelRenderer_getBorders(CPointer)); }
+			set { tguiLabelRenderer_setBorders(CPointer, value.CPointer); }
 		}
 
 		public Outline Padding
 		{
-			get { return tguiLabelRenderer_getPadding(CPointer); }
-			set { tguiLabelRenderer_setPadding(CPointer, value); }
+			get { return new Outline(tguiLabelRenderer_getPadding(CPointer)); }
+			set { tguiLabelRenderer_setPadding(CPointer, value.CPointer); }
 		}
 
 		public Color TextColor
@@ -92,16 +92,16 @@ namespace TGUI
 		static extern protected IntPtr tguiLabelRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiLabelRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiLabelRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiLabelRenderer_getBorders(IntPtr cPointer);
+		static extern protected IntPtr tguiLabelRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiLabelRenderer_setPadding(IntPtr cPointer, Outline borders);
+		static extern protected void tguiLabelRenderer_setPadding(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiLabelRenderer_getPadding(IntPtr cPointer);
+		static extern protected IntPtr tguiLabelRenderer_getPadding(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiLabelRenderer_setTextColor(IntPtr cPointer, Color color);

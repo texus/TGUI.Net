@@ -101,7 +101,7 @@ namespace TGUI
 			IntPtr error;
 
 		    ValueChangedCallback = new CallbackActionInt(ProcessValueChangedSignal);
-		    tguiWidget_connect_int(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback, out error);
+		    tguiKnob_connect_onValueChange(CPointer, ValueChangedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
@@ -157,6 +157,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiKnob_getClockwiseTurning(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiKnob_connect_onValueChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionInt func, out IntPtr error);
 
 		#endregion
 	}

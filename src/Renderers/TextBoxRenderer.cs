@@ -48,14 +48,14 @@ namespace TGUI
 
 		public Outline Borders
 		{
-			get { return tguiTextBoxRenderer_getBorders(CPointer); }
-			set { tguiTextBoxRenderer_setBorders(CPointer, value); }
+			get { return new Outline(tguiTextBoxRenderer_getBorders(CPointer)); }
+			set { tguiTextBoxRenderer_setBorders(CPointer, value.CPointer); }
 		}
 
 		public Outline Padding
 		{
-			get { return tguiTextBoxRenderer_getPadding(CPointer); }
-			set { tguiTextBoxRenderer_setPadding(CPointer, value); }
+			get { return new Outline(tguiTextBoxRenderer_getPadding(CPointer)); }
+			set { tguiTextBoxRenderer_setPadding(CPointer, value.CPointer); }
 		}
 
 		public Color BackgroundColor
@@ -121,16 +121,16 @@ namespace TGUI
 		static extern protected IntPtr tguiTextBoxRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTextBoxRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiTextBoxRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiTextBoxRenderer_getBorders(IntPtr cPointer);
+		static extern protected IntPtr tguiTextBoxRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTextBoxRenderer_setPadding(IntPtr cPointer, Outline padding);
+		static extern protected void tguiTextBoxRenderer_setPadding(IntPtr cPointer, IntPtr padding);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiTextBoxRenderer_getPadding(IntPtr cPointer);
+		static extern protected IntPtr tguiTextBoxRenderer_getPadding(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTextBoxRenderer_setCaretWidth(IntPtr cPointer, float width);

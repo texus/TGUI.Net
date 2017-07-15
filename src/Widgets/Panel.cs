@@ -68,20 +68,20 @@ namespace TGUI
 			base.InitSignals();
 			IntPtr error;
 
-		    MousePressedCallback = new CallbackActionVector2f(ProcessMousePressedSignal);
-		    tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback, out error);
+            MousePressedCallback = new CallbackActionVector2f(ProcessMousePressedSignal);
+		    tguiPanel_connect_onMousePress(CPointer, MousePressedCallback, out error);
 		    if (error != IntPtr.Zero)
-		        throw new TGUIException(Util.GetStringFromC_ASCII(error));
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
 		    MouseReleasedCallback = new CallbackActionVector2f(ProcessMouseReleasedSignal);
-		    tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("MouseReleased"), MouseReleasedCallback, out error);
+		    tguiPanel_connect_onMouseRelease(CPointer, MouseReleasedCallback, out error);
 		    if (error != IntPtr.Zero)
-		        throw new TGUIException(Util.GetStringFromC_ASCII(error));
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
 		    ClickedCallback = new CallbackActionVector2f(ProcessClickedSignal);
-		    tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("Clicked"), ClickedCallback, out error);
+		    tguiPanel_connect_onClick(CPointer, ClickedCallback, out error);
 		    if (error != IntPtr.Zero)
-		        throw new TGUIException(Util.GetStringFromC_ASCII(error));
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
 		private void ProcessMousePressedSignal(Vector2f pos)
@@ -120,6 +120,15 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiPanel_create();
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiPanel_connect_onMousePress(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func, out IntPtr error);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiPanel_connect_onMouseRelease(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func, out IntPtr error);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiPanel_connect_onClick(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func, out IntPtr error);
 
 		#endregion
 	}

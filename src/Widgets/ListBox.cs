@@ -195,22 +195,22 @@ namespace TGUI
 			IntPtr error;
 
 		    ItemSelectedCallback = new CallbackActionItemSelected(ProcessItemSelectedSignal);
-		    tguiWidget_connect_itemSelected(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ItemSelectedCallback, out error);
+		    tguiListBox_connect_onItemSelect(CPointer, ItemSelectedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
 		    MousePressedCallback = new CallbackActionItemSelected(ProcessMousePressedSignal);
-		    tguiWidget_connect_itemSelected(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback, out error);
+		    tguiListBox_connect_onMousePress(CPointer, MousePressedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
 		    MouseReleasedCallback = new CallbackActionItemSelected(ProcessMouseReleasedSignal);
-		    tguiWidget_connect_itemSelected(CPointer, Util.ConvertStringForC_ASCII("MouseReleased"), MouseReleasedCallback, out error);
+		    tguiListBox_connect_onMouseRelease(CPointer, MouseReleasedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
 		    DoubleClickedCallback = new CallbackActionItemSelected(ProcessDoubleClickedSignal);
-		    tguiWidget_connect_itemSelected(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback, out error);
+		    tguiListBox_connect_onDoubleClick(CPointer, DoubleClickedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
@@ -343,6 +343,18 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiListBox_getAutoScroll(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiListBox_connect_onItemSelect(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionItemSelected func, out IntPtr error);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiListBox_connect_onMousePress(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionItemSelected func, out IntPtr error);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiListBox_connect_onMouseRelease(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionItemSelected func, out IntPtr error);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiListBox_connect_onDoubleClick(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionItemSelected func, out IntPtr error);
 
 		#endregion
 	}

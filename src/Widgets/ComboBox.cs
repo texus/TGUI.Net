@@ -189,7 +189,7 @@ namespace TGUI
 
 			IntPtr error;
 		    ItemSelectedCallback = new CallbackActionItemSelected(ProcessItemSelectedSignal);
-		    tguiWidget_connect_itemSelected(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ItemSelectedCallback, out error);
+		    tguiComboBox_connect_onItemSelect(CPointer, ItemSelectedCallback, out error);
 			if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
@@ -284,6 +284,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected uint tguiComboBox_getMaximumItems(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiComboBox_connect_onItemSelect(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionItemSelected func, out IntPtr error);
 
 		#endregion
 	}

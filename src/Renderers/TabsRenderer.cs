@@ -48,8 +48,8 @@ namespace TGUI
 
 		public Outline Borders
 		{
-			get { return tguiTabsRenderer_getBorders(CPointer); }
-			set { tguiTabsRenderer_setBorders(CPointer, value); }
+			get { return new Outline(tguiTabsRenderer_getBorders(CPointer)); }
+			set { tguiTabsRenderer_setBorders(CPointer, value.CPointer); }
 		}
 
 		public Color BackgroundColor
@@ -108,10 +108,10 @@ namespace TGUI
 		static extern protected IntPtr tguiTabsRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiTabsRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiTabsRenderer_getBorders(IntPtr cPointer);
+		static extern protected IntPtr tguiTabsRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabsRenderer_setBackgroundColor(IntPtr cPointer, Color color);

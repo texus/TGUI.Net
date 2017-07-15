@@ -88,10 +88,14 @@ namespace TGUI
 			base.InitSignals();
 
 			IntPtr error;
-
 		    ToggledCallback = new CallbackActionInt(ProcessToggledSignal);
-		    tguiWidget_connect_int(CPointer, Util.ConvertStringForC_ASCII("Checked Unchecked"), ToggledCallback, out error);
+
+		    tguiRadioButton_connect_onCheck(CPointer, ToggledCallback, out error);
 		    if (error != IntPtr.Zero)
+				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+
+            tguiRadioButton_connect_onUncheck(CPointer, ToggledCallback, out error);
+            if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
@@ -137,6 +141,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiRadioButton_isTextClickable(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiRadioButton_connect_onCheck(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionInt func, out IntPtr error);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiRadioButton_connect_onUncheck(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionInt func, out IntPtr error);
 
 		#endregion
 	}

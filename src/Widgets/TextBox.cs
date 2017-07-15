@@ -111,7 +111,7 @@ namespace TGUI
 
 			IntPtr error;
 		    TextChangedCallback = new CallbackActionString(ProcessTextChangedSignal);
-		    tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("TextChanged"), TextChangedCallback, out error);
+		    tguiTextBox_connect_onTextChange(CPointer, TextChangedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
@@ -177,6 +177,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected uint tguiTextBox_getLinesCount (IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTextBox_connect_onTextChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
 
 		#endregion
 	}

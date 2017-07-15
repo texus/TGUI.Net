@@ -48,8 +48,8 @@ namespace TGUI
 
 		public Outline Borders
 		{
-			get { return tguiChildWindowRenderer_getBorders(CPointer); }
-			set { tguiChildWindowRenderer_setBorders(CPointer, value); }
+			get { return new Outline(tguiChildWindowRenderer_getBorders(CPointer)); }
+			set { tguiChildWindowRenderer_setBorders(CPointer, value.CPointer); }
 		}
 
 		public Color TitleBarColor
@@ -127,10 +127,10 @@ namespace TGUI
 		static extern protected IntPtr tguiChildWindowRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiChildWindowRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiChildWindowRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiChildWindowRenderer_getBorders(IntPtr cPointer);
+		static extern protected IntPtr tguiChildWindowRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiChildWindowRenderer_setTitleBarColor(IntPtr cPointer, Color color);

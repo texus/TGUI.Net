@@ -48,14 +48,14 @@ namespace TGUI
 
 		public Outline Borders
 		{
-			get { return tguiChatBoxRenderer_getBorders(CPointer); }
-			set { tguiChatBoxRenderer_setBorders(CPointer, value); }
+			get { return new Outline(tguiChatBoxRenderer_getBorders(CPointer)); }
+			set { tguiChatBoxRenderer_setBorders(CPointer, value.CPointer); }
 		}
 
 		public Outline Padding
 		{
-			get { return tguiChatBoxRenderer_getPadding(CPointer); }
-			set { tguiChatBoxRenderer_setPadding(CPointer, value); }
+			get { return new Outline(tguiChatBoxRenderer_getPadding(CPointer)); }
+			set { tguiChatBoxRenderer_setPadding(CPointer, value.CPointer); }
 		}
 
 		public Color BackgroundColor
@@ -91,16 +91,16 @@ namespace TGUI
 		static extern protected IntPtr tguiChatBoxRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiChatBoxRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiChatBoxRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiChatBoxRenderer_getBorders(IntPtr cPointer);
+		static extern protected IntPtr tguiChatBoxRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiChatBoxRenderer_setPadding(IntPtr cPointer, Outline padding);
+		static extern protected void tguiChatBoxRenderer_setPadding(IntPtr cPointer, IntPtr padding);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiChatBoxRenderer_getPadding(IntPtr cPointer);
+		static extern protected IntPtr tguiChatBoxRenderer_getPadding(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiChatBoxRenderer_setBackgroundColor(IntPtr cPointer, Color color);

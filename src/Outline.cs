@@ -23,12 +23,12 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
+using System.Security;
 using System.Runtime.InteropServices;
 
 namespace TGUI
 {
-	[StructLayout(LayoutKind.Sequential)]
-	public struct Outline : IEquatable<Outline>
+	public class Outline : SFML.ObjectBase
 	{
 		////////////////////////////////////////////////////////////
 		/// <summary>
@@ -37,11 +37,22 @@ namespace TGUI
 		/// <param name="size">Width and height of the outline in all directions</param>
 		////////////////////////////////////////////////////////////
 		public Outline(float size = 0)
+			: base(tguiOutline_create(size, size, size, size))
 		{
-			Left = size;
-			Top = size;
-			Right = size;
-			Bottom = size;
+		}
+
+        ////////////////////////////////////////////////////////////
+		/// <summary>
+		/// Construct the outline
+		/// </summary>
+		/// <param name="size">Width and height of the outline in all directions</param>
+		////////////////////////////////////////////////////////////
+		public Outline(string size)
+			: base(tguiOutline_createFromStrings(Util.ConvertStringForC_ASCII(size),
+                                                 Util.ConvertStringForC_ASCII(size),
+			                                     Util.ConvertStringForC_ASCII(size),
+			                                     Util.ConvertStringForC_ASCII(size)))
+		{
 		}
 
 		////////////////////////////////////////////////////////////
@@ -52,11 +63,23 @@ namespace TGUI
 		/// <param name="height">Height of the top and bottom outline</param>
 		////////////////////////////////////////////////////////////
 		public Outline(float width, float height)
+			: base(tguiOutline_create(width, height, width, height))
 		{
-			Left = width;
-			Top = height;
-			Right = width;
-			Bottom = height;
+		}
+
+        ////////////////////////////////////////////////////////////
+		/// <summary>
+		/// Construct the outline
+		/// </summary>
+		/// <param name="width">Width of the left and right outline</param>
+		/// <param name="height">Height of the top and bottom outline</param>
+		////////////////////////////////////////////////////////////
+		public Outline(string width, string height)
+			: base(tguiOutline_createFromStrings(Util.ConvertStringForC_ASCII(width),
+			                                     Util.ConvertStringForC_ASCII(height),
+			                                     Util.ConvertStringForC_ASCII(width),
+			                                     Util.ConvertStringForC_ASCII(height)))
+		{
 		}
 
 		////////////////////////////////////////////////////////////
@@ -69,105 +92,89 @@ namespace TGUI
 		/// <param name="bottom">Height of the bottom outline</param>
 		////////////////////////////////////////////////////////////
 		public Outline(float left, float top, float right, float bottom)
+			: base(tguiOutline_create(left, top, right, bottom))
 		{
-			Left = left;
-			Top = top;
-			Right = right;
-			Bottom = bottom;
 		}
 
 		////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Operator == overload ; check outline equality
+		/// Construct the outline
 		/// </summary>
-		/// <param name="o1">First outline</param>
-		/// <param name="o2">Second outline</param>
-		/// <returns>o1 == o2</returns>
+		/// <param name="left">Width of the left outline</param>
+		/// <param name="top">Height of the top outline</param>
+		/// <param name="right">Width of the right outline</param>
+		/// <param name="bottom">Height of the bottom outline</param>
 		////////////////////////////////////////////////////////////
-		public static bool operator ==(Outline o1, Outline o2)
+		public Outline(string left, string top, string right, string bottom)
+			: base(tguiOutline_createFromStrings(Util.ConvertStringForC_ASCII(left),
+			                                     Util.ConvertStringForC_ASCII(top),
+			                                     Util.ConvertStringForC_ASCII(right),
+			                                     Util.ConvertStringForC_ASCII(bottom)))
 		{
-			return o1.Equals(o2);
 		}
 
-		////////////////////////////////////////////////////////////
-		/// <summary>
-		/// Operator != overload ; check outline inequality
-		/// </summary>
-		/// <param name="o1">First outline</param>
-		/// <param name="o2">Second outline</param>
-		/// <returns>o1 != o2</returns>
-		////////////////////////////////////////////////////////////
-		public static bool operator !=(Outline o1, Outline o2)
+        protected internal Outline(IntPtr cPointer)
+			: base(cPointer)
 		{
-			return !o1.Equals(o2);
 		}
 
-		////////////////////////////////////////////////////////////
-		/// <summary>
-		/// Provide a string describing the object
-		/// </summary>
-		/// <returns>String description of the object</returns>
-		////////////////////////////////////////////////////////////
-		public override string ToString()
+		public Outline(Outline copy)
+			: base(tguiOutline_copy(copy.CPointer))
 		{
-			return "[Outline]" +
-			" Left(" + Left + ")" +
-			" Top(" + Top + ")" +
-			" Right(" + Right + ")" +
-			" Bottom(" + Bottom + ")";
 		}
 
-		////////////////////////////////////////////////////////////
-		/// <summary>
-		/// Compare outline and object and checks if they are equal
-		/// </summary>
-		/// <param name="obj">Object to check</param>
-		/// <returns>Object and outline are equal</returns>
-		////////////////////////////////////////////////////////////
-		public override bool Equals(object obj)
+        protected override void Destroy(bool disposing)
 		{
-			return (obj is Outline) && Equals((Outline)obj);
+			tguiOutline_destroy(CPointer);
 		}
 
-		///////////////////////////////////////////////////////////
-		/// <summary>
-		/// Compare two outlines and checks if they are equal
-		/// </summary>
-		/// <param name="other">Outline to check</param>
-		/// <returns>Outlines are equal</returns>
-		////////////////////////////////////////////////////////////
-		public bool Equals(Outline other)
+        public float Left
 		{
-			return (Left == other.Left) &&
-			(Top == other.Top) &&
-			(Right == other.Right) &&
-			(Bottom == other.Bottom);
+			get { return tguiOutline_getLeft(CPointer); }
 		}
 
-		////////////////////////////////////////////////////////////
-		/// <summary>
-		/// Provide a integer describing the object
-		/// </summary>
-		/// <returns>Integer description of the object</returns>
-		////////////////////////////////////////////////////////////
-		public override int GetHashCode()
+        public float Top
 		{
-			return Left.GetHashCode() ^
-			Top.GetHashCode() ^
-			Right.GetHashCode() ^
-			Bottom.GetHashCode();
+			get { return tguiOutline_getTop(CPointer); }
 		}
 
-		/// <summary>Outline at the left of the object</summary>
-		public float Left;
+        public float Right
+		{
+			get { return tguiOutline_getRight(CPointer); }
+		}
 
-		/// <summary>Outline at the top of the object</summary>
-		public float Top;
+        public float Bottom
+		{
+			get { return tguiOutline_getBottom(CPointer); }
+		}
 
-		/// <summary>Outline at the right of the object</summary>
-		public float Right;
 
-		/// <summary>Outline at the bottom of the object</summary>
-		public float Bottom;
+		#region Imports
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected IntPtr tguiOutline_create(float left, float top, float right, float bottom);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected IntPtr tguiOutline_createFromStrings(IntPtr left, IntPtr top, IntPtr right, IntPtr bottom);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected IntPtr tguiOutline_copy(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiOutline_destroy(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected float tguiOutline_getLeft(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected float tguiOutline_getTop(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected float tguiOutline_getRight(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected float tguiOutline_getBottom(IntPtr cPointer);
+
+		#endregion
 	}
 }

@@ -43,7 +43,7 @@ namespace TGUI
 		public Gui(RenderWindow window)
 			: this()
 		{
-			Window = window;
+			Target = window;
 		}
 
 		protected override void Destroy(bool disposing)
@@ -51,11 +51,11 @@ namespace TGUI
 			tguiGui_destroy(CPointer);
 		}
 
-		public RenderWindow Window
+		public RenderWindow Target
 		{
 			set
 			{
-				tguiGui_setWindow(CPointer, value.CPointer);
+				tguiGui_setTargetRenderWindow(CPointer, value.CPointer);
 
 				value.MouseMoved += new EventHandler<MouseMoveEventArgs>(OnMouseMoved);
 				value.MouseButtonPressed += new EventHandler<MouseButtonEventArgs>(OnMousePressed);
@@ -83,17 +83,17 @@ namespace TGUI
 		{
 			tguiGui_add(CPointer, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
 
-            Widgets.Add(widget);
-            WidgetIds.Add(widgetName);
+            myWidgets.Add(widget);
+            myWidgetIds.Add(widgetName);
         }
 
 		public Widget Get(string widgetName)
 		{
             // Search for the widget locally
-            for (var i = 0; i < WidgetIds.Count; ++i)
+            for (var i = 0; i < myWidgetIds.Count; ++i)
             {
-                if (WidgetIds[i] == widgetName)
-                    return Widgets[i];
+                if (myWidgetIds[i] == widgetName)
+                    return myWidgets[i];
             }
 
             // If not found, it is still possible that it exists (e.g. it could have been loaded from a file inside the c++ code)
@@ -107,7 +107,7 @@ namespace TGUI
 
 		public List<Widget> GetWidgets()
 		{
-            // We can't use our Widgets member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
+            // We can't use our myWidgets member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
 
             unsafe
             {
@@ -127,7 +127,7 @@ namespace TGUI
 
 		public List<string> GetWidgetNames()
 		{
-            // We can't use our WidgetIds member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
+            // We can't use our myWidgetIds member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
 
             unsafe
             {
@@ -145,11 +145,11 @@ namespace TGUI
 		{
 			tguiGui_remove(CPointer, widget.CPointer);
 
-            var index = Widgets.IndexOf(widget);
+            var index = myWidgets.IndexOf(widget);
             if (index != -1)
             {
-                Widgets.RemoveAt(index);
-                WidgetIds.RemoveAt(index);
+                myWidgets.RemoveAt(index);
+                myWidgetIds.RemoveAt(index);
             }
         }
 
@@ -157,8 +157,8 @@ namespace TGUI
 		{
 			tguiGui_removeAllWidgets(CPointer);
 
-            Widgets.Clear();
-            WidgetIds.Clear();
+            myWidgets.Clear();
+            myWidgetIds.Clear();
         }
 
 		public void Draw()
@@ -310,8 +310,8 @@ namespace TGUI
 		}
 
 
-        private List<Widget> Widgets = new List<Widget>();
-        private List<string> WidgetIds = new List<string>();
+        private List<Widget> myWidgets = new List<Widget>();
+        private List<string> myWidgetIds = new List<string>();
 
 
         #region Imports
@@ -323,7 +323,7 @@ namespace TGUI
 		static extern protected void tguiGui_destroy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiGui_setWindow(IntPtr cPointer, IntPtr cPointerRenderWindow);
+		static extern protected void tguiGui_setTargetRenderWindow(IntPtr cPointer, IntPtr cPointerRenderWindow);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_setView(IntPtr cPointer, IntPtr cPointerView);

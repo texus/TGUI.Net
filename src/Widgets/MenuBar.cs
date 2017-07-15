@@ -98,6 +98,11 @@ namespace TGUI
 			set { tguiMenuBar_setInvertedMenuDirection (CPointer, value); }
 		}
 
+        public void CloseMenu()
+        {
+            tguiMenuBar_closeMenu(CPointer);
+        }
+
 		protected override void InitSignals()
 		{
 			base.InitSignals();
@@ -105,7 +110,7 @@ namespace TGUI
 			IntPtr error;
 
 		    MenuItemClickedCallback = new CallbackActionString(ProcessMenuItemClickedSignal);
-		    tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("MenuItemClicked"), MenuItemClickedCallback, out error);
+		    tguiMenuBar_connect_onMenuItemClick(CPointer, MenuItemClickedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
@@ -162,6 +167,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiMenuBar_getInvertedMenuDirection (IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiMenuBar_closeMenu(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiMenuBar_connect_onMenuItemClick(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
 
 		#endregion
 	}

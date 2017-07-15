@@ -25,52 +25,55 @@
 using System;
 using System.Security;
 using System.Runtime.InteropServices;
+using SFML.Graphics;
 
 namespace TGUI
 {
-	public abstract class BoxLayout : Group
+	public class BoxLayoutRenderer : GroupRenderer
 	{
-		protected internal BoxLayout(IntPtr cPointer)
+		public BoxLayoutRenderer()
+			: base(tguiBoxLayoutRenderer_create())
+		{
+		}
+
+		protected internal BoxLayoutRenderer(IntPtr cPointer)
 			: base(cPointer)
 		{
 		}
 
-		public BoxLayout(BoxLayout copy)
-			: base(copy)
+		public BoxLayoutRenderer(BoxLayoutRenderer copy)
+			: base(tguiBoxLayoutRenderer_copy(copy.CPointer))
 		{
 		}
 
-		public bool Insert(uint index, Widget widget, string widgetName = "")
+		public float SpaceBetweenWidgets
 		{
-			return tguiBoxLayout_insert(CPointer, index, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
+			get { return tguiBoxLayoutRenderer_getSpaceBetweenWidgets(CPointer); }
+			set { tguiBoxLayoutRenderer_setSpaceBetweenWidgets(CPointer, value); }
 		}
 
-		public bool Remove(uint index)
+		public void SetSpaceBetweenWidgets(Layout layout)
 		{
-			return tguiBoxLayout_removeAtIndex(CPointer, index);
-		}
-
-		public Widget Get(uint index)
-		{
-			IntPtr WidgetCPointer = tguiBoxLayout_getAtIndex(CPointer, index);
-			if (WidgetCPointer == IntPtr.Zero)
-				return null;
-
-			Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
-			return (Widget)Activator.CreateInstance(type, new object[]{ WidgetCPointer });
+			tguiBoxLayoutRenderer_setSpaceBetweenWidgetsFromLayout(CPointer, layout.CPointer);
 		}
 
 
 		#region Imports
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiBoxLayout_insert(IntPtr cPointer, uint index, IntPtr widgetCPointer, IntPtr widgetName);
+		static extern protected IntPtr tguiBoxLayoutRenderer_create();
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiBoxLayout_removeAtIndex(IntPtr cPointer, uint index);
+		static extern protected IntPtr tguiBoxLayoutRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiBoxLayout_getAtIndex(IntPtr cPointer, uint index);
+		static extern protected void tguiBoxLayoutRenderer_setSpaceBetweenWidgets(IntPtr cPointer, float space);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiBoxLayoutRenderer_setSpaceBetweenWidgetsFromLayout(IntPtr cPointer, IntPtr layout);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected float tguiBoxLayoutRenderer_getSpaceBetweenWidgets(IntPtr cPointer);
 
 		#endregion
 	}

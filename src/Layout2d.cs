@@ -31,7 +31,7 @@ namespace TGUI
 {
 	public class Layout2d : SFML.ObjectBase
 	{
-		public Layout2d()
+        public Layout2d()
 			: base(tguiLayout2d_create(new Vector2f(0, 0)))
 		{
 		}
@@ -41,13 +41,13 @@ namespace TGUI
 		{
 		}
 
-		public Layout2d(Layout x, Layout y)
-			: base(tguiLayout2d_createFromLayouts(x.CPointer, y.CPointer))
+        public Layout2d(float x, float y)
+			: base(tguiLayout2d_create(new Vector2f(x, y)))
 		{
 		}
 
-		public Layout2d(string expression)
-			: base(tguiLayout2d_createFromString(Util.ConvertStringForC_ASCII(expression)))
+		public Layout2d(Layout x, Layout y)
+			: base(tguiLayout2d_createFromLayouts(x.CPointer, y.CPointer))
 		{
 		}
 
@@ -78,9 +78,6 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiLayout2d_createFromLayouts(IntPtr x, IntPtr y);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiLayout2d_createFromString(IntPtr expression);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiLayout2d_copy(IntPtr cPointer);

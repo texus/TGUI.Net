@@ -96,7 +96,7 @@ namespace TGUI
 			IntPtr error;
 
 		    DoubleClickedCallback = new CallbackActionString(ProcessDoubleClickedSignal);
-		    tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback, out error);
+		    tguiLabel_connect_onDoubleClick(CPointer, DoubleClickedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
@@ -152,6 +152,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected float tguiLabel_getMaximumTextWidth(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiLabel_connect_onDoubleClick(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
 
 		#endregion
 	}

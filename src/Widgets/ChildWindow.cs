@@ -108,27 +108,31 @@ namespace TGUI
 			base.InitSignals();
 			IntPtr error;
 
-			tguiWidget_connect_vector2f(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), ProcessMousePressedSignal, out error);
+            MousePressedCallback = new CallbackAction(ProcessMousePressedSignal);
+            tguiChildWindow_connect_onMousePress(CPointer, MousePressedCallback, out error);
 			if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
-			tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Closed"), ProcessClosedSignal, out error);
+            ClosedCallback = new CallbackAction(ProcessClosedSignal);
+            tguiChildWindow_connect_onClose(CPointer, ClosedCallback, out error);
 			if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
-			tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Maximized"), ProcessMaximizedSignal, out error);
+            MaximizedCallback = new CallbackAction(ProcessMaximizedSignal);
+            tguiChildWindow_connect_onMaximize(CPointer, MaximizedCallback, out error);
 			if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
-			tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Minimized"), ProcessMinimizedSignal, out error);
+            MinimizedCallback = new CallbackAction(ProcessMinimizedSignal);
+            tguiChildWindow_connect_onMinimize(CPointer, MinimizedCallback, out error);
 			if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
-		private void ProcessMousePressedSignal(Vector2f pos)
+		private void ProcessMousePressedSignal()
 		{
 			if (MousePressed != null)
-				MousePressed(this, new SignalArgsVector2f(pos));
+				MousePressed(this, EventArgs.Empty);
 		}
 
 		private void ProcessClosedSignal()
@@ -159,7 +163,7 @@ namespace TGUI
 		}
 
 		/// <summary>Event handler for the MousePressed signal</summary>
-		public event EventHandler<SignalArgsVector2f> MousePressed = null;
+		public event EventHandler MousePressed = null;
 
 		/// <summary>Event handler for the Closed signal</summary>
 		public event EventHandler Closed = null;
@@ -169,6 +173,11 @@ namespace TGUI
 
 		/// <summary>Event handler for the Minimized signal</summary>
 		public event EventHandler Minimized = null;
+
+        private CallbackAction MousePressedCallback;
+        private CallbackAction ClosedCallback;
+        private CallbackAction MaximizedCallback;
+        private CallbackAction MinimizedCallback;
 
 
 		#region Imports
@@ -217,6 +226,18 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiChildWindow_isKeptInParent(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiChildWindow_connect_onMousePress(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiChildWindow_connect_onClose(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiChildWindow_connect_onMinimize(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiChildWindow_connect_onMaximize(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
 
 		#endregion
 	}

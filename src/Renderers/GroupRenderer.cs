@@ -48,8 +48,8 @@ namespace TGUI
 
 		public Outline Padding
 		{
-			get { return tguiGroupRenderer_getPadding(CPointer); }
-			set { tguiGroupRenderer_setPadding(CPointer, value); }
+			get { return new Outline(tguiGroupRenderer_getPadding(CPointer)); }
+			set { tguiGroupRenderer_setPadding(CPointer, value.CPointer); }
 		}
 
 		#region Imports
@@ -61,10 +61,10 @@ namespace TGUI
 		static extern protected IntPtr tguiGroupRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiGroupRenderer_setPadding(IntPtr cPointer, Outline borders);
+		static extern protected void tguiGroupRenderer_setPadding(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiGroupRenderer_getPadding(IntPtr cPointer);
+		static extern protected IntPtr tguiGroupRenderer_getPadding(IntPtr cPointer);
 
 		#endregion
 	}

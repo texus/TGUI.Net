@@ -48,8 +48,8 @@ namespace TGUI
 
 		public Outline Borders
 		{
-			get { return tguiSpinButtonRenderer_getBorders(CPointer); }
-			set { tguiSpinButtonRenderer_setBorders(CPointer, value); }
+			get { return new Outline(tguiSpinButtonRenderer_getBorders(CPointer)); }
+			set { tguiSpinButtonRenderer_setBorders(CPointer, value.CPointer); }
 		}
 
 		public float SpaceBetweenArrows
@@ -117,10 +117,10 @@ namespace TGUI
 		static extern protected IntPtr tguiSpinButtonRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiSpinButtonRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiSpinButtonRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiSpinButtonRenderer_getBorders(IntPtr cPointer);
+		static extern protected IntPtr tguiSpinButtonRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiSpinButtonRenderer_setSpaceBetweenArrows(IntPtr cPointer, float space);

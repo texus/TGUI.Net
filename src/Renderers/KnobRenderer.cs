@@ -48,8 +48,8 @@ namespace TGUI
 
 		public Outline Borders
 		{
-			get { return tguiKnobRenderer_getBorders(CPointer); }
-			set { tguiKnobRenderer_setBorders(CPointer, value); }
+			get { return new Outline(tguiKnobRenderer_getBorders(CPointer)); }
+			set { tguiKnobRenderer_setBorders(CPointer, value.CPointer); }
 		}
 
 		public Color BackgroundColor
@@ -96,10 +96,10 @@ namespace TGUI
 		static extern protected IntPtr tguiKnobRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiKnobRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiKnobRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiKnobRenderer_getBorders(IntPtr cPointer);
+		static extern protected IntPtr tguiKnobRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiKnobRenderer_setBackgroundColor(IntPtr cPointer, Color color);

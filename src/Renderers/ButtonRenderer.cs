@@ -48,8 +48,8 @@ namespace TGUI
 
 		public Outline Borders
 		{
-			get { return tguiButtonRenderer_getBorders(CPointer); }
-			set { tguiButtonRenderer_setBorders(CPointer, value); }
+			get { return new Outline(tguiButtonRenderer_getBorders(CPointer)); }
+			set { tguiButtonRenderer_setBorders(CPointer, value.CPointer); }
 		}
 
 		public Color TextColor
@@ -177,10 +177,10 @@ namespace TGUI
 		static extern protected IntPtr tguiButtonRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiButtonRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiButtonRenderer_getBorders(IntPtr cPointer);
+		static extern protected IntPtr tguiButtonRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiButtonRenderer_setTextColor(IntPtr cPointer, Color color);

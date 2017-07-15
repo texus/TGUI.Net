@@ -48,8 +48,8 @@ namespace TGUI
 
 		public Outline Borders
 		{
-			get { return tguiSliderRenderer_getBorders(CPointer); }
-			set { tguiSliderRenderer_setBorders(CPointer, value); }
+			get { return new Outline(tguiSliderRenderer_getBorders(CPointer)); }
+			set { tguiSliderRenderer_setBorders(CPointer, value.CPointer); }
 		}
 
 		public Color TrackColor
@@ -117,10 +117,10 @@ namespace TGUI
 		static extern protected IntPtr tguiSliderRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiSliderRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiSliderRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiSliderRenderer_getBorders(IntPtr cPointer);
+		static extern protected IntPtr tguiSliderRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiSliderRenderer_setTrackColor(IntPtr cPointer, Color color);

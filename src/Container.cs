@@ -49,17 +49,28 @@ namespace TGUI
 		{
 			tguiContainer_add(CPointer, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
 
-            Widgets.Add(widget);
-            WidgetIds.Add(widgetName);
+            myWidgets.Add(widget);
+            myWidgetIds.Add(widgetName);
         }
 
 		public Widget Get(string widgetName)
 		{
-            // Search for the widget locally
-            for (var i = 0; i < WidgetIds.Count; ++i)
+            // Search for the widget locally in the direct children
+            for (var i = 0; i < myWidgetIds.Count; ++i)
             {
-                if (WidgetIds[i] == widgetName)
-                    return Widgets[i];
+                if (myWidgetIds[i] == widgetName)
+                    return myWidgets[i];
+            }
+
+            // Search for the widget locally, recursively through the children
+            for (var i = 0; i < myWidgetIds.Count; ++i)
+            {
+                if (myWidgets[i] is Container)
+                {
+                    var widget = ((Container)myWidgets[i]).Get(widgetName);
+                    if (widget != null)
+                        return widget;
+                }
             }
 
             // If not found, it is still possible that it exists (e.g. it could have been loaded from a file inside the c++ code)
@@ -73,7 +84,7 @@ namespace TGUI
 
 		public List<Widget> GetWidgets()
 		{
-            // We can't use our Widgets member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
+            // We can't use our myWidgets member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
 
             unsafe
             {
@@ -93,7 +104,7 @@ namespace TGUI
 
 		public List<string> GetWidgetNames()
 		{
-            // We can't use our WidgetIds member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
+            // We can't use our myWidgetIds member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
 
             unsafe
             {
@@ -111,11 +122,11 @@ namespace TGUI
 		{
 			tguiContainer_remove(CPointer, widget.CPointer);
 
-            var index = Widgets.IndexOf(widget);
+            var index = myWidgets.IndexOf(widget);
             if (index != -1)
             {
-                Widgets.RemoveAt(index);
-                WidgetIds.RemoveAt(index);
+                myWidgets.RemoveAt(index);
+                myWidgetIds.RemoveAt(index);
             }
 		}
 
@@ -123,8 +134,8 @@ namespace TGUI
 		{
 			tguiContainer_removeAllWidgets(CPointer);
 
-            Widgets.Clear();
-            WidgetIds.Clear();
+            myWidgets.Clear();
+            myWidgetIds.Clear();
         }
 
 		public Vector2f ChildWidgetsOffset
@@ -149,8 +160,8 @@ namespace TGUI
 		}
 
 
-        private List<Widget> Widgets = new List<Widget>();
-        private List<string> WidgetIds = new List<string>();
+        private List<Widget> myWidgets = new List<Widget>();
+        private List<string> myWidgetIds = new List<string>();
 
 
         #region Imports

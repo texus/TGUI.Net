@@ -75,7 +75,7 @@ namespace TGUI
 			IntPtr error;
 
 		    ButtonPressedCallback = new CallbackActionString(ProcessButtonPressedSignal);
-		    tguiWidget_connect_string(CPointer, Util.ConvertStringForC_ASCII("ButtonPressed"), ButtonPressedCallback, out error);
+		    tguiMessageBox_connect_onButtonPress(CPointer, ButtonPressedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
@@ -110,6 +110,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiMessageBox_addButton(IntPtr cPointer, IntPtr text);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiMessageBox_connect_onButtonPress(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
 
 		#endregion
 	}

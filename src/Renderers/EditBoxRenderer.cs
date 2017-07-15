@@ -48,14 +48,14 @@ namespace TGUI
 
 		public Outline Borders
 		{
-			get { return tguiEditBoxRenderer_getBorders(CPointer); }
-			set { tguiEditBoxRenderer_setBorders(CPointer, value); }
+			get { return new Outline(tguiEditBoxRenderer_getBorders(CPointer)); }
+			set { tguiEditBoxRenderer_setBorders(CPointer, value.CPointer); }
 		}
 
 		public Outline Padding
 		{
-			get { return tguiEditBoxRenderer_getPadding(CPointer); }
-			set { tguiEditBoxRenderer_setPadding(CPointer, value); }
+			get { return new Outline(tguiEditBoxRenderer_getPadding(CPointer)); }
+			set { tguiEditBoxRenderer_setPadding(CPointer, value.CPointer); }
 		}
 
 		public float CaretWidth
@@ -185,16 +185,16 @@ namespace TGUI
 		static extern protected IntPtr tguiEditBoxRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBoxRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiEditBoxRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiEditBoxRenderer_getBorders(IntPtr cPointer);
+		static extern protected IntPtr tguiEditBoxRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBoxRenderer_setPadding(IntPtr cPointer, Outline padding);
+		static extern protected void tguiEditBoxRenderer_setPadding(IntPtr cPointer, IntPtr padding);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiEditBoxRenderer_getPadding(IntPtr cPointer);
+		static extern protected IntPtr tguiEditBoxRenderer_getPadding(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiEditBoxRenderer_setCaretWidth(IntPtr cPointer, float width);

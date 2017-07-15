@@ -48,14 +48,14 @@ namespace TGUI
 
 		public Outline Borders
 		{
-			get { return tguiListBoxRenderer_getBorders(CPointer); }
-			set { tguiListBoxRenderer_setBorders(CPointer, value); }
+			get { return new Outline(tguiListBoxRenderer_getBorders(CPointer)); }
+			set { tguiListBoxRenderer_setBorders(CPointer, value.CPointer); }
 		}
 
 		public Outline Padding
 		{
-			get { return tguiListBoxRenderer_getPadding(CPointer); }
-			set { tguiListBoxRenderer_setPadding(CPointer, value); }
+			get { return new Outline(tguiListBoxRenderer_getPadding(CPointer)); }
+			set { tguiListBoxRenderer_setPadding(CPointer, value.CPointer); }
 		}
 
 		public Color BackgroundColor
@@ -145,16 +145,16 @@ namespace TGUI
 		static extern protected IntPtr tguiListBoxRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiListBoxRenderer_setBorders(IntPtr cPointer, Outline borders);
+		static extern protected void tguiListBoxRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiListBoxRenderer_getBorders(IntPtr cPointer);
+		static extern protected IntPtr tguiListBoxRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiListBoxRenderer_setPadding(IntPtr cPointer, Outline borders);
+		static extern protected void tguiListBoxRenderer_setPadding(IntPtr cPointer, IntPtr borders);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiListBoxRenderer_getPadding(IntPtr cPointer);
+		static extern protected IntPtr tguiListBoxRenderer_getPadding(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiListBoxRenderer_setBackgroundColor(IntPtr cPointer, Color color);

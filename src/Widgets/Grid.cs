@@ -47,12 +47,12 @@ namespace TGUI
 
 		public void AddWidget(Widget widget, uint row, uint col)
 		{
-			tguiGrid_addWidget(CPointer, widget.CPointer, row, col, new Outline(), Alignment.Center);
+			tguiGrid_addWidget(CPointer, widget.CPointer, row, col, (new Outline()).CPointer, Alignment.Center);
 		}
 
 		public void AddWidget(Widget widget, uint row, uint col, Outline borders, Alignment alignment = Alignment.Center)
 		{
-			tguiGrid_addWidget(CPointer, widget.CPointer, row, col, borders, alignment);
+			tguiGrid_addWidget(CPointer, widget.CPointer, row, col, borders.CPointer, alignment);
 		}
 
 		public Widget GetWidget(uint row, uint col)
@@ -67,22 +67,22 @@ namespace TGUI
 
 		public void SetWidgetBorders(Widget widget, Outline borders)
 		{
-			tguiGrid_setWidgetBorders(CPointer, widget.CPointer, borders);
+			tguiGrid_setWidgetBorders(CPointer, widget.CPointer, borders.CPointer);
 		}
 
 		public void SetWidgetBorders(uint row, uint col, Outline borders)
 		{
-			tguiGrid_setWidgetBordersByCell(CPointer, row, col, borders);
+			tguiGrid_setWidgetBordersByCell(CPointer, row, col, borders.CPointer);
 		}
 
 		public Outline GetWidgetBorders(Widget widget)
 		{
-			return tguiGrid_getWidgetBorders(CPointer, widget.CPointer);
+			return new Outline(tguiGrid_getWidgetBorders(CPointer, widget.CPointer));
 		}
 
 		public Outline GetWidgetBorders(uint row, uint col)
 		{
-			return tguiGrid_getWidgetBordersByCell(CPointer, row, col);
+			return new Outline(tguiGrid_getWidgetBordersByCell(CPointer, row, col));
 		}
 
 		public void SetWidgetAlignment(Widget widget, Alignment alignment)
@@ -112,22 +112,22 @@ namespace TGUI
 		static extern protected IntPtr tguiGrid_create();
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiGrid_addWidget(IntPtr cPointer, IntPtr widgetCPointer, uint row, uint col, Outline borders, Alignment alignment);
+		static extern protected void tguiGrid_addWidget(IntPtr cPointer, IntPtr widgetCPointer, uint row, uint col, IntPtr bordersCPointer, Alignment alignment);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiGrid_getWidget(IntPtr cPointer, uint row, uint col);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiGrid_setWidgetBorders(IntPtr cPointer, IntPtr widgetCPointer, Outline borders);
+		static extern protected void tguiGrid_setWidgetBorders(IntPtr cPointer, IntPtr widgetCPointer, IntPtr bordersCPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiGrid_setWidgetBordersByCell(IntPtr cPointer, uint row, uint col, Outline borders);
+		static extern protected void tguiGrid_setWidgetBordersByCell(IntPtr cPointer, uint row, uint col, IntPtr bordersCPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiGrid_getWidgetBorders(IntPtr cPointer, IntPtr widgetCPointer);
+		static extern protected IntPtr tguiGrid_getWidgetBorders(IntPtr cPointer, IntPtr widgetCPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Outline tguiGrid_getWidgetBordersByCell(IntPtr cPointer, uint row, uint col);
+		static extern protected IntPtr tguiGrid_getWidgetBordersByCell(IntPtr cPointer, uint row, uint col);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGrid_setWidgetAlignment(IntPtr cPointer, IntPtr widgetCPointer, Alignment alignment);

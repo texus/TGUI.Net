@@ -106,21 +106,21 @@ namespace TGUI
 			base.InitSignals();
 			IntPtr error;
 
-		    ValueChangedCallback = new CallbackActionInt(ProcessValueChangedSignal);
-		    tguiWidget_connect_int(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback, out error);
+		    ValueChangedCallback = new CallbackActionUInt(ProcessValueChangedSignal);
+		    tguiProgressBar_connect_onValueChange(CPointer, ValueChangedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
 		    FullCallback = new CallbackAction(ProcessFullSignal);
-		    tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Full"), FullCallback, out error);
+		    tguiProgressBar_connect_onFull(CPointer, FullCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
-		private void ProcessValueChangedSignal(int value)
+		private void ProcessValueChangedSignal(uint value)
 		{
 			if (ValueChanged != null)
-				ValueChanged(this, new SignalArgsInt(value));
+				ValueChanged(this, new SignalArgsUInt(value));
 		}
 
 		private void ProcessFullSignal()
@@ -130,12 +130,12 @@ namespace TGUI
 		}
 
 		/// <summary>Event handler for the ValueChanged signal</summary>
-		public event EventHandler<SignalArgsInt> ValueChanged = null;
+		public event EventHandler<SignalArgsUInt> ValueChanged = null;
 
 		/// <summary>Event handler for the Full signal</summary>
 		public event EventHandler Full = null;
 
-	    private CallbackActionInt ValueChangedCallback;
+	    private CallbackActionUInt ValueChangedCallback;
 	    private CallbackAction FullCallback;
 
 	    #region Imports
@@ -181,6 +181,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected Direction tguiProgressBar_getFillDirection(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiProgressBar_connect_onValueChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionUInt func, out IntPtr error);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiProgressBar_connect_onFull(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
 
 		#endregion
 	}
