@@ -54,13 +54,13 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="sfmlnet-graphics-2">
-      <HintPath>..\..\SFML.Net\lib\x64\sfmlnet-graphics-2.dll</HintPath>
+      <HintPath>..\extlibs\SFML.Net\lib\x64\sfmlnet-graphics-2.dll</HintPath>
     </Reference>
     <Reference Include="sfmlnet-system-2">
-      <HintPath>..\..\SFML.Net\lib\x64\sfmlnet-system-2.dll</HintPath>
+      <HintPath>..\extlibs\SFML.Net\lib\x64\sfmlnet-system-2.dll</HintPath>
     </Reference>
     <Reference Include="sfmlnet-window-2">
-      <HintPath>..\..\SFML.Net\lib\x64\sfmlnet-window-2.dll</HintPath>
+      <HintPath>..\extlibs\SFML.Net\lib\x64\sfmlnet-window-2.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
