@@ -51,6 +51,12 @@ namespace TGUI
 			get { return new TabsRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public bool AutoSize
+		{
+			get { return tguiTabs_getAutoSize(CPointer); }
+			set { tguiTabs_setAutoSize(CPointer, value); }
+		}
+
 		public uint Add(string text, bool selectTab = true)
 		{
 			return tguiTabs_add(CPointer, Util.ConvertStringForC_UTF32(text), selectTab);
@@ -122,16 +128,16 @@ namespace TGUI
 			set { tguiTabs_setTextSize(CPointer, value); }
 		}
 
-		public float TabHeight
-		{
-			get { return tguiTabs_getTabHeight(CPointer); }
-			set { tguiTabs_setTabHeight(CPointer, value); }
-		}
-
 		public float MaximumTabWidth
 		{
 			get { return tguiTabs_getMaximumTabWidth(CPointer); }
 			set { tguiTabs_setMaximumTabWidth(CPointer, value); }
+		}
+
+		public float MinimumTabWidth
+		{
+			get { return tguiTabs_getMinimumTabWidth(CPointer); }
+			set { tguiTabs_setMinimumTabWidth(CPointer, value); }
 		}
 
 
@@ -161,6 +167,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiTabs_create();
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTabs_setAutoSize(IntPtr cPointer, bool autoSize);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiTabs_getAutoSize(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected uint tguiTabs_add(IntPtr cPointer, IntPtr text, bool selectTab);
@@ -208,16 +220,16 @@ namespace TGUI
 		static extern protected uint tguiTabs_getTextSize(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabs_setTabHeight(IntPtr cPointer, float tabHeight);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiTabs_getTabHeight(IntPtr cPointer);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabs_setMaximumTabWidth(IntPtr cPointer, float maximumTabWidth);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected float tguiTabs_getMaximumTabWidth(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTabs_setMinimumTabWidth(IntPtr cPointer, float minimumTabWidth);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected float tguiTabs_getMinimumTabWidth(IntPtr cPointer);
 
         [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabs_connect_onTabSelect(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);

@@ -58,10 +58,22 @@ namespace TGUI
 			set { tguiTabsRenderer_setBackgroundColor(CPointer, value); }
 		}
 
+        public Color BackgroundColorHover
+		{
+			get { return tguiTabsRenderer_getBackgroundColorHover(CPointer); }
+			set { tguiTabsRenderer_setBackgroundColorHover(CPointer, value); }
+		}
+
 		public Color SelectedBackgroundColor
 		{
 			get { return tguiTabsRenderer_getSelectedBackgroundColor(CPointer); }
 			set { tguiTabsRenderer_setSelectedBackgroundColor(CPointer, value); }
+		}
+
+		public Color SelectedBackgroundColorHover
+		{
+			get { return tguiTabsRenderer_getSelectedBackgroundColorHover(CPointer); }
+			set { tguiTabsRenderer_setSelectedBackgroundColorHover(CPointer, value); }
 		}
 
 		public Color TextColor
@@ -70,10 +82,22 @@ namespace TGUI
 			set { tguiTabsRenderer_setTextColor(CPointer, value); }
 		}
 
+		public Color TextColorHover
+		{
+			get { return tguiTabsRenderer_getTextColorHover(CPointer); }
+			set { tguiTabsRenderer_setTextColorHover(CPointer, value); }
+		}
+
 		public Color SelectedTextColor
 		{
 			get { return tguiTabsRenderer_getSelectedTextColor(CPointer); }
 			set { tguiTabsRenderer_setSelectedTextColor(CPointer, value); }
+		}
+
+		public Color SelectedTextColorHover
+		{
+			get { return tguiTabsRenderer_getSelectedTextColorHover(CPointer); }
+			set { tguiTabsRenderer_setSelectedTextColorHover(CPointer, value); }
 		}
 
 		public Color BorderColor
@@ -120,10 +144,22 @@ namespace TGUI
 		static extern protected Color tguiTabsRenderer_getBackgroundColor(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTabsRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Color tguiTabsRenderer_getBackgroundColorHover(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabsRenderer_setSelectedBackgroundColor(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected Color tguiTabsRenderer_getSelectedBackgroundColor(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTabsRenderer_setSelectedBackgroundColorHover(IntPtr cPointer, Color color);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Color tguiTabsRenderer_getSelectedBackgroundColorHover(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabsRenderer_setTextColor(IntPtr cPointer, Color color);
@@ -132,10 +168,22 @@ namespace TGUI
 		static extern protected Color tguiTabsRenderer_getTextColor(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTabsRenderer_setTextColorHover(IntPtr cPointer, Color color);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Color tguiTabsRenderer_getTextColorHover(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabsRenderer_setSelectedTextColor(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected Color tguiTabsRenderer_getSelectedTextColor(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTabsRenderer_setSelectedTextColorHover(IntPtr cPointer, Color color);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Color tguiTabsRenderer_getSelectedTextColorHover(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabsRenderer_setBorderColor(IntPtr cPointer, Color color);
