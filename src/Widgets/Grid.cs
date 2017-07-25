@@ -45,6 +45,12 @@ namespace TGUI
 		{
 		}
 
+        public bool AutoSize
+		{
+			get { return tguiGrid_getAutoSize(CPointer); }
+			set { tguiGrid_setAutoSize(CPointer, value); }
+		}
+
 		public void AddWidget(Widget widget, uint row, uint col)
 		{
 			tguiGrid_addWidget(CPointer, widget.CPointer, row, col, (new Outline()).CPointer, Alignment.Center);
@@ -110,6 +116,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiGrid_create();
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiGrid_setAutoSize(IntPtr cPointer, bool autoSize);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiGrid_getAutoSize(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGrid_addWidget(IntPtr cPointer, IntPtr widgetCPointer, uint row, uint col, IntPtr bordersCPointer, Alignment alignment);
