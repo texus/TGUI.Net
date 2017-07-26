@@ -6,6 +6,8 @@ build_script:
 - git submodule update --init --recursive
 - cd build
 - build.bat
+- cd ..\tests
+- test.bat
 - cd ..
 - rmdir /S /Q src\obj
 - mkdir "C:\TGUI.Net 0.8-dev"
