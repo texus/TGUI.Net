@@ -95,7 +95,7 @@ namespace TGUI
 		static extern protected IntPtr tguiTheme_getRenderer(IntPtr cPointer, IntPtr id, out IntPtr error);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiTheme_addRenderer(IntPtr cPointer, IntPtr id, IntPtr renderer);
+		static extern protected void tguiTheme_addRenderer(IntPtr cPointer, IntPtr id, IntPtr renderer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiTheme_removeRenderer(IntPtr cPointer, IntPtr id);

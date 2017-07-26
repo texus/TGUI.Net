@@ -40,9 +40,9 @@ namespace TGUI
 		{
 		}
 
-		public bool Insert(uint index, Widget widget, string widgetName = "")
+		public void Insert(uint index, Widget widget, string widgetName = "")
 		{
-			return tguiBoxLayout_insert(CPointer, index, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
+			tguiBoxLayout_insert(CPointer, index, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
 		}
 
 		public bool Remove(uint index)
@@ -64,7 +64,7 @@ namespace TGUI
 		#region Imports
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiBoxLayout_insert(IntPtr cPointer, uint index, IntPtr widgetCPointer, IntPtr widgetName);
+		static extern protected void tguiBoxLayout_insert(IntPtr cPointer, uint index, IntPtr widgetCPointer, IntPtr widgetName);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiBoxLayout_removeAtIndex(IntPtr cPointer, uint index);
