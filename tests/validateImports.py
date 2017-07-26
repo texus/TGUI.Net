@@ -45,13 +45,16 @@ def validateTypes(typeCS, typeC, returnType):
     or (typeCS == 'out IntPtr' and typeC == 'const sfUint32**') \
     or (typeCS == 'out IntPtr' and typeC == 'const char**') \
     or (typeCS == 'out IntPtr' and typeC == 'tguiWidget**') \
-    or (typeCS == 'ref RenderStatesMarshalData' and typeC == 'const sfRenderStates*'):
+    or (typeCS == 'ref RenderStatesMarshalData' and typeC == 'const sfRenderStates*') \
+    or (typeCS == 'CallbackAction' and typeC == 'void (*function)()') \
+    or (typeCS == 'CallbackActionVector2f' and typeC == 'void (*function)(sfVector2f)') \
+    or (typeCS == 'CallbackActionString' and typeC == 'void (*function)(const sfUint32*)') \
+    or (typeCS == 'CallbackActionInt' and typeC == 'void (*function)(sfBool)') \
+    or (typeCS == 'CallbackActionInt' and typeC == 'void (*function)(int)') \
+    or (typeCS == 'CallbackActionUInt' and typeC == 'void (*function)(unsigned int)') \
+    or (typeCS == 'CallbackActionItemSelected' and typeC == 'void (*function)(const sfUint32*, const sfUint32*)'):
         return True
     else:
-        # Temporarily accept any function pointers
-        if re.match('.*\(*function\).*', typeC):
-            return True
-
         # Try removing 'const' in the C type
         if len(typeC) > 6 and typeC[:6] == 'const ':
             return validateTypes(typeCS, typeC[6:], False)
@@ -80,14 +83,19 @@ for root, subFolders, files in os.walk('..\src'):
                 name = match.group(2)
                 rawParams = match.group(3).split(',')
 
-                # Remove the parameter name, unless the parameter is a function pointer
                 params = []
                 for param in rawParams:
                     param = param.strip()
                     if param == '':
                         param = 'void'
                     elif param != 'void':
+                        # Remove the parameter name
                         param = param[:param.rfind(' ')]
+
+                    # Remove the 'MarshalAs' part of callback function parameters
+                    m = re.match('\[MarshalAs\(UnmanagedType.FunctionPtr\)\] (.*)', param);
+                    if m:
+                        param = m.group(1)
 
                     params += [param]
 
