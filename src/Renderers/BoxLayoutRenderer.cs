@@ -52,11 +52,6 @@ namespace TGUI
 			set { tguiBoxLayoutRenderer_setSpaceBetweenWidgets(CPointer, value); }
 		}
 
-		public void SetSpaceBetweenWidgets(Layout layout)
-		{
-			tguiBoxLayoutRenderer_setSpaceBetweenWidgetsFromLayout(CPointer, layout.CPointer);
-		}
-
 
 		#region Imports
 
@@ -68,9 +63,6 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiBoxLayoutRenderer_setSpaceBetweenWidgets(IntPtr cPointer, float space);
-
-        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiBoxLayoutRenderer_setSpaceBetweenWidgetsFromLayout(IntPtr cPointer, IntPtr layout);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected float tguiBoxLayoutRenderer_getSpaceBetweenWidgets(IntPtr cPointer);
