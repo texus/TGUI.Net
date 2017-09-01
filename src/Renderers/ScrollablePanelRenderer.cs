@@ -25,76 +25,47 @@
 using System;
 using System.Security;
 using System.Runtime.InteropServices;
-using SFML.System;
+using SFML.Graphics;
 
 namespace TGUI
 {
-	public class Layout2d : SFML.ObjectBase
+	public class ScrollablePanelRenderer : PanelRenderer
 	{
-        public Layout2d()
-			: base(tguiLayout2d_create(new Vector2f(0, 0)))
+		public ScrollablePanelRenderer()
+			: base(tguiScrollablePanelRenderer_create())
 		{
 		}
 
-		public Layout2d(Vector2f constant)
-			: base(tguiLayout2d_create(constant))
+		protected internal ScrollablePanelRenderer(IntPtr cPointer)
+			: base(cPointer)
 		{
 		}
 
-        public Layout2d(float x, float y)
-			: base(tguiLayout2d_create(new Vector2f(x, y)))
+		public ScrollablePanelRenderer(ScrollablePanelRenderer copy)
+			: base(tguiScrollablePanelRenderer_copy(copy.CPointer))
 		{
 		}
 
-		public Layout2d(Layout x, Layout y)
-			: base(tguiLayout2d_createFromLayouts(x.CPointer, y.CPointer))
+		public RendererData Scrollbar
 		{
+			get { return new RendererData(tguiScrollablePanelRenderer_getScrollbar(CPointer)); }
+			set { tguiScrollablePanelRenderer_setScrollbar(CPointer, value.CPointer); }
 		}
 
-		public Layout2d(string xExpression, string yExpression)
-			: this(new Layout(xExpression), new Layout(yExpression))
-		{
-		}
-
-        public Layout2d(string expression)
-			: base(tguiLayout2d_createFromString(Util.ConvertStringForC_ASCII(expression)))
-		{
-		}
-
-		public Layout2d(Layout2d copy)
-			: base(tguiLayout2d_copy(copy.CPointer))
-		{
-		}
-
-		protected override void Destroy(bool disposing)
-		{
-			tguiLayout2d_destroy(CPointer);
-		}
-
-		public Vector2f Value
-		{
-			get { return tguiLayout2d_getValue(CPointer); }
-		}
 
 		#region Imports
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiLayout2d_create(Vector2f constant);
+		static extern protected IntPtr tguiScrollablePanelRenderer_create();
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiLayout2d_createFromLayouts(IntPtr x, IntPtr y);
+		static extern protected IntPtr tguiScrollablePanelRenderer_copy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiLayout2d_createFromString(IntPtr expression);
+		static extern protected void tguiScrollablePanelRenderer_setScrollbar(IntPtr cPointer, IntPtr rendererData);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiLayout2d_copy(IntPtr cPointer);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiLayout2d_destroy(IntPtr cPointer);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Vector2f tguiLayout2d_getValue(IntPtr cPointer);
+		static extern protected IntPtr tguiScrollablePanelRenderer_getScrollbar(IntPtr cPointer);
 
 		#endregion
 	}

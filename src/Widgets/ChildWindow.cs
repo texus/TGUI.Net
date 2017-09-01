@@ -45,6 +45,13 @@ namespace TGUI
 		{
 		}
 
+        public ChildWindow(string title, TitleButton titleButtons = TitleButton.Close)
+			: base(tguiChildWindow_create())
+		{
+		    Title = title;
+		    TitleButtons = titleButtons;
+		}
+
 		protected internal ChildWindow(IntPtr cPointer)
 			: base(cPointer)
 		{

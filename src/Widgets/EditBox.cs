@@ -107,6 +107,12 @@ namespace TGUI
 			set { tguiEditBox_limitTextWidth(CPointer, value); }
 		}
 
+        public bool ReadOnly
+		{
+			get { return tguiEditBox_isReadOnly(CPointer); }
+			set { tguiEditBox_setReadOnly(CPointer, value); }
+		}
+
 		public uint CaretPosition
 		{
 			get { return tguiEditBox_getCaretPosition(CPointer); }
@@ -210,6 +216,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiEditBox_isTextWidthLimited(IntPtr cPointer);
+
+        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiEditBox_setReadOnly(IntPtr cPointer, bool readOnly);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiEditBox_isReadOnly(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiEditBox_setCaretPosition(IntPtr cPointer, uint caretPosition);

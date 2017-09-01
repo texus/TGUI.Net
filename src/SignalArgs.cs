@@ -67,6 +67,18 @@ namespace TGUI
 		public uint Value;
 	}
 
+    public class SignalArgsRange : EventArgs
+	{
+		public SignalArgsRange(int start, int end)
+		{
+			Start = start;
+			End = end;
+		}
+
+		public int Start;
+		public int End;
+	}
+
 	public class SignalArgsBool : EventArgs
 	{
 		public SignalArgsBool(bool value)

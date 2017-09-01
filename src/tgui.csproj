@@ -87,6 +87,8 @@
     <Compile Include="Renderers\LabelRenderer.cs" />
     <Compile Include="Widgets\Panel.cs" />
     <Compile Include="Renderers\PanelRenderer.cs" />
+    <Compile Include="Widgets\ScrollablePanel.cs" />
+    <Compile Include="Renderers\ScrollablePanelRenderer.cs" />
     <Compile Include="Alignment.cs" />
     <Compile Include="Renderers\EditBoxRenderer.cs" />
     <Compile Include="Widgets\EditBox.cs" />
@@ -97,6 +99,8 @@
     <Compile Include="SignalArgs.cs" />
     <Compile Include="Widgets\Slider.cs" />
     <Compile Include="Renderers\SliderRenderer.cs" />
+    <Compile Include="Widgets\RangeSlider.cs" />
+    <Compile Include="Renderers\RangeSliderRenderer.cs" />
     <Compile Include="Widgets\Scrollbar.cs" />
     <Compile Include="Widgets\SpinButton.cs" />
     <Compile Include="Renderers\ScrollbarRenderer.cs" />

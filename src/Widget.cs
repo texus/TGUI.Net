@@ -114,18 +114,22 @@ namespace TGUI
 			return Connect(signalName, () => func(this, signalName));
 		}
 
-		public void Disconnect(string signalName, uint id)
+		public void Disconnect(uint id)
 		{
-			tguiWidget_disconnect(CPointer, Util.ConvertStringForC_ASCII(signalName), id);
+			tguiWidget_disconnect(CPointer, id);
 
-			var idList = myConnectedSignals[signalName];
-			if (idList.Contains(id))
-			{
-				if (idList.Count > 1)
-					idList.Remove(id);
-				else
-					myConnectedSignals.Remove(signalName);
-			}
+            foreach (var signal in myConnectedSignals)
+            {
+                if (signal.Value.Contains(id))
+                {
+                    if (signal.Value.Count > 1)
+					    signal.Value.Remove(id);
+				    else
+					    myConnectedSignals.Remove(signal.Key);
+
+					break;
+                }
+            }
 		}
 
 		public void DisconnectAll(string signalName)
@@ -135,6 +139,12 @@ namespace TGUI
 				myConnectedSignals.Remove(signalName);
 
             tguiWidget_disconnectAll(CPointer, Util.ConvertStringForC_ASCII(signalName));
+		}
+
+        public void DisconnectAll()
+		{
+			myConnectedSignals.Clear();
+            tguiWidget_disconnectAll(CPointer, IntPtr.Zero);
 		}
 
 		public WidgetRenderer Renderer
@@ -367,6 +377,7 @@ namespace TGUI
 		protected delegate void CallbackActionString(IntPtr param);
 		protected delegate void CallbackActionInt(int param);
 		protected delegate void CallbackActionUInt(uint param);
+		protected delegate void CallbackActionRange(int param1, int param2);
 		protected delegate void CallbackActionItemSelected(IntPtr param1, IntPtr param2);
 
 		#region Imports
@@ -426,7 +437,7 @@ namespace TGUI
 		static extern protected void tguiWidget_connect_onUnfocus(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_disconnect(IntPtr cPointer, IntPtr signalName, uint id);
+		static extern protected void tguiWidget_disconnect(IntPtr cPointer, uint id);
 
         [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiWidget_disconnectAll(IntPtr cPointer, IntPtr signalName);

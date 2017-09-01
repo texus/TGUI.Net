@@ -52,6 +52,7 @@ def validateTypes(typeCS, typeC, returnType):
     or (typeCS == 'CallbackActionInt' and typeC == 'void (*function)(sfBool)') \
     or (typeCS == 'CallbackActionInt' and typeC == 'void (*function)(int)') \
     or (typeCS == 'CallbackActionUInt' and typeC == 'void (*function)(unsigned int)') \
+    or (typeCS == 'CallbackActionRange' and typeC == 'void (*function)(int, int)') \
     or (typeCS == 'CallbackActionItemSelected' and typeC == 'void (*function)(const sfUint32*, const sfUint32*)'):
         return True
     else:
@@ -171,6 +172,11 @@ for funcCS in importedFunctions:
     # Compare return types
     if not validateTypes(returnTypeCS, returnTypeC, True):
         incompatibleFunctions += [nameCS]
+        continue
+
+    if len(paramsCS) != len(paramsC):
+        incompatibleFunctions += [nameCS]
+        continue
 
     # Compare parameters
     for i in range(len(paramsCS)):
