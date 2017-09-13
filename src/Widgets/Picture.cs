@@ -66,6 +66,12 @@ namespace TGUI
 			set { tguiPicture_setTexture(CPointer, value.CPointer); }
 		}
 
+		public bool IgnoreMouseEvents
+		{
+			get { return tguiPicture_isIgnoringMouseEvents(CPointer); }
+			set { tguiPicture_ignoreMouseEvents(CPointer, value); }
+		}
+
 
 		protected override void InitSignals()
 		{
@@ -97,6 +103,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiPicture_setTexture(IntPtr cPointer, IntPtr textureCPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiPicture_ignoreMouseEvents(IntPtr cPointer, bool ignore);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiPicture_isIgnoringMouseEvents(IntPtr cPointer);
 
         [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiPicture_connect_onDoubleClick(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func, out IntPtr error);

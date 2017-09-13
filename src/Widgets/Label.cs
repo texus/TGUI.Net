@@ -89,6 +89,12 @@ namespace TGUI
 			set { tguiLabel_setMaximumTextWidth(CPointer, value); }
 		}
 
+		public bool IgnoreMouseEvents
+		{
+			get { return tguiLabel_isIgnoringMouseEvents(CPointer); }
+			set { tguiLabel_ignoreMouseEvents(CPointer, value); }
+		}
+
 
 		protected override void InitSignals()
 		{
@@ -152,6 +158,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected float tguiLabel_getMaximumTextWidth(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiLabel_ignoreMouseEvents(IntPtr cPointer, bool ignore);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiLabel_isIgnoringMouseEvents(IntPtr cPointer);
 
         [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiLabel_connect_onDoubleClick(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
