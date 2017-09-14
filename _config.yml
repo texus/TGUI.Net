@@ -1,2 +1,8 @@
 lsi: false
 highlighter: rouge
+
+exclude:
+  - build
+  - extlibs
+  - lib
+  - src
