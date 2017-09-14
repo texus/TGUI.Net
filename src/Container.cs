@@ -160,8 +160,8 @@ namespace TGUI
 		}
 
 
-        private List<Widget> myWidgets = new List<Widget>();
-        private List<string> myWidgetIds = new List<string>();
+        protected List<Widget> myWidgets = new List<Widget>();
+        protected List<string> myWidgetIds = new List<string>();
 
 
         #region Imports

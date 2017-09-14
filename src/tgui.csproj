@@ -82,6 +82,7 @@
     <Compile Include="Exception.cs" />
     <Compile Include="RendererData.cs" />
     <Compile Include="Widgets\HorizontalWrap.cs" />
+    <Compile Include="Renderers\PictureRenderer.cs" />
     <Compile Include="Widgets\Picture.cs" />
     <Compile Include="Widgets\Label.cs" />
     <Compile Include="Renderers\LabelRenderer.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Widgets\MessageBox.cs" />
     <Compile Include="ToolTip.cs" />
     <Compile Include="Widgets\BoxLayout.cs" />
+    <Compile Include="Widgets\BoxLayoutRatios.cs" />
     <Compile Include="Widgets\VerticalLayout.cs" />
     <Compile Include="Widgets\HorizontalLayout.cs" />
     <Compile Include="Widgets\Grid.cs" />

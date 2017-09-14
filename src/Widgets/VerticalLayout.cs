@@ -28,7 +28,7 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
-	public class VerticalLayout : BoxLayout
+	public class VerticalLayout : BoxLayoutRatios
 	{
 		public VerticalLayout()
 			: base(tguiVerticalLayout_create())
