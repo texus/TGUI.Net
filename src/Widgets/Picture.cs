@@ -36,14 +36,14 @@ namespace TGUI
 			: base(tguiPicture_create())
 		{
 			if (filename.Length > 0)
-				Texture = new Texture(filename);
+				Renderer.Texture = new Texture(filename);
 		}
 
 		public Picture(Texture texture = null)
 			: base(tguiPicture_create())
 		{
 			if (texture != null)
-				Texture = texture;
+				Renderer.Texture = texture;
 		}
 
 		protected internal Picture(IntPtr cPointer)
@@ -56,14 +56,9 @@ namespace TGUI
 		{
 		}
 
-		public new WidgetRenderer Renderer
+		public new PictureRenderer Renderer
 		{
-			get { return new WidgetRenderer(tguiWidget_getRenderer(CPointer)); }
-		}
-
-		public Texture Texture
-		{
-			set { tguiPicture_setTexture(CPointer, value.CPointer); }
+			get { return new PictureRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
 		public bool IgnoreMouseEvents
@@ -100,9 +95,6 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiPicture_create();
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiPicture_setTexture(IntPtr cPointer, IntPtr textureCPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiPicture_ignoreMouseEvents(IntPtr cPointer, bool ignore);
