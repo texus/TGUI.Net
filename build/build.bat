@@ -11,6 +11,8 @@ popd
 msbuild TGUI.net.sln /p:Configuration=Release /p:Platform=x64 /t:tgui /m || goto :error
 copy ..\extlibs\SFML.Net\lib\x64\* ..\lib\x64\ /Y > nul || goto :error
 
+xcopy ..\extlibs\TGUI\themes ..\themes /Y /s /i > nul || goto :error
+
 goto :EOF
 :error
 exit /b %errorlevel%
