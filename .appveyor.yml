@@ -15,6 +15,8 @@ build_script:
 - mkdir "C:\TGUI.Net 0.8-dev\extlibs"
 - xcopy src "C:\TGUI.Net 0.8-dev\src" /Y /s /i > nul
 - xcopy example "C:\TGUI.Net 0.8-dev\example" /Y /s /i > nul
+- xcopy themes "C:\TGUI.Net 0.8-dev\themes" /Y /s /i > nul
+- xcopy gui-builder "C:\TGUI.Net 0.8-dev\gui-builder" /Y /s /i > nul
 - copy README-precompiled.md "C:\TGUI.Net 0.8-dev\README.txt" /Y > nul
 - copy lib\x64\* "C:\TGUI.Net 0.8-dev\lib\" /Y > nul
 - copy extlibs\lib\*.dll "C:\TGUI.Net 0.8-dev\extlibs\" /Y > nul
