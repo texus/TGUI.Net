@@ -52,6 +52,11 @@ namespace TGUI
 			get { return new RadioButtonRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new RadioButtonRenderer SharedRenderer
+		{
+			get { return new RadioButtonRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public bool Checked
 		{
 			get { return tguiRadioButton_isChecked(CPointer); }

@@ -57,6 +57,11 @@ namespace TGUI
 			get { return new RangeSliderRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new RangeSliderRenderer SharedRenderer
+		{
+			get { return new RangeSliderRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public int Minimum
 		{
 			get { return tguiRangeSlider_getMinimum(CPointer); }

@@ -52,6 +52,11 @@ namespace TGUI
 			get { return new ButtonRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+		public new ButtonRenderer SharedRenderer
+		{
+			get { return new ButtonRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public string Text
 		{
 			get { return Util.GetStringFromC_UTF32(tguiButton_getText(CPointer)); }

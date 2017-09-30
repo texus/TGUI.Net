@@ -105,24 +105,14 @@ namespace TGUI
 			set { tguiComboBoxRenderer_setTextureBackground(CPointer, value.CPointer); }
 		}
 
-		public Texture TextureArrowUp
+		public Texture TextureArrow
 		{
-			set { tguiComboBoxRenderer_setTextureArrowUp(CPointer, value.CPointer); }
+			set { tguiComboBoxRenderer_setTextureArrow(CPointer, value.CPointer); }
 		}
 
-		public Texture TextureArrowUpHover
+		public Texture TextureArrowHover
 		{
-			set { tguiComboBoxRenderer_setTextureArrowUpHover(CPointer, value.CPointer); }
-		}
-
-		public Texture TextureArrowDown
-		{
-			set { tguiComboBoxRenderer_setTextureArrowDown(CPointer, value.CPointer); }
-		}
-
-		public Texture TextureArrowDownHover
-		{
-			set { tguiComboBoxRenderer_setTextureArrowDownHover(CPointer, value.CPointer); }
+			set { tguiComboBoxRenderer_setTextureArrowHover(CPointer, value.CPointer); }
 		}
 
 		public Text.Styles TextStyle
@@ -204,16 +194,10 @@ namespace TGUI
 		static extern protected void tguiComboBoxRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiComboBoxRenderer_setTextureArrowUp(IntPtr cPointer, IntPtr texture);
+		static extern protected void tguiComboBoxRenderer_setTextureArrow(IntPtr cPointer, IntPtr texture);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiComboBoxRenderer_setTextureArrowUpHover(IntPtr cPointer, IntPtr texture);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiComboBoxRenderer_setTextureArrowDown(IntPtr cPointer, IntPtr texture);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiComboBoxRenderer_setTextureArrowDownHover(IntPtr cPointer, IntPtr texture);
+		static extern protected void tguiComboBoxRenderer_setTextureArrowHover(IntPtr cPointer, IntPtr texture);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiComboBoxRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);

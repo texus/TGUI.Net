@@ -25,6 +25,7 @@
 using System;
 using System.Security;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace TGUI
 {
@@ -33,6 +34,17 @@ namespace TGUI
 		public MessageBox()
 			: base(tguiMessageBox_create())
 		{
+		}
+
+		public MessageBox(string title, string text = "", List<string> buttons = null)
+			: base(tguiMessageBox_create())
+		{
+		    buttons = buttons ?? new List<string>();
+
+			Title = title;
+			Text = text;
+			foreach (var button in buttons)
+				AddButton(button);
 		}
 
 		protected internal MessageBox(IntPtr cPointer)
@@ -48,6 +60,11 @@ namespace TGUI
 		public new MessageBoxRenderer Renderer
 		{
 			get { return new MessageBoxRenderer(tguiWidget_getRenderer(CPointer)); }
+		}
+
+		public new MessageBoxRenderer SharedRenderer
+		{
+			get { return new MessageBoxRenderer(tguiWidget_getSharedRenderer(CPointer)); }
 		}
 
 		public string Text

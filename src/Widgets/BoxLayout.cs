@@ -40,6 +40,16 @@ namespace TGUI
 		{
 		}
 
+		public new BoxLayoutRenderer Renderer
+		{
+			get { return new BoxLayoutRenderer(tguiWidget_getRenderer(CPointer)); }
+		}
+
+        public new BoxLayoutRenderer SharedRenderer
+		{
+			get { return new BoxLayoutRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public void Insert(uint index, Widget widget, string widgetName = "")
 		{
 			tguiBoxLayout_insert(CPointer, index, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));

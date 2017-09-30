@@ -55,6 +55,11 @@ namespace TGUI
 			get { return new TextBoxRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new TextBoxRenderer SharedRenderer
+		{
+			get { return new TextBoxRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public string Text
 		{
 			get { return Util.GetStringFromC_UTF32(tguiTextBox_getText(CPointer)); }

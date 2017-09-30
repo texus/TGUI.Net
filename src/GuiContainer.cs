@@ -30,7 +30,7 @@ namespace TGUI
 {
 	public class GuiContainer : Container
 	{
-		public GuiContainer(IntPtr cPointer)
+		protected internal GuiContainer(IntPtr cPointer)
 			: base(cPointer)
 		{
 		}

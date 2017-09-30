@@ -61,6 +61,11 @@ namespace TGUI
 			get { return new PictureRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new PictureRenderer SharedRenderer
+		{
+			get { return new PictureRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public bool IgnoreMouseEvents
 		{
 			get { return tguiPicture_isIgnoringMouseEvents(CPointer); }

@@ -50,6 +50,11 @@ namespace TGUI
 			get { return new ScrollbarRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new ScrollbarRenderer SharedRenderer
+		{
+			get { return new ScrollbarRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public uint LowValue
 		{
 			get { return tguiScrollbar_getLowValue(CPointer); }

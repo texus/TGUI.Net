@@ -51,6 +51,11 @@ namespace TGUI
 			get { return new MenuBarRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new MenuBarRenderer SharedRenderer
+		{
+			get { return new MenuBarRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public void AddMenu(string text)
 		{
 			tguiMenuBar_addMenu(CPointer, Util.ConvertStringForC_UTF32(text));

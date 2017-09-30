@@ -51,6 +51,11 @@ namespace TGUI
 			get { return new ListBoxRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new ListBoxRenderer SharedRenderer
+		{
+			get { return new ListBoxRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public bool AddItem(string item, string id = "")
 		{
 			return tguiListBox_addItem(CPointer, Util.ConvertStringForC_UTF32(item), Util.ConvertStringForC_UTF32(id));

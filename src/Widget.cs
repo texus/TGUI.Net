@@ -152,6 +152,11 @@ namespace TGUI
 			get { return new WidgetRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public WidgetRenderer SharedRenderer
+		{
+			get { return new WidgetRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public void SetRenderer(RendererData renderer)
 		{
 			IntPtr error;
@@ -447,6 +452,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiWidget_getRenderer(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected IntPtr tguiWidget_getSharedRenderer(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiWidget_show(IntPtr cPointer);

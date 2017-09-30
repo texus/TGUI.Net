@@ -52,10 +52,20 @@ namespace TGUI
 			get { return new ScrollablePanelRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+		public new ScrollablePanelRenderer SharedRenderer
+		{
+			get { return new ScrollablePanelRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
         public Vector2f ContentSize
 		{
 			get { return tguiScrollablePanel_getContentSize(CPointer); }
 			set { tguiScrollablePanel_setContentSize(CPointer, value); }
+		}
+
+		public Vector2f ContentOffset
+		{
+			get { return tguiScrollablePanel_getContentOffset(CPointer); }
 		}
 
 
@@ -69,6 +79,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected Vector2f tguiScrollablePanel_getContentSize(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Vector2f tguiScrollablePanel_getContentOffset(IntPtr cPointer);
 
 		#endregion
 	}

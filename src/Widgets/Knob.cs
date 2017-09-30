@@ -57,6 +57,11 @@ namespace TGUI
 			get { return new KnobRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new KnobRenderer SharedRenderer
+		{
+			get { return new KnobRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public float StartRotation
 		{
 			get { return tguiKnob_getStartRotation(CPointer); }

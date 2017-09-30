@@ -62,6 +62,11 @@ namespace TGUI
 			get { return new GroupRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new GroupRenderer SharedRenderer
+		{
+			get { return new GroupRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 
 	    #region Imports
 

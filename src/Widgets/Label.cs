@@ -53,6 +53,11 @@ namespace TGUI
 			get { return new LabelRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new LabelRenderer SharedRenderer
+		{
+			get { return new LabelRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public string Text
 		{
 			get { return Util.GetStringFromC_UTF32(tguiLabel_getText(CPointer)); }

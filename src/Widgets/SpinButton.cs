@@ -57,6 +57,11 @@ namespace TGUI
 			get { return new SpinButtonRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new SpinButtonRenderer SharedRenderer
+		{
+			get { return new SpinButtonRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public int Minimum
 		{
 			get { return tguiSpinButton_getMinimum(CPointer); }
@@ -73,12 +78,6 @@ namespace TGUI
 		{
 			get { return tguiSpinButton_getValue(CPointer); }
 			set { tguiSpinButton_setValue(CPointer, value); }
-		}
-
-		public bool VerticalScroll
-		{
-			get { return tguiSpinButton_getVerticalScroll(CPointer); }
-			set { tguiSpinButton_setVerticalScroll(CPointer, value); }
 		}
 
 
@@ -127,12 +126,6 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected int tguiSpinButton_getValue(IntPtr cPointer);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiSpinButton_setVerticalScroll(IntPtr cPointer, bool verticalScroll);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiSpinButton_getVerticalScroll(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiSpinButton_connect_onValueChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionInt func, out IntPtr error);

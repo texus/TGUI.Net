@@ -31,6 +31,13 @@ namespace TGUI
 {
 	public class ComboBox : Widget
 	{
+        public enum Direction
+		{
+			Down,
+			Up
+		}
+
+
 		public ComboBox()
 			: base(tguiComboBox_create())
 		{
@@ -49,6 +56,11 @@ namespace TGUI
 		public new ComboBoxRenderer Renderer
 		{
 			get { return new ComboBoxRenderer(tguiWidget_getRenderer(CPointer)); }
+		}
+
+        public new ComboBoxRenderer SharedRenderer
+		{
+			get { return new ComboBoxRenderer(tguiWidget_getSharedRenderer(CPointer)); }
 		}
 
 		public uint ItemsToDisplay
@@ -182,6 +194,12 @@ namespace TGUI
 			set { tguiComboBox_setTextSize(CPointer, value); }
 		}
 
+		public Direction ExpandDirection
+		{
+			get { return tguiComboBox_getExpandDirection(CPointer); }
+			set { tguiComboBox_setExpandDirection(CPointer, value); }
+		}
+
 
 		protected override void InitSignals()
 		{
@@ -284,6 +302,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected uint tguiComboBox_getMaximumItems(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiComboBox_setExpandDirection(IntPtr cPointer, Direction expandDirection);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Direction tguiComboBox_getExpandDirection(IntPtr cPointer);
 
         [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiComboBox_connect_onItemSelect(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionItemSelected func, out IntPtr error);

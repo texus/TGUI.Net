@@ -59,6 +59,11 @@ namespace TGUI
 			get { return new ProgressBarRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new ProgressBarRenderer SharedRenderer
+		{
+			get { return new ProgressBarRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public uint Minimum
 		{
 			get { return tguiProgressBar_getMinimum(CPointer); }

@@ -55,6 +55,11 @@ namespace TGUI
 			get { return new EditBoxRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new EditBoxRenderer SharedRenderer
+		{
+			get { return new EditBoxRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public string Text
 		{
 			get { return Util.GetStringFromC_UTF32(tguiEditBox_getText(CPointer)); }

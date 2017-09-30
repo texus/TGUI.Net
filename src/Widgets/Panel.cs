@@ -62,6 +62,11 @@ namespace TGUI
 			get { return new PanelRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new PanelRenderer SharedRenderer
+		{
+			get { return new PanelRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 
 		protected override void InitSignals()
 		{

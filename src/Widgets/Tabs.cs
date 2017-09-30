@@ -51,6 +51,11 @@ namespace TGUI
 			get { return new TabsRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new TabsRenderer SharedRenderer
+		{
+			get { return new TabsRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
         public bool AutoSize
 		{
 			get { return tguiTabs_getAutoSize(CPointer); }

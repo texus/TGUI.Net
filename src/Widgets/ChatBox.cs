@@ -52,6 +52,11 @@ namespace TGUI
 			get { return new ChatBoxRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new ChatBoxRenderer SharedRenderer
+		{
+			get { return new ChatBoxRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public void AddLine(string text)
 		{
 			tguiChatBox_addLine(CPointer, Util.ConvertStringForC_UTF32(text));

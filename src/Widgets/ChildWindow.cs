@@ -67,6 +67,11 @@ namespace TGUI
 			get { return new ChildWindowRenderer(tguiWidget_getRenderer(CPointer)); }
 		}
 
+        public new ChildWindowRenderer SharedRenderer
+		{
+			get { return new ChildWindowRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+		}
+
 		public Vector2f MinimumSize
 		{
 			get { return tguiChildWindow_getMinimumSize(CPointer); }

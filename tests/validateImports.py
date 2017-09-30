@@ -26,6 +26,7 @@ def validateTypes(typeCS, typeC, returnType):
     or (typeCS == 'Alignment' and typeC == 'tguiAlignment') \
     or (typeCS == 'VerticalAlignment' and typeC == 'tguiVerticalAlignment') \
     or (typeCS == 'Direction' and typeC == 'tguiFillDirection') \
+    or (typeCS == 'Direction' and typeC == 'tguiExpandDirection') \
     or (typeCS == 'TitleButton' and typeC == 'unsigned int') \
     or (typeCS == 'IntPtr' and typeC == 'tguiRenderer*') \
     or (typeCS == 'IntPtr' and typeC == 'tguiRendererData*') \
