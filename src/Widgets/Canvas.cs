@@ -99,6 +99,7 @@ namespace TGUI
 		////////////////////////////////////////////////////////////
 		public void Draw(Sprite sprite, RenderStates states)
 		{
+			states.Transform *= sprite.Transform;
 			RenderStatesMarshalData marshaledStates = MarshalRenderStates(states);
 			tguiCanvas_drawSprite(CPointer, sprite.CPointer, ref marshaledStates);
 		}
@@ -123,6 +124,7 @@ namespace TGUI
 		////////////////////////////////////////////////////////////
 		public void Draw(Text text, RenderStates states)
 		{
+			states.Transform *= text.Transform;
 			RenderStatesMarshalData marshaledStates = MarshalRenderStates(states);
 			tguiCanvas_drawText(CPointer, text.CPointer, ref marshaledStates);
 		}
@@ -147,6 +149,7 @@ namespace TGUI
 		////////////////////////////////////////////////////////////
 		public void Draw(Shape shape, RenderStates states)
 		{
+			states.Transform *= shape.Transform;
 			RenderStatesMarshalData marshaledStates = MarshalRenderStates(states);
 			tguiCanvas_drawShape(CPointer, shape.CPointer, ref marshaledStates);
 		}
