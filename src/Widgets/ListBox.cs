@@ -193,6 +193,16 @@ namespace TGUI
 			set { tguiListBox_setAutoScroll(CPointer, value); }
 		}
 
+		public bool Contains(string item)
+		{
+			return tguiListBox_contains(CPointer, Util.ConvertStringForC_UTF32(item));
+		}
+
+		public bool ContainsId(string id)
+		{
+			return tguiListBox_containsId(CPointer, Util.ConvertStringForC_UTF32(id));
+		}
+
 
 		protected override void InitSignals()
 		{
@@ -348,6 +358,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiListBox_getAutoScroll(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiListBox_contains(IntPtr cPointer, IntPtr item);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiListBox_containsId(IntPtr cPointer, IntPtr id);
 
         [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiListBox_connect_onItemSelect(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionItemSelected func, out IntPtr error);

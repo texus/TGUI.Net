@@ -200,6 +200,16 @@ namespace TGUI
 			set { tguiComboBox_setExpandDirection(CPointer, value); }
 		}
 
+		public bool Contains(string item)
+		{
+			return tguiComboBox_contains(CPointer, Util.ConvertStringForC_UTF32(item));
+		}
+
+		public bool ContainsId(string id)
+		{
+			return tguiComboBox_containsId(CPointer, Util.ConvertStringForC_UTF32(id));
+		}
+
 
 		protected override void InitSignals()
 		{
@@ -308,6 +318,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected Direction tguiComboBox_getExpandDirection(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiComboBox_contains(IntPtr cPointer, IntPtr item);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiComboBox_containsId(IntPtr cPointer, IntPtr id);
 
         [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiComboBox_connect_onItemSelect(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionItemSelected func, out IntPtr error);
