@@ -82,6 +82,11 @@ namespace TGUI
 			return tguiTheme_removeRenderer(CPointer, Util.ConvertStringForC_ASCII(id));
 		}
 
+		public string Filename
+		{
+			get { return Util.GetStringFromC_ASCII(tguiTheme_getFilename(CPointer)); }
+		}
+
 		public static Theme Default
 		{
 			get { return new Theme(tguiTheme_getDefault()); }
@@ -110,6 +115,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiTheme_removeRenderer(IntPtr cPointer, IntPtr id);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected IntPtr tguiTheme_getFilename(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTheme_setDefault(IntPtr defaultThemeCPointer);
