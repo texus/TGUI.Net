@@ -30,6 +30,13 @@ using SFML.System;
 
 namespace TGUI
 {
+    public enum ScrollbarPolicy
+	{
+		Automatic,
+		Always,
+		Never
+	}
+
 	public class ScrollablePanel : Panel
 	{
 		public ScrollablePanel()
@@ -63,6 +70,24 @@ namespace TGUI
 			set { tguiScrollablePanel_setContentSize(CPointer, value); }
 		}
 
+        public float ScrollbarWidth
+		{
+			get { return tguiScrollablePanel_getScrollbarWidth(CPointer); }
+			set { tguiScrollablePanel_setScrollbarWidth(CPointer, value); }
+		}
+
+        public ScrollbarPolicy VerticalScrollbarPolicy
+		{
+			get { return tguiScrollablePanel_getVerticalScrollbarPolicy(CPointer); }
+			set { tguiScrollablePanel_setVerticalScrollbarPolicy(CPointer, value); }
+		}
+
+        public ScrollbarPolicy HorizontalScrollbarPolicy
+		{
+			get { return tguiScrollablePanel_getHorizontalScrollbarPolicy(CPointer); }
+			set { tguiScrollablePanel_setHorizontalScrollbarPolicy(CPointer, value); }
+		}
+
 		public Vector2f ContentOffset
 		{
 			get { return tguiScrollablePanel_getContentOffset(CPointer); }
@@ -79,6 +104,24 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected Vector2f tguiScrollablePanel_getContentSize(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiScrollablePanel_setScrollbarWidth(IntPtr cPointer, float width);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected float tguiScrollablePanel_getScrollbarWidth(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiScrollablePanel_setVerticalScrollbarPolicy(IntPtr cPointer, ScrollbarPolicy policy);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected ScrollbarPolicy tguiScrollablePanel_getVerticalScrollbarPolicy(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiScrollablePanel_setHorizontalScrollbarPolicy(IntPtr cPointer, ScrollbarPolicy policy);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected ScrollbarPolicy tguiScrollablePanel_getHorizontalScrollbarPolicy(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected Vector2f tguiScrollablePanel_getContentOffset(IntPtr cPointer);
