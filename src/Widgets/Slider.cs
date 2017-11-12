@@ -35,7 +35,7 @@ namespace TGUI
 		{
 		}
 
-		public Slider(int min, int max)
+		public Slider(float min, float max)
 			: this()
 		{
 			Minimum = min;
@@ -62,22 +62,28 @@ namespace TGUI
 			get { return new SliderRenderer(tguiWidget_getSharedRenderer(CPointer)); }
 		}
 
-		public int Minimum
+		public float Minimum
 		{
 			get { return tguiSlider_getMinimum(CPointer); }
 			set { tguiSlider_setMinimum(CPointer, value); }
 		}
 
-		public int Maximum
+		public float Maximum
 		{
 			get { return tguiSlider_getMaximum(CPointer); }
 			set { tguiSlider_setMaximum(CPointer, value); }
 		}
 
-		public int Value
+		public float Value
 		{
 			get { return tguiSlider_getValue(CPointer); }
 			set { tguiSlider_setValue(CPointer, value); }
+		}
+
+		public float Frequency
+		{
+			get { return tguiSlider_getFrequency(CPointer); }
+			set { tguiSlider_setFrequency(CPointer, value); }
 		}
 
 
@@ -86,22 +92,22 @@ namespace TGUI
 			base.InitSignals();
 
 			IntPtr error;
-		    ValueChangedCallback = new CallbackActionInt(ProcessValueChangedSignal);
+		    ValueChangedCallback = new CallbackActionFloat(ProcessValueChangedSignal);
 		    tguiSlider_connect_onValueChange(CPointer, ValueChangedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
-		private void ProcessValueChangedSignal(int value)
+		private void ProcessValueChangedSignal(float value)
 		{
 			if (ValueChanged != null)
-				ValueChanged(this, new SignalArgsInt(value));
+				ValueChanged(this, new SignalArgsFloat(value));
 		}
 
 		/// <summary>Event handler for the ValueChanged signal</summary>
-		public event EventHandler<SignalArgsInt> ValueChanged = null;
+		public event EventHandler<SignalArgsFloat> ValueChanged = null;
 
-	    private CallbackActionInt ValueChangedCallback;
+	    private CallbackActionFloat ValueChangedCallback;
 
 	    #region Imports
 
@@ -109,25 +115,31 @@ namespace TGUI
 		static extern protected IntPtr tguiSlider_create();
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiSlider_setMinimum(IntPtr cPointer, int minimum);
+		static extern protected void tguiSlider_setMinimum(IntPtr cPointer, float minimum);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected int tguiSlider_getMinimum(IntPtr cPointer);
+		static extern protected float tguiSlider_getMinimum(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiSlider_setMaximum(IntPtr cPointer, int maximum);
+		static extern protected void tguiSlider_setMaximum(IntPtr cPointer, float maximum);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected int tguiSlider_getMaximum(IntPtr cPointer);
+		static extern protected float tguiSlider_getMaximum(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiSlider_setValue(IntPtr cPointer, int value);
+		static extern protected void tguiSlider_setValue(IntPtr cPointer, float value);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected int tguiSlider_getValue(IntPtr cPointer);
+		static extern protected float tguiSlider_getValue(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiSlider_connect_onValueChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionInt func, out IntPtr error);
+		static extern protected void tguiSlider_setFrequency(IntPtr cPointer, float frequency);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected float tguiSlider_getFrequency(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiSlider_connect_onValueChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionFloat func, out IntPtr error);
 
 		#endregion
 	}

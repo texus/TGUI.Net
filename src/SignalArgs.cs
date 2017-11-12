@@ -67,6 +67,16 @@ namespace TGUI
 		public uint Value;
 	}
 
+	public class SignalArgsFloat : EventArgs
+	{
+		public SignalArgsFloat(float value)
+		{
+			Value = value;
+		}
+
+		public float Value;
+	}
+
     public class SignalArgsRange : EventArgs
 	{
 		public SignalArgsRange(int start, int end)

@@ -382,6 +382,7 @@ namespace TGUI
 		protected delegate void CallbackActionString(IntPtr param);
 		protected delegate void CallbackActionInt(int param);
 		protected delegate void CallbackActionUInt(uint param);
+		protected delegate void CallbackActionFloat(float param);
 		protected delegate void CallbackActionRange(int param1, int param2);
 		protected delegate void CallbackActionItemSelected(IntPtr param1, IntPtr param2);
 
