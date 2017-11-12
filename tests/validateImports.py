@@ -27,6 +27,7 @@ def validateTypes(typeCS, typeC, returnType):
     or (typeCS == 'VerticalAlignment' and typeC == 'tguiVerticalAlignment') \
     or (typeCS == 'Direction' and typeC == 'tguiFillDirection') \
     or (typeCS == 'Direction' and typeC == 'tguiExpandDirection') \
+    or (typeCS == 'ScrollbarPolicy' and typeC == 'tguiScrollbarPolicy') \
     or (typeCS == 'TitleButton' and typeC == 'unsigned int') \
     or (typeCS == 'IntPtr' and typeC == 'tguiRenderer*') \
     or (typeCS == 'IntPtr' and typeC == 'tguiRendererData*') \
@@ -52,6 +53,7 @@ def validateTypes(typeCS, typeC, returnType):
     or (typeCS == 'CallbackActionString' and typeC == 'void (*function)(const sfUint32*)') \
     or (typeCS == 'CallbackActionInt' and typeC == 'void (*function)(sfBool)') \
     or (typeCS == 'CallbackActionInt' and typeC == 'void (*function)(int)') \
+    or (typeCS == 'CallbackActionFloat' and typeC == 'void (*function)(float)') \
     or (typeCS == 'CallbackActionUInt' and typeC == 'void (*function)(unsigned int)') \
     or (typeCS == 'CallbackActionRange' and typeC == 'void (*function)(int, int)') \
     or (typeCS == 'CallbackActionItemSelected' and typeC == 'void (*function)(const sfUint32*, const sfUint32*)'):

@@ -14,7 +14,7 @@ ExternalProject_Add(csfml
 ExternalProject_Add(tgui
                     DEPENDS sfml
                     SOURCE_DIR ${PROJECT_SOURCE_DIR}/TGUI
-                    CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR};-DCMAKE_BUILD_TYPE=Release;-DTGUI_SHARED_LIBS=TRUE;-DTGUI_BUILD_GUI_BUILDER=TRUE")
+                    CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR};-DCMAKE_BUILD_TYPE=Release;-DTGUI_SHARED_LIBS=TRUE;-DTGUI_BUILD_GUI_BUILDER=TRUE;-DTGUI_OPTIMIZE_SINGLE_BUILD=TRUE")
 
 ExternalProject_Add(ctgui
                     DEPENDS csfml tgui

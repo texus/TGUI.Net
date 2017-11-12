@@ -6,7 +6,7 @@ cd build
 cmake ..
 make -j2
 
-cp -pR lib ../lib
+cp -pR lib ../
 
 cd ..
 
