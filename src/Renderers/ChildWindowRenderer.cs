@@ -94,6 +94,12 @@ namespace TGUI
 			set { tguiChildWindowRenderer_setPaddingBetweenButtons(CPointer, value); }
 		}
 
+		public bool ShowTextOnTitleButtons
+		{
+			get { return tguiChildWindowRenderer_getShowTextOnTitleButtons(CPointer); }
+			set { tguiChildWindowRenderer_setShowTextOnTitleButtons(CPointer, value); }
+		}
+
 		public Texture TextureTitleBar
 		{
 			set { tguiChildWindowRenderer_setTextureTitleBar(CPointer, value.CPointer); }
@@ -173,6 +179,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected float tguiChildWindowRenderer_getPaddingBetweenButtons(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiChildWindowRenderer_setShowTextOnTitleButtons(IntPtr cPointer, bool showText);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiChildWindowRenderer_getShowTextOnTitleButtons(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiChildWindowRenderer_setTextureTitleBar(IntPtr cPointer, IntPtr texture);

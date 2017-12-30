@@ -90,6 +90,12 @@ namespace TGUI
 			set { tguiChildWindow_setTitle(CPointer, Util.ConvertStringForC_UTF32(value)); }
 		}
 
+		public uint TitleTextSize
+		{
+			get { return tguiChildWindow_getTitleTextSize(CPointer); }
+			set { tguiChildWindow_setTitleTextSize(CPointer, value); }
+		}
+
 		public HorizontalAlignment TitleAlignment
 		{
 			get { return tguiChildWindow_getTitleAlignment(CPointer); }
@@ -214,6 +220,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiChildWindow_getTitle(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiChildWindow_setTitleTextSize(IntPtr cPointer, uint textSize);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected uint tguiChildWindow_getTitleTextSize(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiChildWindow_setTitleAlignment(IntPtr cPointer, HorizontalAlignment alignment);
