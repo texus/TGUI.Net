@@ -80,10 +80,16 @@ namespace TGUI
 			set { tguiSlider_setValue(CPointer, value); }
 		}
 
-		public float Frequency
+		public float Step
 		{
-			get { return tguiSlider_getFrequency(CPointer); }
-			set { tguiSlider_setFrequency(CPointer, value); }
+			get { return tguiSlider_getStep(CPointer); }
+			set { tguiSlider_setStep(CPointer, value); }
+		}
+
+		public bool InvertedDirection
+		{
+			get { return tguiSlider_getInvertedDirection(CPointer); }
+			set { tguiSlider_setInvertedDirection(CPointer, value); }
 		}
 
 
@@ -133,10 +139,16 @@ namespace TGUI
 		static extern protected float tguiSlider_getValue(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiSlider_setFrequency(IntPtr cPointer, float frequency);
+		static extern protected void tguiSlider_setStep(IntPtr cPointer, float step);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiSlider_getFrequency(IntPtr cPointer);
+		static extern protected float tguiSlider_getStep(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiSlider_setInvertedDirection(IntPtr cPointer, bool invertedDirection);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiSlider_getInvertedDirection(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiSlider_connect_onValueChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionFloat func, out IntPtr error);

@@ -117,7 +117,7 @@ namespace TGUI
 		public bool KeepInParent
 		{
 			get { return tguiChildWindow_isKeptInParent(CPointer); }
-			set { tguiChildWindow_keepInParent(CPointer, value); }
+			set { tguiChildWindow_setKeepInParent(CPointer, value); }
 		}
 
 
@@ -246,7 +246,7 @@ namespace TGUI
 		static extern protected bool tguiChildWindow_isResizable(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiChildWindow_keepInParent(IntPtr cPointer, bool keepInParent);
+		static extern protected void tguiChildWindow_setKeepInParent(IntPtr cPointer, bool keepInParent);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiChildWindow_isKeptInParent(IntPtr cPointer);

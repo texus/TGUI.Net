@@ -55,7 +55,7 @@ def validateTypes(typeCS, typeC, returnType):
     or (typeCS == 'CallbackActionInt' and typeC == 'void (*function)(int)') \
     or (typeCS == 'CallbackActionFloat' and typeC == 'void (*function)(float)') \
     or (typeCS == 'CallbackActionUInt' and typeC == 'void (*function)(unsigned int)') \
-    or (typeCS == 'CallbackActionRange' and typeC == 'void (*function)(int, int)') \
+    or (typeCS == 'CallbackActionRange' and typeC == 'void (*function)(float, float)') \
     or (typeCS == 'CallbackActionItemSelected' and typeC == 'void (*function)(const sfUint32*, const sfUint32*)'):
         return True
     else:
@@ -66,7 +66,11 @@ def validateTypes(typeCS, typeC, returnType):
             return False
 
 # Extract function names from dll
-os.system('dumpbin /exports ..\extlibs\lib\ctgui-0.8.dll > tmp')
+if os.name == 'nt':
+    os.system('dumpbin /exports ..\extlibs\lib\ctgui-0.8.dll > tmp')
+else:
+    os.system('nm ../extlibs/lib/libctgui.so | grep "[a-z0-9]* T .*" | sed "s/[a-z0-9]* T \(.*\)/\\1/g" > tmp')
+
 with open('tmp') as f:
     dump = f.read()
 
@@ -74,7 +78,7 @@ exportedFunctions = re.findall('tgui.*', dump)
 
 # Extract function signatures from C# source code
 importedFunctions = []
-for root, subFolders, files in os.walk('..\src'):
+for root, subFolders, files in os.walk('../src'):
     for f in files:
         if len(f) > 3 and f[-3:] == '.cs':
             with open(os.path.join(root, f), 'r') as fin:
@@ -107,12 +111,11 @@ for root, subFolders, files in os.walk('..\src'):
 
 # Extract function signatures from C headers
 declaredFunctions = []
-for root, subFolders, files in os.walk('..\extlibs\CTGUI\include'):
+for root, subFolders, files in os.walk('../extlibs/CTGUI/include'):
     for f in files:
         if len(f) > 3 and f[-2:] == '.h':
             with open(os.path.join(root, f), 'r') as fin:
                 dump = fin.read()
-
             declarations = re.findall('CTGUI_API.*;', dump)
             for line in declarations:
                 match = re.match('CTGUI_API (.*) (tgui\S*)\s*\((.*)\);', line)

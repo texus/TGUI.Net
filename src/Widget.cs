@@ -168,13 +168,7 @@ namespace TGUI
 		public bool Visible
 		{
 			get { return tguiWidget_isVisible(CPointer); }
-			set
-			{
-				if (value == true)
-					tguiWidget_show(CPointer);
-				else
-					tguiWidget_hide(CPointer);
-			}
+			set { tguiWidget_setVisible(CPointer, value); }
 		}
 
 		public void ShowWithEffect(ShowAnimationType type, Time duration)
@@ -190,25 +184,13 @@ namespace TGUI
 		public bool Enabled
 		{
 			get { return tguiWidget_isEnabled(CPointer); }
-			set
-			{
-				if (value == true)
-					tguiWidget_enable(CPointer);
-				else
-					tguiWidget_disable(CPointer);
-			}
+			set { tguiWidget_setEnabled(CPointer, value); }
 		}
 
         public bool Focus
         {
             get { return tguiWidget_isFocused(CPointer); }
-            set
-            {
-                if (value == true)
-                    tguiWidget_focus(CPointer);
-                else
-                    tguiWidget_unfocus(CPointer);
-            }
+            set { tguiWidget_setFocused(CPointer, value); }
         }
 
         public string WidgetType
@@ -383,7 +365,7 @@ namespace TGUI
 		protected delegate void CallbackActionInt(int param);
 		protected delegate void CallbackActionUInt(uint param);
 		protected delegate void CallbackActionFloat(float param);
-		protected delegate void CallbackActionRange(int param1, int param2);
+		protected delegate void CallbackActionRange(float param1, float param2);
 		protected delegate void CallbackActionItemSelected(IntPtr param1, IntPtr param2);
 
 		#region Imports
@@ -458,34 +440,25 @@ namespace TGUI
 		static extern protected IntPtr tguiWidget_getSharedRenderer(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_show(IntPtr cPointer);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_showWithEffect(IntPtr cPointer, ShowAnimationType type, Time duration);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_hide(IntPtr cPointer);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_hideWithEffect(IntPtr cPointer, ShowAnimationType type, Time duration);
+		static extern protected void tguiWidget_setVisible(IntPtr cPointer, bool visible);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiWidget_isVisible(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_enable(IntPtr cPointer);
+		static extern protected void tguiWidget_showWithEffect(IntPtr cPointer, ShowAnimationType type, Time duration);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_disable(IntPtr cPointer);
+		static extern protected void tguiWidget_hideWithEffect(IntPtr cPointer, ShowAnimationType type, Time duration);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiWidget_setEnabled(IntPtr cPointer, bool enabled);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiWidget_isEnabled(IntPtr cPointer);
 
         [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_focus(IntPtr cPointer);
-
-        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_unfocus(IntPtr cPointer);
+        static extern protected void tguiWidget_setFocused(IntPtr cPointer, bool focused);
 
         [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern protected bool tguiWidget_isFocused(IntPtr cPointer);

@@ -127,6 +127,26 @@ namespace TGUI
 			return tguiTabs_getTabsCount(CPointer);
 		}
 
+		public void SetTabVisible(uint index, bool visible)
+		{
+			tguiTabs_setTabVisible(CPointer, index, visible);
+		}
+
+		public bool GetTabVisible(uint index)
+		{
+			return tguiTabs_getTabVisible(CPointer, index);
+		}
+
+		public void SetTabEnabled(uint index, bool enabled)
+		{
+			tguiTabs_setTabEnabled(CPointer, index, enabled);
+		}
+
+		public bool GetTabEnabled(uint index)
+		{
+			return tguiTabs_getTabEnabled(CPointer, index);
+		}
+
 		public uint TextSize
 		{
 			get { return tguiTabs_getTextSize(CPointer); }
@@ -217,6 +237,18 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected uint tguiTabs_getTabsCount(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTabs_setTabVisible(IntPtr cPointer, uint index, bool visible);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiTabs_getTabVisible(IntPtr cPointer, uint index);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTabs_setTabEnabled(IntPtr cPointer, uint index, bool enabled);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiTabs_getTabEnabled(IntPtr cPointer, uint index);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabs_setTextSize(IntPtr cPointer, uint textSize);

@@ -70,6 +70,12 @@ namespace TGUI
 			set { tguiButtonRenderer_setTextColorDown(CPointer, value); }
 		}
 
+		public Color TextColorFocused
+		{
+			get { return tguiButtonRenderer_getTextColorFocused(CPointer); }
+			set { tguiButtonRenderer_setTextColorFocused(CPointer, value); }
+		}
+
 		public Color TextColorDisabled
 		{
 			get { return tguiButtonRenderer_getTextColorDisabled(CPointer); }
@@ -92,6 +98,12 @@ namespace TGUI
 		{
 			get { return tguiButtonRenderer_getBackgroundColorDown(CPointer); }
 			set { tguiButtonRenderer_setBackgroundColorDown(CPointer, value); }
+		}
+
+		public Color BackgroundColorFocused
+		{
+			get { return tguiButtonRenderer_getBackgroundColorFocused(CPointer); }
+			set { tguiButtonRenderer_setBackgroundColorFocused(CPointer, value); }
 		}
 
 		public Color BackgroundColorDisabled
@@ -118,6 +130,12 @@ namespace TGUI
 			set { tguiButtonRenderer_setBorderColorDown(CPointer, value); }
 		}
 
+		public Color BorderColorFocused
+		{
+			get { return tguiButtonRenderer_getBorderColorFocused(CPointer); }
+			set { tguiButtonRenderer_setBorderColorFocused(CPointer, value); }
+		}
+
 		public Color BorderColorDisabled
 		{
 			get { return tguiButtonRenderer_getBorderColorDisabled(CPointer); }
@@ -137,6 +155,11 @@ namespace TGUI
 		public Texture TextureDown
 		{
 			set { tguiButtonRenderer_setTextureDown(CPointer, value.CPointer); }
+		}
+
+		public Texture TextureFocused
+		{
+			set { tguiButtonRenderer_setTextureFocused(CPointer, value.CPointer); }
 		}
 
 		public Texture TextureDisabled
@@ -160,6 +183,12 @@ namespace TGUI
 		{
 			get { return tguiButtonRenderer_getTextStyleDown(CPointer); }
 			set { tguiButtonRenderer_setTextStyleDown(CPointer, value); }
+		}
+
+		public Text.Styles TextStyleFocused
+		{
+			get { return tguiButtonRenderer_getTextStyleFocused(CPointer); }
+			set { tguiButtonRenderer_setTextStyleFocused(CPointer, value); }
 		}
 
 		public Text.Styles TextStyleDisabled
@@ -201,6 +230,12 @@ namespace TGUI
 		static extern protected Color tguiButtonRenderer_getTextColorDown(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiButtonRenderer_setTextColorFocused(IntPtr cPointer, Color color);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Color tguiButtonRenderer_getTextColorFocused(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiButtonRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -223,6 +258,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected Color tguiButtonRenderer_getBackgroundColorDown(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiButtonRenderer_setBackgroundColorFocused(IntPtr cPointer, Color color);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Color tguiButtonRenderer_getBackgroundColorFocused(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiButtonRenderer_setBackgroundColorDisabled(IntPtr cPointer, Color color);
@@ -249,6 +290,12 @@ namespace TGUI
 		static extern protected Color tguiButtonRenderer_getBorderColorDown(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiButtonRenderer_setBorderColorFocused(IntPtr cPointer, Color color);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Color tguiButtonRenderer_getBorderColorFocused(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiButtonRenderer_setBorderColorDisabled(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -262,6 +309,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiButtonRenderer_setTextureDown(IntPtr cPointer, IntPtr texture);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiButtonRenderer_setTextureFocused(IntPtr cPointer, IntPtr texture);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiButtonRenderer_setTextureDisabled(IntPtr cPointer, IntPtr texture);
@@ -283,6 +333,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected Text.Styles tguiButtonRenderer_getTextStyleDown(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiButtonRenderer_setTextStyleFocused(IntPtr cPointer, Text.Styles style);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Text.Styles tguiButtonRenderer_getTextStyleFocused(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiButtonRenderer_setTextStyleDisabled(IntPtr cPointer, Text.Styles style);

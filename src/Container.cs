@@ -138,6 +138,16 @@ namespace TGUI
             myWidgetIds.Clear();
         }
 
+		public bool FocusNextWidget()
+		{
+			return tguiContainer_focusNextWidget(CPointer);
+		}
+
+		public bool FocusPreviousWidget()
+		{
+			return tguiContainer_focusPreviousWidget(CPointer);
+		}
+
 		public Vector2f ChildWidgetsOffset
 		{
 			get { return tguiContainer_getChildWidgetsOffset(CPointer); }
@@ -183,6 +193,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiContainer_removeAllWidgets(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiContainer_focusNextWidget(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiContainer_focusPreviousWidget(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected Vector2f tguiContainer_getChildWidgetsOffset(IntPtr cPointer);

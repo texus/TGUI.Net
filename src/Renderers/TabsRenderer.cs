@@ -76,6 +76,12 @@ namespace TGUI
 			set { tguiTabsRenderer_setSelectedBackgroundColorHover(CPointer, value); }
 		}
 
+        public Color BackgroundColorDisabled
+		{
+			get { return tguiTabsRenderer_getBackgroundColorDisabled(CPointer); }
+			set { tguiTabsRenderer_setBackgroundColorDisabled(CPointer, value); }
+		}
+
 		public Color TextColor
 		{
 			get { return tguiTabsRenderer_getTextColor(CPointer); }
@@ -100,6 +106,12 @@ namespace TGUI
 			set { tguiTabsRenderer_setSelectedTextColorHover(CPointer, value); }
 		}
 
+		public Color TextColorDisabled
+		{
+			get { return tguiTabsRenderer_getTextColorDisabled(CPointer); }
+			set { tguiTabsRenderer_setTextColorDisabled(CPointer, value); }
+		}
+
 		public Color BorderColor
 		{
 			get { return tguiTabsRenderer_getBorderColor(CPointer); }
@@ -114,6 +126,11 @@ namespace TGUI
 		public Texture TextureSelectedTab
 		{
 			set { tguiTabsRenderer_setTextureSelectedTab(CPointer, value.CPointer); }
+		}
+
+		public Texture TextureDisabledTab
+		{
+			set { tguiTabsRenderer_setTextureDisabledTab(CPointer, value.CPointer); }
 		}
 
 		public float DistanceToSide
@@ -162,6 +179,12 @@ namespace TGUI
 		static extern protected Color tguiTabsRenderer_getSelectedBackgroundColorHover(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTabsRenderer_setBackgroundColorDisabled(IntPtr cPointer, Color color);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Color tguiTabsRenderer_getBackgroundColorDisabled(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabsRenderer_setTextColor(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -186,6 +209,12 @@ namespace TGUI
 		static extern protected Color tguiTabsRenderer_getSelectedTextColorHover(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTabsRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Color tguiTabsRenderer_getTextColorDisabled(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabsRenderer_setBorderColor(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -196,6 +225,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabsRenderer_setTextureSelectedTab(IntPtr cPointer, IntPtr texture);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTabsRenderer_setTextureDisabledTab(IntPtr cPointer, IntPtr texture);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabsRenderer_setDistanceToSide(IntPtr cPointer, float distanceToSide);

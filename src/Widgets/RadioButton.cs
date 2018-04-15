@@ -60,13 +60,7 @@ namespace TGUI
 		public bool Checked
 		{
 			get { return tguiRadioButton_isChecked(CPointer); }
-			set
-			{
-				if (value)
-					tguiRadioButton_check(CPointer);
-				else
-					tguiRadioButton_uncheck(CPointer);
-			}
+			set { tguiRadioButton_setChecked(CPointer, value); }
 		}
 
 		public string Text
@@ -121,10 +115,7 @@ namespace TGUI
 		static extern protected IntPtr tguiRadioButton_create();
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRadioButton_check(IntPtr cPointer);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRadioButton_uncheck(IntPtr cPointer);
+		static extern protected void tguiRadioButton_setChecked(IntPtr cPointer, bool check);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiRadioButton_isChecked(IntPtr cPointer);

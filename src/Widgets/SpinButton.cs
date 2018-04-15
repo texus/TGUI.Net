@@ -35,7 +35,7 @@ namespace TGUI
 		{
 		}
 
-		public SpinButton(int min, int max)
+		public SpinButton(float min, float max)
 			: this()
 		{
 			Minimum = min;
@@ -62,22 +62,28 @@ namespace TGUI
 			get { return new SpinButtonRenderer(tguiWidget_getSharedRenderer(CPointer)); }
 		}
 
-		public int Minimum
+		public float Minimum
 		{
 			get { return tguiSpinButton_getMinimum(CPointer); }
 			set { tguiSpinButton_setMinimum(CPointer, value); }
 		}
 
-		public int Maximum
+		public float Maximum
 		{
 			get { return tguiSpinButton_getMaximum(CPointer); }
 			set { tguiSpinButton_setMaximum(CPointer, value); }
 		}
 
-		public int Value
+		public float Value
 		{
 			get { return tguiSpinButton_getValue(CPointer); }
 			set { tguiSpinButton_setValue(CPointer, value); }
+		}
+
+		public float Step
+		{
+			get { return tguiSpinButton_getStep(CPointer); }
+			set { tguiSpinButton_setStep(CPointer, value); }
 		}
 
 
@@ -86,22 +92,22 @@ namespace TGUI
 			base.InitSignals();
 
 			IntPtr error;
-		    ValueChangedCallback = new CallbackActionInt(ProcessValueChangedSignal);
+		    ValueChangedCallback = new CallbackActionFloat(ProcessValueChangedSignal);
 		    tguiSpinButton_connect_onValueChange(CPointer, ValueChangedCallback, out error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
-		private void ProcessValueChangedSignal(int value)
+		private void ProcessValueChangedSignal(float value)
 		{
 			if (ValueChanged != null)
-				ValueChanged(this, new SignalArgsInt(value));
+				ValueChanged(this, new SignalArgsFloat(value));
 		}
 
 		/// <summary>Event handler for the ValueChanged signal</summary>
-		public event EventHandler<SignalArgsInt> ValueChanged = null;
+		public event EventHandler<SignalArgsFloat> ValueChanged = null;
 
-	    private CallbackActionInt ValueChangedCallback;
+	    private CallbackActionFloat ValueChangedCallback;
 
 
 	    #region Imports
@@ -110,25 +116,31 @@ namespace TGUI
 		static extern protected IntPtr tguiSpinButton_create();
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiSpinButton_setMinimum(IntPtr cPointer, int minimum);
+		static extern protected void tguiSpinButton_setMinimum(IntPtr cPointer, float minimum);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected int tguiSpinButton_getMinimum(IntPtr cPointer);
+		static extern protected float tguiSpinButton_getMinimum(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiSpinButton_setMaximum(IntPtr cPointer, int maximum);
+		static extern protected void tguiSpinButton_setMaximum(IntPtr cPointer, float maximum);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected int tguiSpinButton_getMaximum(IntPtr cPointer);
+		static extern protected float tguiSpinButton_getMaximum(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiSpinButton_setValue(IntPtr cPointer, int value);
+		static extern protected void tguiSpinButton_setValue(IntPtr cPointer, float value);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected int tguiSpinButton_getValue(IntPtr cPointer);
+		static extern protected float tguiSpinButton_getValue(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiSpinButton_connect_onValueChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionInt func, out IntPtr error);
+		static extern protected void tguiSpinButton_setStep(IntPtr cPointer, float step);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected float tguiSpinButton_getStep(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiSpinButton_connect_onValueChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionFloat func, out IntPtr error);
 
 		#endregion
 	}

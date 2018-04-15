@@ -79,14 +79,14 @@ namespace TGUI
 
     public class SignalArgsRange : EventArgs
 	{
-		public SignalArgsRange(int start, int end)
+		public SignalArgsRange(float start, float end)
 		{
 			Start = start;
 			End = end;
 		}
 
-		public int Start;
-		public int End;
+		public float Start;
+		public float End;
 	}
 
 	public class SignalArgsBool : EventArgs

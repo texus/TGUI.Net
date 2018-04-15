@@ -142,6 +142,12 @@ namespace TGUI
 			set { tguiRadioButtonRenderer_setBorderColorHover(CPointer, value); }
 		}
 
+		public Color BorderColorFocused
+		{
+			get { return tguiRadioButtonRenderer_getBorderColorFocused(CPointer); }
+			set { tguiRadioButtonRenderer_setBorderColorFocused(CPointer, value); }
+		}
+
 		public Color BorderColorDisabled
 		{
 			get { return tguiRadioButtonRenderer_getBorderColorDisabled(CPointer); }
@@ -158,6 +164,12 @@ namespace TGUI
 		{
 			get { return tguiRadioButtonRenderer_getBorderColorCheckedHover(CPointer); }
 			set { tguiRadioButtonRenderer_setBorderColorCheckedHover(CPointer, value); }
+		}
+
+		public Color BorderColorFocusedChecked
+		{
+			get { return tguiRadioButtonRenderer_getBorderColorCheckedFocused(CPointer); }
+			set { tguiRadioButtonRenderer_setBorderColorCheckedFocused(CPointer, value); }
 		}
 
 		public Color BorderColorDisabledChecked
@@ -202,6 +214,16 @@ namespace TGUI
 		public Texture TextureCheckedHover
 		{
 			set { tguiRadioButtonRenderer_setTextureCheckedHover(CPointer, value.CPointer); }
+		}
+
+		public Texture TextureUncheckedFocused
+		{
+			set { tguiRadioButtonRenderer_setTextureUncheckedFocused(CPointer, value.CPointer); }
+		}
+
+		public Texture TextureCheckedFocused
+		{
+			set { tguiRadioButtonRenderer_setTextureCheckedFocused(CPointer, value.CPointer); }
 		}
 
 		public Texture TextureUncheckedDisabled
@@ -331,6 +353,12 @@ namespace TGUI
 		static extern protected Color tguiRadioButtonRenderer_getBorderColorHover(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiRadioButtonRenderer_setBorderColorFocused(IntPtr cPointer, Color color);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Color tguiRadioButtonRenderer_getBorderColorFocused(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiRadioButtonRenderer_setBorderColorDisabled(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -347,6 +375,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected Color tguiRadioButtonRenderer_getBorderColorCheckedHover(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiRadioButtonRenderer_setBorderColorCheckedFocused(IntPtr cPointer, Color color);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Color tguiRadioButtonRenderer_getBorderColorCheckedFocused(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiRadioButtonRenderer_setBorderColorCheckedDisabled(IntPtr cPointer, Color color);
@@ -383,6 +417,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiRadioButtonRenderer_setTextureCheckedHover(IntPtr cPointer, IntPtr texture);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiRadioButtonRenderer_setTextureUncheckedFocused(IntPtr cPointer, IntPtr texture);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiRadioButtonRenderer_setTextureCheckedFocused(IntPtr cPointer, IntPtr texture);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiRadioButtonRenderer_setTextureUncheckedDisabled(IntPtr cPointer, IntPtr texture);

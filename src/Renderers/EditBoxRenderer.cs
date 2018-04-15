@@ -76,6 +76,12 @@ namespace TGUI
 			set { tguiEditBoxRenderer_setDefaultTextColor(CPointer, value); }
 		}
 
+		public Color TextColorFocused
+		{
+			get { return tguiEditBoxRenderer_getTextColorFocused(CPointer); }
+			set { tguiEditBoxRenderer_setTextColorFocused(CPointer, value); }
+		}
+
 		public Color TextColorDisabled
 		{
 			get { return tguiEditBoxRenderer_getTextColorDisabled(CPointer); }
@@ -106,6 +112,12 @@ namespace TGUI
 			set { tguiEditBoxRenderer_setBackgroundColorHover(CPointer, value); }
 		}
 
+		public Color BackgroundColorFocused
+		{
+			get { return tguiEditBoxRenderer_getBackgroundColorFocused(CPointer); }
+			set { tguiEditBoxRenderer_setBackgroundColorFocused(CPointer, value); }
+		}
+
 		public Color BackgroundColorDisabled
 		{
 			get { return tguiEditBoxRenderer_getBackgroundColorDisabled(CPointer); }
@@ -124,10 +136,10 @@ namespace TGUI
 			set { tguiEditBoxRenderer_setCaretColorHover(CPointer, value); }
 		}
 
-		public Color CaretColorDisabled
+		public Color CaretColorFocused
 		{
-			get { return tguiEditBoxRenderer_getCaretColorDisabled(CPointer); }
-			set { tguiEditBoxRenderer_setCaretColorDisabled(CPointer, value); }
+			get { return tguiEditBoxRenderer_getCaretColorFocused(CPointer); }
+			set { tguiEditBoxRenderer_setCaretColorFocused(CPointer, value); }
 		}
 
 		public Color BorderColor
@@ -140,6 +152,12 @@ namespace TGUI
 		{
 			get { return tguiEditBoxRenderer_getBorderColorHover(CPointer); }
 			set { tguiEditBoxRenderer_setBorderColorHover(CPointer, value); }
+		}
+
+		public Color BorderColorFocused
+		{
+			get { return tguiEditBoxRenderer_getBorderColorFocused(CPointer); }
+			set { tguiEditBoxRenderer_setBorderColorFocused(CPointer, value); }
 		}
 
 		public Color BorderColorDisabled
@@ -156,6 +174,11 @@ namespace TGUI
 		public Texture TextureHover
 		{
 			set { tguiEditBoxRenderer_setTextureHover(CPointer, value.CPointer); }
+		}
+
+		public Texture TextureFocused
+		{
+			set { tguiEditBoxRenderer_setTextureFocused(CPointer, value.CPointer); }
 		}
 
 		public Texture TextureDisabled
@@ -215,6 +238,12 @@ namespace TGUI
 		static extern protected Color tguiEditBoxRenderer_getDefaultTextColor(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiEditBoxRenderer_setTextColorFocused(IntPtr cPointer, Color color);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Color tguiEditBoxRenderer_getTextColorFocused(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiEditBoxRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -245,6 +274,12 @@ namespace TGUI
 		static extern protected Color tguiEditBoxRenderer_getBackgroundColorHover(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiEditBoxRenderer_setBackgroundColorFocused(IntPtr cPointer, Color color);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Color tguiEditBoxRenderer_getBackgroundColorFocused(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiEditBoxRenderer_setBackgroundColorDisabled(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -263,10 +298,10 @@ namespace TGUI
 		static extern protected Color tguiEditBoxRenderer_getCaretColorHover(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBoxRenderer_setCaretColorDisabled(IntPtr cPointer, Color color);
+		static extern protected void tguiEditBoxRenderer_setCaretColorFocused(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiEditBoxRenderer_getCaretColorDisabled(IntPtr cPointer);
+		static extern protected Color tguiEditBoxRenderer_getCaretColorFocused(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiEditBoxRenderer_setBorderColor(IntPtr cPointer, Color color);
@@ -281,6 +316,12 @@ namespace TGUI
 		static extern protected Color tguiEditBoxRenderer_getBorderColorHover(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiEditBoxRenderer_setBorderColorFocused(IntPtr cPointer, Color color);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected Color tguiEditBoxRenderer_getBorderColorFocused(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiEditBoxRenderer_setBorderColorDisabled(IntPtr cPointer, Color color);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -291,6 +332,9 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiEditBoxRenderer_setTextureHover(IntPtr cPointer, IntPtr texture);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiEditBoxRenderer_setTextureFocused(IntPtr cPointer, IntPtr texture);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiEditBoxRenderer_setTextureDisabled(IntPtr cPointer, IntPtr texture);
