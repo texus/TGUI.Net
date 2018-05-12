@@ -63,6 +63,12 @@ namespace TGUI
 			set { tguiWidgetRenderer_setFont(CPointer, value.CPointer); }
 		}
 
+		public bool TransparentTexture
+		{
+			get { return tguiWidgetRenderer_getTransparentTexture(CPointer); }
+			set { tguiWidgetRenderer_setTransparentTexture(CPointer, value); }
+		}
+
 		public RendererData Data
 		{
 			get { return new RendererData(tguiWidgetRenderer_getData(CPointer)); }
@@ -99,6 +105,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiWidgetRenderer_setFont(IntPtr cPointer, IntPtr font);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiWidgetRenderer_setTransparentTexture(IntPtr cPointer, bool ignoreTransparentParts);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected bool tguiWidgetRenderer_getTransparentTexture(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiWidgetRenderer_getData(IntPtr cPointer);

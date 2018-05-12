@@ -51,12 +51,6 @@ namespace TGUI
 			set { tguiPictureRenderer_setTexture(CPointer, value.CPointer); }
 		}
 
-		public bool IgnoreTransparentParts
-		{
-			get { return tguiPictureRenderer_getIgnoreTransparentParts(CPointer); }
-			set { tguiPictureRenderer_setIgnoreTransparentParts(CPointer, value); }
-		}
-
 
 		#region Imports
 
@@ -68,12 +62,6 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiPictureRenderer_setTexture(IntPtr cPointer, IntPtr texture);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiPictureRenderer_setIgnoreTransparentParts(IntPtr cPointer, bool ignore);
-
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiPictureRenderer_getIgnoreTransparentParts(IntPtr cPointer);
 
 		#endregion
 	}

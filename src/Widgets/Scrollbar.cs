@@ -55,10 +55,10 @@ namespace TGUI
 			get { return new ScrollbarRenderer(tguiWidget_getSharedRenderer(CPointer)); }
 		}
 
-		public uint LowValue
+		public uint ViewportSize
 		{
-			get { return tguiScrollbar_getLowValue(CPointer); }
-			set { tguiScrollbar_setLowValue(CPointer, value); }
+			get { return tguiScrollbar_getViewportSize(CPointer); }
+			set { tguiScrollbar_setViewportSize(CPointer, value); }
 		}
 
 		public uint Maximum
@@ -115,10 +115,10 @@ namespace TGUI
 		static extern protected IntPtr tguiScrollbar_create();
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiScrollbar_setLowValue(IntPtr cPointer, uint lowValue);
+		static extern protected void tguiScrollbar_setViewportSize(IntPtr cPointer, uint viewport);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected uint tguiScrollbar_getLowValue(IntPtr cPointer);
+		static extern protected uint tguiScrollbar_getViewportSize(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiScrollbar_setMaximum(IntPtr cPointer, uint maximum);

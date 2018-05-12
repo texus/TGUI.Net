@@ -52,10 +52,10 @@ namespace TGUI
 			set { tguiSpinButtonRenderer_setBorders(CPointer, value.CPointer); }
 		}
 
-		public float SpaceBetweenArrows
+		public float BorderBetweenArrows
 		{
-			get { return tguiSpinButtonRenderer_getSpaceBetweenArrows(CPointer); }
-			set { tguiSpinButtonRenderer_setSpaceBetweenArrows(CPointer, value); }
+			get { return tguiSpinButtonRenderer_getBorderBetweenArrows(CPointer); }
+			set { tguiSpinButtonRenderer_setBorderBetweenArrows(CPointer, value); }
 		}
 
 		public Color BackgroundColor
@@ -123,10 +123,10 @@ namespace TGUI
 		static extern protected IntPtr tguiSpinButtonRenderer_getBorders(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiSpinButtonRenderer_setSpaceBetweenArrows(IntPtr cPointer, float space);
+		static extern protected void tguiSpinButtonRenderer_setBorderBetweenArrows(IntPtr cPointer, float border);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiSpinButtonRenderer_getSpaceBetweenArrows(IntPtr cPointer);
+		static extern protected float tguiSpinButtonRenderer_getBorderBetweenArrows(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiSpinButtonRenderer_setBackgroundColor(IntPtr cPointer, Color color);

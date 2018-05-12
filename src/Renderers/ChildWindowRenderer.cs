@@ -76,6 +76,12 @@ namespace TGUI
 			set { tguiChildWindowRenderer_setBorderColor(CPointer, value); }
 		}
 
+		public float BorderBelowTitleBar
+		{
+			get { return tguiChildWindowRenderer_getBorderBelowTitleBar(CPointer); }
+			set { tguiChildWindowRenderer_setBorderBelowTitleBar(CPointer, value); }
+		}
+
 		public float TitleBarHeight
 		{
 			get { return tguiChildWindowRenderer_getTitleBarHeight(CPointer); }
@@ -92,6 +98,12 @@ namespace TGUI
 		{
 			get { return tguiChildWindowRenderer_getPaddingBetweenButtons(CPointer); }
 			set { tguiChildWindowRenderer_setPaddingBetweenButtons(CPointer, value); }
+		}
+
+		public float MinimumResizableBorderWidth
+		{
+			get { return tguiChildWindowRenderer_getMinimumResizableBorderWidth(CPointer); }
+			set { tguiChildWindowRenderer_setMinimumResizableBorderWidth(CPointer, value); }
 		}
 
 		public bool ShowTextOnTitleButtons
@@ -163,6 +175,12 @@ namespace TGUI
 		static extern protected Color tguiChildWindowRenderer_getBorderColor(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiChildWindowRenderer_setBorderBelowTitleBar(IntPtr cPointer, float border);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected float tguiChildWindowRenderer_getBorderBelowTitleBar(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiChildWindowRenderer_setTitleBarHeight(IntPtr cPointer, float height);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -179,6 +197,12 @@ namespace TGUI
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected float tguiChildWindowRenderer_getPaddingBetweenButtons(IntPtr cPointer);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiChildWindowRenderer_setMinimumResizableBorderWidth(IntPtr cPointer, float minimumBorderWidth);
+
+		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected float tguiChildWindowRenderer_getMinimumResizableBorderWidth(IntPtr cPointer);
 
 		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiChildWindowRenderer_setShowTextOnTitleButtons(IntPtr cPointer, bool showText);

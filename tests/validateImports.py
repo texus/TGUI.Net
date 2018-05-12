@@ -65,11 +65,23 @@ def validateTypes(typeCS, typeC, returnType):
         else:
             return False
 
+if os.name == 'nt':
+    ctguiLibDir = '..\\extlibs\\lib\\'
+    ctguiIncludeDir = '../extlibs/CTGUI/include'
+else:
+    import getpass
+    if getpass.getuser() == 'texus':
+        ctguiLibDir = '../../CTGUI/build/src/CTGUI/'
+        ctguiIncludeDir = '../../CTGUI/include'
+    else:
+        ctguiLibDir = '../extlibs/lib/'
+        ctguiIncludeDir = '../extlibs/CTGUI/include'
+
 # Extract function names from dll
 if os.name == 'nt':
-    os.system('dumpbin /exports ..\extlibs\lib\ctgui-0.8.dll > tmp')
+    os.system('dumpbin /exports ' + ctguiLibDir + 'ctgui-0.8.dll > tmp')
 else:
-    os.system('nm ../extlibs/lib/libctgui.so | grep "[a-z0-9]* T .*" | sed "s/[a-z0-9]* T \(.*\)/\\1/g" > tmp')
+    os.system('nm ' + ctguiLibDir + 'libctgui.so | grep "[a-z0-9]* T .*" | sed "s/[a-z0-9]* T \(.*\)/\\1/g" > tmp')
 
 with open('tmp') as f:
     dump = f.read()
@@ -111,7 +123,7 @@ for root, subFolders, files in os.walk('../src'):
 
 # Extract function signatures from C headers
 declaredFunctions = []
-for root, subFolders, files in os.walk('../extlibs/CTGUI/include'):
+for root, subFolders, files in os.walk(ctguiIncludeDir):
     for f in files:
         if len(f) > 3 and f[-2:] == '.h':
             with open(os.path.join(root, f), 'r') as fin:
