@@ -61,10 +61,9 @@ namespace TGUI
 		protected override void InitSignals()
 		{
 			base.InitSignals();
-			IntPtr error;
 
-		    MousePressedCallback = new CallbackActionVector2f(ProcessMousePressedSignal);
-		    tguiClickableWidget_connect_onMousePress(CPointer, MousePressedCallback, out error);
+            MousePressedCallback = new CallbackActionVector2f(ProcessMousePressedSignal);
+            tguiClickableWidget_connect_onMousePress(CPointer, MousePressedCallback, out IntPtr error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 
@@ -81,21 +80,18 @@ namespace TGUI
 
 		private void ProcessMousePressedSignal(Vector2f pos)
 		{
-			if (MousePressed != null)
-				MousePressed(this, new SignalArgsVector2f(pos));
-		}
+            MousePressed?.Invoke(this, new SignalArgsVector2f(pos));
+        }
 
 		private void ProcessMouseReleasedSignal(Vector2f pos)
 		{
-			if (MouseReleased != null)
-				MouseReleased(this, new SignalArgsVector2f(pos));
-		}
+            MouseReleased?.Invoke(this, new SignalArgsVector2f(pos));
+        }
 
 		private void ProcessClickedSignal(Vector2f pos)
 		{
-			if (Clicked != null)
-				Clicked(this, new SignalArgsVector2f(pos));
-		}
+            Clicked?.Invoke(this, new SignalArgsVector2f(pos));
+        }
 
 		/// <summary>Event handler for the MousePressed signal</summary>
 		public event EventHandler<SignalArgsVector2f> MousePressed = null;
@@ -113,16 +109,16 @@ namespace TGUI
 
 	    #region Imports
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiClickableWidget_create();
 
-        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiClickableWidget_connect_onMousePress(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func, out IntPtr error);
 
-        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiClickableWidget_connect_onMouseRelease(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func, out IntPtr error);
 
-        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiClickableWidget_connect_onClick(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func, out IntPtr error);
 
 		#endregion

@@ -23,17 +23,14 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
-using System.Text;
 using System.Security;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using SFML.System;
-using SFML.Window;
-using SFML.Graphics;
 
 namespace TGUI
 {
-	public abstract class Container : Widget
+    public abstract class Container : Widget
 	{
 		protected Container(IntPtr cPointer)
 			: base(cPointer)
@@ -88,9 +85,8 @@ namespace TGUI
 
             unsafe
             {
-				uint Count;
-				IntPtr* WidgetsPtr = tguiContainer_getWidgets(CPointer, out Count);
-				List<Widget> Widgets = new List<Widget>();
+                IntPtr* WidgetsPtr = tguiContainer_getWidgets(CPointer, out uint Count);
+                List<Widget> Widgets = new List<Widget>();
 				for (uint i = 0; i < Count; ++i)
 				{
 					IntPtr WidgetCPointer = WidgetsPtr[i];
@@ -108,8 +104,7 @@ namespace TGUI
 
             unsafe
             {
-				uint Count;
-				IntPtr* NamesPtr = tguiContainer_getWidgetNames(CPointer, out Count);
+				IntPtr* NamesPtr = tguiContainer_getWidgetNames(CPointer, out uint Count);
 				List<string> Names = new List<string>();
 				for (uint i = 0; i < Count; ++i)
 					Names.Add(Util.GetStringFromC_UTF32(NamesPtr[i]));
@@ -155,17 +150,15 @@ namespace TGUI
 
 		public void LoadWidgetsFromFile(string filename)
 		{
-			IntPtr error;
-			tguiContainer_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_ASCII(filename), out error);
-			if (error != IntPtr.Zero)
+            tguiContainer_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_ASCII(filename), out IntPtr error);
+            if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
 		public void SaveWidgetsToFile(string filename)
 		{
-			IntPtr error;
-			tguiContainer_saveWidgetsToFile(CPointer, Util.ConvertStringForC_ASCII(filename), out error);
-			if (error != IntPtr.Zero)
+            tguiContainer_saveWidgetsToFile(CPointer, Util.ConvertStringForC_ASCII(filename), out IntPtr error);
+            if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
@@ -176,37 +169,37 @@ namespace TGUI
 
         #region Imports
 
-        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiContainer_add(IntPtr cPointer, IntPtr cPointerWidget, IntPtr widgetName);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiContainer_get(IntPtr cPointer, IntPtr widgetName);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		unsafe static extern protected IntPtr* tguiContainer_getWidgets(IntPtr cPointer, out uint count);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		unsafe static extern protected IntPtr* tguiContainer_getWidgetNames(IntPtr cPointer, out uint count);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiContainer_remove(IntPtr cPointer, IntPtr cPointerWidget);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiContainer_removeAllWidgets(IntPtr cPointer);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiContainer_focusNextWidget(IntPtr cPointer);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiContainer_focusPreviousWidget(IntPtr cPointer);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected Vector2f tguiContainer_getChildWidgetsOffset(IntPtr cPointer);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiContainer_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename, out IntPtr error);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiContainer_saveWidgetsToFile(IntPtr cPointer, IntPtr filename, out IntPtr error);
 
 		#endregion

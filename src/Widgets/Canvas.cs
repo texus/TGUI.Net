@@ -255,13 +255,15 @@ namespace TGUI
 		// This is a copy of the internal code in SFML.Graphics.RenderStates
 		protected RenderStatesMarshalData MarshalRenderStates(RenderStates renderStates)
 		{
-			RenderStatesMarshalData data = new RenderStatesMarshalData();
-			data.blendMode = renderStates.BlendMode;
-			data.transform = renderStates.Transform;
-			data.texture = renderStates.Texture != null ? renderStates.Texture.CPointer : IntPtr.Zero;
-			data.shader = renderStates.Shader != null ? renderStates.Shader.CPointer : IntPtr.Zero;
+            RenderStatesMarshalData data = new RenderStatesMarshalData
+            {
+                blendMode = renderStates.BlendMode,
+                transform = renderStates.Transform,
+                texture = renderStates.Texture != null ? renderStates.Texture.CPointer : IntPtr.Zero,
+                shader = renderStates.Shader != null ? renderStates.Shader.CPointer : IntPtr.Zero
+            };
 
-			return data;
+            return data;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -276,28 +278,28 @@ namespace TGUI
 
 		#region Imports
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiCanvas_create();
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiCanvas_clear(IntPtr cPointer, Color color);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiCanvas_drawSprite(IntPtr cPointer, IntPtr drawableCPointer, ref RenderStatesMarshalData renderStates);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiCanvas_drawText(IntPtr cPointer, IntPtr drawableCPointer, ref RenderStatesMarshalData renderStates);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiCanvas_drawShape(IntPtr cPointer, IntPtr drawableCPointer, ref RenderStatesMarshalData renderStates);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiCanvas_drawVertexArray(IntPtr cPointer, IntPtr drawableCPointer, ref RenderStatesMarshalData renderStates);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		unsafe static extern protected void tguiCanvas_drawPrimitives(IntPtr CPointer, Vertex* vertexPtr, uint vertexCount, PrimitiveType type, ref RenderStatesMarshalData renderStates);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiCanvas_display(IntPtr cPointer);
 
 		#endregion

@@ -1,211 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{E84D1C21-CA81-415B-B417-15864279B398}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>TGUI</RootNamespace>
-    <AssemblyName>tguinet-0.8</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>tgui</RootNamespace>
+    <AssemblyName>tgui</AssemblyName>
+    <Version>0.8.0</Version>
+    <Configurations>Debug;Release;_WINDOWS_;_LINUX_;_OSX_</Configurations>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\lib\x86\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Optimize>false</Optimize>
+    <PlatformTarget></PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\lib\x86\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\lib\x64\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+
+  <PropertyGroup>
+    <IsWindows>False</IsWindows>
+    <IsOSX>False</IsOSX>
+    <IsAndroid>False</IsAndroid>
+    <IsLinux>False</IsLinux>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='_OSX_|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Optimize>false</Optimize>
+    <DefineConstants>_OSX_;NETSTANDARD2_0</DefineConstants>
+    <IsOSX>True</IsOSX>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
-    <OutputPath>..\lib\x64\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='_LINUX_|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <DefineConstants>_LINUX_;NETSTANDARD2_0</DefineConstants>
+    <IsLinux>True</IsLinux>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='_WINDOWS_|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>_WINDOWS_;NETSTANDARD2_0</DefineConstants>
+    <IsWindows>True</IsWindows>
+  </PropertyGroup>
+
+  <!-- Check if we target Windows -->
+  <PropertyGroup Condition="($(RuntimeIdentifier.StartsWith('win')) And !$(RuntimeIdentifier.Equals('')) ) Or ( $(OS.Equals('Windows_NT')) And $(RuntimeIdentifier.Equals('')) ) ">
+    <!--Replacing '-' and '.' by '_' in Constants because we cannot use those characters in the source files -->
+    <DefineConstants>_WINDOWS_;NETSTANDARD2_0</DefineConstants>
+    <IsWindows>True</IsWindows>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <!-- Check if we target OSX -->
+  <PropertyGroup Condition="($(RuntimeIdentifier.StartsWith('osx')) And !$(RuntimeIdentifier.Equals('')) ) Or ( $([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX))) And $(RuntimeIdentifier.Equals('')) ) ">
+    <!--Replacing '-' and '.' by '_' in Constants because we cannot use those characters in the source files -->
+    <DefineConstants>_OSX_, $(RuntimeIdentifier.Replace("-","_").Replace(".","_"))</DefineConstants>
+    <IsOSX>True</IsOSX>
+  </PropertyGroup>
+
+  <!-- Check if we target Android (Doesn't Detect properly for now but is Official: https://docs.microsoft.com/en-us/dotnet/core/rid-catalog) -->
+  <!-- (Less check to do because we consider we cannot Dev on Android and anyway there<s no way to detect an Android Platform other then the RID) -->
+  <PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('android')) ">
+    <!--Replacing '-' and '.' by '_' in Constants because we cannot use those characters in the source files -->
+    <DefineConstants>_ANDROID_, $(RuntimeIdentifier.Replace("-","_").Replace(".","_"))</DefineConstants>
+    <IsAndroid>True</IsAndroid>
+  </PropertyGroup>
+
+  <!-- Check if we target Linux (To many name to check, instead we check if not one of the other OS) -->
+  <PropertyGroup Condition=" !$(IsWindows) And !$(IsOSX) And !$(IsAndroid)">
+    <!--Replacing '-' and '.' by '_' in Constants because we cannot use those characters in the source files -->
+    <DefineConstants>_LINUX_, $(RuntimeIdentifier.Replace("-","_").Replace(".","_"))</DefineConstants>
+    <IsLinux>True</IsLinux>
+  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="sfmlnet-graphics-2">
-      <HintPath>..\extlibs\SFML.Net\lib\x64\sfmlnet-graphics-2.dll</HintPath>
+    <Reference Include="sfml-graphics">
+      <HintPath>..\extlibs\lib\sfml-graphics.dll</HintPath>
     </Reference>
-    <Reference Include="sfmlnet-system-2">
-      <HintPath>..\extlibs\SFML.Net\lib\x64\sfmlnet-system-2.dll</HintPath>
+    <Reference Include="sfml-system">
+      <HintPath>..\extlibs\lib\sfml-system.dll</HintPath>
     </Reference>
-    <Reference Include="sfmlnet-window-2">
-      <HintPath>..\extlibs\SFML.Net\lib\x64\sfmlnet-window-2.dll</HintPath>
+    <Reference Include="sfml-window">
+      <HintPath>..\extlibs\lib\sfml-window.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Renderers\BoxLayoutRenderer.cs" />
-    <Compile Include="Widget.cs" />
-    <Compile Include="Layout.cs" />
-    <Compile Include="Layout2d.cs" />
-    <Compile Include="Util.cs" />
-    <Compile Include="Outline.cs" />
-    <Compile Include="Renderers\ButtonRenderer.cs" />
-    <Compile Include="Renderers\WidgetRenderer.cs" />
-    <Compile Include="Widgets\Button.cs" />
-    <Compile Include="Gui.cs" />
-    <Compile Include="ShowAnimationType.cs" />
-    <Compile Include="Container.cs" />
-    <Compile Include="GuiContainer.cs" />
-    <Compile Include="Theme.cs" />
-    <Compile Include="Exception.cs" />
-    <Compile Include="RendererData.cs" />
-    <Compile Include="Widgets\HorizontalWrap.cs" />
-    <Compile Include="Renderers\PictureRenderer.cs" />
-    <Compile Include="Widgets\Picture.cs" />
-    <Compile Include="Widgets\Label.cs" />
-    <Compile Include="Renderers\LabelRenderer.cs" />
-    <Compile Include="Widgets\Panel.cs" />
-    <Compile Include="Renderers\PanelRenderer.cs" />
-    <Compile Include="Widgets\ScrollablePanel.cs" />
-    <Compile Include="Renderers\ScrollablePanelRenderer.cs" />
-    <Compile Include="Alignment.cs" />
-    <Compile Include="Renderers\EditBoxRenderer.cs" />
-    <Compile Include="Widgets\EditBox.cs" />
-    <Compile Include="Renderers\RadioButtonRenderer.cs" />
-    <Compile Include="Widgets\RadioButton.cs" />
-    <Compile Include="Widgets\CheckBox.cs" />
-    <Compile Include="Widgets\ClickableWidget.cs" />
-    <Compile Include="SignalArgs.cs" />
-    <Compile Include="Widgets\Slider.cs" />
-    <Compile Include="Renderers\SliderRenderer.cs" />
-    <Compile Include="Widgets\RangeSlider.cs" />
-    <Compile Include="Renderers\RangeSliderRenderer.cs" />
-    <Compile Include="Widgets\Scrollbar.cs" />
-    <Compile Include="Widgets\SpinButton.cs" />
-    <Compile Include="Renderers\ScrollbarRenderer.cs" />
-    <Compile Include="Renderers\SpinButtonRenderer.cs" />
-    <Compile Include="Renderers\ProgressBarRenderer.cs" />
-    <Compile Include="Widgets\ProgressBar.cs" />
-    <Compile Include="Renderers\ListBoxRenderer.cs" />
-    <Compile Include="Widgets\ListBox.cs" />
-    <Compile Include="Renderers\ComboBoxRenderer.cs" />
-    <Compile Include="Widgets\ComboBox.cs" />
-    <Compile Include="Widgets\Canvas.cs" />
-    <Compile Include="Widgets\MenuBar.cs" />
-    <Compile Include="Renderers\MenuBarRenderer.cs" />
-    <Compile Include="Widgets\Tabs.cs" />
-    <Compile Include="Renderers\TabsRenderer.cs" />
-    <Compile Include="Widgets\TextBox.cs" />
-    <Compile Include="Renderers\TextBoxRenderer.cs" />
-    <Compile Include="Renderers\ChatBoxRenderer.cs" />
-    <Compile Include="Widgets\ChatBox.cs" />
-    <Compile Include="Renderers\KnobRenderer.cs" />
-    <Compile Include="Widgets\Knob.cs" />
-    <Compile Include="Renderers\ChildWindowRenderer.cs" />
-    <Compile Include="Renderers\MessageBoxRenderer.cs" />
-    <Compile Include="Widgets\ChildWindow.cs" />
-    <Compile Include="Widgets\MessageBox.cs" />
-    <Compile Include="ToolTip.cs" />
-    <Compile Include="Widgets\BoxLayout.cs" />
-    <Compile Include="Widgets\BoxLayoutRatios.cs" />
-    <Compile Include="Widgets\VerticalLayout.cs" />
-    <Compile Include="Widgets\HorizontalLayout.cs" />
-    <Compile Include="Widgets\Grid.cs" />
-    <Compile Include="Renderers\GroupRenderer.cs" />
-    <Compile Include="Widgets\Group.cs" />
-    <Compile Include="Widgets\RadioButtonGroup.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Renderers\" />
-    <Folder Include="Widgets\" />
-  </ItemGroup>
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <Policies>
-          <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/plain" />
-          <XmlFormattingPolicy inheritsSet="Mono" inheritsScope="application/xml" scope="application/xml" />
-          <VersionControlPolicy inheritsSet="Mono" />
-          <CSharpFormattingPolicy IndentSwitchBody="True" IndentBlocksInsideExpressions="True" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" ElseNewLinePlacement="NewLine" CatchNewLinePlacement="NewLine" FinallyNewLinePlacement="NewLine" WhileNewLinePlacement="DoNotCare" ArrayInitializerWrapping="DoNotChange" ArrayInitializerBraceStyle="NextLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" NewLineBeforeConstructorInitializerColon="NewLine" NewLineAfterConstructorInitializerColon="SameLine" BeforeDelegateDeclarationParentheses="False" NewParentheses="False" SpacesBeforeBrackets="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
-          <NameConventionPolicy>
-            <Rules>
-              <NamingRule Name="Namespaces" AffectedEntity="Namespace" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
-              <NamingRule Name="Types" AffectedEntity="Class, Struct, Enum, Delegate" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
-              <NamingRule Name="Interfaces" AffectedEntity="Interface" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True">
-                <RequiredPrefixes>
-                  <String>I</String>
-                </RequiredPrefixes>
-              </NamingRule>
-              <NamingRule Name="Attributes" AffectedEntity="CustomAttributes" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True">
-                <RequiredSuffixes>
-                  <String>Attribute</String>
-                </RequiredSuffixes>
-              </NamingRule>
-              <NamingRule Name="Event Arguments" AffectedEntity="CustomEventArgs" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True">
-                <RequiredSuffixes>
-                  <String>EventArgs</String>
-                </RequiredSuffixes>
-              </NamingRule>
-              <NamingRule Name="Exceptions" AffectedEntity="CustomExceptions" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True">
-                <RequiredSuffixes>
-                  <String>Exception</String>
-                </RequiredSuffixes>
-              </NamingRule>
-              <NamingRule Name="Methods" AffectedEntity="Methods" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
-              <NamingRule Name="Static Readonly Fields" AffectedEntity="ReadonlyField" VisibilityMask="Internal, Protected, Public" NamingStyle="PascalCase" IncludeInstanceMembers="False" IncludeStaticEntities="True" />
-              <NamingRule Name="Fields (Non Private)" AffectedEntity="Field" VisibilityMask="Internal, Protected, Public" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
-              <NamingRule Name="ReadOnly Fields (Non Private)" AffectedEntity="ReadonlyField" VisibilityMask="Internal, Protected, Public" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="False" />
-              <NamingRule Name="Fields (Private)" AffectedEntity="Field, ReadonlyField" VisibilityMask="Private" NamingStyle="CamelCase" IncludeInstanceMembers="True" IncludeStaticEntities="False">
-                <AllowedPrefixes>
-                  <String>_</String>
-                  <String>m_</String>
-                </AllowedPrefixes>
-              </NamingRule>
-              <NamingRule Name="Static Fields (Private)" AffectedEntity="Field" VisibilityMask="Private" NamingStyle="CamelCase" IncludeInstanceMembers="False" IncludeStaticEntities="True" />
-              <NamingRule Name="ReadOnly Fields (Private)" AffectedEntity="ReadonlyField" VisibilityMask="Private" NamingStyle="CamelCase" IncludeInstanceMembers="True" IncludeStaticEntities="False">
-                <AllowedPrefixes>
-                  <String>_</String>
-                  <String>m_</String>
-                </AllowedPrefixes>
-              </NamingRule>
-              <NamingRule Name="Constant Fields" AffectedEntity="ConstantField" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
-              <NamingRule Name="Properties" AffectedEntity="Property" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
-              <NamingRule Name="Events" AffectedEntity="Event" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
-              <NamingRule Name="Enum Members" AffectedEntity="EnumMember" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
-              <NamingRule Name="Parameters" AffectedEntity="Parameter" VisibilityMask="VisibilityMask" NamingStyle="CamelCase" IncludeInstanceMembers="True" IncludeStaticEntities="True" />
-              <NamingRule Name="Type Parameters" AffectedEntity="TypeParameter" VisibilityMask="VisibilityMask" NamingStyle="PascalCase" IncludeInstanceMembers="True" IncludeStaticEntities="True">
-                <RequiredPrefixes>
-                  <String>T</String>
-                </RequiredPrefixes>
-              </NamingRule>
-            </Rules>
-          </NameConventionPolicy>
-          <TextStylePolicy FileWidth="120" TabsToSpaces="False" EolMarker="Unix" inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
-        </Policies>
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
+
 </Project>

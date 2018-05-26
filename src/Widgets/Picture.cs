@@ -77,19 +77,16 @@ namespace TGUI
 		{
 			base.InitSignals();
 
-			IntPtr error;
-
-		    DoubleClickedCallback = new CallbackActionVector2f(ProcessDoubleClickedSignal);
-		    tguiPicture_connect_onDoubleClick(CPointer, DoubleClickedCallback, out error);
+            DoubleClickedCallback = new CallbackActionVector2f(ProcessDoubleClickedSignal);
+            tguiPicture_connect_onDoubleClick(CPointer, DoubleClickedCallback, out IntPtr error);
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
 		private void ProcessDoubleClickedSignal(Vector2f pos)
 		{
-			if (DoubleClicked != null)
-				DoubleClicked(this, new SignalArgsVector2f(pos));
-		}
+            DoubleClicked?.Invoke(this, new SignalArgsVector2f(pos));
+        }
 
 		/// <summary>Event handler for the DoubleClicked signal</summary>
 		public event EventHandler<SignalArgsVector2f> DoubleClicked = null;
@@ -98,16 +95,16 @@ namespace TGUI
 
 	    #region Imports
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiPicture_create();
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiPicture_ignoreMouseEvents(IntPtr cPointer, bool ignore);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiPicture_isIgnoringMouseEvents(IntPtr cPointer);
 
-        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiPicture_connect_onDoubleClick(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func, out IntPtr error);
 
 		#endregion

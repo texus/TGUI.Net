@@ -5,6 +5,7 @@ lib/
 /extlibs/include/
 /examples/*/*.dll
 /doc/build/*xml
+.vs/
 *.exe
 *.manifest
 *.pdb

@@ -74,10 +74,8 @@ namespace TGUI
 		{
 			base.InitSignals();
 
-			IntPtr error;
-
-		    PressedCallback = new CallbackActionString(ProcessPressedSignal);
-		    tguiButton_connect_onPress(CPointer, PressedCallback, out error);
+            PressedCallback = new CallbackActionString(ProcessPressedSignal);
+            tguiButton_connect_onPress(CPointer, PressedCallback, out IntPtr error);
 
 		    if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
@@ -85,8 +83,7 @@ namespace TGUI
 
 		private void ProcessPressedSignal(IntPtr text)
 		{
-			if (Pressed != null)
-				Pressed(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
+			Pressed?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
 		}
 
 		/// <summary>Event handler for the Pressed signal</summary>
@@ -97,22 +94,22 @@ namespace TGUI
 
 	    #region Imports
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiButton_create();
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiButton_setText(IntPtr cPointer, IntPtr value);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiButton_getText(IntPtr cPointer);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiButton_setTextSize(IntPtr cPointer, uint textSize);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected uint tguiButton_getTextSize(IntPtr cPointer);
 
-        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiButton_connect_onPress(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
 
 		#endregion

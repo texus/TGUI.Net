@@ -111,8 +111,7 @@ namespace TGUI
 
             unsafe
             {
-				uint Count;
-				IntPtr* WidgetsPtr = tguiGui_getWidgets(CPointer, out Count);
+				IntPtr* WidgetsPtr = tguiGui_getWidgets(CPointer, out uint Count);
 				List<Widget> Widgets = new List<Widget>();
 				for (uint i = 0; i < Count; ++i)
 				{
@@ -131,9 +130,8 @@ namespace TGUI
 
             unsafe
             {
-				uint Count;
-				IntPtr* NamesPtr = tguiGui_getWidgetNames(CPointer, out Count);
-				List<string> Names = new List<string>();
+                IntPtr* NamesPtr = tguiGui_getWidgetNames(CPointer, out uint Count);
+                List<string> Names = new List<string>();
 				for (uint i = 0; i < Count; ++i)
 					Names.Add(Util.GetStringFromC_UTF32(NamesPtr[i]));
 
@@ -186,34 +184,36 @@ namespace TGUI
 
 		public void LoadWidgetsFromFile(string filename)
 		{
-			IntPtr error;
-			tguiGui_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_ASCII(filename), out error);
-			if (error != IntPtr.Zero)
+            tguiGui_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_ASCII(filename), out IntPtr error);
+            if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
 		public void SaveWidgetsToFile(string filename)
 		{
-			IntPtr error;
-			tguiGui_saveWidgetsToFile(CPointer, Util.ConvertStringForC_ASCII(filename), out error);
-			if (error != IntPtr.Zero)
+            tguiGui_saveWidgetsToFile(CPointer, Util.ConvertStringForC_ASCII(filename), out IntPtr error);
+            if (error != IntPtr.Zero)
 				throw new TGUIException(Util.GetStringFromC_ASCII(error));
 		}
 
 		private void OnMouseMoved(object sender, MouseMoveEventArgs e)
 		{
-			Event ev = new Event();
-			ev.Type = EventType.MouseMoved;
-			ev.MouseMove.X = e.X;
+            Event ev = new Event
+            {
+                Type = EventType.MouseMoved
+            };
+            ev.MouseMove.X = e.X;
 			ev.MouseMove.Y = e.Y;
 			HandleEvent(ev);
 		}
 
 		private void OnTouchMoved(object sender, TouchEventArgs e)
 		{
-			Event ev = new Event();
-			ev.Type = EventType.TouchMoved;
-			ev.Touch.X = e.X;
+            Event ev = new Event
+            {
+                Type = EventType.TouchMoved
+            };
+            ev.Touch.X = e.X;
 			ev.Touch.Y = e.Y;
 			ev.Touch.Finger = e.Finger;
 			HandleEvent(ev);
@@ -221,9 +221,11 @@ namespace TGUI
 
 		private void OnMousePressed(object sender, MouseButtonEventArgs e)
 		{
-			Event ev = new Event();
-			ev.Type = EventType.MouseButtonPressed;
-			ev.MouseButton.X = e.X;
+            Event ev = new Event
+            {
+                Type = EventType.MouseButtonPressed
+            };
+            ev.MouseButton.X = e.X;
 			ev.MouseButton.Y = e.Y;
 			ev.MouseButton.Button = e.Button;
 			HandleEvent(ev);
@@ -231,9 +233,11 @@ namespace TGUI
 
 		private void OnTouchBegan(object sender, TouchEventArgs e)
 		{
-			Event ev = new Event();
-			ev.Type = EventType.TouchBegan;
-			ev.Touch.X = e.X;
+            Event ev = new Event
+            {
+                Type = EventType.TouchBegan
+            };
+            ev.Touch.X = e.X;
 			ev.Touch.Y = e.Y;
 			ev.Touch.Finger = e.Finger;
 			HandleEvent(ev);
@@ -241,9 +245,11 @@ namespace TGUI
 
 		private void OnMouseReleased(object sender, MouseButtonEventArgs e)
 		{
-			Event ev = new Event();
-			ev.Type = EventType.MouseButtonReleased;
-			ev.MouseButton.X = e.X;
+            Event ev = new Event
+            {
+                Type = EventType.MouseButtonReleased
+            };
+            ev.MouseButton.X = e.X;
 			ev.MouseButton.Y = e.Y;
 			ev.MouseButton.Button = e.Button;
 			HandleEvent(ev);
@@ -251,9 +257,11 @@ namespace TGUI
 
 		private void OnTouchEnded(object sender, TouchEventArgs e)
 		{
-			Event ev = new Event();
-			ev.Type = EventType.TouchEnded;
-			ev.Touch.X = e.X;
+            Event ev = new Event
+            {
+                Type = EventType.TouchEnded
+            };
+            ev.Touch.X = e.X;
 			ev.Touch.Y = e.Y;
 			ev.Touch.Finger = e.Finger;
 			HandleEvent(ev);
@@ -261,9 +269,11 @@ namespace TGUI
 
 		private void OnKeyPressed(object sender, KeyEventArgs e)
 		{
-			Event ev = new Event();
-			ev.Type = EventType.KeyPressed;
-			ev.Key.Code = e.Code;
+            Event ev = new Event
+            {
+                Type = EventType.KeyPressed
+            };
+            ev.Key.Code = e.Code;
 			ev.Key.Control = Convert.ToInt32(e.Control);
 			ev.Key.Shift = Convert.ToInt32(e.Shift);
 			ev.Key.Alt = Convert.ToInt32(e.Alt);
@@ -273,9 +283,11 @@ namespace TGUI
 
 		private void OnKeyReleased(object sender, KeyEventArgs e)
 		{
-			Event ev = new Event();
-			ev.Type = EventType.KeyReleased;
-			ev.Key.Code = e.Code;
+            Event ev = new Event
+            {
+                Type = EventType.KeyReleased
+            };
+            ev.Key.Code = e.Code;
 			ev.Key.Control = Convert.ToInt32(e.Control);
 			ev.Key.Shift = Convert.ToInt32(e.Shift);
 			ev.Key.Alt = Convert.ToInt32(e.Alt);
@@ -285,17 +297,21 @@ namespace TGUI
 
 		private void OnTextEntered(object sender, TextEventArgs e)
 		{
-			Event ev = new Event();
-			ev.Type = EventType.TextEntered;
-			ev.Text.Unicode = (uint)Char.ConvertToUtf32(e.Unicode, 0);
+            Event ev = new Event
+            {
+                Type = EventType.TextEntered
+            };
+            ev.Text.Unicode = (uint)Char.ConvertToUtf32(e.Unicode, 0);
 			HandleEvent(ev);
 		}
 
 		private void OnMouseWheelScrolled(object sender, MouseWheelScrollEventArgs e)
 		{
-			Event ev = new Event();
-			ev.Type = EventType.MouseWheelScrolled;
-			ev.MouseWheelScroll.Wheel = e.Wheel;
+            Event ev = new Event
+            {
+                Type = EventType.MouseWheelScrolled
+            };
+            ev.MouseWheelScroll.Wheel = e.Wheel;
 			ev.MouseWheelScroll.Delta = e.Delta;
 			ev.MouseWheelScroll.X = e.X;
 			ev.MouseWheelScroll.Y = e.Y;
@@ -304,16 +320,20 @@ namespace TGUI
 
 		private void OnLostFocus(object sender, EventArgs e)
 		{
-			Event ev = new Event();
-			ev.Type = EventType.LostFocus;
-			HandleEvent(ev);
+            Event ev = new Event
+            {
+                Type = EventType.LostFocus
+            };
+            HandleEvent(ev);
 		}
 
 		private void OnGainedFocus(object sender, EventArgs e)
 		{
-			Event ev = new Event();
-			ev.Type = EventType.GainedFocus;
-			HandleEvent(ev);
+            Event ev = new Event
+            {
+                Type = EventType.GainedFocus
+            };
+            HandleEvent(ev);
 		}
 
 		private void HandleEvent(Event ev)
@@ -328,67 +348,67 @@ namespace TGUI
 
         #region Imports
 
-        [DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiGui_create();
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_destroy(IntPtr cPointer);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_setTargetRenderWindow(IntPtr cPointer, IntPtr cPointerRenderWindow);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_setView(IntPtr cPointer, IntPtr cPointerView);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_handleEvent(IntPtr cPointer, Event ev);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_add(IntPtr cPointer, IntPtr cPointerWidget, IntPtr widgetName);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiGui_get(IntPtr cPointer, IntPtr widgetName);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		unsafe static extern protected IntPtr* tguiGui_getWidgets(IntPtr cPointer, out uint count);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		unsafe static extern protected IntPtr* tguiGui_getWidgetNames(IntPtr cPointer, out uint count);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_remove(IntPtr cPointer, IntPtr cPointerWidget);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_removeAllWidgets(IntPtr cPointer);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_enableTabKeyUsage(IntPtr cPointer);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_disableTabKeyUsage(IntPtr cPointer);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiGui_isTabKeyUsageEnabled(IntPtr cPointer);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_draw(IntPtr cPointer);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_setFont(IntPtr cPointer, IntPtr font);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_setOpacity(IntPtr cPointer, float opacity);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected float tguiGui_getOpacity(IntPtr cPointer);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename, out IntPtr error);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiGui_saveWidgetsToFile(IntPtr cPointer, IntPtr filename, out IntPtr error);
 
-		[DllImport("ctgui-0.8.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiWidget_getWidgetType(IntPtr cPointer);
 
 		#endregion
