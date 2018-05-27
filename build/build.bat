@@ -1,5 +1,9 @@
 @echo off
 
+if not defined DevEnvDir (
+    call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64 || goto :error_before_build
+)
+
 pushd ..\extlibs\
 call build.bat || goto :error
 popd
@@ -14,6 +18,8 @@ copy ..\extlibs\lib\sfml-system-2.dll ..\gui-builder\ /Y > nul || goto :error
 copy ..\extlibs\lib\sfml-window-2.dll ..\gui-builder\ /Y > nul || goto :error
 copy ..\extlibs\lib\sfml-graphics-2.dll ..\gui-builder\ /Y > nul || goto :error
 copy ..\extlibs\lib\tgui.dll ..\gui-builder\ /Y > nul || goto :error
+
+dotnet build ..\examples\examples.sln --configuration=Release || goto :error
 
 echo Build finished
 goto :EOF

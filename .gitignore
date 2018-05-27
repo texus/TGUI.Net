@@ -5,10 +5,10 @@
 *.userprefs
 obj/
 lib/
+bin/
 .vs/
 /doc/build/*xml
 /examples/*/*.dll
-/src/bin/
 /extlibs/bin/
 /extlibs/build/
 /extlibs/include/
