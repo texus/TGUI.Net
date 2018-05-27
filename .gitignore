@@ -3,6 +3,7 @@
 *.pdb
 *.suo
 *.userprefs
+.DS_Store
 obj/
 lib/
 bin/

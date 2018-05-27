@@ -12,5 +12,5 @@ cd ..
 cd SFML.Net
 mkdir -p lib
 dotnet build build/SfmlCore/SfmlCore.sln --configuration=Release
-cp -pR src/Graphics/bin/Release/netstandard2.0/*.dll lib/
+yes | cp -pR src/Graphics/bin/Release/netstandard2.0/*.dll lib/
 cd ..

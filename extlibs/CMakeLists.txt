@@ -2,9 +2,19 @@ cmake_minimum_required(VERSION 3.5)
 project(build-extlibs)
 include(ExternalProject)
 
+set(SFML_CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR};-DCMAKE_BUILD_TYPE=Release;-DBUILD_SHARED_LIBS=TRUE")
+if (${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+  set(SFML_CMAKE_ARGS "${SFML_CMAKE_ARGS};-DSFML_MISC_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/share/SFML;-DSFML_DEPENDENCIES_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/lib")
+endif()
+
+set(TGUI_CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR};-DCMAKE_BUILD_TYPE=Release;-DTGUI_SHARED_LIBS=TRUE;-DTGUI_BUILD_GUI_BUILDER=TRUE;-DTGUI_OPTIMIZE_SINGLE_BUILD=TRUE;-DSFML_DIR=${PROJECT_SOURCE_DIR}/build/sfml-prefix/src/sfml-build")
+if (${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+  set(TGUI_CMAKE_ARGS "${TGUI_CMAKE_ARGS};-DTGUI_MISC_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/share/tgui-0.8")
+endif()
+
 ExternalProject_Add(sfml
                     SOURCE_DIR ${PROJECT_SOURCE_DIR}/SFML
-                    CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR};-DCMAKE_BUILD_TYPE=Release;-DBUILD_SHARED_LIBS=TRUE")
+                    CMAKE_ARGS "${SFML_CMAKE_ARGS}")
 
 ExternalProject_Add(csfml
                     DEPENDS sfml
@@ -14,7 +24,7 @@ ExternalProject_Add(csfml
 ExternalProject_Add(tgui
                     DEPENDS sfml
                     SOURCE_DIR ${PROJECT_SOURCE_DIR}/TGUI
-                    CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR};-DCMAKE_BUILD_TYPE=Release;-DTGUI_SHARED_LIBS=TRUE;-DTGUI_BUILD_GUI_BUILDER=TRUE;-DTGUI_OPTIMIZE_SINGLE_BUILD=TRUE;-DSFML_DIR=${PROJECT_SOURCE_DIR}/build/sfml-prefix/src/sfml-build")
+                    CMAKE_ARGS "${TGUI_CMAKE_ARGS}")
 
 ExternalProject_Add(ctgui
                     DEPENDS csfml tgui

@@ -7,8 +7,10 @@ cd ../build
 dotnet build TGUI.net.sln --configuration=Release
 
 mkdir -p ../lib
-cp -pu ../src/bin/Release/netstandard2.0/*.dll ../lib/
-cp -rpu ../extlibs/TGUI/themes ..
-cp -rpu ../extlibs/TGUI/gui-builder ..
+yes | cp -p ../src/bin/Release/netstandard2.0/*.dll ../lib/
+yes | cp -rp ../extlibs/TGUI/themes ..
+yes | cp -rp ../extlibs/TGUI/gui-builder ..
 
 dotnet build ../examples/examples.sln --configuration=Release
+
+echo Build finished
