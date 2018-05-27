@@ -7,7 +7,10 @@ cmake ..
 make -j2
 
 cp -pR lib ../
-
 cd ..
 
-echo 'Warning: SFML.Net is currently not built by this script and has to be built manually'
+cd SFML.Net
+dotnet build build/SfmlCore/SfmlCore.sln
+mkdir -p lib
+cp -pR src/Graphics/bin/Debug/netstandard2.0/*.dll ../SFML.Net/src/Graphics/bin/Debug/netstandard2.0/*.pdb lib/
+cd ..

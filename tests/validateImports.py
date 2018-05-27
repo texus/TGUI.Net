@@ -86,6 +86,8 @@ else:
 with open('tmp') as f:
     dump = f.read()
 
+os.remove('tmp')
+
 exportedFunctions = re.findall('tgui.*', dump)
 
 # Extract function signatures from C# source code
@@ -98,7 +100,7 @@ for root, subFolders, files in os.walk('../src'):
 
             importLines = re.findall('static extern.*', dump)
             for line in importLines:
-                match = re.match('static extern (?:protected )?(.*) (tgui\S*)\s*\((.*)\);', line)
+                match = re.match('static extern (?:protected )?(?:internal )?(.*) (tgui\S*)\s*\((.*)\);', line)
                 returnType = match.group(1)
                 name = match.group(2)
                 rawParams = match.group(3).split(',')

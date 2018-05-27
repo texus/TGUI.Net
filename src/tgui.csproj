@@ -74,13 +74,13 @@
 
   <ItemGroup>
     <Reference Include="sfml-graphics">
-      <HintPath>..\extlibs\lib\sfml-graphics.dll</HintPath>
+      <HintPath>../extlibs/SFML.Net/lib/sfml-graphics.dll</HintPath>
     </Reference>
     <Reference Include="sfml-system">
-      <HintPath>..\extlibs\lib\sfml-system.dll</HintPath>
+      <HintPath>../extlibs/SFML.Net/lib/sfml-system.dll</HintPath>
     </Reference>
     <Reference Include="sfml-window">
-      <HintPath>..\extlibs\lib\sfml-window.dll</HintPath>
+      <HintPath>../extlibs/SFML.Net/lib/sfml-window.dll</HintPath>
     </Reference>
   </ItemGroup>
 
