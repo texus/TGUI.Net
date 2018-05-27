@@ -10,7 +10,7 @@ cp -pR lib ../
 cd ..
 
 cd SFML.Net
-dotnet build build/SfmlCore/SfmlCore.sln
 mkdir -p lib
-cp -pR src/Graphics/bin/Debug/netstandard2.0/*.dll ../SFML.Net/src/Graphics/bin/Debug/netstandard2.0/*.pdb lib/
+dotnet build build/SfmlCore/SfmlCore.sln --configuration=Release
+cp -pR src/Graphics/bin/Release/netstandard2.0/*.dll lib/
 cd ..
