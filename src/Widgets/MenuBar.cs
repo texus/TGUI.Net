@@ -113,9 +113,8 @@ namespace TGUI
 			base.InitSignals();
 
             MenuItemClickedCallback = new CallbackActionString(ProcessMenuItemClickedSignal);
-            tguiMenuBar_connect_onMenuItemClick(CPointer, MenuItemClickedCallback, out IntPtr error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("MenuItemClicked"), MenuItemClickedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void ProcessMenuItemClickedSignal(IntPtr menuItem)
@@ -172,9 +171,6 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiMenuBar_closeMenu(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMenuBar_connect_onMenuItemClick(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
 
 		#endregion
 	}

@@ -86,15 +86,13 @@ namespace TGUI
 			set { tguiSpinButton_setStep(CPointer, value); }
 		}
 
-
 		protected override void InitSignals()
 		{
 			base.InitSignals();
 
             ValueChangedCallback = new CallbackActionFloat(ProcessValueChangedSignal);
-            tguiSpinButton_connect_onValueChange(CPointer, ValueChangedCallback, out IntPtr error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connectFloat(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void ProcessValueChangedSignal(float value)
@@ -136,9 +134,6 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected float tguiSpinButton_getStep(IntPtr cPointer);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiSpinButton_connect_onValueChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionFloat func, out IntPtr error);
 
 		#endregion
 	}

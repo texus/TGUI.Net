@@ -72,15 +72,13 @@ namespace TGUI
 			set { tguiPicture_ignoreMouseEvents(CPointer, value); }
 		}
 
-
 		protected override void InitSignals()
 		{
 			base.InitSignals();
 
             DoubleClickedCallback = new CallbackActionVector2f(ProcessDoubleClickedSignal);
-            tguiPicture_connect_onDoubleClick(CPointer, DoubleClickedCallback, out IntPtr error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void ProcessDoubleClickedSignal(Vector2f pos)
@@ -103,9 +101,6 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiPicture_isIgnoringMouseEvents(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiPicture_connect_onDoubleClick(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func, out IntPtr error);
 
 		#endregion
 	}

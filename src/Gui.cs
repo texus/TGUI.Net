@@ -184,16 +184,14 @@ namespace TGUI
 
 		public void LoadWidgetsFromFile(string filename)
 		{
-            tguiGui_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_ASCII(filename), out IntPtr error);
-            if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+            if (!tguiGui_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_ASCII(filename)))
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		public void SaveWidgetsToFile(string filename)
 		{
-            tguiGui_saveWidgetsToFile(CPointer, Util.ConvertStringForC_ASCII(filename), out IntPtr error);
-            if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+            if (!tguiGui_saveWidgetsToFile(CPointer, Util.ConvertStringForC_ASCII(filename)))
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void OnMouseMoved(object sender, MouseMoveEventArgs e)
@@ -349,6 +347,9 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected IntPtr tgui_getLastError();
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiGui_create();
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -403,10 +404,10 @@ namespace TGUI
 		static extern protected float tguiGui_getOpacity(IntPtr cPointer);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiGui_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename, out IntPtr error);
+		static extern protected bool tguiGui_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiGui_saveWidgetsToFile(IntPtr cPointer, IntPtr filename, out IntPtr error);
+		static extern protected bool tguiGui_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiWidget_getWidgetType(IntPtr cPointer);

@@ -105,20 +105,17 @@ namespace TGUI
 			set { tguiProgressBar_setFillDirection(CPointer, value); }
 		}
 
-
 		protected override void InitSignals()
 		{
 			base.InitSignals();
 
             ValueChangedCallback = new CallbackActionUInt(ProcessValueChangedSignal);
-            tguiProgressBar_connect_onValueChange(CPointer, ValueChangedCallback, out IntPtr error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connectUInt(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
 		    FullCallback = new CallbackAction(ProcessFullSignal);
-		    tguiProgressBar_connect_onFull(CPointer, FullCallback, out error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Full"), FullCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void ProcessValueChangedSignal(uint value)
@@ -183,12 +180,6 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected Direction tguiProgressBar_getFillDirection(IntPtr cPointer);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiProgressBar_connect_onValueChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionUInt func, out IntPtr error);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiProgressBar_connect_onFull(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
 
 		#endregion
 	}

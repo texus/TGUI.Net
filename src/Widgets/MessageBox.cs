@@ -84,15 +84,13 @@ namespace TGUI
 			tguiMessageBox_addButton(CPointer, Util.ConvertStringForC_UTF32(text));
 		}
 
-
 		protected override void InitSignals()
 		{
 			base.InitSignals();
 
             ButtonPressedCallback = new CallbackActionString(ProcessButtonPressedSignal);
-            tguiMessageBox_connect_onButtonPress(CPointer, ButtonPressedCallback, out IntPtr error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("ButtonPressed"), ButtonPressedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void ProcessButtonPressedSignal(IntPtr text)
@@ -124,9 +122,6 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiMessageBox_addButton(IntPtr cPointer, IntPtr text);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMessageBox_connect_onButtonPress(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
 
 		#endregion
 	}

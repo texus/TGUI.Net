@@ -98,15 +98,13 @@ namespace TGUI
 			set { tguiKnob_setClockwiseTurning(CPointer, value); }
 		}
 
-
 		protected override void InitSignals()
 		{
 			base.InitSignals();
 
             ValueChangedCallback = new CallbackActionInt(ProcessValueChangedSignal);
-            tguiKnob_connect_onValueChange(CPointer, ValueChangedCallback, out IntPtr error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void ProcessValueChangedSignal(int value)
@@ -159,9 +157,6 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiKnob_getClockwiseTurning(IntPtr cPointer);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiKnob_connect_onValueChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionInt func, out IntPtr error);
 
 		#endregion
 	}

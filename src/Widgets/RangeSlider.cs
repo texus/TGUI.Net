@@ -92,15 +92,13 @@ namespace TGUI
 			set { tguiRangeSlider_setStep(CPointer, value); }
 		}
 
-
 		protected override void InitSignals()
 		{
 			base.InitSignals();
 
             RangeChangedCallback = new CallbackActionRange(ProcessRangeChangedSignal);
-            tguiRangeSlider_connect_onRangeChange(CPointer, RangeChangedCallback, out IntPtr error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connectRange(CPointer, Util.ConvertStringForC_ASCII("RangeChanged"), RangeChangedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void ProcessRangeChangedSignal(float start, float end)
@@ -147,9 +145,6 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected float tguiRangeSlider_getStep(IntPtr cPointer);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSlider_connect_onRangeChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionRange func, out IntPtr error);
 
 		#endregion
 	}

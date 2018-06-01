@@ -69,16 +69,13 @@ namespace TGUI
 			set { tguiButton_setTextSize(CPointer, value); }
 		}
 
-
 		protected override void InitSignals()
 		{
 			base.InitSignals();
 
             PressedCallback = new CallbackActionString(ProcessPressedSignal);
-            tguiButton_connect_onPress(CPointer, PressedCallback, out IntPtr error);
-
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("Pressed"), PressedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void ProcessPressedSignal(IntPtr text)
@@ -108,9 +105,6 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected uint tguiButton_getTextSize(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButton_connect_onPress(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
 
 		#endregion
 	}

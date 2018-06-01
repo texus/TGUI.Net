@@ -208,15 +208,13 @@ namespace TGUI
 			return tguiComboBox_containsId(CPointer, Util.ConvertStringForC_UTF32(id));
 		}
 
-
 		protected override void InitSignals()
 		{
 			base.InitSignals();
 
             ItemSelectedCallback = new CallbackActionItemSelected(ProcessItemSelectedSignal);
-            tguiComboBox_connect_onItemSelect(CPointer, ItemSelectedCallback, out IntPtr error);
-			if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connectItemSelected(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ItemSelectedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void ProcessItemSelectedSignal(IntPtr item, IntPtr id)
@@ -320,9 +318,6 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiComboBox_containsId(IntPtr cPointer, IntPtr id);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiComboBox_connect_onItemSelect(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionItemSelected func, out IntPtr error);
 
 		#endregion
 	}

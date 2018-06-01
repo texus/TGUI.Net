@@ -165,15 +165,13 @@ namespace TGUI
 			set { tguiTabs_setMinimumTabWidth(CPointer, value); }
 		}
 
-
 		protected override void InitSignals()
 		{
 			base.InitSignals();
 
             TabSelectedCallback = new CallbackActionString(ProcessTabSelectedSignal);
-            tguiTabs_connect_onTabSelect(CPointer, TabSelectedCallback, out IntPtr error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("TabSelected"), TabSelectedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void ProcessTabSelectedSignal(IntPtr tab)
@@ -265,9 +263,6 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected float tguiTabs_getMinimumTabWidth(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabs_connect_onTabSelect(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
 
 		#endregion
 	}

@@ -130,20 +130,17 @@ namespace TGUI
 			set { tguiEditBox_setInputValidator(CPointer, Util.ConvertStringForC_ASCII(value)); }
 		}
 
-
 		protected override void InitSignals()
 		{
 			base.InitSignals();
 
             TextChangedCallback = new CallbackActionString(ProcessTextChangedSignal);
-            tguiEditBox_connect_onTextChange(CPointer, TextChangedCallback, out IntPtr error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("TextChanged"), TextChangedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
 		    ReturnKeyPressedCallback = new CallbackActionString(ProcessReturnKeyPressedSignal);
-		    tguiEditBox_connect_onReturnKeyPress(CPointer, ReturnKeyPressedCallback, out error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("ReturnKeyPressed"), ReturnKeyPressedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void ProcessTextChangedSignal(IntPtr text)
@@ -236,12 +233,6 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiEditBox_getInputValidator(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBox_connect_onTextChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBox_connect_onReturnKeyPress(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
 
 		#endregion
 	}

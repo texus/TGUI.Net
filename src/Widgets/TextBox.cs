@@ -109,15 +109,13 @@ namespace TGUI
 			get { return tguiTextBox_getLinesCount (CPointer); }
 		}
 
-
 		protected override void InitSignals()
 		{
 			base.InitSignals();
 
-            TextChangedCallback = new CallbackActionString(ProcessTextChangedSignal);
-            tguiTextBox_connect_onTextChange(CPointer, TextChangedCallback, out IntPtr error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    TextChangedCallback = new CallbackActionString(ProcessTextChangedSignal);
+		    if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("TextChanged"), TextChangedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void ProcessTextChangedSignal(IntPtr text)
@@ -180,9 +178,6 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected uint tguiTextBox_getLinesCount (IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTextBox_connect_onTextChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func, out IntPtr error);
 
 		#endregion
 	}

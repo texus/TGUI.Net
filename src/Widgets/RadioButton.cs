@@ -81,20 +81,15 @@ namespace TGUI
 			set { tguiRadioButton_setTextClickable(CPointer, value); }
 		}
 
-
 		protected override void InitSignals()
 		{
 			base.InitSignals();
 
             ToggledCallback = new CallbackActionInt(ProcessToggledSignal);
-
-            tguiRadioButton_connect_onCheck(CPointer, ToggledCallback, out IntPtr error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
-
-            tguiRadioButton_connect_onUncheck(CPointer, ToggledCallback, out error);
-            if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("Checked"), ToggledCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+		    if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("Unchecked"), ToggledCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void ProcessToggledSignal(int value)
@@ -135,12 +130,6 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiRadioButton_isTextClickable(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRadioButton_connect_onCheck(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionInt func, out IntPtr error);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRadioButton_connect_onUncheck(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionInt func, out IntPtr error);
 
 		#endregion
 	}

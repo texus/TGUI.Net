@@ -120,30 +120,25 @@ namespace TGUI
 			set { tguiChildWindow_setKeepInParent(CPointer, value); }
 		}
 
-
 		protected override void InitSignals()
 		{
 			base.InitSignals();
 
             MousePressedCallback = new CallbackAction(ProcessMousePressedSignal);
-            tguiChildWindow_connect_onMousePress(CPointer, MousePressedCallback, out IntPtr error);
-			if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
             ClosedCallback = new CallbackAction(ProcessClosedSignal);
-            tguiChildWindow_connect_onClose(CPointer, ClosedCallback, out error);
-			if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Closed"), ClosedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
             MaximizedCallback = new CallbackAction(ProcessMaximizedSignal);
-            tguiChildWindow_connect_onMaximize(CPointer, MaximizedCallback, out error);
-			if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Maximized"), MaximizedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
             MinimizedCallback = new CallbackAction(ProcessMinimizedSignal);
-            tguiChildWindow_connect_onMinimize(CPointer, MinimizedCallback, out error);
-			if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Minimized"), MinimizedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void ProcessMousePressedSignal()
@@ -246,18 +241,6 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiChildWindow_isKeptInParent(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiChildWindow_connect_onMousePress(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiChildWindow_connect_onClose(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiChildWindow_connect_onMinimize(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiChildWindow_connect_onMaximize(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
 
 		#endregion
 	}

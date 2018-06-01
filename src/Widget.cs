@@ -89,9 +89,9 @@ namespace TGUI
 
 		public uint Connect(string signalName, Action func)
 		{
-			uint id = tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII(signalName), () => func(), out IntPtr error);
-			if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+			uint id = tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII(signalName), () => func());
+			if (id == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
 			// Add the function to our dictionary
 			signalName = signalName.ToLower();
@@ -158,9 +158,8 @@ namespace TGUI
 
 		public void SetRenderer(RendererData renderer)
 		{
-            tguiWidget_setRenderer(CPointer, renderer.CPointer, out IntPtr error);
-            if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+            if (!tguiWidget_setRenderer(CPointer, renderer.CPointer))
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		public bool Visible
@@ -260,34 +259,28 @@ namespace TGUI
 		protected virtual void InitSignals()
 		{
             PositionChangedCallback = new CallbackActionVector2f(ProcessPositionChangedSignal);
-            tguiWidget_connect_onPositionChange(CPointer, PositionChangedCallback, out IntPtr error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("PositionChanged"), PositionChangedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
 		    SizeChangedCallback = new CallbackActionVector2f(ProcessSizeChangedSignal);
-		    tguiWidget_connect_onSizeChange(CPointer, SizeChangedCallback, out error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("SizeChanged"), SizeChangedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
 		    MouseEnteredCallback = new CallbackAction(ProcessMouseEnteredSignal);
-		    tguiWidget_connect_onMouseEnter(CPointer, MouseEnteredCallback, out error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MouseEntered"), MouseEnteredCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
 		    MouseLeftCallback = new CallbackAction(ProcessMouseLeftSignal);
-		    tguiWidget_connect_onMouseLeave(CPointer, MouseLeftCallback, out error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MouseLeft"), MouseLeftCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
             FocusedCallback = new CallbackAction(ProcessFocusedSignal);
-		    tguiWidget_connect_onFocus(CPointer, FocusedCallback, out error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Focused"), FocusedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
 		    UnfocusedCallback = new CallbackAction(ProcessUnfocusedSignal);
-		    tguiWidget_connect_onUnfocus(CPointer, UnfocusedCallback, out error);
-		    if (error != IntPtr.Zero)
-				throw new TGUIException(Util.GetStringFromC_ASCII(error));
+		    if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Unfocused"), UnfocusedCallback) == 0)
+				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 		}
 
 		private void ProcessPositionChangedSignal(Vector2f pos)
@@ -360,6 +353,9 @@ namespace TGUI
 
 		#region Imports
 
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected IntPtr tgui_getLastError();
+
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiWidget_copy(IntPtr cPointer);
 
@@ -394,25 +390,28 @@ namespace TGUI
 		static extern protected Vector2f tguiWidget_getFullSize(IntPtr cPointer);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected uint tguiWidget_connect(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
+		static extern protected uint tguiWidget_connect(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_connect_onPositionChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func, out IntPtr error);
+		static extern protected uint tguiWidget_connectVector2f(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_connect_onSizeChange(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionVector2f func, out IntPtr error);
+		static extern protected uint tguiWidget_connectString(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionString func);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_connect_onMouseEnter(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
+		static extern protected uint tguiWidget_connectInt(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionInt func);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_connect_onMouseLeave(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
+		static extern protected uint tguiWidget_connectUInt(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionUInt func);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_connect_onFocus(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
+		static extern protected uint tguiWidget_connectFloat(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionFloat func);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_connect_onUnfocus(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func, out IntPtr error);
+		static extern protected uint tguiWidget_connectRange(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionRange func);
+
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected uint tguiWidget_connectItemSelected(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionItemSelected func);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiWidget_disconnect(IntPtr cPointer, uint id);
@@ -421,7 +420,7 @@ namespace TGUI
 		static extern protected void tguiWidget_disconnectAll(IntPtr cPointer, IntPtr signalName);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidget_setRenderer(IntPtr cPointer, IntPtr rendererDataCPointer, out IntPtr error);
+		static extern protected bool tguiWidget_setRenderer(IntPtr cPointer, IntPtr rendererDataCPointer);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiWidget_getRenderer(IntPtr cPointer);
