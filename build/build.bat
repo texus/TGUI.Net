@@ -1,9 +1,5 @@
 @echo off
 
-if not defined DevEnvDir (
-    call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64 || goto :error_before_build
-)
-
 pushd ..\extlibs\
 call build.bat || goto :error
 popd

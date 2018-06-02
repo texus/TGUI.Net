@@ -1,0 +1,36 @@
+version: 0.8-build-{build}
+image: Visual Studio 2017
+
+build_script:
+- cd C:\projects\tgui-net
+- git submodule update --init --recursive
+- cd build
+- build.bat
+- cd ..\tests
+- test.bat
+- cd ..
+- rmdir /S /Q src\obj src\bin
+- mkdir "C:\TGUI.Net 0.8-dev"
+- mkdir "C:\TGUI.Net 0.8-dev\extlibs"
+- xcopy src "C:\TGUI.Net 0.8-dev\src" /Y /s /i > nul
+- xcopy examples "C:\TGUI.Net 0.8-dev\examples" /Y /s /i > nul
+- xcopy themes "C:\TGUI.Net 0.8-dev\themes" /Y /s /i > nul
+- xcopy gui-builder "C:\TGUI.Net 0.8-dev\gui-builder" /Y /s /i > nul
+- xcopy lib "C:\TGUI.Net 0.8-dev\lib" /Y /s /i > nul
+- xcopy extlibs\lib "C:\TGUI.Net 0.8-dev\extlibs\lib" /Y /s /i > nul
+- copy README-precompiled.md "C:\TGUI.Net 0.8-dev\README.txt" /Y > nul
+- 7z a -tzip TGUI.Net-0.8-dev-64bit.zip "C:\TGUI.Net 0.8-dev" > nul
+- appveyor PushArtifact TGUI.Net-0.8-dev-64bit.zip
+
+deploy:
+- provider: BinTray
+  username: texus
+  api_key:
+    secure: cSfvMUOUzComX+zv+OqpWsi4NUTZFdH/xq9hbfrqjPMyL6XFdo/Tg41IpleXdIFu
+  subject: texus
+  repo: generic
+  package: TGUI.Net
+  version: 0.8-dev-latest
+  publish: true
+  override: true
+  explode: false

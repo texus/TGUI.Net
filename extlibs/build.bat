@@ -1,13 +1,28 @@
 @echo off
 
-if not defined DevEnvDir (
-    call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64 || goto :error_before_build
+set VSVersion="Visual Studio 15 2017"
+
+if not exist "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" (
+  echo "You need VS 2017 version 15.2 or later"
+  exit /b 1
 )
+
+for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
+  set InstallDir=%%i
+)
+
+if exist "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat" (
+  call "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat"
+) else (
+  echo "Could not find %InstallDir%\VC\Auxiliary\Build\vcvars64.bat"
+  exit /b 1
+)
+
 
 if not exist build mkdir build
 cd build
 
-cmake -G "Visual Studio 15 2017" -A x64 .. || goto :error
+cmake -G "%VSVersion%" -A x64 .. || goto :error
 msbuild build-extlibs.sln /p:Configuration=Release /p:Platform=x64 /m || goto :error
 
 if not exist ..\lib mkdir ..\lib
@@ -22,6 +37,6 @@ cd ..
 
 goto :EOF
 :error
+set StoredErrorLevel=%errorlevel%
 cd ..
-:error_before_build
-exit /b %errorlevel%
+exit /b %StoredErrorLevel%
