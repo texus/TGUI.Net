@@ -1,11 +1,16 @@
-<div class="NavigationBar">
-    <ul class="NavigationBar">
-        <li class="NavigationBar"><a href="/index.html" class="NavigationBar">Home</a></li>
-        <li class="NavigationBar"><a href="/example-code/index.html" class="NavigationBar">Example code</a></li>
-        <li class="NavigationBar"><a href="https://github.com/texus/TGUI.Net/archive/0.6-port.zip" class="NavigationBar">Download</a></li>
-        <li class="NavigationBar"><a href="/visual-studio/index.html" class="NavigationBar">Windows (Visual Studio)</a></li>
-        <li class="NavigationBar"><a href="/linux/index.html" class="NavigationBar">Linux (MonoDevelop)</a></li>
-        <li class="NavigationBar"><a href="/mac/index.html" class="NavigationBar">Mac OS X (Xamarin Studio)</a></li>
-        <li class="NavigationBar"><a href="http://forum.tgui.eu/index.php?board=7.0" class="NavigationBar">Forum</a></li>
+<div id="header" class="NoMargin">
+<div id="navbar" class="NoMargin">
+    <a id="navbar-title" href="/"><h1>TGUI.Net</h1></a>
+
+    <input type="checkbox" id="navbar-check"/>
+    <label id="navbar-toggle-closed" class="navbar-toggle" onclick="" title="Menu" for="navbar-check">=</label>
+    <label id="navbar-toggle-open" class="navbar-toggle" onclick="" title="Menu" for="navbar-check">=</label>
+
+    <div id="navbar-list-div" class="NoMargin">
+    <ul>
+        <li><a href="/example-code/">Example code</a></li>
+        <li><a href="/community/">Community</a></li>
     </ul>
+    </div>
+</div>
 </div>

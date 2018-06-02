@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include head.ext %}
+  {% if page.url == "/" %}
+  <title>TGUI.Net</title>
+  {% else %}
+  <title>TGUI.Net: {{ page.title }}</title>
+  {% endif %}
+</head>
+
+<body>
+  <div id="body" class="NoMargin">
+    {% include navigation.ext %}
+
+    <div id="contents">
+      {% if page.url == "/" %}
+      <br>
+      {% else %}
+      <h2>{{ page.title }}</h2>
+      {% endif %}
+
+      {{ content }}
+    </div>
+  </div>
+</body>
+</html>

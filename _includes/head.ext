@@ -2,6 +2,7 @@
 <meta name="viewport" content="width=device-width" />
 
 <link rel="stylesheet" type="text/css" href="/style.css">
+<link rel="icon" type="image/png" href="/favicon.png" />
 
 <meta name="description" content="TGUI.Net is an easy to use cross-platform GUI for SFML.Net" />
 <meta name="keywords" content="TGUI.Net, TGUI, SFML.Net, SFML, GUI, UI" />
