@@ -36,6 +36,7 @@ cd SFML.Net
 if not exist lib mkdir lib
 dotnet build build\SfmlCore\SfmlCore.sln --configuration=Release || goto :error
 copy src\Graphics\bin\Release\netstandard2.0\*.dll lib\ /Y > nul || goto :error
+copy src\Audio\bin\Release\netstandard2.0\sfml-audio.dll lib\ /Y > nul || goto :error
 cd ..
 
 goto :EOF
