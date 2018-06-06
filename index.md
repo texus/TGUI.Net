@@ -7,7 +7,7 @@ title: TGUI.Net
 
 The library targets <b>.NET Standard 2.0</b> has been tested on <b>Windows</b>, <b>Linux</b> and <b>macOS</b>.
 
-TGUI.Net comes bundled with a recent version of SFML.Net. You can use your own SFML libraries when rebuilding TGUI.Net yourself, but it is recommended to simply used the version that comes with TGUI.Net.
+TGUI.Net comes bundled with a recent version of SFML.Net. You can use your own SFML libraries when rebuilding TGUI.Net yourself, but it is recommended to simply use the version that ships with TGUI.Net.
 
 
 ### Download

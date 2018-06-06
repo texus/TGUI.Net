@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Example code
+title: Example code (C#)
 ---
 
-The example code below will create a window with 2 edit boxes and a button.
+The example code below will create a window with two edit boxes and a button.
 
 Positions and sizes are hardcoded in the example, but TGUI also supports relative positions/sizes:
 
