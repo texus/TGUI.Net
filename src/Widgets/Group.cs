@@ -29,50 +29,50 @@ using SFML.System;
 
 namespace TGUI
 {
-	public class Group : Container
-	{
-		public Group()
-			: base(tguiGroup_create())
-		{
-		}
+    public class Group : Container
+    {
+        public Group()
+            : base(tguiGroup_create())
+        {
+        }
 
-		public Group(Vector2f size)
-			: this()
-		{
-			Size = size;
-		}
+        public Group(Vector2f size)
+            : this()
+        {
+            Size = size;
+        }
 
-		public Group(float width, float height)
-			: this(new Vector2f(width, height))
-		{
-		}
+        public Group(float width, float height)
+            : this(new Vector2f(width, height))
+        {
+        }
 
-		protected internal Group(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal Group(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public Group(Group copy)
-			: base(copy)
-		{
-		}
+        public Group(Group copy)
+            : base(copy)
+        {
+        }
 
-		public new GroupRenderer Renderer
-		{
-			get { return new GroupRenderer(tguiWidget_getRenderer(CPointer)); }
-		}
+        public new GroupRenderer Renderer
+        {
+            get { return new GroupRenderer(tguiWidget_getRenderer(CPointer)); }
+        }
 
         public new GroupRenderer SharedRenderer
-		{
-			get { return new GroupRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-		}
+        {
+            get { return new GroupRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+        }
 
 
-	    #region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiGroup_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiGroup_create();
 
-		#endregion
-	}
+        #endregion
+    }
 }

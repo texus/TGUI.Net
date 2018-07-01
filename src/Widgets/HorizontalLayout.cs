@@ -28,29 +28,29 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
-	public class HorizontalLayout : BoxLayoutRatios
-	{
-		public HorizontalLayout()
-			: base(tguiHorizontalLayout_create())
-		{
-		}
+    public class HorizontalLayout : BoxLayoutRatios
+    {
+        public HorizontalLayout()
+            : base(tguiHorizontalLayout_create())
+        {
+        }
 
-		protected internal HorizontalLayout(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal HorizontalLayout(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public HorizontalLayout(HorizontalLayout copy)
-			: base(copy)
-		{
-		}
+        public HorizontalLayout(HorizontalLayout copy)
+            : base(copy)
+        {
+        }
 
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiHorizontalLayout_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiHorizontalLayout_create();
 
-		#endregion
-	}
+        #endregion
+    }
 }

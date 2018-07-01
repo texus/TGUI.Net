@@ -30,18 +30,18 @@ using SFML.System;
 
 namespace TGUI
 {
-	public enum ShowAnimationType
-	{
-		Fade,
-		Scale,
-		SlideToRight,
-		SlideToLeft,
-		SlideToBottom,
-		SlideToTop,
+    public enum ShowAnimationType
+    {
+        Fade,
+        Scale,
+        SlideToRight,
+        SlideToLeft,
+        SlideToBottom,
+        SlideToTop,
 
-		SlideFromLeft = SlideToRight,
-		SlideFromRight = SlideToLeft,
-		SlideFromTop = SlideToBottom,
-		SlideFromBottom = SlideToTop
-	}
+        SlideFromLeft = SlideToRight,
+        SlideFromRight = SlideToLeft,
+        SlideFromTop = SlideToBottom,
+        SlideFromBottom = SlideToTop
+    }
 }

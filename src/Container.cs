@@ -31,27 +31,27 @@ using SFML.System;
 namespace TGUI
 {
     public abstract class Container : Widget
-	{
-		protected Container(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+    {
+        protected Container(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public Container(Container copy)
-			: base(copy)
-		{
-		}
+        public Container(Container copy)
+            : base(copy)
+        {
+        }
 
-		public void Add(Widget widget, string widgetName = "")
-		{
-			tguiContainer_add(CPointer, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
+        public void Add(Widget widget, string widgetName = "")
+        {
+            tguiContainer_add(CPointer, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
 
             myWidgets.Add(widget);
             myWidgetIds.Add(widgetName);
         }
 
-		public Widget Get(string widgetName)
-		{
+        public Widget Get(string widgetName)
+        {
             // Search for the widget locally in the direct children
             for (var i = 0; i < myWidgetIds.Count; ++i)
             {
@@ -71,51 +71,51 @@ namespace TGUI
             }
 
             // If not found, it is still possible that it exists (e.g. it could have been loaded from a file inside the c++ code)
-			IntPtr WidgetCPointer = tguiContainer_get(CPointer, Util.ConvertStringForC_UTF32(widgetName));
-			if (WidgetCPointer == IntPtr.Zero)
-				return null;
+            IntPtr WidgetCPointer = tguiContainer_get(CPointer, Util.ConvertStringForC_UTF32(widgetName));
+            if (WidgetCPointer == IntPtr.Zero)
+                return null;
 
-			Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
-			return (Widget)Activator.CreateInstance(type, new object[]{ WidgetCPointer });
-		}
+            Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
+            return (Widget)Activator.CreateInstance(type, new object[]{ WidgetCPointer });
+        }
 
-		public List<Widget> GetWidgets()
-		{
+        public List<Widget> GetWidgets()
+        {
             // We can't use our myWidgets member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
 
             unsafe
             {
                 IntPtr* WidgetsPtr = tguiContainer_getWidgets(CPointer, out uint Count);
                 List<Widget> Widgets = new List<Widget>();
-				for (uint i = 0; i < Count; ++i)
-				{
-					IntPtr WidgetCPointer = WidgetsPtr[i];
-					Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
-					Widgets.Add((Widget)Activator.CreateInstance(type, new object[]{ WidgetCPointer }));
-				}
+                for (uint i = 0; i < Count; ++i)
+                {
+                    IntPtr WidgetCPointer = WidgetsPtr[i];
+                    Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
+                    Widgets.Add((Widget)Activator.CreateInstance(type, new object[]{ WidgetCPointer }));
+                }
 
-				return Widgets;
-			}
-		}
+                return Widgets;
+            }
+        }
 
-		public List<string> GetWidgetNames()
-		{
+        public List<string> GetWidgetNames()
+        {
             // We can't use our myWidgetIds member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
 
             unsafe
             {
-				IntPtr* NamesPtr = tguiContainer_getWidgetNames(CPointer, out uint Count);
-				List<string> Names = new List<string>();
-				for (uint i = 0; i < Count; ++i)
-					Names.Add(Util.GetStringFromC_UTF32(NamesPtr[i]));
+                IntPtr* NamesPtr = tguiContainer_getWidgetNames(CPointer, out uint Count);
+                List<string> Names = new List<string>();
+                for (uint i = 0; i < Count; ++i)
+                    Names.Add(Util.GetStringFromC_UTF32(NamesPtr[i]));
 
-				return Names;
-			}
-		}
+                return Names;
+            }
+        }
 
-		public void Remove(Widget widget)
-		{
-			tguiContainer_remove(CPointer, widget.CPointer);
+        public void Remove(Widget widget)
+        {
+            tguiContainer_remove(CPointer, widget.CPointer);
 
             var index = myWidgets.IndexOf(widget);
             if (index != -1)
@@ -123,42 +123,42 @@ namespace TGUI
                 myWidgets.RemoveAt(index);
                 myWidgetIds.RemoveAt(index);
             }
-		}
+        }
 
-		public void RemoveAllWidgets()
-		{
-			tguiContainer_removeAllWidgets(CPointer);
+        public void RemoveAllWidgets()
+        {
+            tguiContainer_removeAllWidgets(CPointer);
 
             myWidgets.Clear();
             myWidgetIds.Clear();
         }
 
-		public bool FocusNextWidget()
-		{
-			return tguiContainer_focusNextWidget(CPointer);
-		}
+        public bool FocusNextWidget()
+        {
+            return tguiContainer_focusNextWidget(CPointer);
+        }
 
-		public bool FocusPreviousWidget()
-		{
-			return tguiContainer_focusPreviousWidget(CPointer);
-		}
+        public bool FocusPreviousWidget()
+        {
+            return tguiContainer_focusPreviousWidget(CPointer);
+        }
 
-		public Vector2f ChildWidgetsOffset
-		{
-			get { return tguiContainer_getChildWidgetsOffset(CPointer); }
-		}
+        public Vector2f ChildWidgetsOffset
+        {
+            get { return tguiContainer_getChildWidgetsOffset(CPointer); }
+        }
 
-		public void LoadWidgetsFromFile(string filename)
-		{
+        public void LoadWidgetsFromFile(string filename)
+        {
             if (!tguiContainer_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_ASCII(filename)))
-				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-		}
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+        }
 
-		public void SaveWidgetsToFile(string filename)
-		{
+        public void SaveWidgetsToFile(string filename)
+        {
             if (!tguiContainer_saveWidgetsToFile(CPointer, Util.ConvertStringForC_ASCII(filename)))
-				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-		}
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+        }
 
 
         protected List<Widget> myWidgets = new List<Widget>();
@@ -168,38 +168,38 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiContainer_add(IntPtr cPointer, IntPtr cPointerWidget, IntPtr widgetName);
+        static extern protected void tguiContainer_add(IntPtr cPointer, IntPtr cPointerWidget, IntPtr widgetName);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiContainer_get(IntPtr cPointer, IntPtr widgetName);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiContainer_get(IntPtr cPointer, IntPtr widgetName);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		unsafe static extern protected IntPtr* tguiContainer_getWidgets(IntPtr cPointer, out uint count);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        unsafe static extern protected IntPtr* tguiContainer_getWidgets(IntPtr cPointer, out uint count);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		unsafe static extern protected IntPtr* tguiContainer_getWidgetNames(IntPtr cPointer, out uint count);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        unsafe static extern protected IntPtr* tguiContainer_getWidgetNames(IntPtr cPointer, out uint count);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiContainer_remove(IntPtr cPointer, IntPtr cPointerWidget);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiContainer_remove(IntPtr cPointer, IntPtr cPointerWidget);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiContainer_removeAllWidgets(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiContainer_removeAllWidgets(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiContainer_focusNextWidget(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiContainer_focusNextWidget(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiContainer_focusPreviousWidget(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiContainer_focusPreviousWidget(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Vector2f tguiContainer_getChildWidgetsOffset(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Vector2f tguiContainer_getChildWidgetsOffset(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiContainer_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiContainer_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiContainer_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiContainer_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);
 
-		#endregion
-	}
+        #endregion
+    }
 }

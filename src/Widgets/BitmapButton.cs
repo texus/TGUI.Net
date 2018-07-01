@@ -29,49 +29,49 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-	public class BitmapButton : Button
-	{
-		public BitmapButton()
-			: base(tguiBitmapButton_create())
-		{
-		}
+    public class BitmapButton : Button
+    {
+        public BitmapButton()
+            : base(tguiBitmapButton_create())
+        {
+        }
 
-		protected internal BitmapButton(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal BitmapButton(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public BitmapButton(BitmapButton copy)
-			: base(copy)
-		{
-		}
+        public BitmapButton(BitmapButton copy)
+            : base(copy)
+        {
+        }
 
-		public Texture Image
-		{
-			set { tguiBitmapButton_setImage(CPointer, value.CPointer); }
-		}
+        public Texture Image
+        {
+            set { tguiBitmapButton_setImage(CPointer, value.CPointer); }
+        }
 
-		public float ImageScaling
-		{
-			get { return tguiBitmapButton_getImageScaling(CPointer); }
-			set { tguiBitmapButton_setImageScaling(CPointer, value); }
-		}
+        public float ImageScaling
+        {
+            get { return tguiBitmapButton_getImageScaling(CPointer); }
+            set { tguiBitmapButton_setImageScaling(CPointer, value); }
+        }
 
 
-	    #region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiBitmapButton_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiBitmapButton_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiBitmapButton_setImage(IntPtr cPointer, IntPtr image);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiBitmapButton_setImage(IntPtr cPointer, IntPtr image);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiBitmapButton_setImageScaling(IntPtr cPointer, float imageScaling);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiBitmapButton_setImageScaling(IntPtr cPointer, float imageScaling);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiBitmapButton_getImageScaling(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected float tguiBitmapButton_getImageScaling(IntPtr cPointer);
 
-		#endregion
-	}
+        #endregion
+    }
 }

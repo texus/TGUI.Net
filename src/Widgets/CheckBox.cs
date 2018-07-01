@@ -28,31 +28,31 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
-	public class CheckBox : RadioButton
-	{
-		public CheckBox(string text = "")
-			: base(tguiCheckBox_create())
-		{
-			if (text.Length > 0)
-				Text = text;
-		}
+    public class CheckBox : RadioButton
+    {
+        public CheckBox(string text = "")
+            : base(tguiCheckBox_create())
+        {
+            if (text.Length > 0)
+                Text = text;
+        }
 
-		protected internal CheckBox(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal CheckBox(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public CheckBox(CheckBox copy)
-			: base(copy)
-		{
-		}
+        public CheckBox(CheckBox copy)
+            : base(copy)
+        {
+        }
 
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiCheckBox_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiCheckBox_create();
 
-		#endregion
-	}
+        #endregion
+    }
 }

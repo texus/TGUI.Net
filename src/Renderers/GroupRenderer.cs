@@ -29,43 +29,43 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-	public class GroupRenderer : WidgetRenderer
-	{
-		public GroupRenderer()
-			: base(tguiGroupRenderer_create())
-		{
-		}
+    public class GroupRenderer : WidgetRenderer
+    {
+        public GroupRenderer()
+            : base(tguiGroupRenderer_create())
+        {
+        }
 
-		protected internal GroupRenderer(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal GroupRenderer(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public GroupRenderer(GroupRenderer copy)
-			: base(tguiGroupRenderer_copy(copy.CPointer))
-		{
-		}
+        public GroupRenderer(GroupRenderer copy)
+            : base(tguiGroupRenderer_copy(copy.CPointer))
+        {
+        }
 
-		public Outline Padding
-		{
-			get { return new Outline(tguiGroupRenderer_getPadding(CPointer)); }
-			set { tguiGroupRenderer_setPadding(CPointer, value.CPointer); }
-		}
+        public Outline Padding
+        {
+            get { return new Outline(tguiGroupRenderer_getPadding(CPointer)); }
+            set { tguiGroupRenderer_setPadding(CPointer, value.CPointer); }
+        }
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiGroupRenderer_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiGroupRenderer_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiGroupRenderer_copy(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiGroupRenderer_copy(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiGroupRenderer_setPadding(IntPtr cPointer, IntPtr borders);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiGroupRenderer_setPadding(IntPtr cPointer, IntPtr borders);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiGroupRenderer_getPadding(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiGroupRenderer_getPadding(IntPtr cPointer);
 
-		#endregion
-	}
+        #endregion
+    }
 }

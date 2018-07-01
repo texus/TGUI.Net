@@ -29,56 +29,56 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-	public class MessageBoxRenderer : ChildWindowRenderer
-	{
-		public MessageBoxRenderer()
-			: base(tguiChildWindowRenderer_create())
-		{
-		}
+    public class MessageBoxRenderer : ChildWindowRenderer
+    {
+        public MessageBoxRenderer()
+            : base(tguiChildWindowRenderer_create())
+        {
+        }
 
-		protected internal MessageBoxRenderer(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal MessageBoxRenderer(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public MessageBoxRenderer(MessageBoxRenderer copy)
-			: base(tguiMessageBoxRenderer_copy(copy.CPointer))
-		{
-		}
+        public MessageBoxRenderer(MessageBoxRenderer copy)
+            : base(tguiMessageBoxRenderer_copy(copy.CPointer))
+        {
+        }
 
-		public Color TextColor
-		{
-			get { return tguiMessageBoxRenderer_getTextColor(CPointer); }
-			set { tguiMessageBoxRenderer_setTextColor(CPointer, value); }
-		}
+        public Color TextColor
+        {
+            get { return tguiMessageBoxRenderer_getTextColor(CPointer); }
+            set { tguiMessageBoxRenderer_setTextColor(CPointer, value); }
+        }
 
-		public RendererData Button
-		{
-			get { return new RendererData(tguiMessageBoxRenderer_getButton(CPointer)); }
-			set { tguiMessageBoxRenderer_setButton(CPointer, value.CPointer); }
-		}
+        public RendererData Button
+        {
+            get { return new RendererData(tguiMessageBoxRenderer_getButton(CPointer)); }
+            set { tguiMessageBoxRenderer_setButton(CPointer, value.CPointer); }
+        }
 
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiMessageBoxRenderer_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiMessageBoxRenderer_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiMessageBoxRenderer_copy(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiMessageBoxRenderer_copy(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMessageBoxRenderer_setTextColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMessageBoxRenderer_setTextColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiMessageBoxRenderer_getTextColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiMessageBoxRenderer_getTextColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMessageBoxRenderer_setButton(IntPtr cPointer, IntPtr rendererData);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMessageBoxRenderer_setButton(IntPtr cPointer, IntPtr rendererData);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiMessageBoxRenderer_getButton(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiMessageBoxRenderer_getButton(IntPtr cPointer);
 
-		#endregion
-	}
+        #endregion
+    }
 }

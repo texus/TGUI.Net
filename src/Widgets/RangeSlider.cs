@@ -28,124 +28,124 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
-	public class RangeSlider : Widget
-	{
-		public RangeSlider()
-			: base(tguiRangeSlider_create())
-		{
-		}
+    public class RangeSlider : Widget
+    {
+        public RangeSlider()
+            : base(tguiRangeSlider_create())
+        {
+        }
 
-		public RangeSlider(float min, float max)
-			: this()
-		{
-			Minimum = min;
-			Maximum = max;
-		}
+        public RangeSlider(float min, float max)
+            : this()
+        {
+            Minimum = min;
+            Maximum = max;
+        }
 
-		protected internal RangeSlider(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal RangeSlider(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public RangeSlider(RangeSlider copy)
-			: base(copy)
-		{
-		}
+        public RangeSlider(RangeSlider copy)
+            : base(copy)
+        {
+        }
 
-		public new RangeSliderRenderer Renderer
-		{
-			get { return new RangeSliderRenderer(tguiWidget_getRenderer(CPointer)); }
-		}
+        public new RangeSliderRenderer Renderer
+        {
+            get { return new RangeSliderRenderer(tguiWidget_getRenderer(CPointer)); }
+        }
 
         public new RangeSliderRenderer SharedRenderer
-		{
-			get { return new RangeSliderRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-		}
+        {
+            get { return new RangeSliderRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+        }
 
-		public float Minimum
-		{
-			get { return tguiRangeSlider_getMinimum(CPointer); }
-			set { tguiRangeSlider_setMinimum(CPointer, value); }
-		}
+        public float Minimum
+        {
+            get { return tguiRangeSlider_getMinimum(CPointer); }
+            set { tguiRangeSlider_setMinimum(CPointer, value); }
+        }
 
-		public float Maximum
-		{
-			get { return tguiRangeSlider_getMaximum(CPointer); }
-			set { tguiRangeSlider_setMaximum(CPointer, value); }
-		}
+        public float Maximum
+        {
+            get { return tguiRangeSlider_getMaximum(CPointer); }
+            set { tguiRangeSlider_setMaximum(CPointer, value); }
+        }
 
-		public float SelectionStart
-		{
-			get { return tguiRangeSlider_getSelectionStart(CPointer); }
-			set { tguiRangeSlider_setSelectionStart(CPointer, value); }
-		}
+        public float SelectionStart
+        {
+            get { return tguiRangeSlider_getSelectionStart(CPointer); }
+            set { tguiRangeSlider_setSelectionStart(CPointer, value); }
+        }
 
-		public float SelectionEnd
-		{
-			get { return tguiRangeSlider_getSelectionEnd(CPointer); }
-			set { tguiRangeSlider_setSelectionEnd(CPointer, value); }
-		}
+        public float SelectionEnd
+        {
+            get { return tguiRangeSlider_getSelectionEnd(CPointer); }
+            set { tguiRangeSlider_setSelectionEnd(CPointer, value); }
+        }
 
-		public float Step
-		{
-			get { return tguiRangeSlider_getStep(CPointer); }
-			set { tguiRangeSlider_setStep(CPointer, value); }
-		}
+        public float Step
+        {
+            get { return tguiRangeSlider_getStep(CPointer); }
+            set { tguiRangeSlider_setStep(CPointer, value); }
+        }
 
-		protected override void InitSignals()
-		{
-			base.InitSignals();
+        protected override void InitSignals()
+        {
+            base.InitSignals();
 
             RangeChangedCallback = new CallbackActionRange(ProcessRangeChangedSignal);
-		    if (tguiWidget_connectRange(CPointer, Util.ConvertStringForC_ASCII("RangeChanged"), RangeChangedCallback) == 0)
-				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-		}
+            if (tguiWidget_connectRange(CPointer, Util.ConvertStringForC_ASCII("RangeChanged"), RangeChangedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+        }
 
-		private void ProcessRangeChangedSignal(float start, float end)
-		{
+        private void ProcessRangeChangedSignal(float start, float end)
+        {
             RangeChanged?.Invoke(this, new SignalArgsRange(start, end));
         }
 
-		/// <summary>Event handler for the RangeChanged signal</summary>
-		public event EventHandler<SignalArgsRange> RangeChanged = null;
+        /// <summary>Event handler for the RangeChanged signal</summary>
+        public event EventHandler<SignalArgsRange> RangeChanged = null;
 
-	    private CallbackActionRange RangeChangedCallback;
+        private CallbackActionRange RangeChangedCallback;
 
-	    #region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiRangeSlider_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiRangeSlider_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSlider_setMinimum(IntPtr cPointer, float minimum);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSlider_setMinimum(IntPtr cPointer, float minimum);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiRangeSlider_getMinimum(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected float tguiRangeSlider_getMinimum(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSlider_setMaximum(IntPtr cPointer, float maximum);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSlider_setMaximum(IntPtr cPointer, float maximum);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiRangeSlider_getMaximum(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected float tguiRangeSlider_getMaximum(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSlider_setSelectionStart(IntPtr cPointer, float start);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSlider_setSelectionStart(IntPtr cPointer, float start);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiRangeSlider_getSelectionStart(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected float tguiRangeSlider_getSelectionStart(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSlider_setSelectionEnd(IntPtr cPointer, float end);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSlider_setSelectionEnd(IntPtr cPointer, float end);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiRangeSlider_getSelectionEnd(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected float tguiRangeSlider_getSelectionEnd(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSlider_setStep(IntPtr cPointer, float step);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSlider_setStep(IntPtr cPointer, float step);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiRangeSlider_getStep(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected float tguiRangeSlider_getStep(IntPtr cPointer);
 
-		#endregion
-	}
+        #endregion
+    }
 }

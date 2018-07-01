@@ -29,59 +29,59 @@ using SFML.System;
 
 namespace TGUI
 {
-	public static class Util
-	{
-		public static string GetStringFromC_UTF32(IntPtr source)
-		{
-			// Find the length of the source string (find the terminating 0)
-			uint length = 0;
-			unsafe
-			{
-				for (uint* ptr = (uint*)source.ToPointer(); *ptr != 0; ++ptr)
-					length++;
-			}
-				
-			// Copy it to a byte array
-			byte[] sourceBytes = new byte[length * 4];
-			Marshal.Copy(source, sourceBytes, 0, sourceBytes.Length);
+    public static class Util
+    {
+        public static string GetStringFromC_UTF32(IntPtr source)
+        {
+            // Find the length of the source string (find the terminating 0)
+            uint length = 0;
+            unsafe
+            {
+                for (uint* ptr = (uint*)source.ToPointer(); *ptr != 0; ++ptr)
+                    length++;
+            }
+                
+            // Copy it to a byte array
+            byte[] sourceBytes = new byte[length * 4];
+            Marshal.Copy(source, sourceBytes, 0, sourceBytes.Length);
 
-			// Convert it to a C# string
-			return Encoding.UTF32.GetString(sourceBytes);
-		}
+            // Convert it to a C# string
+            return Encoding.UTF32.GetString(sourceBytes);
+        }
 
-		public static string GetStringFromC_ASCII(IntPtr source)
-		{
-			return Marshal.PtrToStringAnsi(source);
-		}
+        public static string GetStringFromC_ASCII(IntPtr source)
+        {
+            return Marshal.PtrToStringAnsi(source);
+        }
 
-		public static IntPtr ConvertStringForC_UTF32(string source)
-		{
-			// Copy the string to a null-terminated UTF-32 byte array
-			byte[] utf32 = Encoding.UTF32.GetBytes(source + '\0');
+        public static IntPtr ConvertStringForC_UTF32(string source)
+        {
+            // Copy the string to a null-terminated UTF-32 byte array
+            byte[] utf32 = Encoding.UTF32.GetBytes(source + '\0');
 
-			// Pass it to the C API
-			unsafe
-			{
-				fixed (byte* ptr = utf32)
-				{
-					return (IntPtr)ptr;
-				}
-			}
-		}
+            // Pass it to the C API
+            unsafe
+            {
+                fixed (byte* ptr = utf32)
+                {
+                    return (IntPtr)ptr;
+                }
+            }
+        }
 
-		public static IntPtr ConvertStringForC_ASCII(string source)
-		{
-			// Copy the string to a null-terminated ANSI byte array
-			byte[] bytes = Encoding.ASCII.GetBytes(source + '\0');
+        public static IntPtr ConvertStringForC_ASCII(string source)
+        {
+            // Copy the string to a null-terminated ANSI byte array
+            byte[] bytes = Encoding.ASCII.GetBytes(source + '\0');
 
-			// Pass it to the C API
-			unsafe
-			{
-				fixed (byte* ptr = bytes)
-				{
-					return (IntPtr)ptr;
-				}
-			}
-		}
-	}
+            // Pass it to the C API
+            unsafe
+            {
+                fixed (byte* ptr = bytes)
+                {
+                    return (IntPtr)ptr;
+                }
+            }
+        }
+    }
 }

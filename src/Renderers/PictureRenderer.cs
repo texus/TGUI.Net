@@ -29,40 +29,40 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-	public class PictureRenderer : WidgetRenderer
-	{
-		public PictureRenderer()
-			: base(tguiPictureRenderer_create())
-		{
-		}
+    public class PictureRenderer : WidgetRenderer
+    {
+        public PictureRenderer()
+            : base(tguiPictureRenderer_create())
+        {
+        }
 
-		protected internal PictureRenderer(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal PictureRenderer(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public PictureRenderer(PictureRenderer copy)
-			: base(tguiPictureRenderer_copy(copy.CPointer))
-		{
-		}
+        public PictureRenderer(PictureRenderer copy)
+            : base(tguiPictureRenderer_copy(copy.CPointer))
+        {
+        }
 
-		public Texture Texture
-		{
-			set { tguiPictureRenderer_setTexture(CPointer, value.CPointer); }
-		}
+        public Texture Texture
+        {
+            set { tguiPictureRenderer_setTexture(CPointer, value.CPointer); }
+        }
 
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiPictureRenderer_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiPictureRenderer_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiPictureRenderer_copy(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiPictureRenderer_copy(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiPictureRenderer_setTexture(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiPictureRenderer_setTexture(IntPtr cPointer, IntPtr texture);
 
-		#endregion
-	}
+        #endregion
+    }
 }

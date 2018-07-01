@@ -31,101 +31,101 @@ using SFML.System;
 namespace TGUI
 {
     public enum ScrollbarPolicy
-	{
-		Automatic,
-		Always,
-		Never
-	}
+    {
+        Automatic,
+        Always,
+        Never
+    }
 
-	public class ScrollablePanel : Panel
-	{
-		public ScrollablePanel()
-			: base(tguiScrollablePanel_create())
-		{
-		}
+    public class ScrollablePanel : Panel
+    {
+        public ScrollablePanel()
+            : base(tguiScrollablePanel_create())
+        {
+        }
 
-		protected internal ScrollablePanel(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal ScrollablePanel(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public ScrollablePanel(ScrollablePanel copy)
-			: base(copy)
-		{
-		}
+        public ScrollablePanel(ScrollablePanel copy)
+            : base(copy)
+        {
+        }
 
-		public new ScrollablePanelRenderer Renderer
-		{
-			get { return new ScrollablePanelRenderer(tguiWidget_getRenderer(CPointer)); }
-		}
+        public new ScrollablePanelRenderer Renderer
+        {
+            get { return new ScrollablePanelRenderer(tguiWidget_getRenderer(CPointer)); }
+        }
 
-		public new ScrollablePanelRenderer SharedRenderer
-		{
-			get { return new ScrollablePanelRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-		}
+        public new ScrollablePanelRenderer SharedRenderer
+        {
+            get { return new ScrollablePanelRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+        }
 
         public Vector2f ContentSize
-		{
-			get { return tguiScrollablePanel_getContentSize(CPointer); }
-			set { tguiScrollablePanel_setContentSize(CPointer, value); }
-		}
+        {
+            get { return tguiScrollablePanel_getContentSize(CPointer); }
+            set { tguiScrollablePanel_setContentSize(CPointer, value); }
+        }
 
         public float ScrollbarWidth
-		{
-			get { return tguiScrollablePanel_getScrollbarWidth(CPointer); }
-			set { tguiScrollablePanel_setScrollbarWidth(CPointer, value); }
-		}
+        {
+            get { return tguiScrollablePanel_getScrollbarWidth(CPointer); }
+            set { tguiScrollablePanel_setScrollbarWidth(CPointer, value); }
+        }
 
         public ScrollbarPolicy VerticalScrollbarPolicy
-		{
-			get { return tguiScrollablePanel_getVerticalScrollbarPolicy(CPointer); }
-			set { tguiScrollablePanel_setVerticalScrollbarPolicy(CPointer, value); }
-		}
+        {
+            get { return tguiScrollablePanel_getVerticalScrollbarPolicy(CPointer); }
+            set { tguiScrollablePanel_setVerticalScrollbarPolicy(CPointer, value); }
+        }
 
         public ScrollbarPolicy HorizontalScrollbarPolicy
-		{
-			get { return tguiScrollablePanel_getHorizontalScrollbarPolicy(CPointer); }
-			set { tguiScrollablePanel_setHorizontalScrollbarPolicy(CPointer, value); }
-		}
+        {
+            get { return tguiScrollablePanel_getHorizontalScrollbarPolicy(CPointer); }
+            set { tguiScrollablePanel_setHorizontalScrollbarPolicy(CPointer, value); }
+        }
 
-		public Vector2f ContentOffset
-		{
-			get { return tguiScrollablePanel_getContentOffset(CPointer); }
-		}
+        public Vector2f ContentOffset
+        {
+            get { return tguiScrollablePanel_getContentOffset(CPointer); }
+        }
 
 
-	    #region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiScrollablePanel_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiScrollablePanel_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiScrollablePanel_setContentSize(IntPtr cPointer, Vector2f contentSize);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiScrollablePanel_setContentSize(IntPtr cPointer, Vector2f contentSize);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Vector2f tguiScrollablePanel_getContentSize(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Vector2f tguiScrollablePanel_getContentSize(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiScrollablePanel_setScrollbarWidth(IntPtr cPointer, float width);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiScrollablePanel_setScrollbarWidth(IntPtr cPointer, float width);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiScrollablePanel_getScrollbarWidth(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected float tguiScrollablePanel_getScrollbarWidth(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiScrollablePanel_setVerticalScrollbarPolicy(IntPtr cPointer, ScrollbarPolicy policy);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiScrollablePanel_setVerticalScrollbarPolicy(IntPtr cPointer, ScrollbarPolicy policy);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected ScrollbarPolicy tguiScrollablePanel_getVerticalScrollbarPolicy(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected ScrollbarPolicy tguiScrollablePanel_getVerticalScrollbarPolicy(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiScrollablePanel_setHorizontalScrollbarPolicy(IntPtr cPointer, ScrollbarPolicy policy);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiScrollablePanel_setHorizontalScrollbarPolicy(IntPtr cPointer, ScrollbarPolicy policy);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected ScrollbarPolicy tguiScrollablePanel_getHorizontalScrollbarPolicy(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected ScrollbarPolicy tguiScrollablePanel_getHorizontalScrollbarPolicy(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Vector2f tguiScrollablePanel_getContentOffset(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Vector2f tguiScrollablePanel_getContentOffset(IntPtr cPointer);
 
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -28,11 +28,11 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
-	public class GuiContainer : Container
-	{
-		protected internal GuiContainer(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
-	}
+    public class GuiContainer : Container
+    {
+        protected internal GuiContainer(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
+    }
 }

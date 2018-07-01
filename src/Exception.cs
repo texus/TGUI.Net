@@ -26,27 +26,27 @@ using System;
 
 namespace TGUI
 {
-	[Serializable()]
-	public class TGUIException : System.Exception
-	{
-		public TGUIException()
-			: base()
-		{
-		}
+    [Serializable()]
+    public class TGUIException : System.Exception
+    {
+        public TGUIException()
+            : base()
+        {
+        }
 
-		public TGUIException(string message)
-			: base(message)
-		{
-		}
+        public TGUIException(string message)
+            : base(message)
+        {
+        }
 
-		public TGUIException(string message, System.Exception inner)
-			: base(message, inner)
-		{
-		}
+        public TGUIException(string message, System.Exception inner)
+            : base(message, inner)
+        {
+        }
 
-		protected TGUIException(System.Runtime.Serialization.SerializationInfo info,
-		                        System.Runtime.Serialization.StreamingContext context)
-		{
-		}
-	}
+        protected TGUIException(System.Runtime.Serialization.SerializationInfo info,
+                                System.Runtime.Serialization.StreamingContext context)
+        {
+        }
+    }
 }

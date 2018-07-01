@@ -28,125 +28,125 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
-	public class Scrollbar : Widget
-	{
-		public Scrollbar()
-			: base(tguiScrollbar_create())
-		{
-		}
+    public class Scrollbar : Widget
+    {
+        public Scrollbar()
+            : base(tguiScrollbar_create())
+        {
+        }
 
-		protected internal Scrollbar(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal Scrollbar(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public Scrollbar(Scrollbar copy)
-			: base(copy)
-		{
-		}
+        public Scrollbar(Scrollbar copy)
+            : base(copy)
+        {
+        }
 
-		public new ScrollbarRenderer Renderer
-		{
-			get { return new ScrollbarRenderer(tguiWidget_getRenderer(CPointer)); }
-		}
+        public new ScrollbarRenderer Renderer
+        {
+            get { return new ScrollbarRenderer(tguiWidget_getRenderer(CPointer)); }
+        }
 
         public new ScrollbarRenderer SharedRenderer
-		{
-			get { return new ScrollbarRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-		}
+        {
+            get { return new ScrollbarRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+        }
 
-		public uint ViewportSize
-		{
-			get { return tguiScrollbar_getViewportSize(CPointer); }
-			set { tguiScrollbar_setViewportSize(CPointer, value); }
-		}
+        public uint ViewportSize
+        {
+            get { return tguiScrollbar_getViewportSize(CPointer); }
+            set { tguiScrollbar_setViewportSize(CPointer, value); }
+        }
 
-		public uint Maximum
-		{
-			get { return tguiScrollbar_getMaximum(CPointer); }
-			set { tguiScrollbar_setMaximum(CPointer, value); }
-		}
+        public uint Maximum
+        {
+            get { return tguiScrollbar_getMaximum(CPointer); }
+            set { tguiScrollbar_setMaximum(CPointer, value); }
+        }
 
-		public uint Value
-		{
-			get { return tguiScrollbar_getValue(CPointer); }
-			set { tguiScrollbar_setValue(CPointer, value); }
-		}
+        public uint Value
+        {
+            get { return tguiScrollbar_getValue(CPointer); }
+            set { tguiScrollbar_setValue(CPointer, value); }
+        }
 
-		public uint ScrollAmount
-		{
-			get { return tguiScrollbar_getScrollAmount(CPointer); }
-			set { tguiScrollbar_setScrollAmount(CPointer, value); }
-		}
+        public uint ScrollAmount
+        {
+            get { return tguiScrollbar_getScrollAmount(CPointer); }
+            set { tguiScrollbar_setScrollAmount(CPointer, value); }
+        }
 
-		public bool AutoHide
-		{
-			get { return tguiScrollbar_getAutoHide(CPointer); }
-			set { tguiScrollbar_setAutoHide(CPointer, value); }
-		}
+        public bool AutoHide
+        {
+            get { return tguiScrollbar_getAutoHide(CPointer); }
+            set { tguiScrollbar_setAutoHide(CPointer, value); }
+        }
 
-		public float DefaultWidth
-		{
-			get { return tguiScrollbar_getDefaultWidth(CPointer); }
-		}
+        public float DefaultWidth
+        {
+            get { return tguiScrollbar_getDefaultWidth(CPointer); }
+        }
 
-		protected override void InitSignals()
-		{
-			base.InitSignals();
+        protected override void InitSignals()
+        {
+            base.InitSignals();
 
             ValueChangedCallback = new CallbackActionUInt(ProcessValueChangedSignal);
-		    if (tguiWidget_connectUInt(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback) == 0)
-				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-		}
+            if (tguiWidget_connectUInt(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+        }
 
-		private void ProcessValueChangedSignal(uint value)
-		{
+        private void ProcessValueChangedSignal(uint value)
+        {
             ValueChanged?.Invoke(this, new SignalArgsUInt(value));
         }
 
-		/// <summary>Event handler for the ValueChanged signal</summary>
-		public event EventHandler<SignalArgsUInt> ValueChanged = null;
+        /// <summary>Event handler for the ValueChanged signal</summary>
+        public event EventHandler<SignalArgsUInt> ValueChanged = null;
 
-	    private CallbackActionUInt ValueChangedCallback;
+        private CallbackActionUInt ValueChangedCallback;
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiScrollbar_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiScrollbar_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiScrollbar_setViewportSize(IntPtr cPointer, uint viewport);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiScrollbar_setViewportSize(IntPtr cPointer, uint viewport);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected uint tguiScrollbar_getViewportSize(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected uint tguiScrollbar_getViewportSize(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiScrollbar_setMaximum(IntPtr cPointer, uint maximum);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiScrollbar_setMaximum(IntPtr cPointer, uint maximum);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected uint tguiScrollbar_getMaximum(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected uint tguiScrollbar_getMaximum(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiScrollbar_setValue(IntPtr cPointer, uint value);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiScrollbar_setValue(IntPtr cPointer, uint value);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected uint tguiScrollbar_getValue(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected uint tguiScrollbar_getValue(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiScrollbar_setScrollAmount(IntPtr cPointer, uint scrollAmount);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiScrollbar_setScrollAmount(IntPtr cPointer, uint scrollAmount);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected uint tguiScrollbar_getScrollAmount(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected uint tguiScrollbar_getScrollAmount(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiScrollbar_setAutoHide(IntPtr cPointer, bool autoHide);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiScrollbar_setAutoHide(IntPtr cPointer, bool autoHide);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiScrollbar_getAutoHide(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiScrollbar_getAutoHide(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiScrollbar_getDefaultWidth(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected float tguiScrollbar_getDefaultWidth(IntPtr cPointer);
 
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -29,29 +29,29 @@ using SFML.System;
 
 namespace TGUI
 {
-	public class RadioButtonGroup : Group
-	{
-		public RadioButtonGroup()
-			: base(tguiRadioButtonGroup_create())
-		{
-		}
+    public class RadioButtonGroup : Group
+    {
+        public RadioButtonGroup()
+            : base(tguiRadioButtonGroup_create())
+        {
+        }
 
-		protected internal RadioButtonGroup(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal RadioButtonGroup(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public RadioButtonGroup(RadioButtonGroup copy)
-			: base(copy)
-		{
-		}
+        public RadioButtonGroup(RadioButtonGroup copy)
+            : base(copy)
+        {
+        }
 
 
-	    #region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiRadioButtonGroup_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiRadioButtonGroup_create();
 
-		#endregion
-	}
+        #endregion
+    }
 }

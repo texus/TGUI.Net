@@ -29,95 +29,95 @@ using SFML.System;
 
 namespace TGUI
 {
-	public class Panel : Group
-	{
-		public Panel()
-			: base(tguiPanel_create())
-		{
-		}
+    public class Panel : Group
+    {
+        public Panel()
+            : base(tguiPanel_create())
+        {
+        }
 
-		public Panel(Vector2f size)
-			: this()
-		{
-			Size = size;
-		}
+        public Panel(Vector2f size)
+            : this()
+        {
+            Size = size;
+        }
 
-		public Panel(float width, float height)
-			: this(new Vector2f(width, height))
-		{
-		}
+        public Panel(float width, float height)
+            : this(new Vector2f(width, height))
+        {
+        }
 
-		protected internal Panel(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal Panel(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public Panel(Panel copy)
-			: base(copy)
-		{
-		}
+        public Panel(Panel copy)
+            : base(copy)
+        {
+        }
 
-		public new PanelRenderer Renderer
-		{
-			get { return new PanelRenderer(tguiWidget_getRenderer(CPointer)); }
-		}
+        public new PanelRenderer Renderer
+        {
+            get { return new PanelRenderer(tguiWidget_getRenderer(CPointer)); }
+        }
 
         public new PanelRenderer SharedRenderer
-		{
-			get { return new PanelRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-		}
+        {
+            get { return new PanelRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+        }
 
-		protected override void InitSignals()
-		{
-			base.InitSignals();
+        protected override void InitSignals()
+        {
+            base.InitSignals();
 
             MousePressedCallback = new CallbackActionVector2f(ProcessMousePressedSignal);
-		    if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback) == 0)
-				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
-		    MouseReleasedCallback = new CallbackActionVector2f(ProcessMouseReleasedSignal);
-		    if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("MouseReleased"), MouseReleasedCallback) == 0)
-				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            MouseReleasedCallback = new CallbackActionVector2f(ProcessMouseReleasedSignal);
+            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("MouseReleased"), MouseReleasedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
-		    ClickedCallback = new CallbackActionVector2f(ProcessClickedSignal);
-		    if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("Clicked"), ClickedCallback) == 0)
-				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-		}
+            ClickedCallback = new CallbackActionVector2f(ProcessClickedSignal);
+            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("Clicked"), ClickedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+        }
 
-		private void ProcessMousePressedSignal(Vector2f pos)
-		{
+        private void ProcessMousePressedSignal(Vector2f pos)
+        {
             MousePressed?.Invoke(this, new SignalArgsVector2f(pos));
         }
 
-		private void ProcessMouseReleasedSignal(Vector2f pos)
-		{
+        private void ProcessMouseReleasedSignal(Vector2f pos)
+        {
             MouseReleased?.Invoke(this, new SignalArgsVector2f(pos));
         }
 
-		private void ProcessClickedSignal(Vector2f pos)
-		{
+        private void ProcessClickedSignal(Vector2f pos)
+        {
             Clicked?.Invoke(this, new SignalArgsVector2f(pos));
         }
 
-		/// <summary>Event handler for the MousePressed signal</summary>
-		public event EventHandler<SignalArgsVector2f> MousePressed = null;
+        /// <summary>Event handler for the MousePressed signal</summary>
+        public event EventHandler<SignalArgsVector2f> MousePressed = null;
 
-		/// <summary>Event handler for the MouseReleased signal</summary>
-		public event EventHandler<SignalArgsVector2f> MouseReleased = null;
+        /// <summary>Event handler for the MouseReleased signal</summary>
+        public event EventHandler<SignalArgsVector2f> MouseReleased = null;
 
-		/// <summary>Event handler for the Clicked signal</summary>
-		public event EventHandler<SignalArgsVector2f> Clicked = null;
+        /// <summary>Event handler for the Clicked signal</summary>
+        public event EventHandler<SignalArgsVector2f> Clicked = null;
 
-	    private CallbackActionVector2f MousePressedCallback;
-	    private CallbackActionVector2f MouseReleasedCallback;
-	    private CallbackActionVector2f ClickedCallback;
+        private CallbackActionVector2f MousePressedCallback;
+        private CallbackActionVector2f MouseReleasedCallback;
+        private CallbackActionVector2f ClickedCallback;
 
 
-	    #region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiPanel_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiPanel_create();
 
-		#endregion
-	}
+        #endregion
+    }
 }

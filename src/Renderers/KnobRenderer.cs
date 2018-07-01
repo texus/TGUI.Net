@@ -29,108 +29,108 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-	public class KnobRenderer : WidgetRenderer
-	{
-		public KnobRenderer()
-			: base(tguiKnobRenderer_create())
-		{
-		}
+    public class KnobRenderer : WidgetRenderer
+    {
+        public KnobRenderer()
+            : base(tguiKnobRenderer_create())
+        {
+        }
 
-		protected internal KnobRenderer(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal KnobRenderer(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public KnobRenderer(KnobRenderer copy)
-			: base(tguiKnobRenderer_copy(copy.CPointer))
-		{
-		}
+        public KnobRenderer(KnobRenderer copy)
+            : base(tguiKnobRenderer_copy(copy.CPointer))
+        {
+        }
 
-		public Outline Borders
-		{
-			get { return new Outline(tguiKnobRenderer_getBorders(CPointer)); }
-			set { tguiKnobRenderer_setBorders(CPointer, value.CPointer); }
-		}
+        public Outline Borders
+        {
+            get { return new Outline(tguiKnobRenderer_getBorders(CPointer)); }
+            set { tguiKnobRenderer_setBorders(CPointer, value.CPointer); }
+        }
 
-		public Color BackgroundColor
-		{
-			get { return tguiKnobRenderer_getBackgroundColor(CPointer); }
-			set { tguiKnobRenderer_setBackgroundColor(CPointer, value); }
-		}
+        public Color BackgroundColor
+        {
+            get { return tguiKnobRenderer_getBackgroundColor(CPointer); }
+            set { tguiKnobRenderer_setBackgroundColor(CPointer, value); }
+        }
 
-		public Color ThumbColor
-		{
-			get { return tguiKnobRenderer_getThumbColor(CPointer); }
-			set { tguiKnobRenderer_setThumbColor(CPointer, value); }
-		}
+        public Color ThumbColor
+        {
+            get { return tguiKnobRenderer_getThumbColor(CPointer); }
+            set { tguiKnobRenderer_setThumbColor(CPointer, value); }
+        }
 
-		public Color BorderColor
-		{
-			get { return tguiKnobRenderer_getBorderColor(CPointer); }
-			set { tguiKnobRenderer_setBorderColor(CPointer, value); }
-		}
+        public Color BorderColor
+        {
+            get { return tguiKnobRenderer_getBorderColor(CPointer); }
+            set { tguiKnobRenderer_setBorderColor(CPointer, value); }
+        }
 
-		public Texture TextureBackground
-		{
-			set { tguiKnobRenderer_setTextureBackground(CPointer, value.CPointer); }
-		}
+        public Texture TextureBackground
+        {
+            set { tguiKnobRenderer_setTextureBackground(CPointer, value.CPointer); }
+        }
 
-		public Texture TextureForeground
-		{
-			set { tguiKnobRenderer_setTextureForeground(CPointer, value.CPointer); }
-		}
+        public Texture TextureForeground
+        {
+            set { tguiKnobRenderer_setTextureForeground(CPointer, value.CPointer); }
+        }
 
-		public float ImageRotation
-		{
-			get { return tguiKnobRenderer_getImageRotation(CPointer); }
-			set { tguiKnobRenderer_setImageRotation(CPointer, value); }
-		}
+        public float ImageRotation
+        {
+            get { return tguiKnobRenderer_getImageRotation(CPointer); }
+            set { tguiKnobRenderer_setImageRotation(CPointer, value); }
+        }
 
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiKnobRenderer_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiKnobRenderer_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiKnobRenderer_copy(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiKnobRenderer_copy(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiKnobRenderer_setBorders(IntPtr cPointer, IntPtr borders);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiKnobRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiKnobRenderer_getBorders(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiKnobRenderer_getBorders(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiKnobRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiKnobRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiKnobRenderer_getBackgroundColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiKnobRenderer_getBackgroundColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiKnobRenderer_setThumbColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiKnobRenderer_setThumbColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiKnobRenderer_getThumbColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiKnobRenderer_getThumbColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiKnobRenderer_setBorderColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiKnobRenderer_setBorderColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiKnobRenderer_getBorderColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiKnobRenderer_getBorderColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiKnobRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiKnobRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiKnobRenderer_setTextureForeground(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiKnobRenderer_setTextureForeground(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiKnobRenderer_setImageRotation(IntPtr cPointer, float rotation);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiKnobRenderer_setImageRotation(IntPtr cPointer, float rotation);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiKnobRenderer_getImageRotation(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected float tguiKnobRenderer_getImageRotation(IntPtr cPointer);
 
-		#endregion
-	}
+        #endregion
+    }
 }

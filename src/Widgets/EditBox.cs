@@ -28,212 +28,212 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
-	public class EditBox : ClickableWidget
-	{
-		public const string ValidatorAll = ".*";
-		public const string ValidatorInt = "[+-]?[0-9]*";
-		public const string ValidatorUInt = "[0-9]*";
-		public const string ValidatorFloat = "[+-]?[0-9]*\\.?[0-9]*";
+    public class EditBox : ClickableWidget
+    {
+        public const string ValidatorAll = ".*";
+        public const string ValidatorInt = "[+-]?[0-9]*";
+        public const string ValidatorUInt = "[0-9]*";
+        public const string ValidatorFloat = "[+-]?[0-9]*\\.?[0-9]*";
 
-		public EditBox()
-			: base(tguiEditBox_create())
-		{
-		}
+        public EditBox()
+            : base(tguiEditBox_create())
+        {
+        }
 
-		protected internal EditBox(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal EditBox(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public EditBox(EditBox copy)
-			: base(copy)
-		{
-		}
+        public EditBox(EditBox copy)
+            : base(copy)
+        {
+        }
 
-		public new EditBoxRenderer Renderer
-		{
-			get { return new EditBoxRenderer(tguiWidget_getRenderer(CPointer)); }
-		}
+        public new EditBoxRenderer Renderer
+        {
+            get { return new EditBoxRenderer(tguiWidget_getRenderer(CPointer)); }
+        }
 
         public new EditBoxRenderer SharedRenderer
-		{
-			get { return new EditBoxRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-		}
+        {
+            get { return new EditBoxRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+        }
 
-		public string Text
-		{
-			get { return Util.GetStringFromC_UTF32(tguiEditBox_getText(CPointer)); }
-			set { tguiEditBox_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
-		}
+        public string Text
+        {
+            get { return Util.GetStringFromC_UTF32(tguiEditBox_getText(CPointer)); }
+            set { tguiEditBox_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
+        }
 
-		public string DefaultText
-		{
-			get { return Util.GetStringFromC_UTF32(tguiEditBox_getDefaultText(CPointer)); }
-			set { tguiEditBox_setDefaultText(CPointer, Util.ConvertStringForC_UTF32(value)); }
-		}
+        public string DefaultText
+        {
+            get { return Util.GetStringFromC_UTF32(tguiEditBox_getDefaultText(CPointer)); }
+            set { tguiEditBox_setDefaultText(CPointer, Util.ConvertStringForC_UTF32(value)); }
+        }
 
-		public void SetSelectedText(uint start, uint length = uint.MaxValue)
-		{
-			tguiEditBox_selectText(CPointer, start, length);
-		}
+        public void SetSelectedText(uint start, uint length = uint.MaxValue)
+        {
+            tguiEditBox_selectText(CPointer, start, length);
+        }
 
-		public string SelectedText
-		{
-			get { return Util.GetStringFromC_UTF32(tguiEditBox_getSelectedText(CPointer)); }
-		}
+        public string SelectedText
+        {
+            get { return Util.GetStringFromC_UTF32(tguiEditBox_getSelectedText(CPointer)); }
+        }
 
-		public uint TextSize
-		{
-			get { return tguiEditBox_getTextSize(CPointer); }
-			set { tguiEditBox_setTextSize(CPointer, value); }
-		}
+        public uint TextSize
+        {
+            get { return tguiEditBox_getTextSize(CPointer); }
+            set { tguiEditBox_setTextSize(CPointer, value); }
+        }
 
-		public char PasswordCharacter
-		{
-			get { return tguiEditBox_getPasswordCharacter(CPointer); }
-			set { tguiEditBox_setPasswordCharacter(CPointer, value); }
-		}
+        public char PasswordCharacter
+        {
+            get { return tguiEditBox_getPasswordCharacter(CPointer); }
+            set { tguiEditBox_setPasswordCharacter(CPointer, value); }
+        }
 
-		public uint MaximumCharacters
-		{
-			get { return tguiEditBox_getMaximumCharacters(CPointer); }
-			set { tguiEditBox_setMaximumCharacters(CPointer, value); }
-		}
+        public uint MaximumCharacters
+        {
+            get { return tguiEditBox_getMaximumCharacters(CPointer); }
+            set { tguiEditBox_setMaximumCharacters(CPointer, value); }
+        }
 
-		public HorizontalAlignment Alignment
-		{
-			get { return tguiEditBox_getAlignment(CPointer); }
-			set { tguiEditBox_setAlignment(CPointer, value); }
-		}
+        public HorizontalAlignment Alignment
+        {
+            get { return tguiEditBox_getAlignment(CPointer); }
+            set { tguiEditBox_setAlignment(CPointer, value); }
+        }
 
-		public bool LimitTextWidth
-		{
-			get { return tguiEditBox_isTextWidthLimited(CPointer); }
-			set { tguiEditBox_limitTextWidth(CPointer, value); }
-		}
+        public bool LimitTextWidth
+        {
+            get { return tguiEditBox_isTextWidthLimited(CPointer); }
+            set { tguiEditBox_limitTextWidth(CPointer, value); }
+        }
 
         public bool ReadOnly
-		{
-			get { return tguiEditBox_isReadOnly(CPointer); }
-			set { tguiEditBox_setReadOnly(CPointer, value); }
-		}
+        {
+            get { return tguiEditBox_isReadOnly(CPointer); }
+            set { tguiEditBox_setReadOnly(CPointer, value); }
+        }
 
-		public uint CaretPosition
-		{
-			get { return tguiEditBox_getCaretPosition(CPointer); }
-			set { tguiEditBox_setCaretPosition(CPointer, value); }
-		}
+        public uint CaretPosition
+        {
+            get { return tguiEditBox_getCaretPosition(CPointer); }
+            set { tguiEditBox_setCaretPosition(CPointer, value); }
+        }
 
-		public string InputValidator
-		{
-			get { return Util.GetStringFromC_ASCII(tguiEditBox_getInputValidator(CPointer)); }
-			set { tguiEditBox_setInputValidator(CPointer, Util.ConvertStringForC_ASCII(value)); }
-		}
+        public string InputValidator
+        {
+            get { return Util.GetStringFromC_ASCII(tguiEditBox_getInputValidator(CPointer)); }
+            set { tguiEditBox_setInputValidator(CPointer, Util.ConvertStringForC_ASCII(value)); }
+        }
 
-		protected override void InitSignals()
-		{
-			base.InitSignals();
+        protected override void InitSignals()
+        {
+            base.InitSignals();
 
             TextChangedCallback = new CallbackActionString(ProcessTextChangedSignal);
-		    if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("TextChanged"), TextChangedCallback) == 0)
-				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("TextChanged"), TextChangedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
-		    ReturnKeyPressedCallback = new CallbackActionString(ProcessReturnKeyPressedSignal);
-		    if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("ReturnKeyPressed"), ReturnKeyPressedCallback) == 0)
-				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-		}
+            ReturnKeyPressedCallback = new CallbackActionString(ProcessReturnKeyPressedSignal);
+            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("ReturnKeyPressed"), ReturnKeyPressedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+        }
 
-		private void ProcessTextChangedSignal(IntPtr text)
-		{
+        private void ProcessTextChangedSignal(IntPtr text)
+        {
             TextChanged?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
         }
 
-		private void ProcessReturnKeyPressedSignal(IntPtr text)
-		{
+        private void ProcessReturnKeyPressedSignal(IntPtr text)
+        {
             ReturnKeyPressed?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
         }
 
-		/// <summary>Event handler for the TextChanged signal</summary>
-		public event EventHandler<SignalArgsString> TextChanged = null;
+        /// <summary>Event handler for the TextChanged signal</summary>
+        public event EventHandler<SignalArgsString> TextChanged = null;
 
-		/// <summary>Event handler for the ReturnKeyPressed signal</summary>
-		public event EventHandler<SignalArgsString> ReturnKeyPressed = null;
+        /// <summary>Event handler for the ReturnKeyPressed signal</summary>
+        public event EventHandler<SignalArgsString> ReturnKeyPressed = null;
 
-	    private CallbackActionString TextChangedCallback;
-	    private CallbackActionString ReturnKeyPressedCallback;
+        private CallbackActionString TextChangedCallback;
+        private CallbackActionString ReturnKeyPressedCallback;
 
 
-	    #region Imports
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiEditBox_create();
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBox_setText(IntPtr cPointer, IntPtr value);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiEditBox_getText(IntPtr cPointer);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBox_setDefaultText(IntPtr cPointer, IntPtr value);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiEditBox_getDefaultText(IntPtr cPointer);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBox_selectText(IntPtr cPointer, uint start, uint length);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiEditBox_getSelectedText(IntPtr cPointer);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBox_setTextSize(IntPtr cPointer, uint textSize);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected uint tguiEditBox_getTextSize(IntPtr cPointer);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBox_setPasswordCharacter(IntPtr cPointer, char passwordChar);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected char tguiEditBox_getPasswordCharacter(IntPtr cPointer);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBox_setMaximumCharacters(IntPtr cPointer, uint maximumCharacters);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected uint tguiEditBox_getMaximumCharacters(IntPtr cPointer);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBox_setAlignment(IntPtr cPointer, HorizontalAlignment alignment);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected HorizontalAlignment tguiEditBox_getAlignment(IntPtr cPointer);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBox_limitTextWidth(IntPtr cPointer, bool limitWidth);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiEditBox_isTextWidthLimited(IntPtr cPointer);
+        #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBox_setReadOnly(IntPtr cPointer, bool readOnly);
+        static extern protected IntPtr tguiEditBox_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiEditBox_isReadOnly(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiEditBox_setText(IntPtr cPointer, IntPtr value);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBox_setCaretPosition(IntPtr cPointer, uint caretPosition);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiEditBox_getText(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected uint tguiEditBox_getCaretPosition(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiEditBox_setDefaultText(IntPtr cPointer, IntPtr value);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiEditBox_setInputValidator(IntPtr cPointer, IntPtr validator);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiEditBox_getDefaultText(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiEditBox_getInputValidator(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiEditBox_selectText(IntPtr cPointer, uint start, uint length);
 
-		#endregion
-	}
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiEditBox_getSelectedText(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiEditBox_setTextSize(IntPtr cPointer, uint textSize);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected uint tguiEditBox_getTextSize(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiEditBox_setPasswordCharacter(IntPtr cPointer, char passwordChar);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected char tguiEditBox_getPasswordCharacter(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiEditBox_setMaximumCharacters(IntPtr cPointer, uint maximumCharacters);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected uint tguiEditBox_getMaximumCharacters(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiEditBox_setAlignment(IntPtr cPointer, HorizontalAlignment alignment);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected HorizontalAlignment tguiEditBox_getAlignment(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiEditBox_limitTextWidth(IntPtr cPointer, bool limitWidth);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiEditBox_isTextWidthLimited(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiEditBox_setReadOnly(IntPtr cPointer, bool readOnly);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiEditBox_isReadOnly(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiEditBox_setCaretPosition(IntPtr cPointer, uint caretPosition);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected uint tguiEditBox_getCaretPosition(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiEditBox_setInputValidator(IntPtr cPointer, IntPtr validator);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiEditBox_getInputValidator(IntPtr cPointer);
+
+        #endregion
+    }
 }

@@ -28,60 +28,60 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
-	public abstract class BoxLayout : Group
-	{
-		protected internal BoxLayout(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+    public abstract class BoxLayout : Group
+    {
+        protected internal BoxLayout(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public BoxLayout(BoxLayout copy)
-			: base(copy)
-		{
-		}
+        public BoxLayout(BoxLayout copy)
+            : base(copy)
+        {
+        }
 
-		public new BoxLayoutRenderer Renderer
-		{
-			get { return new BoxLayoutRenderer(tguiWidget_getRenderer(CPointer)); }
-		}
+        public new BoxLayoutRenderer Renderer
+        {
+            get { return new BoxLayoutRenderer(tguiWidget_getRenderer(CPointer)); }
+        }
 
         public new BoxLayoutRenderer SharedRenderer
-		{
-			get { return new BoxLayoutRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-		}
+        {
+            get { return new BoxLayoutRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+        }
 
-		public void Insert(uint index, Widget widget, string widgetName = "")
-		{
-			tguiBoxLayout_insert(CPointer, index, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
-		}
+        public void Insert(uint index, Widget widget, string widgetName = "")
+        {
+            tguiBoxLayout_insert(CPointer, index, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
+        }
 
-		public bool Remove(uint index)
-		{
-			return tguiBoxLayout_removeAtIndex(CPointer, index);
-		}
+        public bool Remove(uint index)
+        {
+            return tguiBoxLayout_removeAtIndex(CPointer, index);
+        }
 
-		public Widget Get(uint index)
-		{
-			IntPtr WidgetCPointer = tguiBoxLayout_getAtIndex(CPointer, index);
-			if (WidgetCPointer == IntPtr.Zero)
-				return null;
+        public Widget Get(uint index)
+        {
+            IntPtr WidgetCPointer = tguiBoxLayout_getAtIndex(CPointer, index);
+            if (WidgetCPointer == IntPtr.Zero)
+                return null;
 
-			Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
-			return (Widget)Activator.CreateInstance(type, new object[]{ WidgetCPointer });
-		}
+            Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
+            return (Widget)Activator.CreateInstance(type, new object[]{ WidgetCPointer });
+        }
 
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiBoxLayout_insert(IntPtr cPointer, uint index, IntPtr widgetCPointer, IntPtr widgetName);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiBoxLayout_insert(IntPtr cPointer, uint index, IntPtr widgetCPointer, IntPtr widgetName);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiBoxLayout_removeAtIndex(IntPtr cPointer, uint index);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiBoxLayout_removeAtIndex(IntPtr cPointer, uint index);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiBoxLayout_getAtIndex(IntPtr cPointer, uint index);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiBoxLayout_getAtIndex(IntPtr cPointer, uint index);
 
-		#endregion
-	}
+        #endregion
+    }
 }

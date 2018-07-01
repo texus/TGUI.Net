@@ -30,35 +30,35 @@ using SFML.System;
 
 namespace TGUI
 {
-	public static class ToolTip
-	{
-		public static Time TimeToDisplay
-		{
-			get { return tguiToolTip_getTimeToDisplay(); }
-			set { tguiToolTip_setTimeToDisplay(value); }
-		}
+    public static class ToolTip
+    {
+        public static Time TimeToDisplay
+        {
+            get { return tguiToolTip_getTimeToDisplay(); }
+            set { tguiToolTip_setTimeToDisplay(value); }
+        }
 
-		public static Vector2f DistanceToMouse
-		{
-			get { return tguiToolTip_getDistanceToMouse(); }
-			set { tguiToolTip_setDistanceToMouse(value); }
-		}
+        public static Vector2f DistanceToMouse
+        {
+            get { return tguiToolTip_getDistanceToMouse(); }
+            set { tguiToolTip_setDistanceToMouse(value); }
+        }
 
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiToolTip_setTimeToDisplay(Time time);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern void tguiToolTip_setTimeToDisplay(Time time);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Time tguiToolTip_getTimeToDisplay();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern Time tguiToolTip_getTimeToDisplay();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern void tguiToolTip_setDistanceToMouse(Vector2f distance);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern void tguiToolTip_setDistanceToMouse(Vector2f distance);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern Vector2f tguiToolTip_getDistanceToMouse();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern Vector2f tguiToolTip_getDistanceToMouse();
 
-		#endregion
-	}
+        #endregion
+    }
 }

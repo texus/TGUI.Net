@@ -29,44 +29,44 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-	public class BoxLayoutRenderer : GroupRenderer
-	{
-		public BoxLayoutRenderer()
-			: base(tguiBoxLayoutRenderer_create())
-		{
-		}
+    public class BoxLayoutRenderer : GroupRenderer
+    {
+        public BoxLayoutRenderer()
+            : base(tguiBoxLayoutRenderer_create())
+        {
+        }
 
-		protected internal BoxLayoutRenderer(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal BoxLayoutRenderer(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public BoxLayoutRenderer(BoxLayoutRenderer copy)
-			: base(tguiBoxLayoutRenderer_copy(copy.CPointer))
-		{
-		}
+        public BoxLayoutRenderer(BoxLayoutRenderer copy)
+            : base(tguiBoxLayoutRenderer_copy(copy.CPointer))
+        {
+        }
 
-		public float SpaceBetweenWidgets
-		{
-			get { return tguiBoxLayoutRenderer_getSpaceBetweenWidgets(CPointer); }
-			set { tguiBoxLayoutRenderer_setSpaceBetweenWidgets(CPointer, value); }
-		}
+        public float SpaceBetweenWidgets
+        {
+            get { return tguiBoxLayoutRenderer_getSpaceBetweenWidgets(CPointer); }
+            set { tguiBoxLayoutRenderer_setSpaceBetweenWidgets(CPointer, value); }
+        }
 
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiBoxLayoutRenderer_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiBoxLayoutRenderer_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiBoxLayoutRenderer_copy(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiBoxLayoutRenderer_copy(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiBoxLayoutRenderer_setSpaceBetweenWidgets(IntPtr cPointer, float space);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiBoxLayoutRenderer_setSpaceBetweenWidgets(IntPtr cPointer, float space);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiBoxLayoutRenderer_getSpaceBetweenWidgets(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected float tguiBoxLayoutRenderer_getSpaceBetweenWidgets(IntPtr cPointer);
 
-		#endregion
-	}
+        #endregion
+    }
 }

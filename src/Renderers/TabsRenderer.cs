@@ -29,228 +29,228 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-	public class TabsRenderer : WidgetRenderer
-	{
-		public TabsRenderer()
-			: base(tguiTabsRenderer_create())
-		{
-		}
+    public class TabsRenderer : WidgetRenderer
+    {
+        public TabsRenderer()
+            : base(tguiTabsRenderer_create())
+        {
+        }
 
-		protected internal TabsRenderer(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal TabsRenderer(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public TabsRenderer(TabsRenderer copy)
-			: base(tguiTabsRenderer_copy(copy.CPointer))
-		{
-		}
+        public TabsRenderer(TabsRenderer copy)
+            : base(tguiTabsRenderer_copy(copy.CPointer))
+        {
+        }
 
-		public Outline Borders
-		{
-			get { return new Outline(tguiTabsRenderer_getBorders(CPointer)); }
-			set { tguiTabsRenderer_setBorders(CPointer, value.CPointer); }
-		}
+        public Outline Borders
+        {
+            get { return new Outline(tguiTabsRenderer_getBorders(CPointer)); }
+            set { tguiTabsRenderer_setBorders(CPointer, value.CPointer); }
+        }
 
-		public Color BackgroundColor
-		{
-			get { return tguiTabsRenderer_getBackgroundColor(CPointer); }
-			set { tguiTabsRenderer_setBackgroundColor(CPointer, value); }
-		}
+        public Color BackgroundColor
+        {
+            get { return tguiTabsRenderer_getBackgroundColor(CPointer); }
+            set { tguiTabsRenderer_setBackgroundColor(CPointer, value); }
+        }
 
         public Color BackgroundColorHover
-		{
-			get { return tguiTabsRenderer_getBackgroundColorHover(CPointer); }
-			set { tguiTabsRenderer_setBackgroundColorHover(CPointer, value); }
-		}
+        {
+            get { return tguiTabsRenderer_getBackgroundColorHover(CPointer); }
+            set { tguiTabsRenderer_setBackgroundColorHover(CPointer, value); }
+        }
 
-		public Color SelectedBackgroundColor
-		{
-			get { return tguiTabsRenderer_getSelectedBackgroundColor(CPointer); }
-			set { tguiTabsRenderer_setSelectedBackgroundColor(CPointer, value); }
-		}
+        public Color SelectedBackgroundColor
+        {
+            get { return tguiTabsRenderer_getSelectedBackgroundColor(CPointer); }
+            set { tguiTabsRenderer_setSelectedBackgroundColor(CPointer, value); }
+        }
 
-		public Color SelectedBackgroundColorHover
-		{
-			get { return tguiTabsRenderer_getSelectedBackgroundColorHover(CPointer); }
-			set { tguiTabsRenderer_setSelectedBackgroundColorHover(CPointer, value); }
-		}
+        public Color SelectedBackgroundColorHover
+        {
+            get { return tguiTabsRenderer_getSelectedBackgroundColorHover(CPointer); }
+            set { tguiTabsRenderer_setSelectedBackgroundColorHover(CPointer, value); }
+        }
 
         public Color BackgroundColorDisabled
-		{
-			get { return tguiTabsRenderer_getBackgroundColorDisabled(CPointer); }
-			set { tguiTabsRenderer_setBackgroundColorDisabled(CPointer, value); }
-		}
+        {
+            get { return tguiTabsRenderer_getBackgroundColorDisabled(CPointer); }
+            set { tguiTabsRenderer_setBackgroundColorDisabled(CPointer, value); }
+        }
 
-		public Color TextColor
-		{
-			get { return tguiTabsRenderer_getTextColor(CPointer); }
-			set { tguiTabsRenderer_setTextColor(CPointer, value); }
-		}
+        public Color TextColor
+        {
+            get { return tguiTabsRenderer_getTextColor(CPointer); }
+            set { tguiTabsRenderer_setTextColor(CPointer, value); }
+        }
 
-		public Color TextColorHover
-		{
-			get { return tguiTabsRenderer_getTextColorHover(CPointer); }
-			set { tguiTabsRenderer_setTextColorHover(CPointer, value); }
-		}
+        public Color TextColorHover
+        {
+            get { return tguiTabsRenderer_getTextColorHover(CPointer); }
+            set { tguiTabsRenderer_setTextColorHover(CPointer, value); }
+        }
 
-		public Color SelectedTextColor
-		{
-			get { return tguiTabsRenderer_getSelectedTextColor(CPointer); }
-			set { tguiTabsRenderer_setSelectedTextColor(CPointer, value); }
-		}
+        public Color SelectedTextColor
+        {
+            get { return tguiTabsRenderer_getSelectedTextColor(CPointer); }
+            set { tguiTabsRenderer_setSelectedTextColor(CPointer, value); }
+        }
 
-		public Color SelectedTextColorHover
-		{
-			get { return tguiTabsRenderer_getSelectedTextColorHover(CPointer); }
-			set { tguiTabsRenderer_setSelectedTextColorHover(CPointer, value); }
-		}
+        public Color SelectedTextColorHover
+        {
+            get { return tguiTabsRenderer_getSelectedTextColorHover(CPointer); }
+            set { tguiTabsRenderer_setSelectedTextColorHover(CPointer, value); }
+        }
 
-		public Color TextColorDisabled
-		{
-			get { return tguiTabsRenderer_getTextColorDisabled(CPointer); }
-			set { tguiTabsRenderer_setTextColorDisabled(CPointer, value); }
-		}
+        public Color TextColorDisabled
+        {
+            get { return tguiTabsRenderer_getTextColorDisabled(CPointer); }
+            set { tguiTabsRenderer_setTextColorDisabled(CPointer, value); }
+        }
 
-		public Color BorderColor
-		{
-			get { return tguiTabsRenderer_getBorderColor(CPointer); }
-			set { tguiTabsRenderer_setBorderColor(CPointer, value); }
-		}
+        public Color BorderColor
+        {
+            get { return tguiTabsRenderer_getBorderColor(CPointer); }
+            set { tguiTabsRenderer_setBorderColor(CPointer, value); }
+        }
 
-		public Texture TextureTab
-		{
-			set { tguiTabsRenderer_setTextureTab(CPointer, value.CPointer); }
-		}
+        public Texture TextureTab
+        {
+            set { tguiTabsRenderer_setTextureTab(CPointer, value.CPointer); }
+        }
 
-		public Texture TextureTabHover
-		{
-			set { tguiTabsRenderer_setTextureTabHover(CPointer, value.CPointer); }
-		}
+        public Texture TextureTabHover
+        {
+            set { tguiTabsRenderer_setTextureTabHover(CPointer, value.CPointer); }
+        }
 
-		public Texture TextureSelectedTab
-		{
-			set { tguiTabsRenderer_setTextureSelectedTab(CPointer, value.CPointer); }
-		}
+        public Texture TextureSelectedTab
+        {
+            set { tguiTabsRenderer_setTextureSelectedTab(CPointer, value.CPointer); }
+        }
 
-		public Texture TextureSelectedTabHover
-		{
-			set { tguiTabsRenderer_setTextureSelectedTabHover(CPointer, value.CPointer); }
-		}
+        public Texture TextureSelectedTabHover
+        {
+            set { tguiTabsRenderer_setTextureSelectedTabHover(CPointer, value.CPointer); }
+        }
 
-		public Texture TextureDisabledTab
-		{
-			set { tguiTabsRenderer_setTextureDisabledTab(CPointer, value.CPointer); }
-		}
+        public Texture TextureDisabledTab
+        {
+            set { tguiTabsRenderer_setTextureDisabledTab(CPointer, value.CPointer); }
+        }
 
-		public float DistanceToSide
-		{
-			get { return tguiTabsRenderer_getDistanceToSide(CPointer); }
-			set { tguiTabsRenderer_setDistanceToSide(CPointer, value); }
-		}
+        public float DistanceToSide
+        {
+            get { return tguiTabsRenderer_getDistanceToSide(CPointer); }
+            set { tguiTabsRenderer_setDistanceToSide(CPointer, value); }
+        }
 
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiTabsRenderer_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiTabsRenderer_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiTabsRenderer_copy(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiTabsRenderer_copy(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setBorders(IntPtr cPointer, IntPtr borders);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiTabsRenderer_getBorders(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiTabsRenderer_getBorders(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiTabsRenderer_getBackgroundColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiTabsRenderer_getBackgroundColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiTabsRenderer_getBackgroundColorHover(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiTabsRenderer_getBackgroundColorHover(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setSelectedBackgroundColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setSelectedBackgroundColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiTabsRenderer_getSelectedBackgroundColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiTabsRenderer_getSelectedBackgroundColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setSelectedBackgroundColorHover(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setSelectedBackgroundColorHover(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiTabsRenderer_getSelectedBackgroundColorHover(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiTabsRenderer_getSelectedBackgroundColorHover(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setBackgroundColorDisabled(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setBackgroundColorDisabled(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiTabsRenderer_getBackgroundColorDisabled(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiTabsRenderer_getBackgroundColorDisabled(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setTextColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setTextColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiTabsRenderer_getTextColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiTabsRenderer_getTextColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setTextColorHover(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setTextColorHover(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiTabsRenderer_getTextColorHover(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiTabsRenderer_getTextColorHover(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setSelectedTextColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setSelectedTextColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiTabsRenderer_getSelectedTextColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiTabsRenderer_getSelectedTextColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setSelectedTextColorHover(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setSelectedTextColorHover(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiTabsRenderer_getSelectedTextColorHover(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiTabsRenderer_getSelectedTextColorHover(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiTabsRenderer_getTextColorDisabled(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiTabsRenderer_getTextColorDisabled(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setBorderColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setBorderColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiTabsRenderer_getBorderColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiTabsRenderer_getBorderColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setTextureTab(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setTextureTab(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setTextureTabHover(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setTextureTabHover(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setTextureSelectedTab(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setTextureSelectedTab(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setTextureSelectedTabHover(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setTextureSelectedTabHover(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setTextureDisabledTab(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setTextureDisabledTab(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabsRenderer_setDistanceToSide(IntPtr cPointer, float distanceToSide);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiTabsRenderer_setDistanceToSide(IntPtr cPointer, float distanceToSide);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiTabsRenderer_getDistanceToSide(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected float tguiTabsRenderer_getDistanceToSide(IntPtr cPointer);
 
-		#endregion
-	}
+        #endregion
+    }
 }

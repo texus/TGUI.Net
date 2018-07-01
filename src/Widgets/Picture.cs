@@ -30,78 +30,78 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-	public class Picture : ClickableWidget
-	{
-		public Picture(string filename = "")
-			: base(tguiPicture_create())
-		{
-			if (filename.Length > 0)
-				Renderer.Texture = new Texture(filename);
-		}
+    public class Picture : ClickableWidget
+    {
+        public Picture(string filename = "")
+            : base(tguiPicture_create())
+        {
+            if (filename.Length > 0)
+                Renderer.Texture = new Texture(filename);
+        }
 
-		public Picture(Texture texture = null)
-			: base(tguiPicture_create())
-		{
-			if (texture != null)
-				Renderer.Texture = texture;
-		}
+        public Picture(Texture texture = null)
+            : base(tguiPicture_create())
+        {
+            if (texture != null)
+                Renderer.Texture = texture;
+        }
 
-		protected internal Picture(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal Picture(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public Picture(Picture copy)
-			: base(copy)
-		{
-		}
+        public Picture(Picture copy)
+            : base(copy)
+        {
+        }
 
-		public new PictureRenderer Renderer
-		{
-			get { return new PictureRenderer(tguiWidget_getRenderer(CPointer)); }
-		}
+        public new PictureRenderer Renderer
+        {
+            get { return new PictureRenderer(tguiWidget_getRenderer(CPointer)); }
+        }
 
         public new PictureRenderer SharedRenderer
-		{
-			get { return new PictureRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-		}
+        {
+            get { return new PictureRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+        }
 
-		public bool IgnoreMouseEvents
-		{
-			get { return tguiPicture_isIgnoringMouseEvents(CPointer); }
-			set { tguiPicture_ignoreMouseEvents(CPointer, value); }
-		}
+        public bool IgnoreMouseEvents
+        {
+            get { return tguiPicture_isIgnoringMouseEvents(CPointer); }
+            set { tguiPicture_ignoreMouseEvents(CPointer, value); }
+        }
 
-		protected override void InitSignals()
-		{
-			base.InitSignals();
+        protected override void InitSignals()
+        {
+            base.InitSignals();
 
             DoubleClickedCallback = new CallbackActionVector2f(ProcessDoubleClickedSignal);
-		    if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback) == 0)
-				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-		}
+            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+        }
 
-		private void ProcessDoubleClickedSignal(Vector2f pos)
-		{
+        private void ProcessDoubleClickedSignal(Vector2f pos)
+        {
             DoubleClicked?.Invoke(this, new SignalArgsVector2f(pos));
         }
 
-		/// <summary>Event handler for the DoubleClicked signal</summary>
-		public event EventHandler<SignalArgsVector2f> DoubleClicked = null;
+        /// <summary>Event handler for the DoubleClicked signal</summary>
+        public event EventHandler<SignalArgsVector2f> DoubleClicked = null;
 
-	    private CallbackActionVector2f DoubleClickedCallback;
+        private CallbackActionVector2f DoubleClickedCallback;
 
-	    #region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiPicture_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiPicture_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiPicture_ignoreMouseEvents(IntPtr cPointer, bool ignore);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiPicture_ignoreMouseEvents(IntPtr cPointer, bool ignore);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiPicture_isIgnoringMouseEvents(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiPicture_isIgnoringMouseEvents(IntPtr cPointer);
 
-		#endregion
-	}
+        #endregion
+    }
 }

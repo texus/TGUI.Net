@@ -30,91 +30,91 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-	public class WidgetRenderer : SFML.ObjectBase
-	{
-		public WidgetRenderer()
-			: base(tguiWidgetRenderer_create())
-		{
-		}
+    public class WidgetRenderer : SFML.ObjectBase
+    {
+        public WidgetRenderer()
+            : base(tguiWidgetRenderer_create())
+        {
+        }
 
-		protected internal WidgetRenderer(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal WidgetRenderer(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public WidgetRenderer(WidgetRenderer copy)
-			: base(tguiWidgetRenderer_copy(copy.CPointer))
-		{
-		}
+        public WidgetRenderer(WidgetRenderer copy)
+            : base(tguiWidgetRenderer_copy(copy.CPointer))
+        {
+        }
 
-		protected override void Destroy(bool disposing)
-		{
-			tguiWidgetRenderer_destroy(CPointer);
-		}
+        protected override void Destroy(bool disposing)
+        {
+            tguiWidgetRenderer_destroy(CPointer);
+        }
 
-		public float Opacity
-		{
-			get { return tguiWidgetRenderer_getOpacity(CPointer); }
-			set { tguiWidgetRenderer_setOpacity(CPointer, value); }
-		}
+        public float Opacity
+        {
+            get { return tguiWidgetRenderer_getOpacity(CPointer); }
+            set { tguiWidgetRenderer_setOpacity(CPointer, value); }
+        }
 
-		public Font Font
-		{
-			set { tguiWidgetRenderer_setFont(CPointer, value.CPointer); }
-		}
+        public Font Font
+        {
+            set { tguiWidgetRenderer_setFont(CPointer, value.CPointer); }
+        }
 
-		public bool TransparentTexture
-		{
-			get { return tguiWidgetRenderer_getTransparentTexture(CPointer); }
-			set { tguiWidgetRenderer_setTransparentTexture(CPointer, value); }
-		}
+        public bool TransparentTexture
+        {
+            get { return tguiWidgetRenderer_getTransparentTexture(CPointer); }
+            set { tguiWidgetRenderer_setTransparentTexture(CPointer, value); }
+        }
 
-		public RendererData Data
-		{
-			get { return new RendererData(tguiWidgetRenderer_getData(CPointer)); }
-		}
+        public RendererData Data
+        {
+            get { return new RendererData(tguiWidgetRenderer_getData(CPointer)); }
+        }
 
-		////////////////////////////////////////////////////////////
-		/// <summary>
-		/// Provide a string describing the object
-		/// </summary>
-		/// <returns>String description of the object</returns>
-		////////////////////////////////////////////////////////////
-		public override string ToString()
-		{
-			return "[WidgetRenderer]";
-		}
+        ////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Provide a string describing the object
+        /// </summary>
+        /// <returns>String description of the object</returns>
+        ////////////////////////////////////////////////////////////
+        public override string ToString()
+        {
+            return "[WidgetRenderer]";
+        }
 
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiWidgetRenderer_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiWidgetRenderer_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiWidgetRenderer_copy(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiWidgetRenderer_copy(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidgetRenderer_destroy(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiWidgetRenderer_destroy(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidgetRenderer_setOpacity(IntPtr cPointer, float opacity);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiWidgetRenderer_setOpacity(IntPtr cPointer, float opacity);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiWidgetRenderer_getOpacity(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected float tguiWidgetRenderer_getOpacity(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidgetRenderer_setFont(IntPtr cPointer, IntPtr font);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiWidgetRenderer_setFont(IntPtr cPointer, IntPtr font);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiWidgetRenderer_setTransparentTexture(IntPtr cPointer, bool ignoreTransparentParts);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiWidgetRenderer_setTransparentTexture(IntPtr cPointer, bool ignoreTransparentParts);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiWidgetRenderer_getTransparentTexture(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiWidgetRenderer_getTransparentTexture(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiWidgetRenderer_getData(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiWidgetRenderer_getData(IntPtr cPointer);
 
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -27,87 +27,87 @@ using SFML.System;
 
 namespace TGUI
 {
-	public class SignalArgsVector2f : EventArgs
-	{
-		public SignalArgsVector2f(Vector2f value)
-		{
-			Value = value;
-		}
+    public class SignalArgsVector2f : EventArgs
+    {
+        public SignalArgsVector2f(Vector2f value)
+        {
+            Value = value;
+        }
 
-		public Vector2f Value;
-	}
+        public Vector2f Value;
+    }
 
-	public class SignalArgsString : EventArgs
-	{
-		public SignalArgsString(string value)
-		{
-			Value = value;
-		}
+    public class SignalArgsString : EventArgs
+    {
+        public SignalArgsString(string value)
+        {
+            Value = value;
+        }
 
-		public string Value;
-	}
+        public string Value;
+    }
 
-	public class SignalArgsInt : EventArgs
-	{
-		public SignalArgsInt(int value)
-		{
-			Value = value;
-		}
+    public class SignalArgsInt : EventArgs
+    {
+        public SignalArgsInt(int value)
+        {
+            Value = value;
+        }
 
-		public int Value;
-	}
+        public int Value;
+    }
 
     public class SignalArgsUInt : EventArgs
-	{
-		public SignalArgsUInt(uint value)
-		{
-			Value = value;
-		}
+    {
+        public SignalArgsUInt(uint value)
+        {
+            Value = value;
+        }
 
-		public uint Value;
-	}
+        public uint Value;
+    }
 
-	public class SignalArgsFloat : EventArgs
-	{
-		public SignalArgsFloat(float value)
-		{
-			Value = value;
-		}
+    public class SignalArgsFloat : EventArgs
+    {
+        public SignalArgsFloat(float value)
+        {
+            Value = value;
+        }
 
-		public float Value;
-	}
+        public float Value;
+    }
 
     public class SignalArgsRange : EventArgs
-	{
-		public SignalArgsRange(float start, float end)
-		{
-			Start = start;
-			End = end;
-		}
+    {
+        public SignalArgsRange(float start, float end)
+        {
+            Start = start;
+            End = end;
+        }
 
-		public float Start;
-		public float End;
-	}
+        public float Start;
+        public float End;
+    }
 
-	public class SignalArgsBool : EventArgs
-	{
-		public SignalArgsBool(bool value)
-		{
-			Value = value;
-		}
+    public class SignalArgsBool : EventArgs
+    {
+        public SignalArgsBool(bool value)
+        {
+            Value = value;
+        }
 
-		public bool Value;
-	}
+        public bool Value;
+    }
 
-	public class SignalArgsItem : EventArgs
-	{
-		public SignalArgsItem(string item, string id)
-		{
-			Item = item;
-			Id = id;
-		}
+    public class SignalArgsItem : EventArgs
+    {
+        public SignalArgsItem(string item, string id)
+        {
+            Item = item;
+            Id = id;
+        }
 
-		public string Item;
-		public string Id;
-	}
+        public string Item;
+        public string Id;
+    }
 }

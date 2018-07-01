@@ -29,171 +29,171 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-	public class RangeSliderRenderer : WidgetRenderer
-	{
-		public RangeSliderRenderer()
-			: base(tguiRangeSliderRenderer_create())
-		{
-		}
+    public class RangeSliderRenderer : WidgetRenderer
+    {
+        public RangeSliderRenderer()
+            : base(tguiRangeSliderRenderer_create())
+        {
+        }
 
-		protected internal RangeSliderRenderer(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal RangeSliderRenderer(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public RangeSliderRenderer(RangeSliderRenderer copy)
-			: base(tguiRangeSliderRenderer_copy(copy.CPointer))
-		{
-		}
+        public RangeSliderRenderer(RangeSliderRenderer copy)
+            : base(tguiRangeSliderRenderer_copy(copy.CPointer))
+        {
+        }
 
-		public Outline Borders
-		{
-			get { return new Outline(tguiRangeSliderRenderer_getBorders(CPointer)); }
-			set { tguiRangeSliderRenderer_setBorders(CPointer, value.CPointer); }
-		}
+        public Outline Borders
+        {
+            get { return new Outline(tguiRangeSliderRenderer_getBorders(CPointer)); }
+            set { tguiRangeSliderRenderer_setBorders(CPointer, value.CPointer); }
+        }
 
-		public Color TrackColor
-		{
-			get { return tguiRangeSliderRenderer_getTrackColor(CPointer); }
-			set { tguiRangeSliderRenderer_setTrackColor(CPointer, value); }
-		}
+        public Color TrackColor
+        {
+            get { return tguiRangeSliderRenderer_getTrackColor(CPointer); }
+            set { tguiRangeSliderRenderer_setTrackColor(CPointer, value); }
+        }
 
-		public Color TrackColorHover
-		{
-			get { return tguiRangeSliderRenderer_getTrackColorHover(CPointer); }
-			set { tguiRangeSliderRenderer_setTrackColorHover(CPointer, value); }
-		}
+        public Color TrackColorHover
+        {
+            get { return tguiRangeSliderRenderer_getTrackColorHover(CPointer); }
+            set { tguiRangeSliderRenderer_setTrackColorHover(CPointer, value); }
+        }
 
         public Color SelectedTrackColor
-		{
-			get { return tguiRangeSliderRenderer_getSelectedTrackColor(CPointer); }
-			set { tguiRangeSliderRenderer_setSelectedTrackColor(CPointer, value); }
-		}
+        {
+            get { return tguiRangeSliderRenderer_getSelectedTrackColor(CPointer); }
+            set { tguiRangeSliderRenderer_setSelectedTrackColor(CPointer, value); }
+        }
 
-		public Color SelectedTrackColorHover
-		{
-			get { return tguiRangeSliderRenderer_getSelectedTrackColorHover(CPointer); }
-			set { tguiRangeSliderRenderer_setSelectedTrackColorHover(CPointer, value); }
-		}
+        public Color SelectedTrackColorHover
+        {
+            get { return tguiRangeSliderRenderer_getSelectedTrackColorHover(CPointer); }
+            set { tguiRangeSliderRenderer_setSelectedTrackColorHover(CPointer, value); }
+        }
 
-		public Color ThumbColor
-		{
-			get { return tguiRangeSliderRenderer_getThumbColor(CPointer); }
-			set { tguiRangeSliderRenderer_setThumbColor(CPointer, value); }
-		}
+        public Color ThumbColor
+        {
+            get { return tguiRangeSliderRenderer_getThumbColor(CPointer); }
+            set { tguiRangeSliderRenderer_setThumbColor(CPointer, value); }
+        }
 
-		public Color ThumbColorHover
-		{
-			get { return tguiRangeSliderRenderer_getThumbColorHover(CPointer); }
-			set { tguiRangeSliderRenderer_setThumbColorHover(CPointer, value); }
-		}
+        public Color ThumbColorHover
+        {
+            get { return tguiRangeSliderRenderer_getThumbColorHover(CPointer); }
+            set { tguiRangeSliderRenderer_setThumbColorHover(CPointer, value); }
+        }
 
-		public Color BorderColor
-		{
-			get { return tguiRangeSliderRenderer_getBorderColor(CPointer); }
-			set { tguiRangeSliderRenderer_setBorderColor(CPointer, value); }
-		}
+        public Color BorderColor
+        {
+            get { return tguiRangeSliderRenderer_getBorderColor(CPointer); }
+            set { tguiRangeSliderRenderer_setBorderColor(CPointer, value); }
+        }
 
-		public Color BorderColorHover
-		{
-			get { return tguiRangeSliderRenderer_getBorderColorHover(CPointer); }
-			set { tguiRangeSliderRenderer_setBorderColorHover(CPointer, value); }
-		}
+        public Color BorderColorHover
+        {
+            get { return tguiRangeSliderRenderer_getBorderColorHover(CPointer); }
+            set { tguiRangeSliderRenderer_setBorderColorHover(CPointer, value); }
+        }
 
-		public Texture TextureTrack
-		{
-			set { tguiRangeSliderRenderer_setTextureTrack(CPointer, value.CPointer); }
-		}
+        public Texture TextureTrack
+        {
+            set { tguiRangeSliderRenderer_setTextureTrack(CPointer, value.CPointer); }
+        }
 
-		public Texture TextureTrackHover
-		{
-			set { tguiRangeSliderRenderer_setTextureTrackHover(CPointer, value.CPointer); }
-		}
+        public Texture TextureTrackHover
+        {
+            set { tguiRangeSliderRenderer_setTextureTrackHover(CPointer, value.CPointer); }
+        }
 
-		public Texture TextureThumb
-		{
-			set { tguiRangeSliderRenderer_setTextureThumb(CPointer, value.CPointer); }
-		}
+        public Texture TextureThumb
+        {
+            set { tguiRangeSliderRenderer_setTextureThumb(CPointer, value.CPointer); }
+        }
 
-		public Texture TextureThumbHover
-		{
-			set { tguiRangeSliderRenderer_setTextureThumbHover(CPointer, value.CPointer); }
-		}
+        public Texture TextureThumbHover
+        {
+            set { tguiRangeSliderRenderer_setTextureThumbHover(CPointer, value.CPointer); }
+        }
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiRangeSliderRenderer_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiRangeSliderRenderer_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiRangeSliderRenderer_copy(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiRangeSliderRenderer_copy(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSliderRenderer_setBorders(IntPtr cPointer, IntPtr borders);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSliderRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiRangeSliderRenderer_getBorders(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiRangeSliderRenderer_getBorders(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSliderRenderer_setTrackColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSliderRenderer_setTrackColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiRangeSliderRenderer_getTrackColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiRangeSliderRenderer_getTrackColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSliderRenderer_setTrackColorHover(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSliderRenderer_setTrackColorHover(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiRangeSliderRenderer_getTrackColorHover(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiRangeSliderRenderer_getTrackColorHover(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSliderRenderer_setSelectedTrackColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSliderRenderer_setSelectedTrackColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiRangeSliderRenderer_getSelectedTrackColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiRangeSliderRenderer_getSelectedTrackColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSliderRenderer_setSelectedTrackColorHover(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSliderRenderer_setSelectedTrackColorHover(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiRangeSliderRenderer_getSelectedTrackColorHover(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiRangeSliderRenderer_getSelectedTrackColorHover(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSliderRenderer_setThumbColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSliderRenderer_setThumbColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiRangeSliderRenderer_getThumbColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiRangeSliderRenderer_getThumbColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSliderRenderer_setThumbColorHover(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSliderRenderer_setThumbColorHover(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiRangeSliderRenderer_getThumbColorHover(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiRangeSliderRenderer_getThumbColorHover(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSliderRenderer_setBorderColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSliderRenderer_setBorderColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiRangeSliderRenderer_getBorderColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiRangeSliderRenderer_getBorderColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSliderRenderer_setBorderColorHover(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSliderRenderer_setBorderColorHover(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiRangeSliderRenderer_getBorderColorHover(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiRangeSliderRenderer_getBorderColorHover(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSliderRenderer_setTextureTrack(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSliderRenderer_setTextureTrack(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSliderRenderer_setTextureTrackHover(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSliderRenderer_setTextureTrackHover(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSliderRenderer_setTextureThumb(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSliderRenderer_setTextureThumb(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiRangeSliderRenderer_setTextureThumbHover(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiRangeSliderRenderer_setTextureThumbHover(IntPtr cPointer, IntPtr texture);
 
-		#endregion
-	}
+        #endregion
+    }
 }

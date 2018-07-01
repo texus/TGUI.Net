@@ -29,149 +29,149 @@ using System.Collections.Generic;
 
 namespace TGUI
 {
-	public class MenuBar : Widget
-	{
-		public MenuBar()
-			: base(tguiMenuBar_create())
-		{
-		}
+    public class MenuBar : Widget
+    {
+        public MenuBar()
+            : base(tguiMenuBar_create())
+        {
+        }
 
-		protected internal MenuBar(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal MenuBar(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public MenuBar(MenuBar copy)
-			: base(copy)
-		{
-		}
+        public MenuBar(MenuBar copy)
+            : base(copy)
+        {
+        }
 
-		public new MenuBarRenderer Renderer
-		{
-			get { return new MenuBarRenderer(tguiWidget_getRenderer(CPointer)); }
-		}
+        public new MenuBarRenderer Renderer
+        {
+            get { return new MenuBarRenderer(tguiWidget_getRenderer(CPointer)); }
+        }
 
         public new MenuBarRenderer SharedRenderer
-		{
-			get { return new MenuBarRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-		}
+        {
+            get { return new MenuBarRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+        }
 
-		public void AddMenu(string text)
-		{
-			tguiMenuBar_addMenu(CPointer, Util.ConvertStringForC_UTF32(text));
-		}
+        public void AddMenu(string text)
+        {
+            tguiMenuBar_addMenu(CPointer, Util.ConvertStringForC_UTF32(text));
+        }
 
-		public bool AddMenuItem(string menu, string text)
-		{
-			return tguiMenuBar_addMenuItem(CPointer, Util.ConvertStringForC_UTF32(menu), Util.ConvertStringForC_UTF32(text));
-		}
+        public bool AddMenuItem(string menu, string text)
+        {
+            return tguiMenuBar_addMenuItem(CPointer, Util.ConvertStringForC_UTF32(menu), Util.ConvertStringForC_UTF32(text));
+        }
 
-		public bool AddMenuItem(string text)
-		{
-			return tguiMenuBar_addMenuItemToLastMenu(CPointer, Util.ConvertStringForC_UTF32(text));
-		}
+        public bool AddMenuItem(string text)
+        {
+            return tguiMenuBar_addMenuItemToLastMenu(CPointer, Util.ConvertStringForC_UTF32(text));
+        }
 
-		public bool RemoveMenu(string menu)
-		{
-			return tguiMenuBar_removeMenu(CPointer, Util.ConvertStringForC_UTF32(menu));
-		}
+        public bool RemoveMenu(string menu)
+        {
+            return tguiMenuBar_removeMenu(CPointer, Util.ConvertStringForC_UTF32(menu));
+        }
 
-		public void RemoveAllMenus()
-		{
-			tguiMenuBar_removeAllMenus(CPointer);
-		}
+        public void RemoveAllMenus()
+        {
+            tguiMenuBar_removeAllMenus(CPointer);
+        }
 
-		public bool RemoveMenuItem(string menu, string menuItem)
-		{
-			return tguiMenuBar_removeMenuItem(CPointer, Util.ConvertStringForC_UTF32(menu), Util.ConvertStringForC_UTF32(menuItem));
-		}
+        public bool RemoveMenuItem(string menu, string menuItem)
+        {
+            return tguiMenuBar_removeMenuItem(CPointer, Util.ConvertStringForC_UTF32(menu), Util.ConvertStringForC_UTF32(menuItem));
+        }
 
-		public uint TextSize
-		{
-			get { return tguiMenuBar_getTextSize(CPointer); }
-			set { tguiMenuBar_setTextSize(CPointer, value); }
-		}
+        public uint TextSize
+        {
+            get { return tguiMenuBar_getTextSize(CPointer); }
+            set { tguiMenuBar_setTextSize(CPointer, value); }
+        }
 
-		public float MinimumSubMenuWidth
-		{
-			get { return tguiMenuBar_getMinimumSubMenuWidth(CPointer); }
-			set { tguiMenuBar_setMinimumSubMenuWidth(CPointer, value); }
-		}
+        public float MinimumSubMenuWidth
+        {
+            get { return tguiMenuBar_getMinimumSubMenuWidth(CPointer); }
+            set { tguiMenuBar_setMinimumSubMenuWidth(CPointer, value); }
+        }
 
-		public bool InvertedMenuDirection {
-			get { return tguiMenuBar_getInvertedMenuDirection (CPointer); }
-			set { tguiMenuBar_setInvertedMenuDirection (CPointer, value); }
-		}
+        public bool InvertedMenuDirection {
+            get { return tguiMenuBar_getInvertedMenuDirection (CPointer); }
+            set { tguiMenuBar_setInvertedMenuDirection (CPointer, value); }
+        }
 
         public void CloseMenu()
         {
             tguiMenuBar_closeMenu(CPointer);
         }
 
-		protected override void InitSignals()
-		{
-			base.InitSignals();
+        protected override void InitSignals()
+        {
+            base.InitSignals();
 
             MenuItemClickedCallback = new CallbackActionString(ProcessMenuItemClickedSignal);
-		    if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("MenuItemClicked"), MenuItemClickedCallback) == 0)
-				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-		}
+            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("MenuItemClicked"), MenuItemClickedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+        }
 
-		private void ProcessMenuItemClickedSignal(IntPtr menuItem)
-		{
+        private void ProcessMenuItemClickedSignal(IntPtr menuItem)
+        {
             MenuItemClicked?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(menuItem)));
         }
 
-		/// <summary>Event handler for the ItemSelected signal</summary>
-		public event EventHandler<SignalArgsString> MenuItemClicked = null;
+        /// <summary>Event handler for the ItemSelected signal</summary>
+        public event EventHandler<SignalArgsString> MenuItemClicked = null;
 
-	    private CallbackActionString MenuItemClickedCallback;
+        private CallbackActionString MenuItemClickedCallback;
 
 
-	    #region Imports
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiMenuBar_create();
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMenuBar_addMenu(IntPtr cPointer, IntPtr text);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiMenuBar_addMenuItem(IntPtr cPointer, IntPtr menu, IntPtr text);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiMenuBar_addMenuItemToLastMenu(IntPtr cPointer, IntPtr text);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiMenuBar_removeMenu(IntPtr cPointer, IntPtr menu);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMenuBar_removeAllMenus(IntPtr cPointer);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiMenuBar_removeMenuItem(IntPtr cPointer, IntPtr menu, IntPtr item);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMenuBar_setTextSize(IntPtr cPointer, uint textSize);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected uint tguiMenuBar_getTextSize(IntPtr cPointer);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMenuBar_setMinimumSubMenuWidth(IntPtr cPointer, float minimumSubMenuWidth);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiMenuBar_getMinimumSubMenuWidth(IntPtr cPointer);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMenuBar_setInvertedMenuDirection (IntPtr cPointer, bool invertDirection);
-
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected bool tguiMenuBar_getInvertedMenuDirection (IntPtr cPointer);
+        #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMenuBar_closeMenu(IntPtr cPointer);
+        static extern protected IntPtr tguiMenuBar_create();
 
-		#endregion
-	}
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMenuBar_addMenu(IntPtr cPointer, IntPtr text);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiMenuBar_addMenuItem(IntPtr cPointer, IntPtr menu, IntPtr text);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiMenuBar_addMenuItemToLastMenu(IntPtr cPointer, IntPtr text);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiMenuBar_removeMenu(IntPtr cPointer, IntPtr menu);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMenuBar_removeAllMenus(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiMenuBar_removeMenuItem(IntPtr cPointer, IntPtr menu, IntPtr item);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMenuBar_setTextSize(IntPtr cPointer, uint textSize);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected uint tguiMenuBar_getTextSize(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMenuBar_setMinimumSubMenuWidth(IntPtr cPointer, float minimumSubMenuWidth);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected float tguiMenuBar_getMinimumSubMenuWidth(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMenuBar_setInvertedMenuDirection (IntPtr cPointer, bool invertDirection);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiMenuBar_getInvertedMenuDirection (IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMenuBar_closeMenu(IntPtr cPointer);
+
+        #endregion
+    }
 }

@@ -28,84 +28,84 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
-	public class Button : ClickableWidget
-	{
-		public Button(string text = "")
-			: base(tguiButton_create())
-		{
-			if (text.Length > 0)
-				Text = text;
-		}
+    public class Button : ClickableWidget
+    {
+        public Button(string text = "")
+            : base(tguiButton_create())
+        {
+            if (text.Length > 0)
+                Text = text;
+        }
 
-		protected internal Button(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal Button(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public Button(Button copy)
-			: base(copy)
-		{
-		}
+        public Button(Button copy)
+            : base(copy)
+        {
+        }
 
-		public new ButtonRenderer Renderer
-		{
-			get { return new ButtonRenderer(tguiWidget_getRenderer(CPointer)); }
-		}
+        public new ButtonRenderer Renderer
+        {
+            get { return new ButtonRenderer(tguiWidget_getRenderer(CPointer)); }
+        }
 
-		public new ButtonRenderer SharedRenderer
-		{
-			get { return new ButtonRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-		}
+        public new ButtonRenderer SharedRenderer
+        {
+            get { return new ButtonRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+        }
 
-		public string Text
-		{
-			get { return Util.GetStringFromC_UTF32(tguiButton_getText(CPointer)); }
-			set { tguiButton_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
-		}
+        public string Text
+        {
+            get { return Util.GetStringFromC_UTF32(tguiButton_getText(CPointer)); }
+            set { tguiButton_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
+        }
 
-		public uint TextSize
-		{
-			get { return tguiButton_getTextSize(CPointer); }
-			set { tguiButton_setTextSize(CPointer, value); }
-		}
+        public uint TextSize
+        {
+            get { return tguiButton_getTextSize(CPointer); }
+            set { tguiButton_setTextSize(CPointer, value); }
+        }
 
-		protected override void InitSignals()
-		{
-			base.InitSignals();
+        protected override void InitSignals()
+        {
+            base.InitSignals();
 
             PressedCallback = new CallbackActionString(ProcessPressedSignal);
-		    if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("Pressed"), PressedCallback) == 0)
-				throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-		}
+            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("Pressed"), PressedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+        }
 
-		private void ProcessPressedSignal(IntPtr text)
-		{
-			Pressed?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
-		}
+        private void ProcessPressedSignal(IntPtr text)
+        {
+            Pressed?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
+        }
 
-		/// <summary>Event handler for the Pressed signal</summary>
-		public event EventHandler<SignalArgsString> Pressed = null;
+        /// <summary>Event handler for the Pressed signal</summary>
+        public event EventHandler<SignalArgsString> Pressed = null;
 
-	    private CallbackActionString PressedCallback;
+        private CallbackActionString PressedCallback;
 
 
-	    #region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiButton_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiButton_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButton_setText(IntPtr cPointer, IntPtr value);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButton_setText(IntPtr cPointer, IntPtr value);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiButton_getText(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiButton_getText(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButton_setTextSize(IntPtr cPointer, uint textSize);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButton_setTextSize(IntPtr cPointer, uint textSize);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected uint tguiButton_getTextSize(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected uint tguiButton_getTextSize(IntPtr cPointer);
 
-		#endregion
-	}
+        #endregion
+    }
 }

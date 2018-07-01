@@ -29,116 +29,116 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-	public class MenuBarRenderer : WidgetRenderer
-	{
-		public MenuBarRenderer()
-			: base(tguiMenuBarRenderer_create())
-		{
-		}
+    public class MenuBarRenderer : WidgetRenderer
+    {
+        public MenuBarRenderer()
+            : base(tguiMenuBarRenderer_create())
+        {
+        }
 
-		protected internal MenuBarRenderer(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal MenuBarRenderer(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public MenuBarRenderer(MenuBarRenderer copy)
-			: base(tguiMenuBarRenderer_copy(copy.CPointer))
-		{
-		}
+        public MenuBarRenderer(MenuBarRenderer copy)
+            : base(tguiMenuBarRenderer_copy(copy.CPointer))
+        {
+        }
 
-		public Color BackgroundColor
-		{
-			get { return tguiMenuBarRenderer_getBackgroundColor(CPointer); }
-			set { tguiMenuBarRenderer_setBackgroundColor(CPointer, value); }
-		}
+        public Color BackgroundColor
+        {
+            get { return tguiMenuBarRenderer_getBackgroundColor(CPointer); }
+            set { tguiMenuBarRenderer_setBackgroundColor(CPointer, value); }
+        }
 
-		public Color SelectedBackgroundColor
-		{
-			get { return tguiMenuBarRenderer_getSelectedBackgroundColor(CPointer); }
-			set { tguiMenuBarRenderer_setSelectedBackgroundColor(CPointer, value); }
-		}
+        public Color SelectedBackgroundColor
+        {
+            get { return tguiMenuBarRenderer_getSelectedBackgroundColor(CPointer); }
+            set { tguiMenuBarRenderer_setSelectedBackgroundColor(CPointer, value); }
+        }
 
-		public Color TextColor
-		{
-			get { return tguiMenuBarRenderer_getTextColor(CPointer); }
-			set { tguiMenuBarRenderer_setTextColor(CPointer, value); }
-		}
+        public Color TextColor
+        {
+            get { return tguiMenuBarRenderer_getTextColor(CPointer); }
+            set { tguiMenuBarRenderer_setTextColor(CPointer, value); }
+        }
 
-		public Color SelectedTextColor
-		{
-			get { return tguiMenuBarRenderer_getSelectedTextColor(CPointer); }
-			set { tguiMenuBarRenderer_setSelectedTextColor(CPointer, value); }
-		}
+        public Color SelectedTextColor
+        {
+            get { return tguiMenuBarRenderer_getSelectedTextColor(CPointer); }
+            set { tguiMenuBarRenderer_setSelectedTextColor(CPointer, value); }
+        }
 
-		public Texture TextureBackground
-		{
-			set { tguiMenuBarRenderer_setTextureBackground(CPointer, value.CPointer); }
-		}
+        public Texture TextureBackground
+        {
+            set { tguiMenuBarRenderer_setTextureBackground(CPointer, value.CPointer); }
+        }
 
-		public Texture TextureItemBackground
-		{
-			set { tguiMenuBarRenderer_setTextureItemBackground(CPointer, value.CPointer); }
-		}
+        public Texture TextureItemBackground
+        {
+            set { tguiMenuBarRenderer_setTextureItemBackground(CPointer, value.CPointer); }
+        }
 
-		public Texture TextureSelectedItemBackground
-		{
-			set { tguiMenuBarRenderer_setTextureSelectedItemBackground(CPointer, value.CPointer); }
-		}
+        public Texture TextureSelectedItemBackground
+        {
+            set { tguiMenuBarRenderer_setTextureSelectedItemBackground(CPointer, value.CPointer); }
+        }
 
-		public float DistanceToSide
-		{
-			get { return tguiMenuBarRenderer_getDistanceToSide(CPointer); }
-			set { tguiMenuBarRenderer_setDistanceToSide(CPointer, value); }
-		}
+        public float DistanceToSide
+        {
+            get { return tguiMenuBarRenderer_getDistanceToSide(CPointer); }
+            set { tguiMenuBarRenderer_setDistanceToSide(CPointer, value); }
+        }
 
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiMenuBarRenderer_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiMenuBarRenderer_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiMenuBarRenderer_copy(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiMenuBarRenderer_copy(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMenuBarRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMenuBarRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiMenuBarRenderer_getBackgroundColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiMenuBarRenderer_getBackgroundColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMenuBarRenderer_setSelectedBackgroundColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMenuBarRenderer_setSelectedBackgroundColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiMenuBarRenderer_getSelectedBackgroundColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiMenuBarRenderer_getSelectedBackgroundColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMenuBarRenderer_setTextColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMenuBarRenderer_setTextColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiMenuBarRenderer_getTextColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiMenuBarRenderer_getTextColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMenuBarRenderer_setSelectedTextColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMenuBarRenderer_setSelectedTextColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiMenuBarRenderer_getSelectedTextColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiMenuBarRenderer_getSelectedTextColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMenuBarRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMenuBarRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMenuBarRenderer_setTextureItemBackground(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMenuBarRenderer_setTextureItemBackground(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMenuBarRenderer_setTextureSelectedItemBackground(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMenuBarRenderer_setTextureSelectedItemBackground(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiMenuBarRenderer_setDistanceToSide(IntPtr cPointer, float distanceToSide);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiMenuBarRenderer_setDistanceToSide(IntPtr cPointer, float distanceToSide);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected float tguiMenuBarRenderer_getDistanceToSide(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected float tguiMenuBarRenderer_getDistanceToSide(IntPtr cPointer);
 
-		#endregion
-	}
+        #endregion
+    }
 }

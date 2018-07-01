@@ -28,29 +28,29 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
-	public class VerticalLayout : BoxLayoutRatios
-	{
-		public VerticalLayout()
-			: base(tguiVerticalLayout_create())
-		{
-		}
+    public class VerticalLayout : BoxLayoutRatios
+    {
+        public VerticalLayout()
+            : base(tguiVerticalLayout_create())
+        {
+        }
 
-		protected internal VerticalLayout(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
+        protected internal VerticalLayout(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
 
-		public VerticalLayout(VerticalLayout copy)
-			: base(copy)
-		{
-		}
+        public VerticalLayout(VerticalLayout copy)
+            : base(copy)
+        {
+        }
 
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiVerticalLayout_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiVerticalLayout_create();
 
-		#endregion
-	}
+        #endregion
+    }
 }

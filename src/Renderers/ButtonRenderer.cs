@@ -29,323 +29,323 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-	public class ButtonRenderer : WidgetRenderer
-	{
-		public ButtonRenderer()
-			: base(tguiButtonRenderer_create())
-		{
-		}
-
-		protected internal ButtonRenderer(IntPtr cPointer)
-			: base(cPointer)
-		{
-		}
-
-		public ButtonRenderer(ButtonRenderer copy)
-			: base(tguiButtonRenderer_copy(copy.CPointer))
-		{
-		}
-
-		public Outline Borders
-		{
-			get { return new Outline(tguiButtonRenderer_getBorders(CPointer)); }
-			set { tguiButtonRenderer_setBorders(CPointer, value.CPointer); }
-		}
-
-		public Color TextColor
-		{
-			get { return tguiButtonRenderer_getTextColor(CPointer); }
-			set { tguiButtonRenderer_setTextColor(CPointer, value); }
-		}
-
-		public Color TextColorHover
-		{
-			get { return tguiButtonRenderer_getTextColorHover(CPointer); }
-			set { tguiButtonRenderer_setTextColorHover(CPointer, value); }
-		}
-
-		public Color TextColorDown
-		{
-			get { return tguiButtonRenderer_getTextColorDown(CPointer); }
-			set { tguiButtonRenderer_setTextColorDown(CPointer, value); }
-		}
-
-		public Color TextColorFocused
-		{
-			get { return tguiButtonRenderer_getTextColorFocused(CPointer); }
-			set { tguiButtonRenderer_setTextColorFocused(CPointer, value); }
-		}
-
-		public Color TextColorDisabled
-		{
-			get { return tguiButtonRenderer_getTextColorDisabled(CPointer); }
-			set { tguiButtonRenderer_setTextColorDisabled(CPointer, value); }
-		}
-
-		public Color BackgroundColor
-		{
-			get { return tguiButtonRenderer_getBackgroundColor(CPointer); }
-			set { tguiButtonRenderer_setBackgroundColor(CPointer, value); }
-		}
-
-		public Color BackgroundColorHover
-		{
-			get { return tguiButtonRenderer_getBackgroundColorHover(CPointer); }
-			set { tguiButtonRenderer_setBackgroundColorHover(CPointer, value); }
-		}
-
-		public Color BackgroundColorDown
-		{
-			get { return tguiButtonRenderer_getBackgroundColorDown(CPointer); }
-			set { tguiButtonRenderer_setBackgroundColorDown(CPointer, value); }
-		}
-
-		public Color BackgroundColorFocused
-		{
-			get { return tguiButtonRenderer_getBackgroundColorFocused(CPointer); }
-			set { tguiButtonRenderer_setBackgroundColorFocused(CPointer, value); }
-		}
-
-		public Color BackgroundColorDisabled
-		{
-			get { return tguiButtonRenderer_getBackgroundColorDisabled(CPointer); }
-			set { tguiButtonRenderer_setBackgroundColorDisabled(CPointer, value); }
-		}
-
-		public Color BorderColor
-		{
-			get { return tguiButtonRenderer_getBorderColor(CPointer); }
-			set { tguiButtonRenderer_setBorderColor(CPointer, value); }
-		}
-
-		public Color BorderColorHover
-		{
-			get { return tguiButtonRenderer_getBorderColorHover(CPointer); }
-			set { tguiButtonRenderer_setBorderColorHover(CPointer, value); }
-		}
-
-		public Color BorderColorDown
-		{
-			get { return tguiButtonRenderer_getBorderColorDown(CPointer); }
-			set { tguiButtonRenderer_setBorderColorDown(CPointer, value); }
-		}
-
-		public Color BorderColorFocused
-		{
-			get { return tguiButtonRenderer_getBorderColorFocused(CPointer); }
-			set { tguiButtonRenderer_setBorderColorFocused(CPointer, value); }
-		}
-
-		public Color BorderColorDisabled
-		{
-			get { return tguiButtonRenderer_getBorderColorDisabled(CPointer); }
-			set { tguiButtonRenderer_setBorderColorDisabled(CPointer, value); }
-		}
+    public class ButtonRenderer : WidgetRenderer
+    {
+        public ButtonRenderer()
+            : base(tguiButtonRenderer_create())
+        {
+        }
+
+        protected internal ButtonRenderer(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
+
+        public ButtonRenderer(ButtonRenderer copy)
+            : base(tguiButtonRenderer_copy(copy.CPointer))
+        {
+        }
+
+        public Outline Borders
+        {
+            get { return new Outline(tguiButtonRenderer_getBorders(CPointer)); }
+            set { tguiButtonRenderer_setBorders(CPointer, value.CPointer); }
+        }
+
+        public Color TextColor
+        {
+            get { return tguiButtonRenderer_getTextColor(CPointer); }
+            set { tguiButtonRenderer_setTextColor(CPointer, value); }
+        }
+
+        public Color TextColorHover
+        {
+            get { return tguiButtonRenderer_getTextColorHover(CPointer); }
+            set { tguiButtonRenderer_setTextColorHover(CPointer, value); }
+        }
+
+        public Color TextColorDown
+        {
+            get { return tguiButtonRenderer_getTextColorDown(CPointer); }
+            set { tguiButtonRenderer_setTextColorDown(CPointer, value); }
+        }
+
+        public Color TextColorFocused
+        {
+            get { return tguiButtonRenderer_getTextColorFocused(CPointer); }
+            set { tguiButtonRenderer_setTextColorFocused(CPointer, value); }
+        }
+
+        public Color TextColorDisabled
+        {
+            get { return tguiButtonRenderer_getTextColorDisabled(CPointer); }
+            set { tguiButtonRenderer_setTextColorDisabled(CPointer, value); }
+        }
+
+        public Color BackgroundColor
+        {
+            get { return tguiButtonRenderer_getBackgroundColor(CPointer); }
+            set { tguiButtonRenderer_setBackgroundColor(CPointer, value); }
+        }
+
+        public Color BackgroundColorHover
+        {
+            get { return tguiButtonRenderer_getBackgroundColorHover(CPointer); }
+            set { tguiButtonRenderer_setBackgroundColorHover(CPointer, value); }
+        }
+
+        public Color BackgroundColorDown
+        {
+            get { return tguiButtonRenderer_getBackgroundColorDown(CPointer); }
+            set { tguiButtonRenderer_setBackgroundColorDown(CPointer, value); }
+        }
+
+        public Color BackgroundColorFocused
+        {
+            get { return tguiButtonRenderer_getBackgroundColorFocused(CPointer); }
+            set { tguiButtonRenderer_setBackgroundColorFocused(CPointer, value); }
+        }
+
+        public Color BackgroundColorDisabled
+        {
+            get { return tguiButtonRenderer_getBackgroundColorDisabled(CPointer); }
+            set { tguiButtonRenderer_setBackgroundColorDisabled(CPointer, value); }
+        }
+
+        public Color BorderColor
+        {
+            get { return tguiButtonRenderer_getBorderColor(CPointer); }
+            set { tguiButtonRenderer_setBorderColor(CPointer, value); }
+        }
+
+        public Color BorderColorHover
+        {
+            get { return tguiButtonRenderer_getBorderColorHover(CPointer); }
+            set { tguiButtonRenderer_setBorderColorHover(CPointer, value); }
+        }
+
+        public Color BorderColorDown
+        {
+            get { return tguiButtonRenderer_getBorderColorDown(CPointer); }
+            set { tguiButtonRenderer_setBorderColorDown(CPointer, value); }
+        }
+
+        public Color BorderColorFocused
+        {
+            get { return tguiButtonRenderer_getBorderColorFocused(CPointer); }
+            set { tguiButtonRenderer_setBorderColorFocused(CPointer, value); }
+        }
+
+        public Color BorderColorDisabled
+        {
+            get { return tguiButtonRenderer_getBorderColorDisabled(CPointer); }
+            set { tguiButtonRenderer_setBorderColorDisabled(CPointer, value); }
+        }
 
-		public Texture Texture
-		{
-			set { tguiButtonRenderer_setTexture(CPointer, value.CPointer); }
-		}
-
-		public Texture TextureHover
-		{
-			set { tguiButtonRenderer_setTextureHover(CPointer, value.CPointer); }
-		}
+        public Texture Texture
+        {
+            set { tguiButtonRenderer_setTexture(CPointer, value.CPointer); }
+        }
+
+        public Texture TextureHover
+        {
+            set { tguiButtonRenderer_setTextureHover(CPointer, value.CPointer); }
+        }
 
-		public Texture TextureDown
-		{
-			set { tguiButtonRenderer_setTextureDown(CPointer, value.CPointer); }
-		}
+        public Texture TextureDown
+        {
+            set { tguiButtonRenderer_setTextureDown(CPointer, value.CPointer); }
+        }
 
-		public Texture TextureFocused
-		{
-			set { tguiButtonRenderer_setTextureFocused(CPointer, value.CPointer); }
-		}
+        public Texture TextureFocused
+        {
+            set { tguiButtonRenderer_setTextureFocused(CPointer, value.CPointer); }
+        }
 
-		public Texture TextureDisabled
-		{
-			set { tguiButtonRenderer_setTextureDisabled(CPointer, value.CPointer); }
-		}
+        public Texture TextureDisabled
+        {
+            set { tguiButtonRenderer_setTextureDisabled(CPointer, value.CPointer); }
+        }
 
-		public Text.Styles TextStyle
-		{
-			get { return tguiButtonRenderer_getTextStyle(CPointer); }
-			set { tguiButtonRenderer_setTextStyle(CPointer, value); }
-		}
+        public Text.Styles TextStyle
+        {
+            get { return tguiButtonRenderer_getTextStyle(CPointer); }
+            set { tguiButtonRenderer_setTextStyle(CPointer, value); }
+        }
 
-		public Text.Styles TextStyleHover
-		{
-			get { return tguiButtonRenderer_getTextStyleHover(CPointer); }
-			set { tguiButtonRenderer_setTextStyleHover(CPointer, value); }
-		}
+        public Text.Styles TextStyleHover
+        {
+            get { return tguiButtonRenderer_getTextStyleHover(CPointer); }
+            set { tguiButtonRenderer_setTextStyleHover(CPointer, value); }
+        }
 
-		public Text.Styles TextStyleDown
-		{
-			get { return tguiButtonRenderer_getTextStyleDown(CPointer); }
-			set { tguiButtonRenderer_setTextStyleDown(CPointer, value); }
-		}
+        public Text.Styles TextStyleDown
+        {
+            get { return tguiButtonRenderer_getTextStyleDown(CPointer); }
+            set { tguiButtonRenderer_setTextStyleDown(CPointer, value); }
+        }
 
-		public Text.Styles TextStyleFocused
-		{
-			get { return tguiButtonRenderer_getTextStyleFocused(CPointer); }
-			set { tguiButtonRenderer_setTextStyleFocused(CPointer, value); }
-		}
+        public Text.Styles TextStyleFocused
+        {
+            get { return tguiButtonRenderer_getTextStyleFocused(CPointer); }
+            set { tguiButtonRenderer_setTextStyleFocused(CPointer, value); }
+        }
 
-		public Text.Styles TextStyleDisabled
-		{
-			get { return tguiButtonRenderer_getTextStyleDisabled(CPointer); }
-			set { tguiButtonRenderer_setTextStyleDisabled(CPointer, value); }
-		}
+        public Text.Styles TextStyleDisabled
+        {
+            get { return tguiButtonRenderer_getTextStyleDisabled(CPointer); }
+            set { tguiButtonRenderer_setTextStyleDisabled(CPointer, value); }
+        }
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiButtonRenderer_create();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiButtonRenderer_create();
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiButtonRenderer_copy(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiButtonRenderer_copy(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setBorders(IntPtr cPointer, IntPtr borders);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected IntPtr tguiButtonRenderer_getBorders(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected IntPtr tguiButtonRenderer_getBorders(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setTextColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setTextColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiButtonRenderer_getTextColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiButtonRenderer_getTextColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setTextColorHover(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setTextColorHover(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiButtonRenderer_getTextColorHover(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiButtonRenderer_getTextColorHover(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setTextColorDown(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setTextColorDown(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiButtonRenderer_getTextColorDown(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiButtonRenderer_getTextColorDown(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setTextColorFocused(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setTextColorFocused(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiButtonRenderer_getTextColorFocused(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiButtonRenderer_getTextColorFocused(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiButtonRenderer_getTextColorDisabled(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiButtonRenderer_getTextColorDisabled(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiButtonRenderer_getBackgroundColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiButtonRenderer_getBackgroundColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiButtonRenderer_getBackgroundColorHover(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiButtonRenderer_getBackgroundColorHover(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setBackgroundColorDown(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setBackgroundColorDown(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiButtonRenderer_getBackgroundColorDown(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiButtonRenderer_getBackgroundColorDown(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setBackgroundColorFocused(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setBackgroundColorFocused(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiButtonRenderer_getBackgroundColorFocused(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiButtonRenderer_getBackgroundColorFocused(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setBackgroundColorDisabled(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setBackgroundColorDisabled(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiButtonRenderer_getBackgroundColorDisabled(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiButtonRenderer_getBackgroundColorDisabled(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setBorderColor(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setBorderColor(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiButtonRenderer_getBorderColor(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiButtonRenderer_getBorderColor(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setBorderColorHover(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setBorderColorHover(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiButtonRenderer_getBorderColorHover(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiButtonRenderer_getBorderColorHover(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setBorderColorDown(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setBorderColorDown(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiButtonRenderer_getBorderColorDown(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiButtonRenderer_getBorderColorDown(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setBorderColorFocused(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setBorderColorFocused(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiButtonRenderer_getBorderColorFocused(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiButtonRenderer_getBorderColorFocused(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setBorderColorDisabled(IntPtr cPointer, Color color);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setBorderColorDisabled(IntPtr cPointer, Color color);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Color tguiButtonRenderer_getBorderColorDisabled(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Color tguiButtonRenderer_getBorderColorDisabled(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setTexture(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setTexture(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setTextureHover(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setTextureHover(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setTextureDown(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setTextureDown(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setTextureFocused(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setTextureFocused(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setTextureDisabled(IntPtr cPointer, IntPtr texture);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setTextureDisabled(IntPtr cPointer, IntPtr texture);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Text.Styles tguiButtonRenderer_getTextStyle(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Text.Styles tguiButtonRenderer_getTextStyle(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setTextStyleHover(IntPtr cPointer, Text.Styles style);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setTextStyleHover(IntPtr cPointer, Text.Styles style);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Text.Styles tguiButtonRenderer_getTextStyleHover(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Text.Styles tguiButtonRenderer_getTextStyleHover(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setTextStyleDown(IntPtr cPointer, Text.Styles style);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setTextStyleDown(IntPtr cPointer, Text.Styles style);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Text.Styles tguiButtonRenderer_getTextStyleDown(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Text.Styles tguiButtonRenderer_getTextStyleDown(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setTextStyleFocused(IntPtr cPointer, Text.Styles style);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setTextStyleFocused(IntPtr cPointer, Text.Styles style);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Text.Styles tguiButtonRenderer_getTextStyleFocused(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Text.Styles tguiButtonRenderer_getTextStyleFocused(IntPtr cPointer);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiButtonRenderer_setTextStyleDisabled(IntPtr cPointer, Text.Styles style);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiButtonRenderer_setTextStyleDisabled(IntPtr cPointer, Text.Styles style);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected Text.Styles tguiButtonRenderer_getTextStyleDisabled(IntPtr cPointer);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected Text.Styles tguiButtonRenderer_getTextStyleDisabled(IntPtr cPointer);
 
-		#endregion
-	}
+        #endregion
+    }
 }

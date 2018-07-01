@@ -30,7 +30,7 @@ using SFML.Graphics;
 namespace TGUI
 {
     public static class Global
-	{
+    {
 #if _WINDOWS_
         public const string CTGUI = "ctgui-0.8.dll";
 #elif _OSX_
@@ -40,28 +40,28 @@ namespace TGUI
 #endif
 
         public static Font Font
-		{
-			set { tgui_setGlobalFont(value.CPointer); }
-		}
+        {
+            set { tgui_setGlobalFont(value.CPointer); }
+        }
 
-		public static uint TextSize
-		{
-			get { return tgui_getGlobalTextSize(); }
-			set { tgui_setGlobalTextSize(value); }
-		}
+        public static uint TextSize
+        {
+            get { return tgui_getGlobalTextSize(); }
+            set { tgui_setGlobalTextSize(value); }
+        }
 
 
-		#region Imports
+        #region Imports
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern internal void tgui_setGlobalFont(IntPtr font);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern internal void tgui_setGlobalFont(IntPtr font);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern internal void tgui_setGlobalTextSize(uint textSize);
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern internal void tgui_setGlobalTextSize(uint textSize);
 
-		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern internal uint tgui_getGlobalTextSize();
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern internal uint tgui_getGlobalTextSize();
 
-		#endregion
-	}
+        #endregion
+    }
 }

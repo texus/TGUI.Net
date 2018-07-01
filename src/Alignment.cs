@@ -24,30 +24,30 @@
 
 namespace TGUI
 {
-	public enum HorizontalAlignment
-	{
-		Left,
-		Center,
-		Right
-	}
+    public enum HorizontalAlignment
+    {
+        Left,
+        Center,
+        Right
+    }
 
-	public enum VerticalAlignment
-	{
-		Top,
-		Center,
-		Bottom
-	}
+    public enum VerticalAlignment
+    {
+        Top,
+        Center,
+        Bottom
+    }
 
-	public enum Alignment
-	{
-		Center,
-		UpperLeft,
-		Up,
-		UpperRight,
-		Right,
-		BottomRight,
-		Bottom,
-		BottomLeft,
-		Left
-	};
+    public enum Alignment
+    {
+        Center,
+        UpperLeft,
+        Up,
+        UpperRight,
+        Right,
+        BottomRight,
+        Bottom,
+        BottomLeft,
+        Left
+    };
 }
