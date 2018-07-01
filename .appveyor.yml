@@ -20,6 +20,8 @@ build_script:
 - xcopy extlibs\lib "C:\TGUI.Net 0.8-dev\extlibs\lib" /Y /s /i > nul
 - copy README-precompiled.md "C:\TGUI.Net 0.8-dev\README.txt" /Y > nul
 - 7z a -tzip TGUI.Net-0.8-dev-64bit.zip "C:\TGUI.Net 0.8-dev" > nul
+- cd "C:\TGUI.Net 0.8-dev\src"
+- dotnet pack --configuration=Release
 - appveyor PushArtifact TGUI.Net-0.8-dev-64bit.zip
 
 deploy:
