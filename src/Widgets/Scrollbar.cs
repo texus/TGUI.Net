@@ -85,6 +85,11 @@ namespace TGUI
 			set { tguiScrollbar_setAutoHide(CPointer, value); }
 		}
 
+		public float DefaultWidth
+		{
+			get { return tguiScrollbar_getDefaultWidth(CPointer); }
+		}
+
 		protected override void InitSignals()
 		{
 			base.InitSignals();
@@ -138,6 +143,9 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected bool tguiScrollbar_getAutoHide(IntPtr cPointer);
+
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected float tguiScrollbar_getDefaultWidth(IntPtr cPointer);
 
 		#endregion
 	}

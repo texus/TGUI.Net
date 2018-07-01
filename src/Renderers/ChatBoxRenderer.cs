@@ -81,6 +81,12 @@ namespace TGUI
 			set { tguiChatBoxRenderer_setScrollbar(CPointer, value.CPointer); }
 		}
 
+		public float ScrollbarWidth
+		{
+			get { return tguiChatBoxRenderer_getScrollbarWidth(CPointer); }
+			set { tguiChatBoxRenderer_setScrollbarWidth(CPointer, value); }
+		}
+
 
 		#region Imports
 
@@ -122,6 +128,12 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiChatBoxRenderer_getScrollbar(IntPtr cPointer);
+
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiChatBoxRenderer_setScrollbarWidth(IntPtr cPointer, float width);
+
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected float tguiChatBoxRenderer_getScrollbarWidth(IntPtr cPointer);
 
 		#endregion
 	}

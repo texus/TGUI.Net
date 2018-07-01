@@ -111,6 +111,12 @@ namespace TGUI
 			set { tguiTextBoxRenderer_setScrollbar(CPointer, value.CPointer); }
 		}
 
+		public float ScrollbarWidth
+		{
+			get { return tguiTextBoxRenderer_getScrollbarWidth(CPointer); }
+			set { tguiTextBoxRenderer_setScrollbarWidth(CPointer, value); }
+		}
+
 
 		#region Imports
 
@@ -182,6 +188,12 @@ namespace TGUI
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected IntPtr tguiTextBoxRenderer_getScrollbar(IntPtr cPointer);
+
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTextBoxRenderer_setScrollbarWidth(IntPtr cPointer, float width);
+
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected float tguiTextBoxRenderer_getScrollbarWidth(IntPtr cPointer);
 
 		#endregion
 	}

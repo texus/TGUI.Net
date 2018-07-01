@@ -123,9 +123,19 @@ namespace TGUI
 			set { tguiTabsRenderer_setTextureTab(CPointer, value.CPointer); }
 		}
 
+		public Texture TextureTabHover
+		{
+			set { tguiTabsRenderer_setTextureTabHover(CPointer, value.CPointer); }
+		}
+
 		public Texture TextureSelectedTab
 		{
 			set { tguiTabsRenderer_setTextureSelectedTab(CPointer, value.CPointer); }
+		}
+
+		public Texture TextureSelectedTabHover
+		{
+			set { tguiTabsRenderer_setTextureSelectedTabHover(CPointer, value.CPointer); }
 		}
 
 		public Texture TextureDisabledTab
@@ -224,7 +234,13 @@ namespace TGUI
 		static extern protected void tguiTabsRenderer_setTextureTab(IntPtr cPointer, IntPtr texture);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTabsRenderer_setTextureTabHover(IntPtr cPointer, IntPtr texture);
+
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabsRenderer_setTextureSelectedTab(IntPtr cPointer, IntPtr texture);
+
+		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+		static extern protected void tguiTabsRenderer_setTextureSelectedTabHover(IntPtr cPointer, IntPtr texture);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabsRenderer_setTextureDisabledTab(IntPtr cPointer, IntPtr texture);

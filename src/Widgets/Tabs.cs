@@ -82,14 +82,14 @@ namespace TGUI
 			return tguiTabs_changeText(CPointer, index, Util.ConvertStringForC_UTF32(text));
 		}
 
-		public void Select(string text)
+		public bool Select(string text)
 		{
-			tguiTabs_selectByText(CPointer, Util.ConvertStringForC_UTF32(text));
+			return tguiTabs_selectByText(CPointer, Util.ConvertStringForC_UTF32(text));
 		}
 
-		public void Select(uint index)
+		public bool Select(uint index)
 		{
-			tguiTabs_selectByIndex(CPointer, index);
+			return tguiTabs_selectByIndex(CPointer, index);
 		}
 
 		public void Deselect()
@@ -97,14 +97,14 @@ namespace TGUI
 			tguiTabs_deselect(CPointer);
 		}
 
-		public void Remove(string text)
+		public bool Remove(string text)
 		{
-			tguiTabs_removeByText(CPointer, Util.ConvertStringForC_UTF32(text));
+			return tguiTabs_removeByText(CPointer, Util.ConvertStringForC_UTF32(text));
 		}
 
-		public void Remove(uint index)
+		public bool Remove(uint index)
 		{
-			tguiTabs_removeByIndex(CPointer, index);
+			return tguiTabs_removeByIndex(CPointer, index);
 		}
 
 		public void RemoveAll()
@@ -208,19 +208,19 @@ namespace TGUI
 		static extern protected bool tguiTabs_changeText(IntPtr cPointer, uint index, IntPtr text);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabs_selectByText(IntPtr cPointer, IntPtr text);
+		static extern protected bool tguiTabs_selectByText(IntPtr cPointer, IntPtr text);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabs_selectByIndex(IntPtr cPointer, uint index);
+		static extern protected bool tguiTabs_selectByIndex(IntPtr cPointer, uint index);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabs_deselect(IntPtr cPointer);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabs_removeByText(IntPtr cPointer, IntPtr text);
+		static extern protected bool tguiTabs_removeByText(IntPtr cPointer, IntPtr text);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern protected void tguiTabs_removeByIndex(IntPtr cPointer, uint index);
+		static extern protected bool tguiTabs_removeByIndex(IntPtr cPointer, uint index);
 
 		[DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		static extern protected void tguiTabs_removeAll(IntPtr cPointer);
