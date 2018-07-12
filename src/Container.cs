@@ -76,7 +76,7 @@ namespace TGUI
                 return null;
 
             Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
-            return (Widget)Activator.CreateInstance(type, new object[]{ WidgetCPointer });
+            return (Widget)Activator.CreateInstance(type, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, new object[]{ WidgetCPointer }, null);
         }
 
         public List<Widget> GetWidgets()
@@ -91,7 +91,7 @@ namespace TGUI
                 {
                     IntPtr WidgetCPointer = WidgetsPtr[i];
                     Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
-                    Widgets.Add((Widget)Activator.CreateInstance(type, new object[]{ WidgetCPointer }));
+                    Widgets.Add((Widget)Activator.CreateInstance(type, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, new object[]{ WidgetCPointer }, null));
                 }
 
                 return Widgets;

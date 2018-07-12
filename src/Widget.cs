@@ -204,7 +204,7 @@ namespace TGUI
                     return null;
 
                 Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(ParentCPointer)));
-                return (Container)Activator.CreateInstance(type, new object[]{ ParentCPointer });
+                return (Container)Activator.CreateInstance(type, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, new object[]{ ParentCPointer }, null);
             }
         }
 
@@ -227,7 +227,7 @@ namespace TGUI
                     return null;
 
                 Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(ToolTipCPointer)));
-                return (Widget)Activator.CreateInstance(type, new object[]{ ToolTipCPointer });
+                return (Widget)Activator.CreateInstance(type, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, new object[]{ ToolTipCPointer }, null);
             }
             set
             {

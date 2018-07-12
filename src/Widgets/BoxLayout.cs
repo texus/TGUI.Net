@@ -67,7 +67,7 @@ namespace TGUI
                 return null;
 
             Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
-            return (Widget)Activator.CreateInstance(type, new object[]{ WidgetCPointer });
+            return (Widget)Activator.CreateInstance(type, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, new object[]{ WidgetCPointer }, null);
         }
 
 
