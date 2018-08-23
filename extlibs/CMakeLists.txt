@@ -19,7 +19,7 @@ ExternalProject_Add(sfml
 ExternalProject_Add(csfml
                     DEPENDS sfml
                     SOURCE_DIR ${PROJECT_SOURCE_DIR}/CSFML
-                    CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR};-DCMAKE_BUILD_TYPE=Release;-DBUILD_SHARED_LIBS=TRUE;-DCSFML_LINK_SFML_STATICALLY=FALSE;-DCMAKE_MODULE_PATH=${PROJECT_SOURCE_DIR}/TGUI/cmake/Modules;-DSFML_ROOT=${PROJECT_SOURCE_DIR}/build/sfml-prefix/src/sfml-build/lib/Release;-DSFML_INCLUDE_DIR=${PROJECT_SOURCE_DIR}/build/include")
+                    CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR};-DCMAKE_BUILD_TYPE=Release;-DBUILD_SHARED_LIBS=TRUE;-DCSFML_LINK_SFML_STATICALLY=FALSE;-DSFML_DIR=${PROJECT_SOURCE_DIR}/build/sfml-prefix/src/sfml-build")
 
 ExternalProject_Add(tgui
                     DEPENDS sfml
