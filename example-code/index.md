@@ -8,7 +8,7 @@ The example code below will create a window with two edit boxes and a button.
 Positions and sizes are hardcoded in the example, but TGUI also supports relative positions/sizes:
 
 ```csharp
-editBoxUsername.SetSize(new Layout2d("65%, 12.5%"));
+editBoxUsername.SetSize(new Layout2d("65%", "12.5%"));
 ```
 
 
