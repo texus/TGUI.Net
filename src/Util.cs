@@ -24,6 +24,7 @@
 
 using System;
 using System.Text;
+using System.Security;
 using System.Runtime.InteropServices;
 using SFML.System;
 
@@ -83,5 +84,24 @@ namespace TGUI
                 }
             }
         }
+
+        public static Widget GetWidgetFromC(IntPtr widgetCPointer, Gui parentGui)
+        {
+            if (widgetCPointer == IntPtr.Zero)
+                return null;
+
+            var type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(widgetCPointer)));
+            var widget = (Widget)Activator.CreateInstance(type, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, new object[]{ widgetCPointer }, null);
+            widget.ParentGui = parentGui;
+            return widget;
+        }
+
+
+        #region Imports
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiWidget_getWidgetType(IntPtr cPointer);
+
+        #endregion
     }
 }

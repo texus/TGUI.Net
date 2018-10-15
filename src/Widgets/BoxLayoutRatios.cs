@@ -44,6 +44,7 @@ namespace TGUI
         {
             tguiBoxLayoutRatios_add(CPointer, widget.CPointer, ratio, Util.ConvertStringForC_UTF32(widgetName));
 
+            widget.ParentGui = ParentGui;
             myWidgets.Add(widget);
             myWidgetIds.Add(widgetName);
         }

@@ -30,180 +30,103 @@ using SFML.Graphics;
 
 namespace TGUI
 {
-    public class Canvas : ClickableWidget
+    /// <summary>
+    /// Canvas widget
+    /// </summary>
+    public class Canvas : CustomWidget
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public Canvas()
-            : base(tguiCanvas_create())
         {
         }
 
+        /// <summary>
+        /// Constructor to create the Canvas with the given size
+        /// </summary>
+        /// <param name="size">Size of the canvas</param>
         public Canvas(Vector2f size)
-            : this()
         {
             Size = size;
         }
 
+        /// <summary>
+        /// Constructor to create the Canvas with the given size
+        /// </summary>
+        /// <param name="width">Width of the canvas</param>
+        /// <param name="height">Height of the canvas</param>
         public Canvas(float width, float height)
             : this(new Vector2f(width, height))
         {
         }
 
-        protected internal Canvas(IntPtr cPointer)
-            : base(cPointer)
-        {
-        }
-
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         public Canvas(Canvas copy)
             : base(copy)
         {
+            Size = copy.Size;
         }
 
-        ////////////////////////////////////////////////////////////
         /// <summary>
         /// Clear the entire canvas with black color
         /// </summary>
-        ////////////////////////////////////////////////////////////
         public void Clear()
         {
-            Clear(Color.Black);
+            myRenderTexture?.Clear();
         }
 
-        ////////////////////////////////////////////////////////////
         /// <summary>
         /// Clear the entire canvas with a single color
         /// </summary>
         /// <param name="color">Color to use to clear the canvas</param>
-        ////////////////////////////////////////////////////////////
         public void Clear(Color color)
         {
-            tguiCanvas_clear(CPointer, color);
+            myRenderTexture?.Clear(color);
         }
 
-        ////////////////////////////////////////////////////////////
         /// <summary>
-        /// Draw a sprite to the canvas, with default render states
+        /// Draw something to the canvas, with default render states
         /// </summary>
         /// <param name="sprite">Sprite to draw</param>
-        ////////////////////////////////////////////////////////////
-        public void Draw(Sprite sprite)
+        public void Draw(Drawable drawable)
         {
-            Draw(sprite, RenderStates.Default);
+            myRenderTexture?.Draw(drawable);
         }
 
-        ////////////////////////////////////////////////////////////
         /// <summary>
-        /// Draw a sprite to the canvas
+        /// Draw something to the canvas
         /// </summary>
-        /// <param name="sprite">Sprite to draw</param>
+        /// <param name="drawable">Object to draw</param>
         /// <param name="states">Render states to use for drawing</param>
-        ////////////////////////////////////////////////////////////
-        public void Draw(Sprite sprite, RenderStates states)
+        public void Draw(Drawable drawable, RenderStates states)
         {
-            states.Transform *= sprite.Transform;
-            RenderStatesMarshalData marshaledStates = MarshalRenderStates(states);
-            tguiCanvas_drawSprite(CPointer, sprite.CPointer, ref marshaledStates);
+            myRenderTexture?.Draw(drawable, states);
         }
 
-        ////////////////////////////////////////////////////////////
-        /// <summary>
-        /// Draw text to the canvas, with default render states
-        /// </summary>
-        /// <param name="text">Text to draw</param>
-        ////////////////////////////////////////////////////////////
-        public void Draw(Text text)
-        {
-            Draw(text, RenderStates.Default);
-        }
-
-        ////////////////////////////////////////////////////////////
-        /// <summary>
-        /// Draw text to the canvas
-        /// </summary>
-        /// <param name="text">Text to draw</param>
-        /// <param name="states">Render states to use for drawing</param>
-        ////////////////////////////////////////////////////////////
-        public void Draw(Text text, RenderStates states)
-        {
-            states.Transform *= text.Transform;
-            RenderStatesMarshalData marshaledStates = MarshalRenderStates(states);
-            tguiCanvas_drawText(CPointer, text.CPointer, ref marshaledStates);
-        }
-
-        ////////////////////////////////////////////////////////////
-        /// <summary>
-        /// Draw a shape to the canvas, with default render states
-        /// </summary>
-        /// <param name="shape">Shape to draw</param>
-        ////////////////////////////////////////////////////////////
-        public void Draw(Shape shape)
-        {
-            Draw(shape, RenderStates.Default);
-        }
-
-        ////////////////////////////////////////////////////////////
-        /// <summary>
-        /// Draw a shape to the canvas
-        /// </summary>
-        /// <param name="shape">Shape to draw</param>
-        /// <param name="states">Render states to use for drawing</param>
-        ////////////////////////////////////////////////////////////
-        public void Draw(Shape shape, RenderStates states)
-        {
-            states.Transform *= shape.Transform;
-            RenderStatesMarshalData marshaledStates = MarshalRenderStates(states);
-            tguiCanvas_drawShape(CPointer, shape.CPointer, ref marshaledStates);
-        }
-
-        ////////////////////////////////////////////////////////////
-        /// <summary>
-        /// Draw a vertex array to the canvas, with default render states
-        /// </summary>
-        /// <param name="vertexArray">Vertex array to draw</param>
-        ////////////////////////////////////////////////////////////
-        public void Draw(VertexArray vertexArray)
-        {
-            Draw(vertexArray, RenderStates.Default);
-        }
-
-        ////////////////////////////////////////////////////////////
-        /// <summary>
-        /// Draw a vertex array to the canvas
-        /// </summary>
-        /// <param name="vertexArray">Vertex array to draw</param>
-        /// <param name="states">Render states to use for drawing</param>
-        ////////////////////////////////////////////////////////////
-        public void Draw(VertexArray vertexArray, RenderStates states)
-        {
-            RenderStatesMarshalData marshaledStates = MarshalRenderStates(states);
-            tguiCanvas_drawVertexArray(CPointer, vertexArray.CPointer, ref marshaledStates);
-        }
-
-        ////////////////////////////////////////////////////////////
         /// <summary>
         /// Draw primitives defined by an array of vertices, with default render states
         /// </summary>
         /// <param name="vertices">Pointer to the vertices</param>
         /// <param name="type">Type of primitives to draw</param>
-        ////////////////////////////////////////////////////////////
         public void Draw(Vertex[] vertices, PrimitiveType type)
         {
-            Draw(vertices, type, RenderStates.Default);
+            myRenderTexture?.Draw(vertices, type);
         }
 
-        ////////////////////////////////////////////////////////////
         /// <summary>
         /// Draw primitives defined by an array of vertices
         /// </summary>
         /// <param name="vertices">Pointer to the vertices</param>
         /// <param name="type">Type of primitives to draw</param>
         /// <param name="states">Render states to use for drawing</param>
-        ////////////////////////////////////////////////////////////
         public void Draw(Vertex[] vertices, PrimitiveType type, RenderStates states)
         {
-            Draw(vertices, 0, (uint)vertices.Length, type, states);
+            myRenderTexture?.Draw(vertices, type, states);
         }
 
-        ////////////////////////////////////////////////////////////
         /// <summary>
         /// Draw primitives defined by a sub-array of vertices, with default render states
         /// </summary>
@@ -211,13 +134,11 @@ namespace TGUI
         /// <param name="start">Index of the first vertex to draw in the array</param>
         /// <param name="count">Number of vertices to draw</param>
         /// <param name="type">Type of primitives to draw</param>
-        ////////////////////////////////////////////////////////////
         public void Draw(Vertex[] vertices, uint start, uint count, PrimitiveType type)
         {
-            Draw(vertices, start, count, type, RenderStates.Default);
+            myRenderTexture?.Draw(vertices, start, count, type);
         }
 
-        ////////////////////////////////////////////////////////////
         /// <summary>
         /// Draw primitives defined by a sub-array of vertices
         /// </summary>
@@ -226,82 +147,82 @@ namespace TGUI
         /// <param name="count">Number of vertices to draw</param>
         /// <param name="type">Type of primitives to draw</param>
         /// <param name="states">Render states to use for drawing</param>
-        ////////////////////////////////////////////////////////////
         public void Draw(Vertex[] vertices, uint start, uint count, PrimitiveType type, RenderStates states)
         {
-            RenderStatesMarshalData marshaledStates = MarshalRenderStates(states);
-
-            unsafe
-            {
-                fixed (Vertex* vertexPtr = vertices)
-                {
-                    tguiCanvas_drawPrimitives(CPointer, vertexPtr + start, count, type, ref marshaledStates);
-                }
-            }
+            myRenderTexture?.Draw(vertices, start, count, type, states);
         }
 
-        ////////////////////////////////////////////////////////////
         /// <summary>
         /// Update the contents of the canvas
         /// </summary>
-        ////////////////////////////////////////////////////////////
         public void Display()
         {
-            tguiCanvas_display(CPointer);
+            myRenderTexture?.Display();
         }
 
 
-        // Return a marshalled version of the render states instance, so that can directly be passed to the C API
-        // This is a copy of the internal code in SFML.Graphics.RenderStates
-        protected RenderStatesMarshalData MarshalRenderStates(RenderStates renderStates)
+        /// <summary>
+        /// Function called when widget size changes
+        /// </summary>
+        /// <param name="size">New size of the widget</param>
+        protected override void OnSizeChanged(Vector2f size)
         {
-            RenderStatesMarshalData data = new RenderStatesMarshalData
+            if (((int)size.X <= 0) || ((int)size.Y <= 0))
             {
-                blendMode = renderStates.BlendMode,
-                transform = renderStates.Transform,
-                texture = renderStates.Texture != null ? renderStates.Texture.CPointer : IntPtr.Zero,
-                shader = renderStates.Shader != null ? renderStates.Shader.CPointer : IntPtr.Zero
-            };
+                myRenderTexture = null;
+                mySprite = new Sprite();
+                return;
+            }
 
-            return data;
+            myRenderTexture = new RenderTexture((uint)size.X, (uint)size.Y);
+            mySprite = new Sprite(myRenderTexture.Texture);
+
+            myRenderTexture.Clear();
+            myRenderTexture.Display();
         }
 
-        [StructLayout(LayoutKind.Sequential)]
-        protected struct RenderStatesMarshalData
+        /// <summary>
+        /// Function called when the widget wants to know if the mouse is on top of it
+        /// </summary>
+        /// <param name="pos">Mouse position relative to the parent of the widget</param>
+        /// <returns>Whether the mouse is on top of the widget</returns>
+        protected override bool OnMouseOnWidget(Vector2f pos)
         {
-            public BlendMode blendMode;
-            public Transform transform;
-            public IntPtr texture;
-            public IntPtr shader;
+            return (new FloatRect(Position.X, Position.Y, Size.X, Size.Y)).Contains(pos.X, pos.Y);
+        }
+
+        /// <summary>
+        /// Function called when a renderer property changes
+        /// </summary>
+        /// <param name="property">Property that was changed</param>
+        /// <returns>
+        /// True if the change has been fully processed, false when the
+        /// base class should also be informed about the change.
+        /// </returns>
+        protected override bool OnRendererChanged(string property)
+        {
+            if (property == "opacity")
+            {
+                Color color = mySprite.Color;
+                color.A = (byte)(255 * SharedRenderer.Opacity);
+                mySprite.Color = color;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Function called when widget should draw itself
+        /// </summary>
+        /// <param name="states">States for drawing</param>
+        protected override void OnDraw(RenderStates states)
+        {
+            states.Transform.Translate(Position);
+            myParentGui.Target.Draw(mySprite, states);
         }
 
 
-        #region Imports
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiCanvas_create();
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiCanvas_clear(IntPtr cPointer, Color color);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiCanvas_drawSprite(IntPtr cPointer, IntPtr drawableCPointer, ref RenderStatesMarshalData renderStates);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiCanvas_drawText(IntPtr cPointer, IntPtr drawableCPointer, ref RenderStatesMarshalData renderStates);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiCanvas_drawShape(IntPtr cPointer, IntPtr drawableCPointer, ref RenderStatesMarshalData renderStates);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiCanvas_drawVertexArray(IntPtr cPointer, IntPtr drawableCPointer, ref RenderStatesMarshalData renderStates);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        unsafe static extern protected void tguiCanvas_drawPrimitives(IntPtr CPointer, Vertex* vertexPtr, uint vertexCount, PrimitiveType type, ref RenderStatesMarshalData renderStates);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiCanvas_display(IntPtr cPointer);
-
-        #endregion
+        private RenderTexture myRenderTexture = null;
+        private Sprite mySprite = new Sprite();
     }
 }

@@ -62,12 +62,7 @@ namespace TGUI
 
         public Widget Get(uint index)
         {
-            IntPtr WidgetCPointer = tguiBoxLayout_getAtIndex(CPointer, index);
-            if (WidgetCPointer == IntPtr.Zero)
-                return null;
-
-            Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
-            return (Widget)Activator.CreateInstance(type, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, new object[]{ WidgetCPointer }, null);
+            return Util.GetWidgetFromC(tguiBoxLayout_getAtIndex(CPointer, index), ParentGui);
         }
 
 

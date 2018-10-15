@@ -63,12 +63,7 @@ namespace TGUI
 
         public Widget GetWidget(uint row, uint col)
         {
-            IntPtr WidgetCPointer = tguiGrid_getWidget(CPointer, row, col);
-            if (WidgetCPointer == IntPtr.Zero)
-                return null;
-
-            Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
-            return (Widget)Activator.CreateInstance(type, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, new object[]{ WidgetCPointer }, null);
+            return Util.GetWidgetFromC(tguiGrid_getWidget(CPointer, row, col), ParentGui);
         }
 
         public void SetWidgetPadding(Widget widget, Outline padding)

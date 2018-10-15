@@ -110,4 +110,16 @@ namespace TGUI
         public string Item;
         public string Id;
     }
+
+    public class SignalArgsAnimation : EventArgs
+    {
+        public SignalArgsAnimation(ShowAnimationType type, bool visible)
+        {
+            Type = type;
+            Visible = visible;
+        }
+
+        public ShowAnimationType Type;
+        public bool Visible;
+    }
 }

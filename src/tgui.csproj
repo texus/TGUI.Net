@@ -5,15 +5,16 @@
     <RootNamespace>TGUI</RootNamespace>
     <PackageId>TGUI.Net.win-x64</PackageId>
     <AssemblyName>tgui.net</AssemblyName>
-    <Version>0.8.0</Version>
+    <Version>0.8.1</Version>
     <Configurations>Debug;Release;_WINDOWS_;_LINUX_;_OSX_</Configurations>
     <Authors>texus</Authors>
+    <DocumentationFile>bin/tgui.net.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageTags>tgui;sfml;x64</PackageTags>
+    <PackageTags>tgui;sfml;net;x64</PackageTags>
     <Description>TGUI is an easy to use cross-platform GUI library for SFML.
-This package contains .NET Standard 2.0 libraries for both TGUI.Net and SFML.Net, including the corresponding 64-bit windows c/c++ libraries.</Description>
+This package contains .NET Standard 2.0 libraries for both TGUI.Net and SFML.Net, including the 64-bit windows dependencies.</Description>
     <PackageLicenseUrl>https://raw.githubusercontent.com/texus/TGUI.Net/master/license.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://tgui.net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/texus/TGUI.Net/</RepositoryUrl>

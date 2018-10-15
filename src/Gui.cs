@@ -25,8 +25,8 @@
 using System;
 using System.Text;
 using System.Security;
-using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using SFML.System;
 using SFML.Window;
 using SFML.Graphics;
@@ -53,8 +53,11 @@ namespace TGUI
 
         public RenderWindow Target
         {
+            get { return myRenderTarget; }
             set
             {
+                // RenderWindow instead of RenderTarget because we need the events
+                myRenderTarget = value;
                 tguiGui_setTargetRenderWindow(CPointer, value.CPointer);
 
                 value.MouseMoved += new EventHandler<MouseMoveEventArgs>(OnMouseMoved);
@@ -83,6 +86,7 @@ namespace TGUI
         {
             tguiGui_add(CPointer, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
 
+            widget.ParentGui = this;
             myWidgets.Add(widget);
             myWidgetIds.Add(widgetName);
         }
@@ -97,12 +101,7 @@ namespace TGUI
             }
 
             // If not found, it is still possible that it exists (e.g. it could have been loaded from a file inside the c++ code)
-            IntPtr WidgetCPointer = tguiGui_get(CPointer, Util.ConvertStringForC_UTF32(widgetName));
-            if (WidgetCPointer == IntPtr.Zero)
-                return null;
-
-            Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
-            return (Widget)Activator.CreateInstance(type, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, new object[]{ WidgetCPointer }, null);
+            return Util.GetWidgetFromC(tguiGui_get(CPointer, Util.ConvertStringForC_UTF32(widgetName)), this);
         }
 
         public List<Widget> GetWidgets()
@@ -114,11 +113,7 @@ namespace TGUI
                 IntPtr* WidgetsPtr = tguiGui_getWidgets(CPointer, out uint Count);
                 List<Widget> Widgets = new List<Widget>();
                 for (uint i = 0; i < Count; ++i)
-                {
-                    IntPtr WidgetCPointer = WidgetsPtr[i];
-                    Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(WidgetCPointer)));
-                    Widgets.Add((Widget)Activator.CreateInstance(type, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, new object[]{ WidgetCPointer }, null));
-                }
+                    Widgets.Add(Util.GetWidgetFromC(WidgetsPtr[i], this));
 
                 return Widgets;
             }
@@ -340,6 +335,7 @@ namespace TGUI
         }
 
 
+        private RenderWindow myRenderTarget = null;
         private List<Widget> myWidgets = new List<Widget>();
         private List<string> myWidgetIds = new List<string>();
 

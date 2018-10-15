@@ -39,12 +39,14 @@ def validateTypes(typeCS, typeC, returnType):
     or (typeCS == 'IntPtr' and typeC == 'tguiTheme*') \
     or (typeCS == 'IntPtr' and typeC == 'tguiGui*') \
     or (typeCS == 'IntPtr' and typeC == 'tguiLayout2d*') \
+    or (typeCS == 'IntPtr' and typeC == 'tguiCustomWidgetForBindings*') \
     or (typeCS == 'IntPtr' and typeC == 'const char*') \
     or (typeCS == 'IntPtr' and typeC == 'const sfUint32*') \
     or (typeCS == 'IntPtr*' and typeC == 'const char**') \
     or (typeCS == 'IntPtr*' and typeC == 'const sfUint32**') \
     or (typeCS == 'IntPtr*' and typeC == 'tguiWidget**') \
     or (typeCS == 'Vertex*' and typeC == 'const sfVertex*') \
+    or (typeCS == 'IntPtr[]' and typeC == 'const sfUint32**') \
     or (typeCS == 'out uint' and typeC == 'size_t*') \
     or (typeCS == 'out IntPtr' and typeC == 'const sfUint32**') \
     or (typeCS == 'out IntPtr' and typeC == 'const char**') \
@@ -58,7 +60,20 @@ def validateTypes(typeCS, typeC, returnType):
     or (typeCS == 'CallbackActionFloat' and typeC == 'void (*function)(float)') \
     or (typeCS == 'CallbackActionUInt' and typeC == 'void (*function)(unsigned int)') \
     or (typeCS == 'CallbackActionRange' and typeC == 'void (*function)(float, float)') \
-    or (typeCS == 'CallbackActionItemSelected' and typeC == 'void (*function)(const sfUint32*, const sfUint32*)'):
+    or (typeCS == 'CallbackActionItemSelected' and typeC == 'void (*function)(const sfUint32*, const sfUint32*)') \
+    or (typeCS == 'CallbackActionAnimation' and typeC == 'void (*function)(tguiShowAnimationType, sfBool)') \
+    or (typeCS == 'CallbackCustomWidgetVector2f' and typeC == 'void (*function)(sfVector2f)') \
+    or (typeCS == 'CallbackCustomWidgetBool' and typeC == 'void (*function)(sfBool)') \
+    or (typeCS == 'CallbackCustomWidgetVoid' and typeC == 'void (*function)(void)') \
+    or (typeCS == 'CallbackCustomWidgetGetVector2f' and typeC == 'sfVector2f (*function)(void)') \
+    or (typeCS == 'CallbackCustomWidgetGetBool' and typeC == 'sfBool (*function)(void)') \
+    or (typeCS == 'CallbackCustomWidgetUpdate' and typeC == 'void (*function)(sfTime)') \
+    or (typeCS == 'CallbackCustomWidgetMouseOnWidget' and typeC == 'sfBool (*function)(sfVector2f)') \
+    or (typeCS == 'CallbackCustomWidgetKeyPressed' and typeC == 'void (*function)(sfKeyEvent)') \
+    or (typeCS == 'CallbackCustomWidgetTextEntered' and typeC == 'void (*function)(sfUint32)') \
+    or (typeCS == 'CallbackCustomWidgetMouseWheelScrolled' and typeC == 'sfBool (*function)(float, sfVector2f)') \
+    or (typeCS == 'CallbackCustomWidgetRenderer' and typeC == 'sfBool (*function)(const char*)') \
+    or (typeCS == 'CallbackCustomWidgetDraw' and typeC == 'void (*function)(sfRenderStates)'):
         return True
     else:
         # Try removing 'const' in the C type
@@ -102,7 +117,7 @@ for root, subFolders, files in os.walk('../src'):
 
             importLines = re.findall('static extern.*', dump)
             for line in importLines:
-                match = re.match('static extern (?:protected )?(?:internal )?(.*) (tgui\S*)\s*\((.*)\);', line)
+                match = re.match('static extern (?:protected )?(?:private )?(?:internal )?(.*) (tgui\S*)\s*\((.*)\);', line)
                 returnType = match.group(1)
                 name = match.group(2)
                 rawParams = match.group(3).split(',')

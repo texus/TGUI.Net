@@ -29,22 +29,43 @@ using SFML.System;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Child window widget
+    /// </summary>
     public class ChildWindow : Container
     {
+        /// <summary>
+        /// Buttons that can be displayed in the title bar
+        /// </summary>
         [Flags]
         public enum TitleButton
         {
+            ///<summary>Display no buttons</summary>
             None     = 0,
+
+            ///<summary>Display the close button</summary>
             Close    = 1 << 0,
+
+            ///<summary>Display the maximize button</summary>
             Maximize = 1 << 1,
+
+            ///<summary>Display the minimize button</summary>
             Minimize = 1 << 2
         }
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public ChildWindow()
             : base(tguiChildWindow_create())
         {
         }
 
+        /// <summary>
+        /// Constructor to create the ChildWindow with the given title and title buttons
+        /// </summary>
+        /// <param name="title">Title to display in the title bar</param>
+        /// <param name="titleButtons">Buttons to display in the title bar</param>
         public ChildWindow(string title, TitleButton titleButtons = TitleButton.Close)
             : base(tguiChildWindow_create())
         {
@@ -52,72 +73,147 @@ namespace TGUI
             TitleButtons = titleButtons;
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
         protected internal ChildWindow(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
         public ChildWindow(ChildWindow copy)
             : base(copy)
         {
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
+        /// <remarks>
+        /// After calling this function, the widget has its own copy of the renderer and it will no longer be shared.
+        /// </remarks>
         public new ChildWindowRenderer Renderer
         {
             get { return new ChildWindowRenderer(tguiWidget_getRenderer(CPointer)); }
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
         public new ChildWindowRenderer SharedRenderer
         {
             get { return new ChildWindowRenderer(tguiWidget_getSharedRenderer(CPointer)); }
         }
 
+        /// <summary>
+        /// Gets or sets the minimum size of the child window
+        /// </summary>
+        /// <remarks>
+        /// The given minimum size excludes the borders and titlebar.
+        /// If the window is smaller than the minimum size, it will automatically be enlarged.
+        /// </remarks>
         public Vector2f MinimumSize
         {
             get { return tguiChildWindow_getMinimumSize(CPointer); }
             set { tguiChildWindow_setMinimumSize(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the maximum size of the child window
+        /// </summary>
+        /// <remarks>
+        /// The given maximum size excludes the borders and titlebar.
+        /// If the window is larger than the maximum size, it will automatically be shrunk.
+        /// </remarks>
         public Vector2f MaximumSize
         {
             get { return tguiChildWindow_getMaximumSize(CPointer); }
             set { tguiChildWindow_setMaximumSize(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the title that is displayed in the title bar of the child window
+        /// </summary>
         public string Title
         {
             get { return Util.GetStringFromC_UTF32(tguiChildWindow_getTitle(CPointer)); }
             set { tguiChildWindow_setTitle(CPointer, Util.ConvertStringForC_UTF32(value)); }
         }
 
+        /// <summary>
+        /// Gets or sets the character size of the title
+        /// </summary>
+        /// <remarks>
+        /// If the size is set to 0 then the character size is determined by the height of the title bar.
+        /// </remarks>
         public uint TitleTextSize
         {
             get { return tguiChildWindow_getTitleTextSize(CPointer); }
             set { tguiChildWindow_setTitleTextSize(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the title alignment
+        /// </summary>
         public HorizontalAlignment TitleAlignment
         {
             get { return tguiChildWindow_getTitleAlignment(CPointer); }
             set { tguiChildWindow_setTitleAlignment(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the title buttons that are shown in the title bar
+        /// </summary>
+        /// <remarks>
+        /// By default ChildWindows only display a close button.
+        /// </remarks>
+        /// <example>
+        /// The following example gives the ChildWindow both a minimize and close button.
+        /// <code>
+        /// childWindow.SetTitleButtons(ChildWindow.TitleButton.Minimize | ChildWindow.TitleButton.Close);
+        /// </code>
+        /// </example>
         public TitleButton TitleButtons
         {
             get { return tguiChildWindow_getTitleButtons(CPointer); }
             set { tguiChildWindow_setTitleButtons(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets whether the child window can be resized by dragging its borders or not
+        /// </summary>
         public bool Resizable
         {
             get { return tguiChildWindow_isResizable(CPointer); }
             set { tguiChildWindow_setResizable(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets whether the child window is to be kept inside its parent
+        /// </summary>
+        /// <remarks>
+        /// When it's set to true, it will not be possible to move the window outside its parent, not even partially.
+        /// It's set to false by default.
+        /// </remarks>
         public bool KeepInParent
         {
             get { return tguiChildWindow_isKeptInParent(CPointer); }
             set { tguiChildWindow_setKeepInParent(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the child window can be moved by dragging its title bar or not
+        /// </summary>
+        /// <remarks>
+        /// Locking the position only affects user interaction, the setPosition function will still move the window.
+        /// </remarks>
+        public bool PositionLocked
+        {
+            get { return tguiChildWindow_isPositionLocked(CPointer); }
+            set { tguiChildWindow_setPositionLocked(CPointer, value); }
         }
 
         protected override void InitSignals()
@@ -241,6 +337,12 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern protected bool tguiChildWindow_isKeptInParent(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected void tguiChildWindow_setPositionLocked(IntPtr cPointer, bool positionLocked);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected bool tguiChildWindow_isPositionLocked(IntPtr cPointer);
 
         #endregion
     }

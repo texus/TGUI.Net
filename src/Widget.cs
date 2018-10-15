@@ -25,8 +25,8 @@
 using System;
 using System.Text;
 using System.Security;
-using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using SFML.System;
 
 namespace TGUI
@@ -61,7 +61,7 @@ namespace TGUI
             tguiWidget_setPositionFromLayout(CPointer, layout.CPointer);
         }
 
-        public Vector2f AbsolultePosition
+        public Vector2f AbsolutePosition
         {
             get { return tguiWidget_getAbsolutePosition(CPointer); }
         }
@@ -197,15 +197,7 @@ namespace TGUI
 
         public Container Parent
         {
-            get
-            {
-                IntPtr ParentCPointer = tguiWidget_getParent(CPointer);
-                if (ParentCPointer == IntPtr.Zero)
-                    return null;
-
-                Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(ParentCPointer)));
-                return (Container)Activator.CreateInstance(type, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, new object[]{ ParentCPointer }, null);
-            }
+            get { return (Container)Util.GetWidgetFromC(tguiWidget_getParent(CPointer), ParentGui); }
         }
 
         public void MoveToFront()
@@ -220,15 +212,7 @@ namespace TGUI
 
         public Widget ToolTip
         {
-            get
-            {
-                IntPtr ToolTipCPointer = tguiWidget_getToolTip(CPointer);
-                if (ToolTipCPointer == IntPtr.Zero)
-                    return null;
-
-                Type type = Type.GetType("TGUI." + Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(ToolTipCPointer)));
-                return (Widget)Activator.CreateInstance(type, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, new object[]{ ToolTipCPointer }, null);
-            }
+            get { return Util.GetWidgetFromC(tguiWidget_getToolTip(CPointer), ParentGui); }
             set
             {
                 if (value != null)
@@ -244,12 +228,23 @@ namespace TGUI
         }
 
 
-        ////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Gets the gui to which the widget was added.
+        /// </summary>
+        /// <remarks>
+        /// The setter is only intended for internal use.
+        /// </remarks>
+        public Gui ParentGui
+        {
+            get { return myParentGui; }
+            set { myParentGui = value; }
+        }
+
+
         /// <summary>
         /// Provide a string describing the object
         /// </summary>
         /// <returns>String description of the object</returns>
-        ////////////////////////////////////////////////////////////
         public override string ToString()
         {
             return "[Widget] Type(" + WidgetType + ")";
@@ -280,6 +275,10 @@ namespace TGUI
 
             UnfocusedCallback = new CallbackAction(ProcessUnfocusedSignal);
             if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Unfocused"), UnfocusedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+
+            AnimationFinishedCallback = new CallbackActionAnimation(ProcessAnimationFinishedSignal);
+            if (tguiWidget_connectAnimation(CPointer, Util.ConvertStringForC_ASCII("AnimationFinished"), AnimationFinishedCallback) == 0)
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
 
@@ -313,6 +312,11 @@ namespace TGUI
             Unfocused?.Invoke(this, EventArgs.Empty);
         }
 
+        private void ProcessAnimationFinishedSignal(ShowAnimationType type, bool visible)
+        {
+            AnimationFinished?.Invoke(this, new SignalArgsAnimation(type, visible));
+        }
+
         /// <summary>Event handler for the Clicked signal</summary>
         public event EventHandler<SignalArgsVector2f> PositionChanged = null;
 
@@ -331,13 +335,18 @@ namespace TGUI
         /// <summary>Event handler for the Unfocused signal</summary>
         public event EventHandler Unfocused = null;
 
-        private CallbackActionVector2f PositionChangedCallback;
-        private CallbackActionVector2f SizeChangedCallback;
-        private CallbackAction         MouseEnteredCallback;
-        private CallbackAction         MouseLeftCallback;
-        private CallbackAction         FocusedCallback;
-        private CallbackAction         UnfocusedCallback;
+        /// <summary>Event handler for the AnimationFinished signal</summary>
+        public event EventHandler AnimationFinished = null;
 
+        private CallbackActionVector2f  PositionChangedCallback;
+        private CallbackActionVector2f  SizeChangedCallback;
+        private CallbackAction          MouseEnteredCallback;
+        private CallbackAction          MouseLeftCallback;
+        private CallbackAction          FocusedCallback;
+        private CallbackAction          UnfocusedCallback;
+        private CallbackActionAnimation AnimationFinishedCallback;
+
+        protected Gui myParentGui;
 
         protected Dictionary<string, List<uint>> myConnectedSignals = new Dictionary<string, List<uint>>();
 
@@ -350,6 +359,7 @@ namespace TGUI
         protected delegate void CallbackActionFloat(float param);
         protected delegate void CallbackActionRange(float param1, float param2);
         protected delegate void CallbackActionItemSelected(IntPtr param1, IntPtr param2);
+        protected delegate void CallbackActionAnimation(ShowAnimationType type, bool visibles);
 
         #region Imports
 
@@ -412,6 +422,9 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern protected uint tguiWidget_connectItemSelected(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionItemSelected func);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern protected uint tguiWidget_connectAnimation(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionAnimation func);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern protected void tguiWidget_disconnect(IntPtr cPointer, uint id);
