@@ -1,6 +1,18 @@
 @echo off
 
-set VSVersion="Visual Studio 15 2017"
+set ARCH=x64
+set VCVARS=vcvars64
+FOR %%A IN (%*) DO (
+  if %%A == x86 (
+    set ARCH=Win32
+    set VCVARS=vcvars32
+  ) else (
+    if NOT %%A == x64 (
+      echo Unrecognised option: %%A
+      goto :error
+    )
+  )
+)
 
 if not defined DevEnvDir (
   if not exist "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" (
@@ -13,10 +25,10 @@ if not defined DevEnvDir (
   )
 )
 if not defined DevEnvDir (
-  if exist "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat" (
-    call "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat"
+  if exist "%InstallDir%\VC\Auxiliary\Build\%VCVARS%.bat" (
+    call "%InstallDir%\VC\Auxiliary\Build\%VCVARS%.bat"
   )   else (
-    echo "Could not find %InstallDir%\VC\Auxiliary\Build\vcvars64.bat"
+    echo "Could not find %InstallDir%\VC\Auxiliary\Build\%VCVARS%.bat"
     exit /b 1
   )
 )
@@ -24,9 +36,8 @@ if not defined DevEnvDir (
 
 if not exist build mkdir build
 cd build
-
-cmake -G %VSVersion% -A x64 .. || goto :error
-msbuild build-extlibs.sln /p:Configuration=Release /p:Platform=x64 /m || goto :error
+cmake -A %ARCH% .. || goto :error
+msbuild build-extlibs.sln /p:Configuration=Release /p:Platform=%ARCH% /m || goto :error
 
 if not exist ..\lib mkdir ..\lib
 copy bin\*.dll ..\lib\ /Y > nul || goto :error

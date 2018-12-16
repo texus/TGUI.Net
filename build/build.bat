@@ -1,7 +1,7 @@
 @echo off
 
 pushd ..\extlibs\
-call build.bat || goto :error
+call build.bat %* || goto :error
 popd
 
 dotnet build TGUI.net.sln --configuration=Release || goto :error
