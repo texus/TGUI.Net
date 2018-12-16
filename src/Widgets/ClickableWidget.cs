@@ -29,29 +29,52 @@ using SFML.System;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Clickable widget
+    /// </summary>
     public class ClickableWidget : Widget
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public ClickableWidget()
             : base(tguiClickableWidget_create())
         {
         }
 
+        /// <summary>
+        /// Constructor to create the widget with a given size
+        /// </summary>
+        /// <param name="size">Initial size of the widget</param>
         public ClickableWidget(Vector2f size)
             : this()
         {
             Size = size;
         }
 
+        /// <summary>
+        /// Constructor to create the widget with a given size
+        /// </summary>
+        /// <param name="width">Initial width of the widget</param>
+        /// <param name="height">Initial height of the widget</param>
         public ClickableWidget(float width, float height)
             : this(new Vector2f(width, height))
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal ClickableWidget(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public ClickableWidget(ClickableWidget copy)
             : base(copy)
         {

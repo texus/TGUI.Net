@@ -12,4 +12,4 @@
 	url = https://github.com/SFML/SFML
 [submodule "extlibs/SFML.Net"]
 	path = extlibs/SFML.Net
-	url = https://github.com/dsoronda/SFML.Net
+	url = https://github.com/SFML/SFML.Net

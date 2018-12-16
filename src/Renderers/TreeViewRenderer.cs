@@ -30,15 +30,15 @@ using SFML.Graphics;
 namespace TGUI
 {
     /// <summary>
-    /// Renderer for list box widgets
+    /// Renderer for tree view widgets
     /// </summary>
-    public class ListBoxRenderer : WidgetRenderer
+    public class TreeViewRenderer : WidgetRenderer
     {
         /// <summary>
         /// Default constructor
         /// </summary>
-        public ListBoxRenderer()
-            : base(tguiListBoxRenderer_create())
+        public TreeViewRenderer()
+            : base(tguiTreeViewRenderer_create())
         {
         }
 
@@ -46,7 +46,7 @@ namespace TGUI
         /// Constructor that creates the object from its C pointer
         /// </summary>
         /// <param name="cPointer">Pointer to object in C code</param>
-        protected internal ListBoxRenderer(IntPtr cPointer)
+        protected internal TreeViewRenderer(IntPtr cPointer)
             : base(cPointer)
         {
         }
@@ -55,8 +55,8 @@ namespace TGUI
         /// Copy constructor
         /// </summary>
         /// <param name="copy">Object to copy</param>
-        public ListBoxRenderer(ListBoxRenderer copy)
-            : base(tguiListBoxRenderer_copy(copy.CPointer))
+        public TreeViewRenderer(TreeViewRenderer copy)
+            : base(tguiTreeViewRenderer_copy(copy.CPointer))
         {
         }
 
@@ -65,8 +65,8 @@ namespace TGUI
         /// </summary>
         public Outline Borders
         {
-            get { return new Outline(tguiListBoxRenderer_getBorders(CPointer)); }
-            set { tguiListBoxRenderer_setBorders(CPointer, value.CPointer); }
+            get { return new Outline(tguiTreeViewRenderer_getBorders(CPointer)); }
+            set { tguiTreeViewRenderer_setBorders(CPointer, value.CPointer); }
         }
 
         /// <summary>
@@ -74,8 +74,8 @@ namespace TGUI
         /// </summary>
         public Outline Padding
         {
-            get { return new Outline(tguiListBoxRenderer_getPadding(CPointer)); }
-            set { tguiListBoxRenderer_setPadding(CPointer, value.CPointer); }
+            get { return new Outline(tguiTreeViewRenderer_getPadding(CPointer)); }
+            set { tguiTreeViewRenderer_setPadding(CPointer, value.CPointer); }
         }
 
         /// <summary>
@@ -83,8 +83,8 @@ namespace TGUI
         /// </summary>
         public Color BackgroundColor
         {
-            get { return tguiListBoxRenderer_getBackgroundColor(CPointer); }
-            set { tguiListBoxRenderer_setBackgroundColor(CPointer, value); }
+            get { return tguiTreeViewRenderer_getBackgroundColor(CPointer); }
+            set { tguiTreeViewRenderer_setBackgroundColor(CPointer, value); }
         }
 
         /// <summary>
@@ -92,8 +92,8 @@ namespace TGUI
         /// </summary>
         public Color BackgroundColorHover
         {
-            get { return tguiListBoxRenderer_getBackgroundColorHover(CPointer); }
-            set { tguiListBoxRenderer_setBackgroundColorHover(CPointer, value); }
+            get { return tguiTreeViewRenderer_getBackgroundColorHover(CPointer); }
+            set { tguiTreeViewRenderer_setBackgroundColorHover(CPointer, value); }
         }
 
         /// <summary>
@@ -101,8 +101,8 @@ namespace TGUI
         /// </summary>
         public Color SelectedBackgroundColor
         {
-            get { return tguiListBoxRenderer_getSelectedBackgroundColor(CPointer); }
-            set { tguiListBoxRenderer_setSelectedBackgroundColor(CPointer, value); }
+            get { return tguiTreeViewRenderer_getSelectedBackgroundColor(CPointer); }
+            set { tguiTreeViewRenderer_setSelectedBackgroundColor(CPointer, value); }
         }
 
         /// <summary>
@@ -110,8 +110,8 @@ namespace TGUI
         /// </summary>
         public Color SelectedBackgroundColorHover
         {
-            get { return tguiListBoxRenderer_getSelectedBackgroundColorHover(CPointer); }
-            set { tguiListBoxRenderer_setSelectedBackgroundColorHover(CPointer, value); }
+            get { return tguiTreeViewRenderer_getSelectedBackgroundColorHover(CPointer); }
+            set { tguiTreeViewRenderer_setSelectedBackgroundColorHover(CPointer, value); }
         }
 
         /// <summary>
@@ -119,8 +119,8 @@ namespace TGUI
         /// </summary>
         public Color TextColor
         {
-            get { return tguiListBoxRenderer_getTextColor(CPointer); }
-            set { tguiListBoxRenderer_setTextColor(CPointer, value); }
+            get { return tguiTreeViewRenderer_getTextColor(CPointer); }
+            set { tguiTreeViewRenderer_setTextColor(CPointer, value); }
         }
 
         /// <summary>
@@ -128,8 +128,8 @@ namespace TGUI
         /// </summary>
         public Color TextColorHover
         {
-            get { return tguiListBoxRenderer_getTextColorHover(CPointer); }
-            set { tguiListBoxRenderer_setTextColorHover(CPointer, value); }
+            get { return tguiTreeViewRenderer_getTextColorHover(CPointer); }
+            set { tguiTreeViewRenderer_setTextColorHover(CPointer, value); }
         }
 
         /// <summary>
@@ -137,8 +137,8 @@ namespace TGUI
         /// </summary>
         public Color SelectedTextColor
         {
-            get { return tguiListBoxRenderer_getSelectedTextColor(CPointer); }
-            set { tguiListBoxRenderer_setSelectedTextColor(CPointer, value); }
+            get { return tguiTreeViewRenderer_getSelectedTextColor(CPointer); }
+            set { tguiTreeViewRenderer_setSelectedTextColor(CPointer, value); }
         }
 
         /// <summary>
@@ -146,8 +146,8 @@ namespace TGUI
         /// </summary>
         public Color SelectedTextColorHover
         {
-            get { return tguiListBoxRenderer_getSelectedTextColorHover(CPointer); }
-            set { tguiListBoxRenderer_setSelectedTextColorHover(CPointer, value); }
+            get { return tguiTreeViewRenderer_getSelectedTextColorHover(CPointer); }
+            set { tguiTreeViewRenderer_setSelectedTextColorHover(CPointer, value); }
         }
 
         /// <summary>
@@ -155,34 +155,32 @@ namespace TGUI
         /// </summary>
         public Color BorderColor
         {
-            get { return tguiListBoxRenderer_getBorderColor(CPointer); }
-            set { tguiListBoxRenderer_setBorderColor(CPointer, value); }
+            get { return tguiTreeViewRenderer_getBorderColor(CPointer); }
+            set { tguiTreeViewRenderer_setBorderColor(CPointer, value); }
         }
 
         /// <summary>
-        /// Sets the texture used as background
+        /// Sets the image used in front of an expanded item
         /// </summary>
-        public Texture TextureBackground
+        public Texture TextureBranchExpanded
         {
-            set { tguiListBoxRenderer_setTextureBackground(CPointer, value.CPointer); }
+            set { tguiTreeViewRenderer_setTextureBranchExpanded(CPointer, value.CPointer); }
         }
 
         /// <summary>
-        /// Gets the text style of the items
+        /// Sets the image used in front of an collapsed item
         /// </summary>
-        public Text.Styles TextStyle
+        public Texture TextureBranchCollapsed
         {
-            get { return tguiListBoxRenderer_getTextStyle(CPointer); }
-            set { tguiListBoxRenderer_setTextStyle(CPointer, value); }
+            set { tguiTreeViewRenderer_setTextureBranchCollapsed(CPointer, value.CPointer); }
         }
 
         /// <summary>
-        /// Gets the text style of the selected item
+        /// Sets the image used in front of a leaf item
         /// </summary>
-        public Text.Styles SelectedTextStyle
+        public Texture TextureLeaf
         {
-            get { return tguiListBoxRenderer_getSelectedTextStyle(CPointer); }
-            set { tguiListBoxRenderer_setSelectedTextStyle(CPointer, value); }
+            set { tguiTreeViewRenderer_setTextureLeaf(CPointer, value.CPointer); }
         }
 
         /// <summary>
@@ -190,8 +188,8 @@ namespace TGUI
         /// </summary>
         public RendererData Scrollbar
         {
-            get { return new RendererData(tguiListBoxRenderer_getScrollbar(CPointer)); }
-            set { tguiListBoxRenderer_setScrollbar(CPointer, value.CPointer); }
+            get { return new RendererData(tguiTreeViewRenderer_getScrollbar(CPointer)); }
+            set { tguiTreeViewRenderer_setScrollbar(CPointer, value.CPointer); }
         }
 
         /// <summary>
@@ -199,111 +197,105 @@ namespace TGUI
         /// </summary>
         public float ScrollbarWidth
         {
-            get { return tguiListBoxRenderer_getScrollbarWidth(CPointer); }
-            set { tguiListBoxRenderer_setScrollbarWidth(CPointer, value); }
+            get { return tguiTreeViewRenderer_getScrollbarWidth(CPointer); }
+            set { tguiTreeViewRenderer_setScrollbarWidth(CPointer, value); }
         }
 
 
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiListBoxRenderer_create();
+        static extern protected IntPtr tguiTreeViewRenderer_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiListBoxRenderer_copy(IntPtr cPointer);
+        static extern protected IntPtr tguiTreeViewRenderer_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setBorders(IntPtr cPointer, IntPtr borders);
+        static extern protected void tguiTreeViewRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiListBoxRenderer_getBorders(IntPtr cPointer);
+        static extern protected IntPtr tguiTreeViewRenderer_getBorders(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setPadding(IntPtr cPointer, IntPtr borders);
+        static extern protected void tguiTreeViewRenderer_setPadding(IntPtr cPointer, IntPtr borders);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiListBoxRenderer_getPadding(IntPtr cPointer);
+        static extern protected IntPtr tguiTreeViewRenderer_getPadding(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+        static extern protected void tguiTreeViewRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiListBoxRenderer_getBackgroundColor(IntPtr cPointer);
+        static extern protected Color tguiTreeViewRenderer_getBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
+        static extern protected void tguiTreeViewRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiListBoxRenderer_getBackgroundColorHover(IntPtr cPointer);
+        static extern protected Color tguiTreeViewRenderer_getBackgroundColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setSelectedBackgroundColor(IntPtr cPointer, Color color);
+        static extern protected void tguiTreeViewRenderer_setSelectedBackgroundColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiListBoxRenderer_getSelectedBackgroundColor(IntPtr cPointer);
+        static extern protected Color tguiTreeViewRenderer_getSelectedBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setSelectedBackgroundColorHover(IntPtr cPointer, Color color);
+        static extern protected void tguiTreeViewRenderer_setSelectedBackgroundColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiListBoxRenderer_getSelectedBackgroundColorHover(IntPtr cPointer);
+        static extern protected Color tguiTreeViewRenderer_getSelectedBackgroundColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setTextColor(IntPtr cPointer, Color color);
+        static extern protected void tguiTreeViewRenderer_setTextColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiListBoxRenderer_getTextColor(IntPtr cPointer);
+        static extern protected Color tguiTreeViewRenderer_getTextColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setTextColorHover(IntPtr cPointer, Color color);
+        static extern protected void tguiTreeViewRenderer_setTextColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiListBoxRenderer_getTextColorHover(IntPtr cPointer);
+        static extern protected Color tguiTreeViewRenderer_getTextColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setSelectedTextColor(IntPtr cPointer, Color color);
+        static extern protected void tguiTreeViewRenderer_setSelectedTextColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiListBoxRenderer_getSelectedTextColor(IntPtr cPointer);
+        static extern protected Color tguiTreeViewRenderer_getSelectedTextColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setSelectedTextColorHover(IntPtr cPointer, Color color);
+        static extern protected void tguiTreeViewRenderer_setSelectedTextColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiListBoxRenderer_getSelectedTextColorHover(IntPtr cPointer);
+        static extern protected Color tguiTreeViewRenderer_getSelectedTextColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setBorderColor(IntPtr cPointer, Color color);
+        static extern protected void tguiTreeViewRenderer_setBorderColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiListBoxRenderer_getBorderColor(IntPtr cPointer);
+        static extern protected Color tguiTreeViewRenderer_getBorderColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
+        static extern protected void tguiTreeViewRenderer_setTextureBranchExpanded(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);
+        static extern protected void tguiTreeViewRenderer_setTextureBranchCollapsed(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Text.Styles tguiListBoxRenderer_getTextStyle(IntPtr cPointer);
+        static extern protected void tguiTreeViewRenderer_setTextureLeaf(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setSelectedTextStyle(IntPtr cPointer, Text.Styles style);
+        static extern protected void tguiTreeViewRenderer_setScrollbar(IntPtr cPointer, IntPtr rendererData);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Text.Styles tguiListBoxRenderer_getSelectedTextStyle(IntPtr cPointer);
+        static extern protected IntPtr tguiTreeViewRenderer_getScrollbar(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setScrollbar(IntPtr cPointer, IntPtr rendererData);
+        static extern protected void tguiTreeViewRenderer_setScrollbarWidth(IntPtr cPointer, float width);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiListBoxRenderer_getScrollbar(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiListBoxRenderer_setScrollbarWidth(IntPtr cPointer, float width);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiListBoxRenderer_getScrollbarWidth(IntPtr cPointer);
+        static extern protected float tguiTreeViewRenderer_getScrollbarWidth(IntPtr cPointer);
 
         #endregion
     }

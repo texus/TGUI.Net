@@ -28,8 +28,15 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Button widget
+    /// </summary>
     public class Button : ClickableWidget
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="text">Caption of the button</param>
         public Button(string text = "")
             : base(tguiButton_create())
         {
@@ -37,32 +44,55 @@ namespace TGUI
                 Text = text;
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal Button(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public Button(Button copy)
             : base(copy)
         {
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
+        /// <remarks>
+        /// After calling this function, the widget has its own copy of the renderer and it will no longer be shared.
+        /// </remarks>
         public new ButtonRenderer Renderer
         {
             get { return new ButtonRenderer(tguiWidget_getRenderer(CPointer)); }
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
         public new ButtonRenderer SharedRenderer
         {
             get { return new ButtonRenderer(tguiWidget_getSharedRenderer(CPointer)); }
         }
 
+        /// <summary>
+        /// Gets or sets the caption displayed on the button
+        /// </summary>
         public string Text
         {
             get { return Util.GetStringFromC_UTF32(tguiButton_getText(CPointer)); }
             set { tguiButton_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
         }
 
+        /// <summary>
+        /// Gets or sets the character size of the text
+        /// </summary>
         public uint TextSize
         {
             get { return tguiButton_getTextSize(CPointer); }

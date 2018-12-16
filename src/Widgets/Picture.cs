@@ -30,8 +30,15 @@ using SFML.Graphics;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Picture widget
+    /// </summary>
     public class Picture : ClickableWidget
     {
+        /// <summary>
+        /// Constructor to create the picture with a texture loaded from a file
+        /// </summary>
+        /// <param name="filename">Filename of the texture to load</param>
         public Picture(string filename = "")
             : base(tguiPicture_create())
         {
@@ -39,33 +46,57 @@ namespace TGUI
                 Renderer.Texture = new Texture(filename);
         }
 
-        public Picture(Texture texture = null)
+        /// <summary>
+        /// Constructor to create the picture with a given texture
+        /// </summary>
+        /// <param name="texture">Texture used by the widget</param>
+        public Picture(Texture texture)
             : base(tguiPicture_create())
         {
             if (texture != null)
                 Renderer.Texture = texture;
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal Picture(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public Picture(Picture copy)
             : base(copy)
         {
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
+        /// <remarks>
+        /// After calling this function, the widget has its own copy of the renderer and it will no longer be shared.
+        /// </remarks>
         public new PictureRenderer Renderer
         {
             get { return new PictureRenderer(tguiWidget_getRenderer(CPointer)); }
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
         public new PictureRenderer SharedRenderer
         {
             get { return new PictureRenderer(tguiWidget_getSharedRenderer(CPointer)); }
         }
 
+        /// <summary>
+        /// Gets or sets whether the widget should completely ignore mouse events and let them pass to the widgets behind it.
+        /// </summary>
         public bool IgnoreMouseEvents
         {
             get { return tguiPicture_isIgnoringMouseEvents(CPointer); }

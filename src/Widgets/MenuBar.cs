@@ -45,6 +45,7 @@ namespace TGUI
         /// <summary>
         /// Constructor that creates the object from its C pointer
         /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal MenuBar(IntPtr cPointer)
             : base(cPointer)
         {
@@ -53,6 +54,7 @@ namespace TGUI
         /// <summary>
         /// Copy constructor
         /// </summary>
+        /// <param name="copy">Object to copy</param>
         public MenuBar(MenuBar copy)
             : base(copy)
         {
