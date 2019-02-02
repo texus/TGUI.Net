@@ -5,7 +5,7 @@
     <RootNamespace>TGUI</RootNamespace>
     <PackageId>TGUI.Net.win-x64</PackageId>
     <AssemblyName>tgui.net</AssemblyName>
-    <Version>0.8.2</Version>
+    <Version>0.8.3</Version>
     <Configurations>Debug;Release;_WINDOWS_;_LINUX_;_OSX_</Configurations>
     <Authors>texus</Authors>
     <DocumentationFile>bin/tgui.net.xml</DocumentationFile>

@@ -140,46 +140,46 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiProgressBar_create();
+        static extern private IntPtr tguiProgressBar_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiProgressBar_setMinimum(IntPtr cPointer, uint minimum);
+        static extern private void tguiProgressBar_setMinimum(IntPtr cPointer, uint minimum);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiProgressBar_getMinimum(IntPtr cPointer);
+        static extern private uint tguiProgressBar_getMinimum(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiProgressBar_setMaximum(IntPtr cPointer, uint maximum);
+        static extern private void tguiProgressBar_setMaximum(IntPtr cPointer, uint maximum);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiProgressBar_getMaximum(IntPtr cPointer);
+        static extern private uint tguiProgressBar_getMaximum(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiProgressBar_setValue(IntPtr cPointer, uint value);
+        static extern private void tguiProgressBar_setValue(IntPtr cPointer, uint value);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiProgressBar_getValue(IntPtr cPointer);
+        static extern private uint tguiProgressBar_getValue(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiProgressBar_incrementValue(IntPtr cPointer);
+        static extern private uint tguiProgressBar_incrementValue(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiProgressBar_setText(IntPtr cPointer, IntPtr value);
+        static extern private void tguiProgressBar_setText(IntPtr cPointer, IntPtr value);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiProgressBar_getText(IntPtr cPointer);
+        static extern private IntPtr tguiProgressBar_getText(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiProgressBar_setTextSize(IntPtr cPointer, uint textSize);
+        static extern private void tguiProgressBar_setTextSize(IntPtr cPointer, uint textSize);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiProgressBar_getTextSize(IntPtr cPointer);
+        static extern private uint tguiProgressBar_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiProgressBar_setFillDirection(IntPtr cPointer, Direction fillDirection);
+        static extern private void tguiProgressBar_setFillDirection(IntPtr cPointer, Direction fillDirection);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Direction tguiProgressBar_getFillDirection(IntPtr cPointer);
+        static extern private Direction tguiProgressBar_getFillDirection(IntPtr cPointer);
 
         #endregion
     }

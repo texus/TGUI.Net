@@ -422,7 +422,7 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiCustomWidgetForBindings_create();
+        static extern private IntPtr tguiCustomWidgetForBindings_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiCustomWidgetForBindings_setPositionChangedCallback(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackCustomWidgetVector2f func);

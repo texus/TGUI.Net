@@ -69,13 +69,13 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiBoxLayout_insert(IntPtr cPointer, uint index, IntPtr widgetCPointer, IntPtr widgetName);
+        static extern private void tguiBoxLayout_insert(IntPtr cPointer, uint index, IntPtr widgetCPointer, IntPtr widgetName);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiBoxLayout_removeAtIndex(IntPtr cPointer, uint index);
+        static extern private bool tguiBoxLayout_removeAtIndex(IntPtr cPointer, uint index);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiBoxLayout_getAtIndex(IntPtr cPointer, uint index);
+        static extern private IntPtr tguiBoxLayout_getAtIndex(IntPtr cPointer, uint index);
 
         #endregion
     }

@@ -29,39 +29,71 @@ using SFML.System;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Group widget
+    /// </summary>
     public class Group : Container
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public Group()
             : base(tguiGroup_create())
         {
         }
 
+        /// <summary>
+        /// Constructor to create the group with a given size
+        /// </summary>
+        /// <param name="size">Initial size of the group</param>
         public Group(Vector2f size)
             : this()
         {
             Size = size;
         }
 
+        /// <summary>
+        /// Constructor to create the group with a given size
+        /// </summary>
+        /// <param name="width">Initial width of the group</param>
+        /// <param name="height">Initial height of the group</param>
         public Group(float width, float height)
             : this(new Vector2f(width, height))
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal Group(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public Group(Group copy)
             : base(copy)
         {
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
+        /// <remarks>
+        /// After calling this function, the widget has its own copy of the renderer and it will no longer be shared.
+        /// </remarks>
         public new GroupRenderer Renderer
         {
             get { return new GroupRenderer(tguiWidget_getRenderer(CPointer)); }
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
         public new GroupRenderer SharedRenderer
         {
             get { return new GroupRenderer(tguiWidget_getSharedRenderer(CPointer)); }
@@ -71,7 +103,7 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiGroup_create();
+        static extern private IntPtr tguiGroup_create();
 
         #endregion
     }

@@ -111,64 +111,64 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiSpinButtonRenderer_create();
+        static extern private IntPtr tguiSpinButtonRenderer_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiSpinButtonRenderer_copy(IntPtr cPointer);
+        static extern private IntPtr tguiSpinButtonRenderer_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSpinButtonRenderer_setBorders(IntPtr cPointer, IntPtr borders);
+        static extern private void tguiSpinButtonRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiSpinButtonRenderer_getBorders(IntPtr cPointer);
+        static extern private IntPtr tguiSpinButtonRenderer_getBorders(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSpinButtonRenderer_setBorderBetweenArrows(IntPtr cPointer, float border);
+        static extern private void tguiSpinButtonRenderer_setBorderBetweenArrows(IntPtr cPointer, float border);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiSpinButtonRenderer_getBorderBetweenArrows(IntPtr cPointer);
+        static extern private float tguiSpinButtonRenderer_getBorderBetweenArrows(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSpinButtonRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+        static extern private void tguiSpinButtonRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiSpinButtonRenderer_getBackgroundColor(IntPtr cPointer);
+        static extern private Color tguiSpinButtonRenderer_getBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSpinButtonRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
+        static extern private void tguiSpinButtonRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiSpinButtonRenderer_getBackgroundColorHover(IntPtr cPointer);
+        static extern private Color tguiSpinButtonRenderer_getBackgroundColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSpinButtonRenderer_setArrowColor(IntPtr cPointer, Color color);
+        static extern private void tguiSpinButtonRenderer_setArrowColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiSpinButtonRenderer_getArrowColor(IntPtr cPointer);
+        static extern private Color tguiSpinButtonRenderer_getArrowColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSpinButtonRenderer_setArrowColorHover(IntPtr cPointer, Color color);
+        static extern private void tguiSpinButtonRenderer_setArrowColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiSpinButtonRenderer_getArrowColorHover(IntPtr cPointer);
+        static extern private Color tguiSpinButtonRenderer_getArrowColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSpinButtonRenderer_setBorderColor(IntPtr cPointer, Color color);
+        static extern private void tguiSpinButtonRenderer_setBorderColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiSpinButtonRenderer_getBorderColor(IntPtr cPointer);
+        static extern private Color tguiSpinButtonRenderer_getBorderColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSpinButtonRenderer_setTextureArrowUp(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiSpinButtonRenderer_setTextureArrowUp(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSpinButtonRenderer_setTextureArrowUpHover(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiSpinButtonRenderer_setTextureArrowUpHover(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSpinButtonRenderer_setTextureArrowDown(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiSpinButtonRenderer_setTextureArrowDown(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSpinButtonRenderer_setTextureArrowDownHover(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiSpinButtonRenderer_setTextureArrowDownHover(IntPtr cPointer, IntPtr texture);
 
         #endregion
     }

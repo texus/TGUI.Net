@@ -103,6 +103,9 @@ namespace TGUI
             set { tguiPicture_ignoreMouseEvents(CPointer, value); }
         }
 
+        /// <summary>
+        /// Initializes the signals
+        /// </summary>
         protected override void InitSignals()
         {
             base.InitSignals();
@@ -125,13 +128,13 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiPicture_create();
+        static extern private IntPtr tguiPicture_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiPicture_ignoreMouseEvents(IntPtr cPointer, bool ignore);
+        static extern private void tguiPicture_ignoreMouseEvents(IntPtr cPointer, bool ignore);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiPicture_isIgnoringMouseEvents(IntPtr cPointer);
+        static extern private bool tguiPicture_isIgnoringMouseEvents(IntPtr cPointer);
 
         #endregion
     }

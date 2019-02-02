@@ -109,31 +109,31 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiSpinButton_create();
+        static extern private IntPtr tguiSpinButton_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSpinButton_setMinimum(IntPtr cPointer, float minimum);
+        static extern private void tguiSpinButton_setMinimum(IntPtr cPointer, float minimum);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiSpinButton_getMinimum(IntPtr cPointer);
+        static extern private float tguiSpinButton_getMinimum(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSpinButton_setMaximum(IntPtr cPointer, float maximum);
+        static extern private void tguiSpinButton_setMaximum(IntPtr cPointer, float maximum);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiSpinButton_getMaximum(IntPtr cPointer);
+        static extern private float tguiSpinButton_getMaximum(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSpinButton_setValue(IntPtr cPointer, float value);
+        static extern private void tguiSpinButton_setValue(IntPtr cPointer, float value);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiSpinButton_getValue(IntPtr cPointer);
+        static extern private float tguiSpinButton_getValue(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSpinButton_setStep(IntPtr cPointer, float step);
+        static extern private void tguiSpinButton_setStep(IntPtr cPointer, float step);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiSpinButton_getStep(IntPtr cPointer);
+        static extern private float tguiSpinButton_getStep(IntPtr cPointer);
 
         #endregion
     }

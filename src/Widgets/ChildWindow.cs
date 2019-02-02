@@ -216,6 +216,9 @@ namespace TGUI
             set { tguiChildWindow_setPositionLocked(CPointer, value); }
         }
 
+        /// <summary>
+        /// Initializes the signals
+        /// </summary>
         protected override void InitSignals()
         {
             base.InitSignals();
@@ -288,61 +291,61 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiChildWindow_create();
+        static extern private IntPtr tguiChildWindow_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindow_setTitle(IntPtr cPointer, IntPtr value);
+        static extern private void tguiChildWindow_setTitle(IntPtr cPointer, IntPtr value);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindow_setMaximumSize(IntPtr cPointer, Vector2f maxSize);
+        static extern private void tguiChildWindow_setMaximumSize(IntPtr cPointer, Vector2f maxSize);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Vector2f tguiChildWindow_getMaximumSize(IntPtr cPointer);
+        static extern private Vector2f tguiChildWindow_getMaximumSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindow_setMinimumSize(IntPtr cPointer, Vector2f minSize);
+        static extern private void tguiChildWindow_setMinimumSize(IntPtr cPointer, Vector2f minSize);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Vector2f tguiChildWindow_getMinimumSize(IntPtr cPointer);
+        static extern private Vector2f tguiChildWindow_getMinimumSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiChildWindow_getTitle(IntPtr cPointer);
+        static extern private IntPtr tguiChildWindow_getTitle(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindow_setTitleTextSize(IntPtr cPointer, uint textSize);
+        static extern private void tguiChildWindow_setTitleTextSize(IntPtr cPointer, uint textSize);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiChildWindow_getTitleTextSize(IntPtr cPointer);
+        static extern private uint tguiChildWindow_getTitleTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindow_setTitleAlignment(IntPtr cPointer, HorizontalAlignment alignment);
+        static extern private void tguiChildWindow_setTitleAlignment(IntPtr cPointer, HorizontalAlignment alignment);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected HorizontalAlignment tguiChildWindow_getTitleAlignment(IntPtr cPointer);
+        static extern private HorizontalAlignment tguiChildWindow_getTitleAlignment(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindow_setTitleButtons(IntPtr cPointer, TitleButton buttons);
+        static extern private void tguiChildWindow_setTitleButtons(IntPtr cPointer, TitleButton buttons);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected TitleButton tguiChildWindow_getTitleButtons(IntPtr cPointer);
+        static extern private TitleButton tguiChildWindow_getTitleButtons(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindow_setResizable(IntPtr cPointer, bool resizable);
+        static extern private void tguiChildWindow_setResizable(IntPtr cPointer, bool resizable);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiChildWindow_isResizable(IntPtr cPointer);
+        static extern private bool tguiChildWindow_isResizable(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindow_setKeepInParent(IntPtr cPointer, bool keepInParent);
+        static extern private void tguiChildWindow_setKeepInParent(IntPtr cPointer, bool keepInParent);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiChildWindow_isKeptInParent(IntPtr cPointer);
+        static extern private bool tguiChildWindow_isKeptInParent(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindow_setPositionLocked(IntPtr cPointer, bool positionLocked);
+        static extern private void tguiChildWindow_setPositionLocked(IntPtr cPointer, bool positionLocked);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiChildWindow_isPositionLocked(IntPtr cPointer);
+        static extern private bool tguiChildWindow_isPositionLocked(IntPtr cPointer);
 
         #endregion
     }

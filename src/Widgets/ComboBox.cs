@@ -230,94 +230,94 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiComboBox_create();
+        static extern private IntPtr tguiComboBox_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBox_setItemsToDisplay(IntPtr cPointer, uint itemsToDisplay);
+        static extern private void tguiComboBox_setItemsToDisplay(IntPtr cPointer, uint itemsToDisplay);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiComboBox_getItemsToDisplay(IntPtr cPointer);
+        static extern private uint tguiComboBox_getItemsToDisplay(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiComboBox_addItem(IntPtr cPointer, IntPtr itemName, IntPtr id);
+        static extern private bool tguiComboBox_addItem(IntPtr cPointer, IntPtr itemName, IntPtr id);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiComboBox_setSelectedItem(IntPtr cPointer, IntPtr itemName);
+        static extern private bool tguiComboBox_setSelectedItem(IntPtr cPointer, IntPtr itemName);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiComboBox_setSelectedItemById(IntPtr cPointer, IntPtr id);
+        static extern private bool tguiComboBox_setSelectedItemById(IntPtr cPointer, IntPtr id);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiComboBox_setSelectedItemByIndex(IntPtr cPointer, uint index);
+        static extern private bool tguiComboBox_setSelectedItemByIndex(IntPtr cPointer, uint index);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBox_deselectItem(IntPtr cPointer);
+        static extern private void tguiComboBox_deselectItem(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiComboBox_removeItem(IntPtr cPointer, IntPtr itemName);
+        static extern private bool tguiComboBox_removeItem(IntPtr cPointer, IntPtr itemName);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiComboBox_removeItemById(IntPtr cPointer, IntPtr id);
+        static extern private bool tguiComboBox_removeItemById(IntPtr cPointer, IntPtr id);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiComboBox_removeItemByIndex(IntPtr cPointer, uint index);
+        static extern private bool tguiComboBox_removeItemByIndex(IntPtr cPointer, uint index);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBox_removeAllItems(IntPtr cPointer);
+        static extern private void tguiComboBox_removeAllItems(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiComboBox_getItemById(IntPtr cPointer, IntPtr id);
+        static extern private IntPtr tguiComboBox_getItemById(IntPtr cPointer, IntPtr id);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiComboBox_getSelectedItem(IntPtr cPointer);
+        static extern private IntPtr tguiComboBox_getSelectedItem(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiComboBox_getSelectedItemId(IntPtr cPointer);
+        static extern private IntPtr tguiComboBox_getSelectedItemId(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected int tguiComboBox_getSelectedItemIndex(IntPtr cPointer);
+        static extern private int tguiComboBox_getSelectedItemIndex(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiComboBox_changeItem(IntPtr cPointer, IntPtr originalValue, IntPtr newValue);
+        static extern private bool tguiComboBox_changeItem(IntPtr cPointer, IntPtr originalValue, IntPtr newValue);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiComboBox_changeItemById(IntPtr cPointer, IntPtr id, IntPtr newValue);
+        static extern private bool tguiComboBox_changeItemById(IntPtr cPointer, IntPtr id, IntPtr newValue);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiComboBox_changeItemByIndex(IntPtr cPointer, uint index, IntPtr newValue);
+        static extern private bool tguiComboBox_changeItemByIndex(IntPtr cPointer, uint index, IntPtr newValue);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiComboBox_getItemCount(IntPtr cPointer);
+        static extern private uint tguiComboBox_getItemCount(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        unsafe static extern protected IntPtr* tguiComboBox_getItems(IntPtr cPointer, out uint count);
+        unsafe static extern private IntPtr* tguiComboBox_getItems(IntPtr cPointer, out uint count);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        unsafe static extern protected IntPtr* tguiComboBox_getItemIds(IntPtr cPointer, out uint count);
+        unsafe static extern private IntPtr* tguiComboBox_getItemIds(IntPtr cPointer, out uint count);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBox_setTextSize(IntPtr cPointer, uint textSize);
+        static extern private void tguiComboBox_setTextSize(IntPtr cPointer, uint textSize);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiComboBox_getTextSize(IntPtr cPointer);
+        static extern private uint tguiComboBox_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBox_setMaximumItems(IntPtr cPointer, uint maximumItems);
+        static extern private void tguiComboBox_setMaximumItems(IntPtr cPointer, uint maximumItems);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiComboBox_getMaximumItems(IntPtr cPointer);
+        static extern private uint tguiComboBox_getMaximumItems(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBox_setExpandDirection(IntPtr cPointer, Direction expandDirection);
+        static extern private void tguiComboBox_setExpandDirection(IntPtr cPointer, Direction expandDirection);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Direction tguiComboBox_getExpandDirection(IntPtr cPointer);
+        static extern private Direction tguiComboBox_getExpandDirection(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiComboBox_contains(IntPtr cPointer, IntPtr item);
+        static extern private bool tguiComboBox_contains(IntPtr cPointer, IntPtr item);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiComboBox_containsId(IntPtr cPointer, IntPtr id);
+        static extern private bool tguiComboBox_containsId(IntPtr cPointer, IntPtr id);
 
         #endregion
     }

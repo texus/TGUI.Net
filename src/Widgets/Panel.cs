@@ -29,44 +29,79 @@ using SFML.System;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Panel widget
+    /// </summary>
     public class Panel : Group
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public Panel()
             : base(tguiPanel_create())
         {
         }
 
+        /// <summary>
+        /// Constructor to create the panel with a given size
+        /// </summary>
+        /// <param name="size">Initial size of the panel</param>
         public Panel(Vector2f size)
             : this()
         {
             Size = size;
         }
 
+        /// <summary>
+        /// Constructor to create the panel with a given size
+        /// </summary>
+        /// <param name="width">Initial width of the panel</param>
+        /// <param name="height">Initial height of the panel</param>
         public Panel(float width, float height)
             : this(new Vector2f(width, height))
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal Panel(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public Panel(Panel copy)
             : base(copy)
         {
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
+        /// <remarks>
+        /// After calling this function, the widget has its own copy of the renderer and it will no longer be shared.
+        /// </remarks>
         public new PanelRenderer Renderer
         {
             get { return new PanelRenderer(tguiWidget_getRenderer(CPointer)); }
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
         public new PanelRenderer SharedRenderer
         {
             get { return new PanelRenderer(tguiWidget_getSharedRenderer(CPointer)); }
         }
 
+        /// <summary>
+        /// Initializes the signals
+        /// </summary>
         protected override void InitSignals()
         {
             base.InitSignals();
@@ -116,7 +151,7 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiPanel_create();
+        static extern private IntPtr tguiPanel_create();
 
         #endregion
     }

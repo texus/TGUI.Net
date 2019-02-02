@@ -131,85 +131,85 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiComboBoxRenderer_create();
+        static extern private IntPtr tguiComboBoxRenderer_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiComboBoxRenderer_copy(IntPtr cPointer);
+        static extern private IntPtr tguiComboBoxRenderer_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBoxRenderer_setBorders(IntPtr cPointer, IntPtr borders);
+        static extern private void tguiComboBoxRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiComboBoxRenderer_getBorders(IntPtr cPointer);
+        static extern private IntPtr tguiComboBoxRenderer_getBorders(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBoxRenderer_setPadding(IntPtr cPointer, IntPtr borders);
+        static extern private void tguiComboBoxRenderer_setPadding(IntPtr cPointer, IntPtr borders);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiComboBoxRenderer_getPadding(IntPtr cPointer);
+        static extern private IntPtr tguiComboBoxRenderer_getPadding(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBoxRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+        static extern private void tguiComboBoxRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiComboBoxRenderer_getBackgroundColor(IntPtr cPointer);
+        static extern private Color tguiComboBoxRenderer_getBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBoxRenderer_setTextColor(IntPtr cPointer, Color color);
+        static extern private void tguiComboBoxRenderer_setTextColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiComboBoxRenderer_getTextColor(IntPtr cPointer);
+        static extern private Color tguiComboBoxRenderer_getTextColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBoxRenderer_setArrowBackgroundColor(IntPtr cPointer, Color color);
+        static extern private void tguiComboBoxRenderer_setArrowBackgroundColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiComboBoxRenderer_getArrowBackgroundColor(IntPtr cPointer);
+        static extern private Color tguiComboBoxRenderer_getArrowBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBoxRenderer_setArrowBackgroundColorHover(IntPtr cPointer, Color color);
+        static extern private void tguiComboBoxRenderer_setArrowBackgroundColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiComboBoxRenderer_getArrowBackgroundColorHover(IntPtr cPointer);
+        static extern private Color tguiComboBoxRenderer_getArrowBackgroundColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBoxRenderer_setArrowColor(IntPtr cPointer, Color color);
+        static extern private void tguiComboBoxRenderer_setArrowColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiComboBoxRenderer_getArrowColor(IntPtr cPointer);
+        static extern private Color tguiComboBoxRenderer_getArrowColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBoxRenderer_setArrowColorHover(IntPtr cPointer, Color color);
+        static extern private void tguiComboBoxRenderer_setArrowColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiComboBoxRenderer_getArrowColorHover(IntPtr cPointer);
+        static extern private Color tguiComboBoxRenderer_getArrowColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBoxRenderer_setBorderColor(IntPtr cPointer, Color color);
+        static extern private void tguiComboBoxRenderer_setBorderColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiComboBoxRenderer_getBorderColor(IntPtr cPointer);
+        static extern private Color tguiComboBoxRenderer_getBorderColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBoxRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiComboBoxRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBoxRenderer_setTextureArrow(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiComboBoxRenderer_setTextureArrow(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBoxRenderer_setTextureArrowHover(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiComboBoxRenderer_setTextureArrowHover(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBoxRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);
+        static extern private void tguiComboBoxRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Text.Styles tguiComboBoxRenderer_getTextStyle(IntPtr cPointer);
+        static extern private Text.Styles tguiComboBoxRenderer_getTextStyle(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiComboBoxRenderer_setListBox(IntPtr cPointer, IntPtr rendererData);
+        static extern private void tguiComboBoxRenderer_setListBox(IntPtr cPointer, IntPtr rendererData);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiComboBoxRenderer_getListBox(IntPtr cPointer);
+        static extern private IntPtr tguiComboBoxRenderer_getListBox(IntPtr cPointer);
 
         #endregion
     }

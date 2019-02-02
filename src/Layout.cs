@@ -59,19 +59,19 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiLayout_create(float constant);
+        static extern private IntPtr tguiLayout_create(float constant);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiLayout_createFromString(IntPtr expression);
+        static extern private IntPtr tguiLayout_createFromString(IntPtr expression);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiLayout_copy(IntPtr cPointer);
+        static extern private IntPtr tguiLayout_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiLayout_destroy(IntPtr cPointer);
+        static extern private void tguiLayout_destroy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiLayout_getValue(IntPtr cPointer);
+        static extern private float tguiLayout_getValue(IntPtr cPointer);
 
         #endregion
     }

@@ -88,28 +88,28 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiBoxLayoutRatios_add(IntPtr cPointer, IntPtr widgetCPointer, float ratio, IntPtr widgetName);
+        static extern private void tguiBoxLayoutRatios_add(IntPtr cPointer, IntPtr widgetCPointer, float ratio, IntPtr widgetName);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiBoxLayoutRatios_insert(IntPtr cPointer, uint index, IntPtr widgetCPointer, float ratio, IntPtr widgetName);
+        static extern private void tguiBoxLayoutRatios_insert(IntPtr cPointer, uint index, IntPtr widgetCPointer, float ratio, IntPtr widgetName);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiBoxLayoutRatios_addSpace(IntPtr cPointer, float ratio);
+        static extern private void tguiBoxLayoutRatios_addSpace(IntPtr cPointer, float ratio);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiBoxLayoutRatios_insertSpace(IntPtr cPointer, uint index, float ratio);
+        static extern private void tguiBoxLayoutRatios_insertSpace(IntPtr cPointer, uint index, float ratio);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiBoxLayoutRatios_setRatio(IntPtr cPointer, IntPtr widgetCPointer, float ratio);
+        static extern private void tguiBoxLayoutRatios_setRatio(IntPtr cPointer, IntPtr widgetCPointer, float ratio);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiBoxLayoutRatios_setRatioAtIndex(IntPtr cPointer, uint index, float ratio);
+        static extern private void tguiBoxLayoutRatios_setRatioAtIndex(IntPtr cPointer, uint index, float ratio);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiBoxLayoutRatios_getRatio(IntPtr cPointer, IntPtr widgetCPointer);
+        static extern private float tguiBoxLayoutRatios_getRatio(IntPtr cPointer, IntPtr widgetCPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiBoxLayoutRatios_getRatioAtIndex(IntPtr cPointer, uint index);
+        static extern private float tguiBoxLayoutRatios_getRatioAtIndex(IntPtr cPointer, uint index);
 
         #endregion
     }

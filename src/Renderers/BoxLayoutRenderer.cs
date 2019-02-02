@@ -56,16 +56,16 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiBoxLayoutRenderer_create();
+        static extern private IntPtr tguiBoxLayoutRenderer_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiBoxLayoutRenderer_copy(IntPtr cPointer);
+        static extern private IntPtr tguiBoxLayoutRenderer_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiBoxLayoutRenderer_setSpaceBetweenWidgets(IntPtr cPointer, float space);
+        static extern private void tguiBoxLayoutRenderer_setSpaceBetweenWidgets(IntPtr cPointer, float space);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiBoxLayoutRenderer_getSpaceBetweenWidgets(IntPtr cPointer);
+        static extern private float tguiBoxLayoutRenderer_getSpaceBetweenWidgets(IntPtr cPointer);
 
         #endregion
     }

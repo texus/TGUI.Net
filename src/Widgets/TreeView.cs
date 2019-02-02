@@ -201,6 +201,9 @@ namespace TGUI
             set { tguiTreeView_setTextSize(CPointer, value); }
         }
 
+        /// <summary>
+        /// Initializes the signals
+        /// </summary>
         protected override void InitSignals()
         {
             base.InitSignals();
@@ -263,43 +266,43 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTreeView_create();
+        static extern private IntPtr tguiTreeView_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiTreeView_addItem(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength, bool createParents);
+        static extern private bool tguiTreeView_addItem(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength, bool createParents);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeView_expand(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength);
+        static extern private void tguiTreeView_expand(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeView_expandAll(IntPtr cPointer);
+        static extern private void tguiTreeView_expandAll(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeView_collapse(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength);
+        static extern private void tguiTreeView_collapse(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeView_collapseAll(IntPtr cPointer);
+        static extern private void tguiTreeView_collapseAll(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiTreeView_removeItem(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength, bool removeParentsWhenEmpty);
+        static extern private bool tguiTreeView_removeItem(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength, bool removeParentsWhenEmpty);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeView_removeAllItems(IntPtr cPointer);
+        static extern private void tguiTreeView_removeAllItems(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeView_deselectItem(IntPtr cPointer);
+        static extern private void tguiTreeView_deselectItem(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeView_setItemHeight(IntPtr cPointer, uint itemHeight);
+        static extern private void tguiTreeView_setItemHeight(IntPtr cPointer, uint itemHeight);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiTreeView_getItemHeight(IntPtr cPointer);
+        static extern private uint tguiTreeView_getItemHeight(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeView_setTextSize(IntPtr cPointer, uint textSize);
+        static extern private void tguiTreeView_setTextSize(IntPtr cPointer, uint textSize);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiTreeView_getTextSize(IntPtr cPointer);
+        static extern private uint tguiTreeView_getTextSize(IntPtr cPointer);
 
         #endregion
     }

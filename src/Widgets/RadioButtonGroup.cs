@@ -50,7 +50,7 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiRadioButtonGroup_create();
+        static extern private IntPtr tguiRadioButtonGroup_create();
 
         #endregion
     }

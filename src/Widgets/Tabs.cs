@@ -187,82 +187,82 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTabs_create();
+        static extern private IntPtr tguiTabs_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTabs_setAutoSize(IntPtr cPointer, bool autoSize);
+        static extern private void tguiTabs_setAutoSize(IntPtr cPointer, bool autoSize);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiTabs_getAutoSize(IntPtr cPointer);
+        static extern private bool tguiTabs_getAutoSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiTabs_add(IntPtr cPointer, IntPtr text, bool selectTab);
+        static extern private uint tguiTabs_add(IntPtr cPointer, IntPtr text, bool selectTab);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTabs_insert(IntPtr cPointer, uint index, IntPtr text, bool selectTab);
+        static extern private void tguiTabs_insert(IntPtr cPointer, uint index, IntPtr text, bool selectTab);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTabs_getText(IntPtr cPointer, uint index);
+        static extern private IntPtr tguiTabs_getText(IntPtr cPointer, uint index);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiTabs_changeText(IntPtr cPointer, uint index, IntPtr text);
+        static extern private bool tguiTabs_changeText(IntPtr cPointer, uint index, IntPtr text);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiTabs_selectByText(IntPtr cPointer, IntPtr text);
+        static extern private bool tguiTabs_selectByText(IntPtr cPointer, IntPtr text);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiTabs_selectByIndex(IntPtr cPointer, uint index);
+        static extern private bool tguiTabs_selectByIndex(IntPtr cPointer, uint index);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTabs_deselect(IntPtr cPointer);
+        static extern private void tguiTabs_deselect(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiTabs_removeByText(IntPtr cPointer, IntPtr text);
+        static extern private bool tguiTabs_removeByText(IntPtr cPointer, IntPtr text);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiTabs_removeByIndex(IntPtr cPointer, uint index);
+        static extern private bool tguiTabs_removeByIndex(IntPtr cPointer, uint index);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTabs_removeAll(IntPtr cPointer);
+        static extern private void tguiTabs_removeAll(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTabs_getSelected(IntPtr cPointer);
+        static extern private IntPtr tguiTabs_getSelected(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected int tguiTabs_getSelectedIndex(IntPtr cPointer);
+        static extern private int tguiTabs_getSelectedIndex(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiTabs_getTabsCount(IntPtr cPointer);
+        static extern private uint tguiTabs_getTabsCount(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTabs_setTabVisible(IntPtr cPointer, uint index, bool visible);
+        static extern private void tguiTabs_setTabVisible(IntPtr cPointer, uint index, bool visible);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiTabs_getTabVisible(IntPtr cPointer, uint index);
+        static extern private bool tguiTabs_getTabVisible(IntPtr cPointer, uint index);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTabs_setTabEnabled(IntPtr cPointer, uint index, bool enabled);
+        static extern private void tguiTabs_setTabEnabled(IntPtr cPointer, uint index, bool enabled);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiTabs_getTabEnabled(IntPtr cPointer, uint index);
+        static extern private bool tguiTabs_getTabEnabled(IntPtr cPointer, uint index);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTabs_setTextSize(IntPtr cPointer, uint textSize);
+        static extern private void tguiTabs_setTextSize(IntPtr cPointer, uint textSize);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiTabs_getTextSize(IntPtr cPointer);
+        static extern private uint tguiTabs_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTabs_setMaximumTabWidth(IntPtr cPointer, float maximumTabWidth);
+        static extern private void tguiTabs_setMaximumTabWidth(IntPtr cPointer, float maximumTabWidth);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiTabs_getMaximumTabWidth(IntPtr cPointer);
+        static extern private float tguiTabs_getMaximumTabWidth(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTabs_setMinimumTabWidth(IntPtr cPointer, float minimumTabWidth);
+        static extern private void tguiTabs_setMinimumTabWidth(IntPtr cPointer, float minimumTabWidth);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiTabs_getMinimumTabWidth(IntPtr cPointer);
+        static extern private float tguiTabs_getMinimumTabWidth(IntPtr cPointer);
 
         #endregion
     }

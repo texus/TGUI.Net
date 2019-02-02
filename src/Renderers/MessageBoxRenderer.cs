@@ -32,7 +32,7 @@ namespace TGUI
     public class MessageBoxRenderer : ChildWindowRenderer
     {
         public MessageBoxRenderer()
-            : base(tguiChildWindowRenderer_create())
+            : base(tguiMessageBoxRenderer_create())
         {
         }
 
@@ -62,22 +62,22 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiMessageBoxRenderer_create();
+        static extern private IntPtr tguiMessageBoxRenderer_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiMessageBoxRenderer_copy(IntPtr cPointer);
+        static extern private IntPtr tguiMessageBoxRenderer_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMessageBoxRenderer_setTextColor(IntPtr cPointer, Color color);
+        static extern private void tguiMessageBoxRenderer_setTextColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiMessageBoxRenderer_getTextColor(IntPtr cPointer);
+        static extern private Color tguiMessageBoxRenderer_getTextColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMessageBoxRenderer_setButton(IntPtr cPointer, IntPtr rendererData);
+        static extern private void tguiMessageBoxRenderer_setButton(IntPtr cPointer, IntPtr rendererData);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiMessageBoxRenderer_getButton(IntPtr cPointer);
+        static extern private IntPtr tguiMessageBoxRenderer_getButton(IntPtr cPointer);
 
         #endregion
     }

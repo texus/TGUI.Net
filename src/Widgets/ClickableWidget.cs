@@ -80,6 +80,9 @@ namespace TGUI
         {
         }
 
+        /// <summary>
+        /// Initializes the signals
+        /// </summary>
         protected override void InitSignals()
         {
             base.InitSignals();
@@ -129,7 +132,7 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiClickableWidget_create();
+        static extern private IntPtr tguiClickableWidget_create();
 
         #endregion
     }

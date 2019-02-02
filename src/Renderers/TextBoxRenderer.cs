@@ -121,79 +121,79 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTextBoxRenderer_create();
+        static extern private IntPtr tguiTextBoxRenderer_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTextBoxRenderer_copy(IntPtr cPointer);
+        static extern private IntPtr tguiTextBoxRenderer_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTextBoxRenderer_setBorders(IntPtr cPointer, IntPtr borders);
+        static extern private void tguiTextBoxRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTextBoxRenderer_getBorders(IntPtr cPointer);
+        static extern private IntPtr tguiTextBoxRenderer_getBorders(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTextBoxRenderer_setPadding(IntPtr cPointer, IntPtr padding);
+        static extern private void tguiTextBoxRenderer_setPadding(IntPtr cPointer, IntPtr padding);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTextBoxRenderer_getPadding(IntPtr cPointer);
+        static extern private IntPtr tguiTextBoxRenderer_getPadding(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTextBoxRenderer_setCaretWidth(IntPtr cPointer, float width);
+        static extern private void tguiTextBoxRenderer_setCaretWidth(IntPtr cPointer, float width);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiTextBoxRenderer_getCaretWidth(IntPtr cPointer);
+        static extern private float tguiTextBoxRenderer_getCaretWidth(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTextBoxRenderer_setTextColor(IntPtr cPointer, Color color);
+        static extern private void tguiTextBoxRenderer_setTextColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiTextBoxRenderer_getTextColor(IntPtr cPointer);
+        static extern private Color tguiTextBoxRenderer_getTextColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTextBoxRenderer_setSelectedTextColor(IntPtr cPointer, Color color);
+        static extern private void tguiTextBoxRenderer_setSelectedTextColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiTextBoxRenderer_getSelectedTextColor(IntPtr cPointer);
+        static extern private Color tguiTextBoxRenderer_getSelectedTextColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTextBoxRenderer_setSelectedTextBackgroundColor(IntPtr cPointer, Color color);
+        static extern private void tguiTextBoxRenderer_setSelectedTextBackgroundColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiTextBoxRenderer_getSelectedTextBackgroundColor(IntPtr cPointer);
+        static extern private Color tguiTextBoxRenderer_getSelectedTextBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTextBoxRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+        static extern private void tguiTextBoxRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiTextBoxRenderer_getBackgroundColor(IntPtr cPointer);
+        static extern private Color tguiTextBoxRenderer_getBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTextBoxRenderer_setCaretColor(IntPtr cPointer, Color color);
+        static extern private void tguiTextBoxRenderer_setCaretColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiTextBoxRenderer_getCaretColor(IntPtr cPointer);
+        static extern private Color tguiTextBoxRenderer_getCaretColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTextBoxRenderer_setBorderColor(IntPtr cPointer, Color color);
+        static extern private void tguiTextBoxRenderer_setBorderColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiTextBoxRenderer_getBorderColor(IntPtr cPointer);
+        static extern private Color tguiTextBoxRenderer_getBorderColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTextBoxRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiTextBoxRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTextBoxRenderer_setScrollbar(IntPtr cPointer, IntPtr rendererData);
+        static extern private void tguiTextBoxRenderer_setScrollbar(IntPtr cPointer, IntPtr rendererData);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTextBoxRenderer_getScrollbar(IntPtr cPointer);
+        static extern private IntPtr tguiTextBoxRenderer_getScrollbar(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTextBoxRenderer_setScrollbarWidth(IntPtr cPointer, float width);
+        static extern private void tguiTextBoxRenderer_setScrollbarWidth(IntPtr cPointer, float width);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiTextBoxRenderer_getScrollbarWidth(IntPtr cPointer);
+        static extern private float tguiTextBoxRenderer_getScrollbarWidth(IntPtr cPointer);
 
         #endregion
     }

@@ -120,43 +120,43 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiKnob_create();
+        static extern private IntPtr tguiKnob_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiKnob_setStartRotation(IntPtr cPointer, float startRotation);
+        static extern private void tguiKnob_setStartRotation(IntPtr cPointer, float startRotation);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiKnob_getStartRotation(IntPtr cPointer);
+        static extern private float tguiKnob_getStartRotation(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiKnob_setEndRotation(IntPtr cPointer, float endRotation);
+        static extern private void tguiKnob_setEndRotation(IntPtr cPointer, float endRotation);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiKnob_getEndRotation(IntPtr cPointer);
+        static extern private float tguiKnob_getEndRotation(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiKnob_setMinimum(IntPtr cPointer, int minimum);
+        static extern private void tguiKnob_setMinimum(IntPtr cPointer, int minimum);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected int tguiKnob_getMinimum(IntPtr cPointer);
+        static extern private int tguiKnob_getMinimum(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiKnob_setMaximum(IntPtr cPointer, int maximum);
+        static extern private void tguiKnob_setMaximum(IntPtr cPointer, int maximum);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected int tguiKnob_getMaximum(IntPtr cPointer);
+        static extern private int tguiKnob_getMaximum(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiKnob_setValue(IntPtr cPointer, int value);
+        static extern private void tguiKnob_setValue(IntPtr cPointer, int value);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected int tguiKnob_getValue(IntPtr cPointer);
+        static extern private int tguiKnob_getValue(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiKnob_setClockwiseTurning(IntPtr cPointer, bool clockwise);
+        static extern private void tguiKnob_setClockwiseTurning(IntPtr cPointer, bool clockwise);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiKnob_getClockwiseTurning(IntPtr cPointer);
+        static extern private bool tguiKnob_getClockwiseTurning(IntPtr cPointer);
 
         #endregion
     }

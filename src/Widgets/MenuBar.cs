@@ -112,7 +112,7 @@ namespace TGUI
         /// <summary>
         /// Adds a new menu item to an existing menu
         /// </summary>
-        /// <param name="name">The name of the menu to which the menu item will be added</param>
+        /// <param name="menu">The name of the menu to which the menu item will be added</param>
         /// <param name="text">The text written on this menu item</param>
         /// <returns>
         /// True when the item was added, false when menu was not found
@@ -335,6 +335,9 @@ namespace TGUI
             tguiMenuBar_closeMenu(CPointer);
         }
 
+        /// <summary>
+        /// Initializes the signals
+        /// </summary>
         protected override void InitSignals()
         {
             base.InitSignals();
@@ -358,70 +361,70 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiMenuBar_create();
+        static extern private IntPtr tguiMenuBar_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMenuBar_addMenu(IntPtr cPointer, IntPtr text);
+        static extern private void tguiMenuBar_addMenu(IntPtr cPointer, IntPtr text);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiMenuBar_addMenuItem(IntPtr cPointer, IntPtr menu, IntPtr text);
+        static extern private bool tguiMenuBar_addMenuItem(IntPtr cPointer, IntPtr menu, IntPtr text);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiMenuBar_addMenuItemHierarchy(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength, bool createParents);
+        static extern private bool tguiMenuBar_addMenuItemHierarchy(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength, bool createParents);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiMenuBar_addMenuItemToLastMenu(IntPtr cPointer, IntPtr text);
+        static extern private bool tguiMenuBar_addMenuItemToLastMenu(IntPtr cPointer, IntPtr text);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiMenuBar_removeMenu(IntPtr cPointer, IntPtr menu);
+        static extern private bool tguiMenuBar_removeMenu(IntPtr cPointer, IntPtr menu);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMenuBar_removeAllMenus(IntPtr cPointer);
+        static extern private void tguiMenuBar_removeAllMenus(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiMenuBar_removeMenuItem(IntPtr cPointer, IntPtr menu, IntPtr item);
+        static extern private bool tguiMenuBar_removeMenuItem(IntPtr cPointer, IntPtr menu, IntPtr item);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiMenuBar_removeMenuItemHierarchy(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength, bool removeParentsWhenEmpty);
+        static extern private bool tguiMenuBar_removeMenuItemHierarchy(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength, bool removeParentsWhenEmpty);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiMenuBar_setMenuEnabled(IntPtr cPointer, IntPtr text, bool enabled);
+        static extern private bool tguiMenuBar_setMenuEnabled(IntPtr cPointer, IntPtr text, bool enabled);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiMenuBar_getMenuEnabled(IntPtr cPointer, IntPtr text);
+        static extern private bool tguiMenuBar_getMenuEnabled(IntPtr cPointer, IntPtr text);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiMenuBar_setMenuItemEnabled(IntPtr cPointer, IntPtr menu, IntPtr text, bool enabled);
+        static extern private bool tguiMenuBar_setMenuItemEnabled(IntPtr cPointer, IntPtr menu, IntPtr text, bool enabled);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiMenuBar_getMenuItemEnabled(IntPtr cPointer, IntPtr menu, IntPtr text);
+        static extern private bool tguiMenuBar_getMenuItemEnabled(IntPtr cPointer, IntPtr menu, IntPtr text);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiMenuBar_setMenuItemEnabledHierarchy(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength, bool enabled);
+        static extern private bool tguiMenuBar_setMenuItemEnabledHierarchy(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength, bool enabled);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiMenuBar_getMenuItemEnabledHierarchy(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength);
+        static extern private bool tguiMenuBar_getMenuItemEnabledHierarchy(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMenuBar_setTextSize(IntPtr cPointer, uint textSize);
+        static extern private void tguiMenuBar_setTextSize(IntPtr cPointer, uint textSize);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiMenuBar_getTextSize(IntPtr cPointer);
+        static extern private uint tguiMenuBar_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMenuBar_setMinimumSubMenuWidth(IntPtr cPointer, float minimumSubMenuWidth);
+        static extern private void tguiMenuBar_setMinimumSubMenuWidth(IntPtr cPointer, float minimumSubMenuWidth);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiMenuBar_getMinimumSubMenuWidth(IntPtr cPointer);
+        static extern private float tguiMenuBar_getMinimumSubMenuWidth(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMenuBar_setInvertedMenuDirection(IntPtr cPointer, bool invertDirection);
+        static extern private void tguiMenuBar_setInvertedMenuDirection(IntPtr cPointer, bool invertDirection);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiMenuBar_getInvertedMenuDirection(IntPtr cPointer);
+        static extern private bool tguiMenuBar_getInvertedMenuDirection(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMenuBar_closeMenu(IntPtr cPointer);
+        static extern private void tguiMenuBar_closeMenu(IntPtr cPointer);
 
         #endregion
     }

@@ -31,6 +31,7 @@ namespace TGUI
 {
     public static class Global
     {
+        /// <summary>Name of the CTGUI library to import</summary>
 #if _WINDOWS_
         public const string CTGUI = "ctgui-0.8.dll";
 #elif _OSX_
@@ -39,11 +40,17 @@ namespace TGUI
         public const string CTGUI = "libctgui.so";
 #endif
 
+        /// <summary>
+        /// Gets or sets the default font for all new widgets
+        /// </summary>
         public static Font Font
         {
             set { tgui_setGlobalFont(value.CPointer); }
         }
 
+        /// <summary>
+        /// Gets or sets the default text size for all new widgets
+        /// </summary>
         public static uint TextSize
         {
             get { return tgui_getGlobalTextSize(); }
@@ -54,13 +61,13 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern internal void tgui_setGlobalFont(IntPtr font);
+        static extern private void tgui_setGlobalFont(IntPtr font);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern internal void tgui_setGlobalTextSize(uint textSize);
+        static extern private void tgui_setGlobalTextSize(uint textSize);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern internal uint tgui_getGlobalTextSize();
+        static extern private uint tgui_getGlobalTextSize();
 
         #endregion
     }

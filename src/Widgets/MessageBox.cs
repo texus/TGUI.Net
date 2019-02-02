@@ -106,22 +106,22 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiMessageBox_create();
+        static extern private IntPtr tguiMessageBox_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMessageBox_setText(IntPtr cPointer, IntPtr value);
+        static extern private void tguiMessageBox_setText(IntPtr cPointer, IntPtr value);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiMessageBox_getText(IntPtr cPointer);
+        static extern private IntPtr tguiMessageBox_getText(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMessageBox_setTextSize(IntPtr cPointer, uint textSize);
+        static extern private void tguiMessageBox_setTextSize(IntPtr cPointer, uint textSize);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiMessageBox_getTextSize(IntPtr cPointer);
+        static extern private uint tguiMessageBox_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMessageBox_addButton(IntPtr cPointer, IntPtr text);
+        static extern private void tguiMessageBox_addButton(IntPtr cPointer, IntPtr text);
 
         #endregion
     }

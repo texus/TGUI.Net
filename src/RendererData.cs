@@ -50,10 +50,10 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiRendererData_copy(IntPtr cPointer);
+        static extern private IntPtr tguiRendererData_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRendererData_destroy(IntPtr cPointer);
+        static extern private void tguiRendererData_destroy(IntPtr cPointer);
 
         #endregion
     }

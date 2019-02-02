@@ -262,70 +262,70 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiChatBox_create();
+        static extern private IntPtr tguiChatBox_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChatBox_addLine(IntPtr cPointer, IntPtr text);
+        static extern private void tguiChatBox_addLine(IntPtr cPointer, IntPtr text);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChatBox_addLineWithColor(IntPtr cPointer, IntPtr text, Color color);
+        static extern private void tguiChatBox_addLineWithColor(IntPtr cPointer, IntPtr text, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChatBox_addLineWithColorAndStyle(IntPtr cPointer, IntPtr text, Color color, Text.Styles style);
+        static extern private void tguiChatBox_addLineWithColorAndStyle(IntPtr cPointer, IntPtr text, Color color, Text.Styles style);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiChatBox_getLine(IntPtr cPointer, uint lineIndex);
+        static extern private IntPtr tguiChatBox_getLine(IntPtr cPointer, uint lineIndex);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiChatBox_getLineColor(IntPtr cPointer, uint lineIndex);
+        static extern private Color tguiChatBox_getLineColor(IntPtr cPointer, uint lineIndex);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Text.Styles tguiChatBox_getLineTextStyle(IntPtr cPointer, uint lineIndex);
+        static extern private Text.Styles tguiChatBox_getLineTextStyle(IntPtr cPointer, uint lineIndex);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiChatBox_removeLine(IntPtr cPointer, uint lineIndex);
+        static extern private bool tguiChatBox_removeLine(IntPtr cPointer, uint lineIndex);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChatBox_removeAllLines(IntPtr cPointer);
+        static extern private void tguiChatBox_removeAllLines(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiChatBox_getLineAmount(IntPtr cPointer);
+        static extern private uint tguiChatBox_getLineAmount(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChatBox_setLineLimit(IntPtr cPointer, uint limit);
+        static extern private void tguiChatBox_setLineLimit(IntPtr cPointer, uint limit);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiChatBox_getLineLimit(IntPtr cPointer);
+        static extern private uint tguiChatBox_getLineLimit(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChatBox_setTextSize(IntPtr cPointer, uint textSize);
+        static extern private void tguiChatBox_setTextSize(IntPtr cPointer, uint textSize);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiChatBox_getTextSize(IntPtr cPointer);
+        static extern private uint tguiChatBox_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChatBox_setTextColor(IntPtr cPointer, Color color);
+        static extern private void tguiChatBox_setTextColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiChatBox_getTextColor(IntPtr cPointer);
+        static extern private Color tguiChatBox_getTextColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChatBox_setTextStyle(IntPtr cPointer, Text.Styles style);
+        static extern private void tguiChatBox_setTextStyle(IntPtr cPointer, Text.Styles style);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Text.Styles tguiChatBox_getTextStyle(IntPtr cPointer);
+        static extern private Text.Styles tguiChatBox_getTextStyle(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChatBox_setLinesStartFromTop(IntPtr cPointer, bool startFromTop);
+        static extern private void tguiChatBox_setLinesStartFromTop(IntPtr cPointer, bool startFromTop);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiChatBox_getLinesStartFromTop(IntPtr cPointer);
+        static extern private bool tguiChatBox_getLinesStartFromTop(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChatBox_setNewLinesBelowOthers(IntPtr cPointer, bool newLinesBelowOthers);
+        static extern private void tguiChatBox_setNewLinesBelowOthers(IntPtr cPointer, bool newLinesBelowOthers);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiChatBox_getNewLinesBelowOthers(IntPtr cPointer);
+        static extern private bool tguiChatBox_getNewLinesBelowOthers(IntPtr cPointer);
 
         #endregion
     }

@@ -140,55 +140,55 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiMenuBarRenderer_create();
+        static extern private IntPtr tguiMenuBarRenderer_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiMenuBarRenderer_copy(IntPtr cPointer);
+        static extern private IntPtr tguiMenuBarRenderer_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMenuBarRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+        static extern private void tguiMenuBarRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiMenuBarRenderer_getBackgroundColor(IntPtr cPointer);
+        static extern private Color tguiMenuBarRenderer_getBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMenuBarRenderer_setSelectedBackgroundColor(IntPtr cPointer, Color color);
+        static extern private void tguiMenuBarRenderer_setSelectedBackgroundColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiMenuBarRenderer_getSelectedBackgroundColor(IntPtr cPointer);
+        static extern private Color tguiMenuBarRenderer_getSelectedBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMenuBarRenderer_setTextColor(IntPtr cPointer, Color color);
+        static extern private void tguiMenuBarRenderer_setTextColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiMenuBarRenderer_getTextColor(IntPtr cPointer);
+        static extern private Color tguiMenuBarRenderer_getTextColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMenuBarRenderer_setSelectedTextColor(IntPtr cPointer, Color color);
+        static extern private void tguiMenuBarRenderer_setSelectedTextColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiMenuBarRenderer_getSelectedTextColor(IntPtr cPointer);
+        static extern private Color tguiMenuBarRenderer_getSelectedTextColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMenuBarRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
+        static extern private void tguiMenuBarRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiMenuBarRenderer_getTextColorDisabled(IntPtr cPointer);
+        static extern private Color tguiMenuBarRenderer_getTextColorDisabled(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMenuBarRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiMenuBarRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMenuBarRenderer_setTextureItemBackground(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiMenuBarRenderer_setTextureItemBackground(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMenuBarRenderer_setTextureSelectedItemBackground(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiMenuBarRenderer_setTextureSelectedItemBackground(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiMenuBarRenderer_setDistanceToSide(IntPtr cPointer, float distanceToSide);
+        static extern private void tguiMenuBarRenderer_setDistanceToSide(IntPtr cPointer, float distanceToSide);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiMenuBarRenderer_getDistanceToSide(IntPtr cPointer);
+        static extern private float tguiMenuBarRenderer_getDistanceToSide(IntPtr cPointer);
 
         #endregion
     }

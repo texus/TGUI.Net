@@ -114,37 +114,37 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiSlider_create();
+        static extern private IntPtr tguiSlider_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSlider_setMinimum(IntPtr cPointer, float minimum);
+        static extern private void tguiSlider_setMinimum(IntPtr cPointer, float minimum);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiSlider_getMinimum(IntPtr cPointer);
+        static extern private float tguiSlider_getMinimum(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSlider_setMaximum(IntPtr cPointer, float maximum);
+        static extern private void tguiSlider_setMaximum(IntPtr cPointer, float maximum);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiSlider_getMaximum(IntPtr cPointer);
+        static extern private float tguiSlider_getMaximum(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSlider_setValue(IntPtr cPointer, float value);
+        static extern private void tguiSlider_setValue(IntPtr cPointer, float value);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiSlider_getValue(IntPtr cPointer);
+        static extern private float tguiSlider_getValue(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSlider_setStep(IntPtr cPointer, float step);
+        static extern private void tguiSlider_setStep(IntPtr cPointer, float step);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiSlider_getStep(IntPtr cPointer);
+        static extern private float tguiSlider_getStep(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiSlider_setInvertedDirection(IntPtr cPointer, bool invertedDirection);
+        static extern private void tguiSlider_setInvertedDirection(IntPtr cPointer, bool invertedDirection);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiSlider_getInvertedDirection(IntPtr cPointer);
+        static extern private bool tguiSlider_getInvertedDirection(IntPtr cPointer);
 
         #endregion
     }

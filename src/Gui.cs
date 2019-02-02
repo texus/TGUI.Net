@@ -343,70 +343,70 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tgui_getLastError();
+        static extern private IntPtr tgui_getLastError();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiGui_create();
+        static extern private IntPtr tguiGui_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiGui_destroy(IntPtr cPointer);
+        static extern private void tguiGui_destroy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiGui_setTargetRenderWindow(IntPtr cPointer, IntPtr cPointerRenderWindow);
+        static extern private void tguiGui_setTargetRenderWindow(IntPtr cPointer, IntPtr cPointerRenderWindow);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiGui_setView(IntPtr cPointer, IntPtr cPointerView);
+        static extern private void tguiGui_setView(IntPtr cPointer, IntPtr cPointerView);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiGui_handleEvent(IntPtr cPointer, Event ev);
+        static extern private void tguiGui_handleEvent(IntPtr cPointer, Event ev);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiGui_add(IntPtr cPointer, IntPtr cPointerWidget, IntPtr widgetName);
+        static extern private void tguiGui_add(IntPtr cPointer, IntPtr cPointerWidget, IntPtr widgetName);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiGui_get(IntPtr cPointer, IntPtr widgetName);
+        static extern private IntPtr tguiGui_get(IntPtr cPointer, IntPtr widgetName);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        unsafe static extern protected IntPtr* tguiGui_getWidgets(IntPtr cPointer, out uint count);
+        unsafe static extern private IntPtr* tguiGui_getWidgets(IntPtr cPointer, out uint count);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        unsafe static extern protected IntPtr* tguiGui_getWidgetNames(IntPtr cPointer, out uint count);
+        unsafe static extern private IntPtr* tguiGui_getWidgetNames(IntPtr cPointer, out uint count);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiGui_remove(IntPtr cPointer, IntPtr cPointerWidget);
+        static extern private void tguiGui_remove(IntPtr cPointer, IntPtr cPointerWidget);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiGui_removeAllWidgets(IntPtr cPointer);
+        static extern private void tguiGui_removeAllWidgets(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiGui_enableTabKeyUsage(IntPtr cPointer);
+        static extern private void tguiGui_enableTabKeyUsage(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiGui_disableTabKeyUsage(IntPtr cPointer);
+        static extern private void tguiGui_disableTabKeyUsage(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiGui_isTabKeyUsageEnabled(IntPtr cPointer);
+        static extern private bool tguiGui_isTabKeyUsageEnabled(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiGui_draw(IntPtr cPointer);
+        static extern private void tguiGui_draw(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiGui_setFont(IntPtr cPointer, IntPtr font);
+        static extern private void tguiGui_setFont(IntPtr cPointer, IntPtr font);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiGui_setOpacity(IntPtr cPointer, float opacity);
+        static extern private void tguiGui_setOpacity(IntPtr cPointer, float opacity);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiGui_getOpacity(IntPtr cPointer);
+        static extern private float tguiGui_getOpacity(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiGui_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename);
+        static extern private bool tguiGui_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiGui_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);
+        static extern private bool tguiGui_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiWidget_getWidgetType(IntPtr cPointer);
+        static extern private IntPtr tguiWidget_getWidgetType(IntPtr cPointer);
 
         #endregion
     }

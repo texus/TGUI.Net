@@ -205,97 +205,97 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTreeViewRenderer_create();
+        static extern private IntPtr tguiTreeViewRenderer_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTreeViewRenderer_copy(IntPtr cPointer);
+        static extern private IntPtr tguiTreeViewRenderer_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setBorders(IntPtr cPointer, IntPtr borders);
+        static extern private void tguiTreeViewRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTreeViewRenderer_getBorders(IntPtr cPointer);
+        static extern private IntPtr tguiTreeViewRenderer_getBorders(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setPadding(IntPtr cPointer, IntPtr borders);
+        static extern private void tguiTreeViewRenderer_setPadding(IntPtr cPointer, IntPtr borders);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTreeViewRenderer_getPadding(IntPtr cPointer);
+        static extern private IntPtr tguiTreeViewRenderer_getPadding(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+        static extern private void tguiTreeViewRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiTreeViewRenderer_getBackgroundColor(IntPtr cPointer);
+        static extern private Color tguiTreeViewRenderer_getBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
+        static extern private void tguiTreeViewRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiTreeViewRenderer_getBackgroundColorHover(IntPtr cPointer);
+        static extern private Color tguiTreeViewRenderer_getBackgroundColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setSelectedBackgroundColor(IntPtr cPointer, Color color);
+        static extern private void tguiTreeViewRenderer_setSelectedBackgroundColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiTreeViewRenderer_getSelectedBackgroundColor(IntPtr cPointer);
+        static extern private Color tguiTreeViewRenderer_getSelectedBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setSelectedBackgroundColorHover(IntPtr cPointer, Color color);
+        static extern private void tguiTreeViewRenderer_setSelectedBackgroundColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiTreeViewRenderer_getSelectedBackgroundColorHover(IntPtr cPointer);
+        static extern private Color tguiTreeViewRenderer_getSelectedBackgroundColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setTextColor(IntPtr cPointer, Color color);
+        static extern private void tguiTreeViewRenderer_setTextColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiTreeViewRenderer_getTextColor(IntPtr cPointer);
+        static extern private Color tguiTreeViewRenderer_getTextColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setTextColorHover(IntPtr cPointer, Color color);
+        static extern private void tguiTreeViewRenderer_setTextColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiTreeViewRenderer_getTextColorHover(IntPtr cPointer);
+        static extern private Color tguiTreeViewRenderer_getTextColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setSelectedTextColor(IntPtr cPointer, Color color);
+        static extern private void tguiTreeViewRenderer_setSelectedTextColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiTreeViewRenderer_getSelectedTextColor(IntPtr cPointer);
+        static extern private Color tguiTreeViewRenderer_getSelectedTextColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setSelectedTextColorHover(IntPtr cPointer, Color color);
+        static extern private void tguiTreeViewRenderer_setSelectedTextColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiTreeViewRenderer_getSelectedTextColorHover(IntPtr cPointer);
+        static extern private Color tguiTreeViewRenderer_getSelectedTextColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setBorderColor(IntPtr cPointer, Color color);
+        static extern private void tguiTreeViewRenderer_setBorderColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiTreeViewRenderer_getBorderColor(IntPtr cPointer);
+        static extern private Color tguiTreeViewRenderer_getBorderColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setTextureBranchExpanded(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiTreeViewRenderer_setTextureBranchExpanded(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setTextureBranchCollapsed(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiTreeViewRenderer_setTextureBranchCollapsed(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setTextureLeaf(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiTreeViewRenderer_setTextureLeaf(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setScrollbar(IntPtr cPointer, IntPtr rendererData);
+        static extern private void tguiTreeViewRenderer_setScrollbar(IntPtr cPointer, IntPtr rendererData);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTreeViewRenderer_getScrollbar(IntPtr cPointer);
+        static extern private IntPtr tguiTreeViewRenderer_getScrollbar(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTreeViewRenderer_setScrollbarWidth(IntPtr cPointer, float width);
+        static extern private void tguiTreeViewRenderer_setScrollbarWidth(IntPtr cPointer, float width);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiTreeViewRenderer_getScrollbarWidth(IntPtr cPointer);
+        static extern private float tguiTreeViewRenderer_getScrollbarWidth(IntPtr cPointer);
 
         #endregion
     }

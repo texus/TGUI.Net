@@ -90,7 +90,7 @@ namespace TGUI
         /// <summary>
         /// Draw something to the canvas, with default render states
         /// </summary>
-        /// <param name="sprite">Sprite to draw</param>
+        /// <param name="drawable">Object to draw</param>
         public void Draw(Drawable drawable)
         {
             myRenderTexture?.Draw(drawable);

@@ -67,28 +67,28 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiPanelRenderer_create();
+        static extern private IntPtr tguiPanelRenderer_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiPanelRenderer_copy(IntPtr cPointer);
+        static extern private IntPtr tguiPanelRenderer_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiPanelRenderer_setBorders(IntPtr cPointer, IntPtr borders);
+        static extern private void tguiPanelRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiPanelRenderer_getBorders(IntPtr cPointer);
+        static extern private IntPtr tguiPanelRenderer_getBorders(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiPanelRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+        static extern private void tguiPanelRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiPanelRenderer_getBackgroundColor(IntPtr cPointer);
+        static extern private Color tguiPanelRenderer_getBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiPanelRenderer_setBorderColor(IntPtr cPointer, Color color);
+        static extern private void tguiPanelRenderer_setBorderColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiPanelRenderer_getBorderColor(IntPtr cPointer);
+        static extern private Color tguiPanelRenderer_getBorderColor(IntPtr cPointer);
 
         #endregion
     }

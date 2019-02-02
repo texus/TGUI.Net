@@ -55,16 +55,16 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiGroupRenderer_create();
+        static extern private IntPtr tguiGroupRenderer_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiGroupRenderer_copy(IntPtr cPointer);
+        static extern private IntPtr tguiGroupRenderer_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiGroupRenderer_setPadding(IntPtr cPointer, IntPtr borders);
+        static extern private void tguiGroupRenderer_setPadding(IntPtr cPointer, IntPtr borders);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiGroupRenderer_getPadding(IntPtr cPointer);
+        static extern private IntPtr tguiGroupRenderer_getPadding(IntPtr cPointer);
 
         #endregion
     }

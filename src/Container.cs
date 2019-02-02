@@ -245,40 +245,40 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiContainer_add(IntPtr cPointer, IntPtr cPointerWidget, IntPtr widgetName);
+        static extern private void tguiContainer_add(IntPtr cPointer, IntPtr cPointerWidget, IntPtr widgetName);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiContainer_get(IntPtr cPointer, IntPtr widgetName);
+        static extern private IntPtr tguiContainer_get(IntPtr cPointer, IntPtr widgetName);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        unsafe static extern protected IntPtr* tguiContainer_getWidgets(IntPtr cPointer, out uint count);
+        unsafe static extern private IntPtr* tguiContainer_getWidgets(IntPtr cPointer, out uint count);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        unsafe static extern protected IntPtr* tguiContainer_getWidgetNames(IntPtr cPointer, out uint count);
+        unsafe static extern private IntPtr* tguiContainer_getWidgetNames(IntPtr cPointer, out uint count);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiContainer_remove(IntPtr cPointer, IntPtr cPointerWidget);
+        static extern private bool tguiContainer_remove(IntPtr cPointer, IntPtr cPointerWidget);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiContainer_removeAllWidgets(IntPtr cPointer);
+        static extern private void tguiContainer_removeAllWidgets(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiContainer_focusNextWidget(IntPtr cPointer);
+        static extern private bool tguiContainer_focusNextWidget(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiContainer_focusPreviousWidget(IntPtr cPointer);
+        static extern private bool tguiContainer_focusPreviousWidget(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Vector2f tguiContainer_getInnerSize(IntPtr cPointer);
+        static extern private Vector2f tguiContainer_getInnerSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Vector2f tguiContainer_getChildWidgetsOffset(IntPtr cPointer);
+        static extern private Vector2f tguiContainer_getChildWidgetsOffset(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiContainer_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename);
+        static extern private bool tguiContainer_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiContainer_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);
+        static extern private bool tguiContainer_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);
 
         #endregion
     }

@@ -29,7 +29,7 @@ def validateTypes(typeCS, typeC, returnType):
     or (typeCS == 'VerticalAlignment' and typeC == 'tguiVerticalAlignment') \
     or (typeCS == 'Direction' and typeC == 'tguiFillDirection') \
     or (typeCS == 'Direction' and typeC == 'tguiExpandDirection') \
-    or (typeCS == 'ScrollbarPolicy' and typeC == 'tguiScrollbarPolicy') \
+    or (typeCS == 'Scrollbar.Policy' and typeC == 'tguiScrollbarPolicy') \
     or (typeCS == 'TitleButton' and typeC == 'unsigned int') \
     or (typeCS == 'IntPtr' and typeC == 'tguiRenderer*') \
     or (typeCS == 'IntPtr' and typeC == 'tguiRendererData*') \

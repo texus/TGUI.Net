@@ -28,8 +28,15 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Check box widget
+    /// </summary>
     public class CheckBox : RadioButton
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="text">The text to display next to the check box</param>
         public CheckBox(string text = "")
             : base(tguiCheckBox_create())
         {
@@ -37,11 +44,19 @@ namespace TGUI
                 Text = text;
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal CheckBox(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public CheckBox(CheckBox copy)
             : base(copy)
         {
@@ -51,7 +66,7 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiCheckBox_create();
+        static extern private IntPtr tguiCheckBox_create();
 
         #endregion
     }

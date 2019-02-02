@@ -55,13 +55,13 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiPictureRenderer_create();
+        static extern private IntPtr tguiPictureRenderer_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiPictureRenderer_copy(IntPtr cPointer);
+        static extern private IntPtr tguiPictureRenderer_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiPictureRenderer_setTexture(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiPictureRenderer_setTexture(IntPtr cPointer, IntPtr texture);
 
         #endregion
     }

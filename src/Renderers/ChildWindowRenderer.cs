@@ -139,97 +139,97 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiChildWindowRenderer_create();
+        static extern private IntPtr tguiChildWindowRenderer_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiChildWindowRenderer_copy(IntPtr cPointer);
+        static extern private IntPtr tguiChildWindowRenderer_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindowRenderer_setBorders(IntPtr cPointer, IntPtr borders);
+        static extern private void tguiChildWindowRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiChildWindowRenderer_getBorders(IntPtr cPointer);
+        static extern private IntPtr tguiChildWindowRenderer_getBorders(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindowRenderer_setTitleBarColor(IntPtr cPointer, Color color);
+        static extern private void tguiChildWindowRenderer_setTitleBarColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiChildWindowRenderer_getTitleBarColor(IntPtr cPointer);
+        static extern private Color tguiChildWindowRenderer_getTitleBarColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindowRenderer_setTitleColor(IntPtr cPointer, Color color);
+        static extern private void tguiChildWindowRenderer_setTitleColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiChildWindowRenderer_getTitleColor(IntPtr cPointer);
+        static extern private Color tguiChildWindowRenderer_getTitleColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindowRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+        static extern private void tguiChildWindowRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiChildWindowRenderer_getBackgroundColor(IntPtr cPointer);
+        static extern private Color tguiChildWindowRenderer_getBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindowRenderer_setBorderColor(IntPtr cPointer, Color color);
+        static extern private void tguiChildWindowRenderer_setBorderColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiChildWindowRenderer_getBorderColor(IntPtr cPointer);
+        static extern private Color tguiChildWindowRenderer_getBorderColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindowRenderer_setBorderBelowTitleBar(IntPtr cPointer, float border);
+        static extern private void tguiChildWindowRenderer_setBorderBelowTitleBar(IntPtr cPointer, float border);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiChildWindowRenderer_getBorderBelowTitleBar(IntPtr cPointer);
+        static extern private float tguiChildWindowRenderer_getBorderBelowTitleBar(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindowRenderer_setTitleBarHeight(IntPtr cPointer, float height);
+        static extern private void tguiChildWindowRenderer_setTitleBarHeight(IntPtr cPointer, float height);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiChildWindowRenderer_getTitleBarHeight(IntPtr cPointer);
+        static extern private float tguiChildWindowRenderer_getTitleBarHeight(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindowRenderer_setDistanceToSide(IntPtr cPointer, float distance);
+        static extern private void tguiChildWindowRenderer_setDistanceToSide(IntPtr cPointer, float distance);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiChildWindowRenderer_getDistanceToSide(IntPtr cPointer);
+        static extern private float tguiChildWindowRenderer_getDistanceToSide(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindowRenderer_setPaddingBetweenButtons(IntPtr cPointer, float padding);
+        static extern private void tguiChildWindowRenderer_setPaddingBetweenButtons(IntPtr cPointer, float padding);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiChildWindowRenderer_getPaddingBetweenButtons(IntPtr cPointer);
+        static extern private float tguiChildWindowRenderer_getPaddingBetweenButtons(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindowRenderer_setMinimumResizableBorderWidth(IntPtr cPointer, float minimumBorderWidth);
+        static extern private void tguiChildWindowRenderer_setMinimumResizableBorderWidth(IntPtr cPointer, float minimumBorderWidth);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiChildWindowRenderer_getMinimumResizableBorderWidth(IntPtr cPointer);
+        static extern private float tguiChildWindowRenderer_getMinimumResizableBorderWidth(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindowRenderer_setShowTextOnTitleButtons(IntPtr cPointer, bool showText);
+        static extern private void tguiChildWindowRenderer_setShowTextOnTitleButtons(IntPtr cPointer, bool showText);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiChildWindowRenderer_getShowTextOnTitleButtons(IntPtr cPointer);
+        static extern private bool tguiChildWindowRenderer_getShowTextOnTitleButtons(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindowRenderer_setTextureTitleBar(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiChildWindowRenderer_setTextureTitleBar(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindowRenderer_setCloseButton(IntPtr cPointer, IntPtr rendererData);
+        static extern private void tguiChildWindowRenderer_setCloseButton(IntPtr cPointer, IntPtr rendererData);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiChildWindowRenderer_getCloseButton(IntPtr cPointer);
+        static extern private IntPtr tguiChildWindowRenderer_getCloseButton(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindowRenderer_setMaximizeButton(IntPtr cPointer, IntPtr rendererData);
+        static extern private void tguiChildWindowRenderer_setMaximizeButton(IntPtr cPointer, IntPtr rendererData);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiChildWindowRenderer_getMaximizeButton(IntPtr cPointer);
+        static extern private IntPtr tguiChildWindowRenderer_getMaximizeButton(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiChildWindowRenderer_setMinimizeButton(IntPtr cPointer, IntPtr rendererData);
+        static extern private void tguiChildWindowRenderer_setMinimizeButton(IntPtr cPointer, IntPtr rendererData);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiChildWindowRenderer_getMinimizeButton(IntPtr cPointer);
+        static extern private IntPtr tguiChildWindowRenderer_getMinimizeButton(IntPtr cPointer);
 
         #endregion
     }

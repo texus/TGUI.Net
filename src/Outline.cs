@@ -152,28 +152,28 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiOutline_create(float left, float top, float right, float bottom);
+        static extern private IntPtr tguiOutline_create(float left, float top, float right, float bottom);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiOutline_createFromStrings(IntPtr left, IntPtr top, IntPtr right, IntPtr bottom);
+        static extern private IntPtr tguiOutline_createFromStrings(IntPtr left, IntPtr top, IntPtr right, IntPtr bottom);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiOutline_copy(IntPtr cPointer);
+        static extern private IntPtr tguiOutline_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiOutline_destroy(IntPtr cPointer);
+        static extern private void tguiOutline_destroy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiOutline_getLeft(IntPtr cPointer);
+        static extern private float tguiOutline_getLeft(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiOutline_getTop(IntPtr cPointer);
+        static extern private float tguiOutline_getTop(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiOutline_getRight(IntPtr cPointer);
+        static extern private float tguiOutline_getRight(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiOutline_getBottom(IntPtr cPointer);
+        static extern private float tguiOutline_getBottom(IntPtr cPointer);
 
         #endregion
     }

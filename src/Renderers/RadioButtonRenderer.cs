@@ -251,196 +251,196 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiRadioButtonRenderer_create();
+        static extern private IntPtr tguiRadioButtonRenderer_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiRadioButtonRenderer_copy(IntPtr cPointer);
+        static extern private IntPtr tguiRadioButtonRenderer_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextDistanceRatio(IntPtr cPointer, float ratio);
+        static extern private void tguiRadioButtonRenderer_setTextDistanceRatio(IntPtr cPointer, float ratio);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiRadioButtonRenderer_getTextDistanceRatio(IntPtr cPointer);
+        static extern private float tguiRadioButtonRenderer_getTextDistanceRatio(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setBorders(IntPtr cPointer, IntPtr borders);
+        static extern private void tguiRadioButtonRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiRadioButtonRenderer_getBorders(IntPtr cPointer);
+        static extern private IntPtr tguiRadioButtonRenderer_getBorders(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextColor(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setTextColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getTextColor(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getTextColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextColorHover(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setTextColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getTextColorHover(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getTextColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getTextColorDisabled(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getTextColorDisabled(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextColorChecked(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setTextColorChecked(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getTextColorChecked(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getTextColorChecked(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextColorCheckedHover(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setTextColorCheckedHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getTextColorCheckedHover(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getTextColorCheckedHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextColorCheckedDisabled(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setTextColorCheckedDisabled(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getTextColorCheckedDisabled(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getTextColorCheckedDisabled(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getBackgroundColor(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setBackgroundColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getBackgroundColorHover(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getBackgroundColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setBackgroundColorDisabled(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setBackgroundColorDisabled(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getBackgroundColorDisabled(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getBackgroundColorDisabled(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setBackgroundColorChecked(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setBackgroundColorChecked(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getBackgroundColorChecked(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getBackgroundColorChecked(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setBackgroundColorCheckedHover(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setBackgroundColorCheckedHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getBackgroundColorCheckedHover(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getBackgroundColorCheckedHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setBackgroundColorCheckedDisabled(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setBackgroundColorCheckedDisabled(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getBackgroundColorCheckedDisabled(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getBackgroundColorCheckedDisabled(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setBorderColor(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setBorderColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getBorderColor(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getBorderColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setBorderColorHover(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setBorderColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getBorderColorHover(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getBorderColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setBorderColorFocused(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setBorderColorFocused(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getBorderColorFocused(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getBorderColorFocused(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setBorderColorDisabled(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setBorderColorDisabled(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getBorderColorDisabled(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getBorderColorDisabled(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setBorderColorChecked(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setBorderColorChecked(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getBorderColorChecked(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getBorderColorChecked(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setBorderColorCheckedHover(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setBorderColorCheckedHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getBorderColorCheckedHover(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getBorderColorCheckedHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setBorderColorCheckedFocused(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setBorderColorCheckedFocused(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getBorderColorCheckedFocused(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getBorderColorCheckedFocused(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setBorderColorCheckedDisabled(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setBorderColorCheckedDisabled(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getBorderColorCheckedDisabled(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getBorderColorCheckedDisabled(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setCheckColor(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setCheckColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getCheckColor(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getCheckColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setCheckColorHover(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setCheckColorHover(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getCheckColorHover(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getCheckColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setCheckColorDisabled(IntPtr cPointer, Color color);
+        static extern private void tguiRadioButtonRenderer_setCheckColorDisabled(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiRadioButtonRenderer_getCheckColorDisabled(IntPtr cPointer);
+        static extern private Color tguiRadioButtonRenderer_getCheckColorDisabled(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextureUnchecked(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiRadioButtonRenderer_setTextureUnchecked(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextureChecked(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiRadioButtonRenderer_setTextureChecked(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextureUncheckedHover(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiRadioButtonRenderer_setTextureUncheckedHover(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextureCheckedHover(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiRadioButtonRenderer_setTextureCheckedHover(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextureUncheckedFocused(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiRadioButtonRenderer_setTextureUncheckedFocused(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextureCheckedFocused(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiRadioButtonRenderer_setTextureCheckedFocused(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextureUncheckedDisabled(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiRadioButtonRenderer_setTextureUncheckedDisabled(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextureCheckedDisabled(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiRadioButtonRenderer_setTextureCheckedDisabled(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);
+        static extern private void tguiRadioButtonRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Text.Styles tguiRadioButtonRenderer_getTextStyle(IntPtr cPointer);
+        static extern private Text.Styles tguiRadioButtonRenderer_getTextStyle(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButtonRenderer_setTextStyleChecked(IntPtr cPointer, Text.Styles style);
+        static extern private void tguiRadioButtonRenderer_setTextStyleChecked(IntPtr cPointer, Text.Styles style);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Text.Styles tguiRadioButtonRenderer_getTextStyleChecked(IntPtr cPointer);
+        static extern private Text.Styles tguiRadioButtonRenderer_getTextStyleChecked(IntPtr cPointer);
 
         #endregion
     }

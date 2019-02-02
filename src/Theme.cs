@@ -93,37 +93,37 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tgui_getLastError();
+        static extern private IntPtr tgui_getLastError();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTheme_create();
+        static extern private IntPtr tguiTheme_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTheme_copy(IntPtr cPointer);
+        static extern private IntPtr tguiTheme_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTheme_destroy(IntPtr cPointer);
+        static extern private void tguiTheme_destroy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiTheme_load(IntPtr cPointer, IntPtr filename);
+        static extern private bool tguiTheme_load(IntPtr cPointer, IntPtr filename);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTheme_getRenderer(IntPtr cPointer, IntPtr id);
+        static extern private IntPtr tguiTheme_getRenderer(IntPtr cPointer, IntPtr id);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTheme_addRenderer(IntPtr cPointer, IntPtr id, IntPtr renderer);
+        static extern private void tguiTheme_addRenderer(IntPtr cPointer, IntPtr id, IntPtr renderer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiTheme_removeRenderer(IntPtr cPointer, IntPtr id);
+        static extern private bool tguiTheme_removeRenderer(IntPtr cPointer, IntPtr id);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTheme_getFilename(IntPtr cPointer);
+        static extern private IntPtr tguiTheme_getFilename(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiTheme_setDefault(IntPtr defaultThemeCPointer);
+        static extern private void tguiTheme_setDefault(IntPtr defaultThemeCPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiTheme_getDefault();
+        static extern private IntPtr tguiTheme_getDefault();
 
         #endregion
     }

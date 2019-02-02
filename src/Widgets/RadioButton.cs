@@ -28,8 +28,15 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Radio button widget
+    /// </summary>
     public class RadioButton : ClickableWidget
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="text">The text to display next to the radio button</param>
         public RadioButton(string text = "")
             : base(tguiRadioButton_create())
         {
@@ -37,50 +44,85 @@ namespace TGUI
                 Text = text;
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal RadioButton(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public RadioButton(RadioButton copy)
             : base(copy)
         {
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
+        /// <remarks>
+        /// After calling this function, the widget has its own copy of the renderer and it will no longer be shared.
+        /// </remarks>
         public new RadioButtonRenderer Renderer
         {
             get { return new RadioButtonRenderer(tguiWidget_getRenderer(CPointer)); }
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
         public new RadioButtonRenderer SharedRenderer
         {
             get { return new RadioButtonRenderer(tguiWidget_getSharedRenderer(CPointer)); }
         }
 
+        /// <summary>
+        /// Gets or sets whether the radio button is checked
+        /// </summary>
+        /// <remarks>
+        /// When checking a radio button, all other radio buttons that have the same parent will be unchecked.
+        /// </remarks>
         public bool Checked
         {
             get { return tguiRadioButton_isChecked(CPointer); }
             set { tguiRadioButton_setChecked(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the text to display next to the radio button
+        /// </summary>
         public string Text
         {
             get { return Util.GetStringFromC_UTF32(tguiRadioButton_getText(CPointer)); }
             set { tguiRadioButton_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
         }
 
+        /// <summary>
+        /// Gets or sets the character size of the text
+        /// </summary>
         public uint TextSize
         {
             get { return tguiRadioButton_getTextSize(CPointer); }
             set { tguiRadioButton_setTextSize(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets whether the radio button is be checked by clicking on the text next to it
+        /// </summary>
         public bool TextClickable
         {
             get { return tguiRadioButton_isTextClickable(CPointer); }
             set { tguiRadioButton_setTextClickable(CPointer, value); }
         }
 
+        /// <summary>
+        /// Initializes the signals
+        /// </summary>
         protected override void InitSignals()
         {
             base.InitSignals();
@@ -105,31 +147,31 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiRadioButton_create();
+        static extern private IntPtr tguiRadioButton_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButton_setChecked(IntPtr cPointer, bool check);
+        static extern private void tguiRadioButton_setChecked(IntPtr cPointer, bool check);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiRadioButton_isChecked(IntPtr cPointer);
+        static extern private bool tguiRadioButton_isChecked(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButton_setText(IntPtr cPointer, IntPtr value);
+        static extern private void tguiRadioButton_setText(IntPtr cPointer, IntPtr value);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiRadioButton_getText(IntPtr cPointer);
+        static extern private IntPtr tguiRadioButton_getText(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButton_setTextSize(IntPtr cPointer, uint textSize);
+        static extern private void tguiRadioButton_setTextSize(IntPtr cPointer, uint textSize);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiRadioButton_getTextSize(IntPtr cPointer);
+        static extern private uint tguiRadioButton_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiRadioButton_setTextClickable(IntPtr cPointer, bool clickable);
+        static extern private void tguiRadioButton_setTextClickable(IntPtr cPointer, bool clickable);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiRadioButton_isTextClickable(IntPtr cPointer);
+        static extern private bool tguiRadioButton_isTextClickable(IntPtr cPointer);
 
         #endregion
     }

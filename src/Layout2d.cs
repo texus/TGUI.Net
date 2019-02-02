@@ -79,22 +79,22 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiLayout2d_create(Vector2f constant);
+        static extern private IntPtr tguiLayout2d_create(Vector2f constant);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiLayout2d_createFromLayouts(IntPtr x, IntPtr y);
+        static extern private IntPtr tguiLayout2d_createFromLayouts(IntPtr x, IntPtr y);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiLayout2d_createFromString(IntPtr expression);
+        static extern private IntPtr tguiLayout2d_createFromString(IntPtr expression);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiLayout2d_copy(IntPtr cPointer);
+        static extern private IntPtr tguiLayout2d_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiLayout2d_destroy(IntPtr cPointer);
+        static extern private void tguiLayout2d_destroy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Vector2f tguiLayout2d_getValue(IntPtr cPointer);
+        static extern private Vector2f tguiLayout2d_getValue(IntPtr cPointer);
 
         #endregion
     }

@@ -102,58 +102,58 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiProgressBarRenderer_create();
+        static extern private IntPtr tguiProgressBarRenderer_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiProgressBarRenderer_copy(IntPtr cPointer);
+        static extern private IntPtr tguiProgressBarRenderer_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiProgressBarRenderer_setBorders(IntPtr cPointer, IntPtr borders);
+        static extern private void tguiProgressBarRenderer_setBorders(IntPtr cPointer, IntPtr borders);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiProgressBarRenderer_getBorders(IntPtr cPointer);
+        static extern private IntPtr tguiProgressBarRenderer_getBorders(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiProgressBarRenderer_setTextColor(IntPtr cPointer, Color color);
+        static extern private void tguiProgressBarRenderer_setTextColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiProgressBarRenderer_getTextColor(IntPtr cPointer);
+        static extern private Color tguiProgressBarRenderer_getTextColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiProgressBarRenderer_setTextColorFilled(IntPtr cPointer, Color color);
+        static extern private void tguiProgressBarRenderer_setTextColorFilled(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiProgressBarRenderer_getTextColorFilled(IntPtr cPointer);
+        static extern private Color tguiProgressBarRenderer_getTextColorFilled(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiProgressBarRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+        static extern private void tguiProgressBarRenderer_setBackgroundColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiProgressBarRenderer_getBackgroundColor(IntPtr cPointer);
+        static extern private Color tguiProgressBarRenderer_getBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiProgressBarRenderer_setFillColor(IntPtr cPointer, Color color);
+        static extern private void tguiProgressBarRenderer_setFillColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiProgressBarRenderer_getFillColor(IntPtr cPointer);
+        static extern private Color tguiProgressBarRenderer_getFillColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiProgressBarRenderer_setBorderColor(IntPtr cPointer, Color color);
+        static extern private void tguiProgressBarRenderer_setBorderColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Color tguiProgressBarRenderer_getBorderColor(IntPtr cPointer);
+        static extern private Color tguiProgressBarRenderer_getBorderColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiProgressBarRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiProgressBarRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiProgressBarRenderer_setTextureFill(IntPtr cPointer, IntPtr texture);
+        static extern private void tguiProgressBarRenderer_setTextureFill(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiProgressBarRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);
+        static extern private void tguiProgressBarRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Text.Styles tguiProgressBarRenderer_getTextStyle(IntPtr cPointer);
+        static extern private Text.Styles tguiProgressBarRenderer_getTextStyle(IntPtr cPointer);
 
         #endregion
     }

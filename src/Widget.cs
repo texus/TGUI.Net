@@ -31,62 +31,114 @@ using SFML.System;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Base class for all widgets
+    /// </summary>
     public class Widget : SFML.ObjectBase
     {
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected Widget(IntPtr cPointer)
             : base(cPointer)
         {
             InitSignals(); // Calls the function in the derived class
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public Widget(Widget copy)
             : base(tguiWidget_copy(copy.CPointer))
         {
             InitSignals(); // Calls the function in the derived class
         }
 
+        /// <summary>
+        /// Destroy the object
+        /// </summary>
+        /// <param name="disposing">Is the GC disposing the object, or is it an explicit call?</param>
         protected override void Destroy(bool disposing)
         {
             tguiWidget_destroy(CPointer);
         }
 
+        /// <summary>
+        /// Gets or sets the position of the widget inside its parent
+        /// </summary>
         public Vector2f Position
         {
             get { return tguiWidget_getPosition(CPointer); }
             set { tguiWidget_setPosition(CPointer, value); }
         }
 
+        /// <summary>
+        /// Sets the position of the widget inside its parent
+        /// </summary>
+        /// <param name="layout">Position of the widget that could be fixed or relative to the parent size</param>
         public void SetPosition(Layout2d layout)
         {
             tguiWidget_setPositionFromLayout(CPointer, layout.CPointer);
         }
 
+        /// <summary>
+        /// Gets the absolute position of the widget instead of the relative position in its parent
+        /// </summary>
         public Vector2f AbsolutePosition
         {
             get { return tguiWidget_getAbsolutePosition(CPointer); }
         }
 
+        /// <summary>
+        /// Gets or sets the size of the widget
+        /// </summary>
         public Vector2f Size
         {
             get { return tguiWidget_getSize(CPointer); }
             set { tguiWidget_setSize(CPointer, value); }
         }
 
+        /// <summary>
+        /// Sets the size of the widget
+        /// </summary>
+        /// <param name="layout">Size of the widget that could be fixed or relative to the parent size</param>
         public void SetSize(Layout2d layout)
         {
             tguiWidget_setSizeFromLayout(CPointer, layout.CPointer);
         }
 
+        /// <summary>
+        /// Gets the entire size that the widget is using
+        /// </summary>
+        /// <remarks>
+        /// The full size will equal the size for most widgets.
+        /// E.g a check box where the check mark leaves the box will have a larger full size. 
+        /// </remarks>
         public Vector2f FullSize
         {
             get { return tguiWidget_getFullSize(CPointer); }
         }
 
+        /// <summary>
+        /// Gets the distance between the position where the widget is drawn and where the widget is placed
+        /// </summary>
+        /// <remarks>
+        /// The offset is (0,0) for almost all widgets.
+        /// E.g. a check box where the check mark leaves the box will have a negative vertical offset. 
+        /// </remarks>
         public Vector2f WidgetOffset
         {
             get { return tguiWidget_getWidgetOffset(CPointer); }
         }
 
+        /// <summary>
+        /// Connect a signal handler that will be called when the signal is emitted
+        /// </summary>
+        /// <param name="signalName">Name of the signal to connect</param>
+        /// <param name="func">Signal handler, taking no parameters</param>
+        /// <returns>Unique id of the connection</returns>
         public uint Connect(string signalName, Action func)
         {
             uint id = tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII(signalName), () => func());
@@ -103,16 +155,32 @@ namespace TGUI
             return id;
         }
 
+        /// <summary>
+        /// Connect a signal handler that will be called when the signal is emitted
+        /// </summary>
+        /// <param name="signalName">Name of the signal to connect</param>
+        /// <param name="func">Signal handler, taking the widget as parameter</param>
+        /// <returns>Unique id of the connection</returns>
         public uint Connect(string signalName, Action<Widget> func)
         {
             return Connect(signalName, () => func(this));
         }
 
+        /// <summary>
+        /// Connect a signal handler that will be called when the signal is emitted
+        /// </summary>
+        /// <param name="signalName">Name of the signal to connect</param>
+        /// <param name="func">Signal handler, taking the widget and signal name as parameters</param>
+        /// <returns>Unique id of the connection</returns>
         public uint Connect(string signalName, Action<Widget, string> func)
         {
             return Connect(signalName, () => func(this, signalName));
         }
 
+        /// <summary>
+        /// Disconnects a signal handler
+        /// </summary>
+        /// <param name="id">Id of the connection (returned by the Connect functions)</param>
         public void Disconnect(uint id)
         {
             tguiWidget_disconnect(CPointer, id);
@@ -131,6 +199,10 @@ namespace TGUI
             }
         }
 
+        /// <summary>
+        /// Disconnects all signal handler from a certain signal
+        /// </summary>
+        /// <param name="signalName">Name of the signal</param>
         public void DisconnectAll(string signalName)
         {
             signalName = signalName.ToLower();
@@ -140,76 +212,151 @@ namespace TGUI
             tguiWidget_disconnectAll(CPointer, Util.ConvertStringForC_ASCII(signalName));
         }
 
+        /// <summary>
+        /// Disconnects all signal handlers from all signals
+        /// </summary>
         public void DisconnectAll()
         {
             myConnectedSignals.Clear();
             tguiWidget_disconnectAll(CPointer, IntPtr.Zero);
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
+        /// <remarks>
+        /// After calling this function, the widget has its own copy of the renderer and it will no longer be shared.
+        /// </remarks>
         public WidgetRenderer Renderer
         {
             get { return new WidgetRenderer(tguiWidget_getRenderer(CPointer)); }
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
         public WidgetRenderer SharedRenderer
         {
             get { return new WidgetRenderer(tguiWidget_getSharedRenderer(CPointer)); }
         }
 
+        /// <summary>
+        /// Sets a new renderer for the widget. The renderer determines how the widget looks.
+        /// </summary>
+        /// <param name="renderer">new renderer data</param>
+        /// <remarks>
+        /// The renderer data is shared with this widget. When the data is changed, this widget will be updated as well.
+        /// </remarks>
         public void SetRenderer(RendererData renderer)
         {
             if (!tguiWidget_setRenderer(CPointer, renderer.CPointer))
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
 
+        /// <summary>
+        /// Gets or sets whether the widget is shown or hidden
+        /// </summary>
         public bool Visible
         {
             get { return tguiWidget_isVisible(CPointer); }
             set { tguiWidget_setVisible(CPointer, value); }
         }
 
+        /// <summary>
+        /// Shows the widget by introducing it with an animation
+        /// </summary>
+        /// <param name="type">Type of the animation</param>
+        /// <param name="duration">Duration of the animation</param>
+        /// <remarks>
+        /// The animation will also be played if the widget was already visible.
+        ///
+        /// During the animation the position, size and/or opacity may change. Once the animation is done the widget will
+        /// be back in the state in which it was when this function was called.
+        /// </remarks>
         public void ShowWithEffect(ShowAnimationType type, Time duration)
         {
             tguiWidget_showWithEffect(CPointer, type, duration);
         }
 
+        /// <summary>
+        /// Hides the widget by making it leave with an animation
+        /// </summary>
+        /// <param name="type">Type of the animation</param>
+        /// <param name="duration">Duration of the animation</param>
+        /// <remarks>
+        /// If the widget is already hidden then the animation will still play but you will not see it.
+        ///
+        /// During the animation the position, size and/or opacity may change. Once the animation is done the widget will
+        /// be back in the state in which it was when this function was called, except that it will no longer be visible.
+        /// </remarks>
         public void HideWithEffect(ShowAnimationType type, Time duration)
         {
             tguiWidget_hideWithEffect(CPointer, type, duration);
         }
 
+        /// <summary>
+        /// Gets or sets whether the widget is enabled
+        /// </summary>
         public bool Enabled
         {
             get { return tguiWidget_isEnabled(CPointer); }
             set { tguiWidget_setEnabled(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets whether the widget currently has focus
+        /// </summary>
+        /// <remarks>
+        /// When a widget is focused, the previously focused widget will be unfocused.
+        /// Note that setting the property only works properly when the widget was already added to its parent (e.g. the Gui).
+        /// </remarks>
         public bool Focus
         {
             get { return tguiWidget_isFocused(CPointer); }
             set { tguiWidget_setFocused(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets the type of the widget
+        /// </summary>
         public string WidgetType
         {
             get { return Util.GetStringFromC_ASCII(tguiWidget_getWidgetType(CPointer)); }
         }
 
+        /// <summary>
+        /// Gets the parent to which the widget was added
+        /// </summary>
         public Container Parent
         {
             get { return (Container)Util.GetWidgetFromC(tguiWidget_getParent(CPointer), ParentGui); }
         }
 
+        /// <summary>
+        /// Places the widget before all other widgets in its parent
+        /// </summary>
+        /// <remarks>
+        /// Note that this function only has an effect when the widget was already added to its parent (e.g. the Gui).
+        /// </remarks>
         public void MoveToFront()
         {
             tguiWidget_moveToFront(CPointer);
         }
 
+        /// <summary>
+        /// Places the widget behind all other widgets in its parent
+        /// </summary>
+        /// <remarks>
+        /// Note that this function only has an effect when the widget was already added to its parent (e.g. the Gui).
+        /// </remarks>
         public void MoveToBack()
         {
             tguiWidget_moveToBack(CPointer);
         }
 
+        /// <summary>
+        /// Gets or sets the tool tip that should be displayed when hovering over the widget
+        /// </summary>
         public Widget ToolTip
         {
             get { return Util.GetWidgetFromC(tguiWidget_getToolTip(CPointer), ParentGui); }
@@ -221,7 +368,12 @@ namespace TGUI
                     tguiWidget_setToolTip(CPointer, IntPtr.Zero);
             }
         }
-        
+
+        /// <summary>
+        /// Gets whether the mouse position lies on top of the widget
+        /// </summary>
+        /// <param name="pos">Mouse position, relative to the parent widget</param>
+        /// <returns>Is the mouse on top of the widget?</returns>
         public bool MouseOnWidget(Vector2f pos)
         {
             return tguiWidget_mouseOnWidget(CPointer, pos);
@@ -250,7 +402,9 @@ namespace TGUI
             return "[Widget] Type(" + WidgetType + ")";
         }
 
-
+        /// <summary>
+        /// Initializes the signals
+        /// </summary>
         protected virtual void InitSignals()
         {
             PositionChangedCallback = new CallbackActionVector2f(ProcessPositionChangedSignal);
@@ -367,37 +521,10 @@ namespace TGUI
         static extern protected IntPtr tgui_getLastError();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiWidget_copy(IntPtr cPointer);
+        static extern protected IntPtr tguiWidget_getRenderer(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_destroy(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_setPosition(IntPtr cPointer, Vector2f pos);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_setPositionFromLayout(IntPtr cPointer, IntPtr layout2d);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Vector2f tguiWidget_getPosition(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Vector2f tguiWidget_getAbsolutePosition(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Vector2f tguiWidget_getWidgetOffset(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_setSize(IntPtr cPointer, Vector2f size);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_setSizeFromLayout(IntPtr cPointer, IntPtr layout2d);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Vector2f tguiWidget_getSize(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected Vector2f tguiWidget_getFullSize(IntPtr cPointer);
+        static extern protected IntPtr tguiWidget_getSharedRenderer(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern protected uint tguiWidget_connect(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackAction func);
@@ -427,64 +554,91 @@ namespace TGUI
         static extern protected uint tguiWidget_connectAnimation(IntPtr cPointer, IntPtr signalName, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackActionAnimation func);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_disconnect(IntPtr cPointer, uint id);
+        static extern private IntPtr tguiWidget_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_disconnectAll(IntPtr cPointer, IntPtr signalName);
+        static extern private void tguiWidget_destroy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiWidget_setRenderer(IntPtr cPointer, IntPtr rendererDataCPointer);
+        static extern private void tguiWidget_setPosition(IntPtr cPointer, Vector2f pos);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiWidget_getRenderer(IntPtr cPointer);
+        static extern private void tguiWidget_setPositionFromLayout(IntPtr cPointer, IntPtr layout2d);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiWidget_getSharedRenderer(IntPtr cPointer);
+        static extern private Vector2f tguiWidget_getPosition(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_setVisible(IntPtr cPointer, bool visible);
+        static extern private Vector2f tguiWidget_getAbsolutePosition(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiWidget_isVisible(IntPtr cPointer);
+        static extern private Vector2f tguiWidget_getWidgetOffset(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_showWithEffect(IntPtr cPointer, ShowAnimationType type, Time duration);
+        static extern private void tguiWidget_setSize(IntPtr cPointer, Vector2f size);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_hideWithEffect(IntPtr cPointer, ShowAnimationType type, Time duration);
+        static extern private void tguiWidget_setSizeFromLayout(IntPtr cPointer, IntPtr layout2d);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_setEnabled(IntPtr cPointer, bool enabled);
+        static extern private Vector2f tguiWidget_getSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiWidget_isEnabled(IntPtr cPointer);
+        static extern private Vector2f tguiWidget_getFullSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_setFocused(IntPtr cPointer, bool focused);
+        static extern private void tguiWidget_disconnect(IntPtr cPointer, uint id);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiWidget_isFocused(IntPtr cPointer);
+        static extern private void tguiWidget_disconnectAll(IntPtr cPointer, IntPtr signalName);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiWidget_getWidgetType(IntPtr cPointer);
+        static extern private bool tguiWidget_setRenderer(IntPtr cPointer, IntPtr rendererDataCPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_moveToFront(IntPtr cPointer);
+        static extern private void tguiWidget_setVisible(IntPtr cPointer, bool visible);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_moveToBack(IntPtr cPointer);
+        static extern private bool tguiWidget_isVisible(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiWidget_setToolTip(IntPtr cPointer, IntPtr toolTipCPointer);
+        static extern private void tguiWidget_showWithEffect(IntPtr cPointer, ShowAnimationType type, Time duration);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiWidget_getToolTip(IntPtr cPointer);
+        static extern private void tguiWidget_hideWithEffect(IntPtr cPointer, ShowAnimationType type, Time duration);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiWidget_getParent(IntPtr cPointer);
+        static extern private void tguiWidget_setEnabled(IntPtr cPointer, bool enabled);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected bool tguiWidget_mouseOnWidget(IntPtr cPointer, Vector2f pos);
+        static extern private bool tguiWidget_isEnabled(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiWidget_setFocused(IntPtr cPointer, bool focused);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiWidget_isFocused(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiWidget_getWidgetType(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiWidget_moveToFront(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiWidget_moveToBack(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiWidget_setToolTip(IntPtr cPointer, IntPtr toolTipCPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiWidget_getToolTip(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiWidget_getParent(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiWidget_mouseOnWidget(IntPtr cPointer, Vector2f pos);
 
         #endregion
     }

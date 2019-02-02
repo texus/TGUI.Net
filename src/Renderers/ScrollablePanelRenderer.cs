@@ -62,22 +62,22 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiScrollablePanelRenderer_create();
+        static extern private IntPtr tguiScrollablePanelRenderer_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiScrollablePanelRenderer_copy(IntPtr cPointer);
+        static extern private IntPtr tguiScrollablePanelRenderer_copy(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiScrollablePanelRenderer_setScrollbar(IntPtr cPointer, IntPtr rendererData);
+        static extern private void tguiScrollablePanelRenderer_setScrollbar(IntPtr cPointer, IntPtr rendererData);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiScrollablePanelRenderer_getScrollbar(IntPtr cPointer);
+        static extern private IntPtr tguiScrollablePanelRenderer_getScrollbar(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiScrollablePanelRenderer_setScrollbarWidth(IntPtr cPointer, float width);
+        static extern private void tguiScrollablePanelRenderer_setScrollbarWidth(IntPtr cPointer, float width);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiScrollablePanelRenderer_getScrollbarWidth(IntPtr cPointer);
+        static extern private float tguiScrollablePanelRenderer_getScrollbarWidth(IntPtr cPointer);
 
         #endregion
     }

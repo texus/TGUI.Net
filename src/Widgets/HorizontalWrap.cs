@@ -49,7 +49,7 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiHorizontalWrap_create();
+        static extern private IntPtr tguiHorizontalWrap_create();
 
         #endregion
     }

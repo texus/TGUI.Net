@@ -99,6 +99,9 @@ namespace TGUI
             set { tguiButton_setTextSize(CPointer, value); }
         }
 
+        /// <summary>
+        /// Initializes the signals
+        /// </summary>
         protected override void InitSignals()
         {
             base.InitSignals();
@@ -122,19 +125,19 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiButton_create();
+        static extern private IntPtr tguiButton_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiButton_setText(IntPtr cPointer, IntPtr value);
+        static extern private void tguiButton_setText(IntPtr cPointer, IntPtr value);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiButton_getText(IntPtr cPointer);
+        static extern private IntPtr tguiButton_getText(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiButton_setTextSize(IntPtr cPointer, uint textSize);
+        static extern private void tguiButton_setTextSize(IntPtr cPointer, uint textSize);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected uint tguiButton_getTextSize(IntPtr cPointer);
+        static extern private uint tguiButton_getTextSize(IntPtr cPointer);
 
         #endregion
     }

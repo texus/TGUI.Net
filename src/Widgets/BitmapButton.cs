@@ -61,16 +61,16 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected IntPtr tguiBitmapButton_create();
+        static extern private IntPtr tguiBitmapButton_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiBitmapButton_setImage(IntPtr cPointer, IntPtr image);
+        static extern private void tguiBitmapButton_setImage(IntPtr cPointer, IntPtr image);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected void tguiBitmapButton_setImageScaling(IntPtr cPointer, float imageScaling);
+        static extern private void tguiBitmapButton_setImageScaling(IntPtr cPointer, float imageScaling);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern protected float tguiBitmapButton_getImageScaling(IntPtr cPointer);
+        static extern private float tguiBitmapButton_getImageScaling(IntPtr cPointer);
 
         #endregion
     }
