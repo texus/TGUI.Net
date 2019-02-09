@@ -14,4 +14,4 @@ TGUI.Net comes bundled with a recent version of SFML.Net. You can use your own S
 
 <p>{% include button.ext text="win-x64 NuGet package" link="https://www.nuget.org/packages/TGUI.Net.win-x64/" style="Blue" %} (TGUI.Net + SFML.Net ready to use)</p>
 <p>{% include button.ext text="win-x64 libs" link="https://bintray.com/texus/generic/download_file?file_path=TGUI.Net-0.8-dev-64bit.zip" style="Blue" %} (Latest dlls from CI)</p>
-<p>{% include button.ext text="Source code" link="https://github.com/texus/TGUI.Net/archive/master.zip" style="Blue" %} (Source code + scripts to build x64 libs for Windows/Linux/macOS)</p>
+<p>{% include button.ext text="Source code" link="https://github.com/texus/TGUI.Net/" style="Blue" %} (Source code + scripts to build x64 libs for Windows/Linux/macOS)</p>
