@@ -41,13 +41,17 @@ msbuild build-extlibs.sln /p:Configuration=Release /p:Platform=%ARCH% /m || goto
 
 if not exist ..\lib mkdir ..\lib
 copy bin\*.dll ..\lib\ /Y > nul || goto :error
+move /y ..\lib\csfml-audio-2.dll ..\lib\csfml-audio.dll > nul || goto :error
+move /y ..\lib\csfml-graphics-2.dll ..\lib\csfml-graphics.dll > nul || goto :error
+move /y ..\lib\csfml-network-2.dll ..\lib\csfml-network.dll > nul || goto :error
+move /y ..\lib\csfml-system-2.dll ..\lib\csfml-system.dll > nul || goto :error
+move /y ..\lib\csfml-window-2.dll ..\lib\csfml-window.dll > nul || goto :error
 cd ..
 
 cd SFML.Net
 if not exist lib mkdir lib
-dotnet build build\SfmlCore\SfmlCore.sln --configuration=Release || goto :error
-copy src\Graphics\bin\Release\netstandard2.0\*.dll lib\ /Y > nul || goto :error
-copy src\Audio\bin\Release\netstandard2.0\sfml-audio.dll lib\ /Y > nul || goto :error
+dotnet build -c Release || goto :error
+copy src\SFML.Audio\bin\Release\netstandard2.0\* lib\ /Y > nul || goto :error
 cd ..
 
 goto :EOF

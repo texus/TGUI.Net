@@ -402,60 +402,34 @@ namespace TGUI
         {
             base.InitSignals();
 
-            ItemSelectedCallback = new CallbackActionItemSelected(ProcessItemSelectedSignal);
-            if (tguiWidget_connectItemSelected(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ItemSelectedCallback) == 0)
+            ItemSelectedCallback = new CallbackActionInt(ProcessItemSelectedSignal);
+            if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ItemSelectedCallback) == 0)
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
-            MousePressedCallback = new CallbackActionItemSelected(ProcessMousePressedSignal);
-            if (tguiWidget_connectItemSelected(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-
-            MouseReleasedCallback = new CallbackActionItemSelected(ProcessMouseReleasedSignal);
-            if (tguiWidget_connectItemSelected(CPointer, Util.ConvertStringForC_ASCII("MouseReleased"), MouseReleasedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-
-            DoubleClickedCallback = new CallbackActionItemSelected(ProcessDoubleClickedSignal);
-            if (tguiWidget_connectItemSelected(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback) == 0)
+            DoubleClickedCallback = new CallbackActionInt(ProcessDoubleClickedSignal);
+            if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback) == 0)
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
 
-        private void ProcessItemSelectedSignal(IntPtr item, IntPtr id)
+        private void ProcessItemSelectedSignal(int index)
         {
-            ItemSelected?.Invoke(this, new SignalArgsItem(Util.GetStringFromC_UTF32(item), Util.GetStringFromC_UTF32(id)));
+            ItemSelected?.Invoke(this, new SignalArgsInt(index));
         }
 
-        private void ProcessMousePressedSignal(IntPtr item, IntPtr id)
+        private void ProcessDoubleClickedSignal(int index)
         {
-            MousePressed?.Invoke(this, new SignalArgsItem(Util.GetStringFromC_UTF32(item), Util.GetStringFromC_UTF32(id)));
-        }
-
-        private void ProcessMouseReleasedSignal(IntPtr item, IntPtr id)
-        {
-            MouseReleased?.Invoke(this, new SignalArgsItem(Util.GetStringFromC_UTF32(item), Util.GetStringFromC_UTF32(id)));
-        }
-
-        private void ProcessDoubleClickedSignal(IntPtr item, IntPtr id)
-        {
-            DoubleClicked?.Invoke(this, new SignalArgsItem(Util.GetStringFromC_UTF32(item), Util.GetStringFromC_UTF32(id)));
+            DoubleClicked?.Invoke(this, new SignalArgsInt(index));
         }
 
         /// <summary>Event handler for the ItemSelected signal</summary>
-        public event EventHandler<SignalArgsItem> ItemSelected = null;
-
-        /// <summary>Event handler for the MousePressed signal</summary>
-        public event EventHandler<SignalArgsItem> MousePressed = null;
-
-        /// <summary>Event handler for the MouseReleased signal</summary>
-        public event EventHandler<SignalArgsItem> MouseReleased = null;
+        public event EventHandler<SignalArgsInt> ItemSelected = null;
 
         /// <summary>Event handler for the DoubleClicked signal</summary>
-        public event EventHandler<SignalArgsItem> DoubleClicked = null;
+        public event EventHandler<SignalArgsInt> DoubleClicked = null;
 
 
-        private CallbackActionItemSelected ItemSelectedCallback;
-        private CallbackActionItemSelected MousePressedCallback;
-        private CallbackActionItemSelected MouseReleasedCallback;
-        private CallbackActionItemSelected DoubleClickedCallback;
+        private CallbackActionInt ItemSelectedCallback;
+        private CallbackActionInt DoubleClickedCallback;
 
 
         #region Imports

@@ -1,34 +1,31 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>TGUI</RootNamespace>
-    <PackageId>TGUI.Net.win-x64</PackageId>
-    <AssemblyName>tgui.net</AssemblyName>
     <Version>0.8.3</Version>
-    <Configurations>Debug;Release;_WINDOWS_;_LINUX_;_OSX_</Configurations>
+    <RootNamespace>TGUI</RootNamespace>
+    <AssemblyName>tgui.net</AssemblyName>
     <Authors>texus</Authors>
-    <DocumentationFile>bin/tgui.net.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup>
+    <Copyright>Copyright © Bruno Van de Velde</Copyright>
+    <PackageId>TGUI.Net.win-x64</PackageId>
     <PackageTags>tgui;sfml;net;x64</PackageTags>
     <Description>TGUI is an easy to use cross-platform GUI library for SFML.
 This package contains .NET Standard 2.0 libraries for both TGUI.Net and SFML.Net, including the 64-bit windows dependencies.</Description>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/texus/TGUI.Net/master/license.txt</PackageLicenseUrl>
+    <PackageLicenseExpression>Zlib</PackageLicenseExpression>
     <PackageProjectUrl>https://tgui.net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/texus/TGUI.Net/</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIconUrl>https://tgui.eu/resources/NugetIcon.png</PackageIconUrl>
+    <PackageIcon>NugetIcon.png</PackageIcon>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PlatformTarget></PlatformTarget>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Configurations>Debug;Release;_WINDOWS_;_LINUX_;_OSX_</Configurations>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -39,19 +36,16 @@ This package contains .NET Standard 2.0 libraries for both TGUI.Net and SFML.Net
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='_OSX_|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DefineConstants>_OSX_;NETSTANDARD2_0</DefineConstants>
     <IsOSX>True</IsOSX>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='_LINUX_|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DefineConstants>_LINUX_;NETSTANDARD2_0</DefineConstants>
     <IsLinux>True</IsLinux>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='_WINDOWS_|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DefineConstants>_WINDOWS_;NETSTANDARD2_0</DefineConstants>
     <IsWindows>True</IsWindows>
   </PropertyGroup>
@@ -61,7 +55,6 @@ This package contains .NET Standard 2.0 libraries for both TGUI.Net and SFML.Net
     <!--Replacing '-' and '.' by '_' in Constants because we cannot use those characters in the source files -->
     <DefineConstants>_WINDOWS_;NETSTANDARD2_0</DefineConstants>
     <IsWindows>True</IsWindows>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <!-- Check if we target OSX -->
@@ -88,16 +81,16 @@ This package contains .NET Standard 2.0 libraries for both TGUI.Net and SFML.Net
 
   <ItemGroup>
     <Reference Include="sfml-audio">
-      <HintPath>../extlibs/SFML.Net/lib/sfml-audio.dll</HintPath>
+      <HintPath>../lib/SFML.Audio.dll</HintPath>
     </Reference>
     <Reference Include="sfml-graphics">
-      <HintPath>../extlibs/SFML.Net/lib/sfml-graphics.dll</HintPath>
+      <HintPath>../lib/SFML.Graphics.dll</HintPath>
     </Reference>
     <Reference Include="sfml-system">
-      <HintPath>../extlibs/SFML.Net/lib/sfml-system.dll</HintPath>
+      <HintPath>../lib/SFML.System.dll</HintPath>
     </Reference>
     <Reference Include="sfml-window">
-      <HintPath>../extlibs/SFML.Net/lib/sfml-window.dll</HintPath>
+      <HintPath>../lib/SFML.Window.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -106,35 +99,35 @@ This package contains .NET Standard 2.0 libraries for both TGUI.Net and SFML.Net
       <Pack>true</Pack>
       <PackagePath>build/$(PackageId).targets</PackagePath>
     </Content>
-    <Content Include="../lib/sfml-audio.dll">
+    <Content Include="../lib/SFML.Audio.dll">
       <Pack>true</Pack>
       <PackagePath>lib/$(TargetFramework)/</PackagePath>
     </Content>
-    <Content Include="../lib/sfml-graphics.dll">
+    <Content Include="../lib/SFML.Graphics.dll">
       <Pack>true</Pack>
       <PackagePath>lib/$(TargetFramework)/</PackagePath>
     </Content>
-    <Content Include="../lib/sfml-system.dll">
+    <Content Include="../lib/SFML.System.dll">
       <Pack>true</Pack>
       <PackagePath>lib/$(TargetFramework)/</PackagePath>
     </Content>
-    <Content Include="../lib/sfml-window.dll">
+    <Content Include="../lib/SFML.Window.dll">
       <Pack>true</Pack>
       <PackagePath>lib/$(TargetFramework)/</PackagePath>
     </Content>
-    <Content Include="../extlibs/lib/csfml-audio-2.dll">
+    <Content Include="../extlibs/lib/csfml-audio.dll">
       <Pack>true</Pack>
       <PackagePath>build/</PackagePath>
     </Content>
-    <Content Include="../extlibs/lib/csfml-graphics-2.dll">
+    <Content Include="../extlibs/lib/csfml-graphics.dll">
       <Pack>true</Pack>
       <PackagePath>build/</PackagePath>
     </Content>
-    <Content Include="../extlibs/lib/csfml-system-2.dll">
+    <Content Include="../extlibs/lib/csfml-system.dll">
       <Pack>true</Pack>
       <PackagePath>build/</PackagePath>
     </Content>
-    <Content Include="../extlibs/lib/csfml-window-2.dll">
+    <Content Include="../extlibs/lib/csfml-window.dll">
       <Pack>true</Pack>
       <PackagePath>build/</PackagePath>
     </Content>
@@ -162,6 +155,13 @@ This package contains .NET Standard 2.0 libraries for both TGUI.Net and SFML.Net
       <Pack>true</Pack>
       <PackagePath>build/</PackagePath>
     </Content>
+    <Content Include="NugetIcon.png">
+      <Pack>true</Pack>
+      <PackagePath>/</PackagePath>
+    </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="all" />
+  </ItemGroup>
 </Project>

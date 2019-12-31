@@ -11,7 +11,6 @@ cd ..
 
 cd SFML.Net
 mkdir -p lib
-dotnet build build/SfmlCore/SfmlCore.sln --configuration=Release
-yes | cp -p src/Graphics/bin/Release/netstandard2.0/*.dll lib/
-yes | cp -p src/Audio/bin/Release/netstandard2.0/sfml-audio.dll lib/
+dotnet build -c Release || goto :error
+yes | cp -p src/SFML.Audio/bin/Release/netstandard2.0/* lib/
 cd ..

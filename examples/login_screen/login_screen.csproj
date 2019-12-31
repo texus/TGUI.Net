@@ -10,13 +10,13 @@
 
   <ItemGroup>
     <Reference Include="sfml-graphics">
-      <HintPath>..\..\lib\sfml-graphics.dll</HintPath>
+      <HintPath>..\..\lib\SFML.Graphics.dll</HintPath>
     </Reference>
     <Reference Include="sfml-system">
-      <HintPath>..\..\lib\sfml-system.dll</HintPath>
+      <HintPath>..\..\lib\SFML.System.dll</HintPath>
     </Reference>
     <Reference Include="sfml-window">
-      <HintPath>..\..\lib\sfml-window.dll</HintPath>
+      <HintPath>..\..\lib\SFML.Window.dll</HintPath>
     </Reference>
     <Reference Include="tgui.net">
       <HintPath>..\..\lib\tgui.net.dll</HintPath>
@@ -24,13 +24,13 @@
   </ItemGroup>
 
   <ItemGroup Condition="($(RuntimeIdentifier.StartsWith('win')) And !$(RuntimeIdentifier.Equals('')) ) Or ( $(OS.Equals('Windows_NT')) And $(RuntimeIdentifier.Equals('')) ) ">
-    <Content Include="..\..\extlibs\lib\csfml-graphics-2.dll">
+    <Content Include="..\..\extlibs\lib\csfml-graphics.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\extlibs\lib\csfml-window-2.dll">
+    <Content Include="..\..\extlibs\lib\csfml-window.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\extlibs\lib\csfml-system-2.dll">
+    <Content Include="..\..\extlibs\lib\csfml-system.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\extlibs\lib\sfml-graphics-2.dll">
