@@ -62,6 +62,9 @@ namespace TGUI
         /// <param name="disposing">Is the GC disposing the object, or is it an explicit call?</param>
         protected override void Destroy(bool disposing)
         {
+            // We need to disconnect our delegates when destroying this reference to the widget.
+            // Multiple references to the same widget can exist after e.g. calling gui.GetWidgets()
+            tguiWidget_disconnectAll(CPointer, IntPtr.Zero);
             tguiWidget_destroy(CPointer);
         }
 
