@@ -145,6 +145,27 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Selects an item in the tree view
+        /// </summary>
+        /// <param name="hierarchy">Hierarchy of items, identifying the node to be selected</param>
+        /// <returns>
+        /// True when the item was selected, false when hierarchy was incorrect
+        /// </returns>
+        /// <example>
+        /// <code>
+        /// treeView.SelectItem(new List&lt;string&gt;{"Parent_1", "Child_1"});
+        /// </code>
+        /// </example>
+        public bool SelectItem(List<string> hierarchy)
+        {
+            IntPtr[] hierarchyForC = new IntPtr[hierarchy.Count];
+            for (int i = 0; i < hierarchy.Count; ++i)
+                hierarchyForC[i] = Util.ConvertStringForC_UTF32(hierarchy[i]);
+
+            return tguiTreeView_selectItem(CPointer, hierarchyForC, (uint)hierarchyForC.Length);
+        }
+
+        /// <summary>
         /// Removes an item
         /// </summary>
         /// <param name="hierarchy">Hierarchy of items, identifying the node to be removed</param>
@@ -282,6 +303,9 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiTreeView_collapseAll(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiTreeView_selectItem(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiTreeView_removeItem(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength, bool removeParentsWhenEmpty);

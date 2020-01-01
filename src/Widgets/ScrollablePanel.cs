@@ -97,7 +97,6 @@ namespace TGUI
         /// <summary>
         /// Gets or sets the width of the scrollbars
         /// </summary>
-        [Obsolete("Use the ScrollbarWidth renderer property instead")]
         public float ScrollbarWidth
         {
             get { return tguiScrollablePanel_getScrollbarWidth(CPointer); }

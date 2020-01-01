@@ -154,16 +154,10 @@ namespace TGUI
             myWidgetIds.Clear();
         }
 
-        public bool EnableTabKeyUsage
+        public bool TabKeyUsageEnabled
         {
             get { return tguiGui_isTabKeyUsageEnabled(CPointer); }
-            set
-            {
-                if (value)
-                    tguiGui_enableTabKeyUsage(CPointer);
-                else
-                    tguiGui_disableTabKeyUsage(CPointer);
-            }
+            set { tguiGui_setTabKeyUsageEnabled(CPointer, value); }
         }
 
         public void Draw()
@@ -379,10 +373,7 @@ namespace TGUI
         static extern private void tguiGui_removeAllWidgets(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiGui_enableTabKeyUsage(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiGui_disableTabKeyUsage(IntPtr cPointer);
+        static extern private void tguiGui_setTabKeyUsageEnabled(IntPtr cPointer, bool enabled);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiGui_isTabKeyUsageEnabled(IntPtr cPointer);

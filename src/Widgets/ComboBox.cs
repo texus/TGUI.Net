@@ -34,7 +34,8 @@ namespace TGUI
         public enum Direction
         {
             Down,
-            Up
+            Up,
+            Automatic
         }
 
 
@@ -192,6 +193,12 @@ namespace TGUI
             set { tguiComboBox_setTextSize(CPointer, value); }
         }
 
+        public string DefaultText
+        {
+            get { return Util.GetStringFromC_UTF32(tguiComboBox_getDefaultText(CPointer)); }
+            set { tguiComboBox_setDefaultText(CPointer, Util.ConvertStringForC_UTF32(value)); }
+        }
+
         public Direction ExpandDirection
         {
             get { return tguiComboBox_getExpandDirection(CPointer); }
@@ -206,6 +213,12 @@ namespace TGUI
         public bool ContainsId(string id)
         {
             return tguiComboBox_containsId(CPointer, Util.ConvertStringForC_UTF32(id));
+        }
+
+        public bool ChangeItemOnScroll
+        {
+            get { return tguiComboBox_getChangeItemOnScroll(CPointer); }
+            set { tguiComboBox_setChangeItemOnScroll(CPointer, value); }
         }
 
         protected override void InitSignals()
@@ -302,6 +315,12 @@ namespace TGUI
         static extern private uint tguiComboBox_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiComboBox_setDefaultText(IntPtr cPointer, IntPtr value);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiComboBox_getDefaultText(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiComboBox_setMaximumItems(IntPtr cPointer, uint maximumItems);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -318,6 +337,12 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiComboBox_containsId(IntPtr cPointer, IntPtr id);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiComboBox_setChangeItemOnScroll(IntPtr cPointer, bool changeOnScroll);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiComboBox_getChangeItemOnScroll(IntPtr cPointer);
 
         #endregion
     }

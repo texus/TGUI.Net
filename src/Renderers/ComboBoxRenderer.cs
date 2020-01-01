@@ -70,6 +70,12 @@ namespace TGUI
             set { tguiComboBoxRenderer_setTextColor(CPointer, value); }
         }
 
+        public Color DefaultTextColor
+        {
+            get { return tguiComboBoxRenderer_getDefaultTextColor(CPointer); }
+            set { tguiComboBoxRenderer_setDefaultTextColor(CPointer, value); }
+        }
+
         public Color ArrowBackgroundColor
         {
             get { return tguiComboBoxRenderer_getArrowBackgroundColor(CPointer); }
@@ -121,6 +127,12 @@ namespace TGUI
             set { tguiComboBoxRenderer_setTextStyle(CPointer, value); }
         }
 
+        public Text.Styles DefaultTextStyle
+        {
+            get { return tguiComboBoxRenderer_getDefaultTextStyle(CPointer); }
+            set { tguiComboBoxRenderer_setDefaultTextStyle(CPointer, value); }
+        }
+
         public RendererData ListBox
         {
             get { return new RendererData(tguiComboBoxRenderer_getListBox(CPointer)); }
@@ -159,6 +171,12 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private Color tguiComboBoxRenderer_getTextColor(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiComboBoxRenderer_setDefaultTextColor(IntPtr cPointer, Color color);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private Color tguiComboBoxRenderer_getDefaultTextColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiComboBoxRenderer_setArrowBackgroundColor(IntPtr cPointer, Color color);
@@ -204,6 +222,12 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private Text.Styles tguiComboBoxRenderer_getTextStyle(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiComboBoxRenderer_setDefaultTextStyle(IntPtr cPointer, Text.Styles style);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private Text.Styles tguiComboBoxRenderer_getDefaultTextStyle(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiComboBoxRenderer_setListBox(IntPtr cPointer, IntPtr rendererData);

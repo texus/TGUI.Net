@@ -28,25 +28,24 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Outline is used to define padding and borders
+    /// </summary>
     public class Outline : SFML.ObjectBase
     {
-        ////////////////////////////////////////////////////////////
         /// <summary>
         /// Construct the outline
         /// </summary>
         /// <param name="size">Width and height of the outline in all directions</param>
-        ////////////////////////////////////////////////////////////
         public Outline(float size = 0)
             : base(tguiOutline_create(size, size, size, size))
         {
         }
 
-        ////////////////////////////////////////////////////////////
         /// <summary>
         /// Construct the outline
         /// </summary>
         /// <param name="size">Width and height of the outline in all directions</param>
-        ////////////////////////////////////////////////////////////
         public Outline(string size)
             : base(tguiOutline_createFromStrings(Util.ConvertStringForC_ASCII(size),
                                                  Util.ConvertStringForC_ASCII(size),
@@ -55,25 +54,21 @@ namespace TGUI
         {
         }
 
-        ////////////////////////////////////////////////////////////
         /// <summary>
         /// Construct the outline
         /// </summary>
         /// <param name="width">Width of the left and right outline</param>
         /// <param name="height">Height of the top and bottom outline</param>
-        ////////////////////////////////////////////////////////////
         public Outline(float width, float height)
             : base(tguiOutline_create(width, height, width, height))
         {
         }
 
-        ////////////////////////////////////////////////////////////
         /// <summary>
         /// Construct the outline
         /// </summary>
         /// <param name="width">Width of the left and right outline</param>
         /// <param name="height">Height of the top and bottom outline</param>
-        ////////////////////////////////////////////////////////////
         public Outline(string width, string height)
             : base(tguiOutline_createFromStrings(Util.ConvertStringForC_ASCII(width),
                                                  Util.ConvertStringForC_ASCII(height),
@@ -82,7 +77,6 @@ namespace TGUI
         {
         }
 
-        ////////////////////////////////////////////////////////////
         /// <summary>
         /// Construct the outline
         /// </summary>
@@ -90,13 +84,11 @@ namespace TGUI
         /// <param name="top">Height of the top outline</param>
         /// <param name="right">Width of the right outline</param>
         /// <param name="bottom">Height of the bottom outline</param>
-        ////////////////////////////////////////////////////////////
         public Outline(float left, float top, float right, float bottom)
             : base(tguiOutline_create(left, top, right, bottom))
         {
         }
 
-        ////////////////////////////////////////////////////////////
         /// <summary>
         /// Construct the outline
         /// </summary>
@@ -104,7 +96,6 @@ namespace TGUI
         /// <param name="top">Height of the top outline</param>
         /// <param name="right">Width of the right outline</param>
         /// <param name="bottom">Height of the bottom outline</param>
-        ////////////////////////////////////////////////////////////
         public Outline(string left, string top, string right, string bottom)
             : base(tguiOutline_createFromStrings(Util.ConvertStringForC_ASCII(left),
                                                  Util.ConvertStringForC_ASCII(top),
@@ -113,36 +104,60 @@ namespace TGUI
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal Outline(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public Outline(Outline copy)
             : base(tguiOutline_copy(copy.CPointer))
         {
         }
 
+        /// <summary>
+        /// Destroy the object
+        /// </summary>
+        /// <param name="disposing">Is the GC disposing the object, or is it an explicit call?</param>
         protected override void Destroy(bool disposing)
         {
             tguiOutline_destroy(CPointer);
         }
 
+        /// <summary>
+        /// Gets the width of the left outline
+        /// </summary>
         public float Left
         {
             get { return tguiOutline_getLeft(CPointer); }
         }
 
+        /// <summary>
+        /// Gets the height of the top outline
+        /// </summary>
         public float Top
         {
             get { return tguiOutline_getTop(CPointer); }
         }
 
+        /// <summary>
+        /// Gets the width of the right outline
+        /// </summary>
         public float Right
         {
             get { return tguiOutline_getRight(CPointer); }
         }
 
+        /// <summary>
+        /// Gets the height of the bottom outline
+        /// </summary>
         public float Bottom
         {
             get { return tguiOutline_getBottom(CPointer); }

@@ -31,9 +31,11 @@ namespace TGUI
 {
     public class BitmapButton : Button
     {
-        public BitmapButton()
+        public BitmapButton(string text = "")
             : base(tguiBitmapButton_create())
         {
+            if (text.Length > 0)
+                Text = text;
         }
 
         protected internal BitmapButton(IntPtr cPointer)

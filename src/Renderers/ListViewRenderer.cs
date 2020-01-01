@@ -190,6 +190,18 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets or sets the color of the grid lines
+        /// </summary>
+        /// <remarks>
+        /// The separator color will be used when no grid line color is set.
+        /// </remarks>
+        public Color GridLinesColor
+        {
+            get { return tguiListViewRenderer_getGridLinesColor(CPointer); }
+            set { tguiListViewRenderer_setGridLinesColor(CPointer, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the renderer data of the scrollbar
         /// </summary>
         public RendererData Scrollbar
@@ -299,6 +311,12 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private Color tguiListViewRenderer_getSeparatorColor(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiListViewRenderer_setGridLinesColor(IntPtr cPointer, Color color);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private Color tguiListViewRenderer_getGridLinesColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiListViewRenderer_setScrollbar(IntPtr cPointer, IntPtr rendererData);

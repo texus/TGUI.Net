@@ -128,9 +128,7 @@ namespace TGUI
             base.InitSignals();
 
             ToggledCallback = new CallbackActionInt(ProcessToggledSignal);
-            if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("Checked"), ToggledCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-            if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("Unchecked"), ToggledCallback) == 0)
+            if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("Changed"), ToggledCallback) == 0)
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
 

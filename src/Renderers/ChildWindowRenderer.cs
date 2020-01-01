@@ -76,6 +76,12 @@ namespace TGUI
             set { tguiChildWindowRenderer_setBorderColor(CPointer, value); }
         }
 
+        public Color BorderColorFocused
+        {
+            get { return tguiChildWindowRenderer_getBorderColorFocused(CPointer); }
+            set { tguiChildWindowRenderer_setBorderColorFocused(CPointer, value); }
+        }
+
         public float BorderBelowTitleBar
         {
             get { return tguiChildWindowRenderer_getBorderBelowTitleBar(CPointer); }
@@ -173,6 +179,12 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private Color tguiChildWindowRenderer_getBorderColor(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiChildWindowRenderer_setBorderColorFocused(IntPtr cPointer, Color color);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private Color tguiChildWindowRenderer_getBorderColorFocused(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiChildWindowRenderer_setBorderBelowTitleBar(IntPtr cPointer, float border);

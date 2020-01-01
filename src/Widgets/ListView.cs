@@ -179,6 +179,14 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets the total height of the header (HeaderHeight + HeaderSeparatorHeight) or 0 if no header row is shown
+        /// </summary>
+        public float CurrentHeaderHeight
+        {
+            get { return tguiListView_getCurrentHeaderHeight(CPointer); }
+        }
+
+        /// <summary>
         /// Gets or sets whether the header is shown
         /// </summary>
         public bool HeaderVisible
@@ -209,6 +217,33 @@ namespace TGUI
                 itemForC[i] = Util.ConvertStringForC_UTF32(item[i]);
 
             return tguiListView_addItemRow(CPointer, itemForC, (uint)itemForC.Length);
+        }
+
+        /// <summary>
+        /// Changes an item with values for multiple columns to the list
+        /// </summary>
+        /// <param name="index">Index of the item to update</param>
+        /// <param name="item">Texts for each column</param>
+        /// <returns>True when the item was updated, false when the index was too high</returns>
+        public bool ChangeItem(uint index, List<string> item)
+        {
+            IntPtr[] itemForC = new IntPtr[item.Count];
+            for (int i = 0; i < item.Count; ++i)
+                itemForC[i] = Util.ConvertStringForC_UTF32(item[i]);
+
+            return tguiListView_changeItem(CPointer, index, itemForC, (uint)itemForC.Length);
+        }
+
+        /// <summary>
+        /// Changes the caption of a single value in the item
+        /// </summary>
+        /// <param name="index">Index of the item to update</param>
+        /// <param name="column">Index of the column to change</param>
+        /// <param name="item">Texts for the given column for the given item</param>
+        /// <returns>True when the item was updated, false when the index was too high</returns>
+        public bool ChangeSubItem(uint index, uint column, string item)
+        {
+            return tguiListView_changeSubItem(CPointer, index, column, Util.ConvertStringForC_UTF32(item));
         }
 
         /// <summary>
@@ -366,6 +401,24 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets or sets the height of the separator between the header and the items
+        /// </summary>
+        public uint HeaderSeparatorHeight
+        {
+            get { return tguiListView_getHeaderSeparatorHeight(CPointer); }
+            set { tguiListView_setHeaderSeparatorHeight(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the width of the grid lines
+        /// </summary>
+        public uint GridLinesWidth
+        {
+            get { return tguiListView_getGridLinesWidth(CPointer); }
+            set { tguiListView_setGridLinesWidth(CPointer, value); }
+        }
+
+        /// <summary>
         /// Gets or sets whether the list view scrolls to the bottom when a new item is added
         /// </summary>
         /// <remarks>
@@ -375,6 +428,33 @@ namespace TGUI
         {
             get { return tguiListView_getAutoScroll(CPointer); }
             set { tguiListView_setAutoScroll(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets whether lines are drawn between items
+        /// </summary>
+        public bool ShowVerticalGridLines
+        {
+            get { return tguiListView_getShowVerticalGridLines(CPointer); }
+            set { tguiListView_setShowVerticalGridLines(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets whether lines are drawn between items
+        /// </summary>
+        public bool ShowHorizontalGridLines
+        {
+            get { return tguiListView_getShowVerticalGridLines(CPointer); }
+            set { tguiListView_setShowVerticalGridLines(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the last column is expanded to fill the list view (if all columns fit inside the list view)
+        /// </summary>
+        public bool ExpandLastColumn
+        {
+            get { return tguiListView_getExpandLastColumn(CPointer); }
+            set { tguiListView_setExpandLastColumn(CPointer, value); }
         }
 
         /// <summary>
@@ -409,6 +489,10 @@ namespace TGUI
             DoubleClickedCallback = new CallbackActionInt(ProcessDoubleClickedSignal);
             if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback) == 0)
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+
+            RightClickedCallback = new CallbackActionInt(ProcessRightClickedSignal);
+            if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("RightClicked"), RightClickedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
 
         private void ProcessItemSelectedSignal(int index)
@@ -421,15 +505,24 @@ namespace TGUI
             DoubleClicked?.Invoke(this, new SignalArgsInt(index));
         }
 
+        private void ProcessRightClickedSignal(int index)
+        {
+            RightClicked?.Invoke(this, new SignalArgsInt(index));
+        }
+
         /// <summary>Event handler for the ItemSelected signal</summary>
         public event EventHandler<SignalArgsInt> ItemSelected = null;
 
         /// <summary>Event handler for the DoubleClicked signal</summary>
         public event EventHandler<SignalArgsInt> DoubleClicked = null;
 
+        /// <summary>Event handler for the RightClicked signal</summary>
+        public event EventHandler<SignalArgsInt> RightClicked = null;
+
 
         private CallbackActionInt ItemSelectedCallback;
         private CallbackActionInt DoubleClickedCallback;
+        private CallbackActionInt RightClickedCallback;
 
 
         #region Imports
@@ -471,6 +564,9 @@ namespace TGUI
         static extern private float tguiListView_getHeaderHeight(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private float tguiListView_getCurrentHeaderHeight(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiListView_setHeaderVisible(IntPtr cPointer, bool showHeader);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -481,6 +577,12 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private uint tguiListView_addItemRow(IntPtr cPointer, IntPtr[] item, uint itemLength);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiListView_changeItem(IntPtr cPointer, uint index, IntPtr[] item, uint itemLength);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiListView_changeSubItem(IntPtr cPointer, uint index, uint column, IntPtr item);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiListView_removeItem(IntPtr cPointer, uint index);
@@ -531,16 +633,46 @@ namespace TGUI
         static extern private uint tguiListView_getHeaderTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiListView_setSeparatorWidth(IntPtr cPointer, uint textSize);
+        static extern private void tguiListView_setSeparatorWidth(IntPtr cPointer, uint width);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private uint tguiListView_getSeparatorWidth(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiListView_setAutoScroll(IntPtr cPointer, bool autoHide);
+        static extern private void tguiListView_setHeaderSeparatorHeight(IntPtr cPointer, uint height);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiListView_getHeaderSeparatorHeight(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiListView_setGridLinesWidth(IntPtr cPointer, uint width);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiListView_getGridLinesWidth(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiListView_setAutoScroll(IntPtr cPointer, bool autoScroll);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiListView_getAutoScroll(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiListView_setShowVerticalGridLines(IntPtr cPointer, bool showGridLines);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiListView_getShowVerticalGridLines(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiListView_setShowHorizontalGridLines(IntPtr cPointer, bool showGridLines);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiListView_getShowHorizontalGridLines(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiListView_setExpandLastColumn(IntPtr cPointer, bool expand);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiListView_getExpandLastColumn(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiListView_setVerticalScrollbarPolicy(IntPtr cPointer, Scrollbar.Policy policy);

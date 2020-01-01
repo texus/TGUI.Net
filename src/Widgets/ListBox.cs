@@ -214,6 +214,16 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Returns the item name of the item at the given index
+        /// </summary>
+        /// <param name="index">The index of the item to return</param>
+        /// <returns>The requested item, or an empty string when the index was too high</returns>
+        public string GetItemByIndex(uint index)
+        {
+            return Util.GetStringFromC_UTF32(tguiListBox_getItemByIndex(CPointer, index));
+        }
+
+        /// <summary>
         /// Returns the currently selected item
         /// </summary>
         /// <returns>
@@ -500,6 +510,9 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiListBox_getItemById(IntPtr cPointer, IntPtr id);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiListBox_getItemByIndex(IntPtr cPointer, uint index);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiListBox_getSelectedItem(IntPtr cPointer);

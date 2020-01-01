@@ -217,6 +217,17 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Try to close the window
+        /// </summary>
+        /// <remarks>
+        /// This will trigger the Closed signal. If no callback is requested then the window will be closed.
+        /// </remarks>
+        public void CloseWindow()
+        {
+            ProcessClosedSignal();
+        }
+
+        /// <summary>
         /// Initializes the signals
         /// </summary>
         protected override void InitSignals()
@@ -237,6 +248,10 @@ namespace TGUI
 
             MinimizedCallback = new CallbackAction(ProcessMinimizedSignal);
             if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Minimized"), MinimizedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+
+            EscapeKeyPressedCallback = new CallbackAction(ProcessEscapeKeyPressed);
+            if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("EscapeKeyPressed"), EscapeKeyPressedCallback) == 0)
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
 
@@ -270,6 +285,11 @@ namespace TGUI
             Minimized?.Invoke(this, EventArgs.Empty);
         }
 
+        private void ProcessEscapeKeyPressed()
+        {
+            EscapeKeyPressed?.Invoke(this, EventArgs.Empty);
+        }
+
         /// <summary>Event handler for the MousePressed signal</summary>
         public event EventHandler MousePressed = null;
 
@@ -282,10 +302,14 @@ namespace TGUI
         /// <summary>Event handler for the Minimized signal</summary>
         public event EventHandler Minimized = null;
 
+        /// <summary>Event handler for the EscapeKeyPressed signal</summary>
+        public event EventHandler EscapeKeyPressed = null;
+
         private CallbackAction MousePressedCallback;
         private CallbackAction ClosedCallback;
         private CallbackAction MaximizedCallback;
         private CallbackAction MinimizedCallback;
+        private CallbackAction EscapeKeyPressedCallback;
 
 
         #region Imports

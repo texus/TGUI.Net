@@ -29,28 +29,50 @@ using SFML.System;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Layout stores either a value or a string expression that is used to represent a Left, Top, Width or Height property
+    /// </summary>
     public class Layout : SFML.ObjectBase
     {
+        /// <summary>
+        /// Construct the layout with a constant value
+        /// </summary>
+        /// <param name="constant">Constant value to store in the layout</param>
         public Layout(float constant)
             : base(tguiLayout_create(constant))
         {
         }
 
+        /// <summary>
+        /// Construct the layout with a string expression which will be parsed to determine the value of the layout
+        /// </summary>
+        /// <param name="expression">String to parse</param>
         public Layout(string expression)
             : base(tguiLayout_createFromString(Util.ConvertStringForC_ASCII(expression)))
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public Layout(Layout copy)
             : base(tguiLayout_copy(copy.CPointer))
         {
         }
 
+        /// <summary>
+        /// Destroy the object
+        /// </summary>
+        /// <param name="disposing">Is the GC disposing the object, or is it an explicit call?</param>
         protected override void Destroy(bool disposing)
         {
             tguiLayout_destroy(CPointer);
         }
 
+        /// <summary>
+        /// Gets the current value of the layout
+        /// </summary>
         public float Value
         {
             get { return tguiLayout_getValue(CPointer); }

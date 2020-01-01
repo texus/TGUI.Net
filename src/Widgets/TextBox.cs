@@ -97,6 +97,16 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Sets which part of the text is selected
+        /// </summary>
+        /// <param name="selectionStartIndex">Amount of characters before the start of the selection</param>
+        /// <param name="selectionEndIndex">Amount of characters before the end of the selection</param>
+        public void SetSelectedText(uint selectionStartIndex, uint selectionEndIndex)
+        {
+            tguiTextBox_setSelectedText(CPointer, selectionStartIndex, selectionEndIndex);
+        }
+
+        /// <summary>
         /// Gets the currently selected text
         /// </summary>
         public string SelectedText
@@ -217,6 +227,9 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiTextBox_getText(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiTextBox_setSelectedText(IntPtr cPointer, uint selectionStartIndex, uint selectionEndIndex);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiTextBox_getSelectedText(IntPtr cPointer);
