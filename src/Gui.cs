@@ -33,24 +33,44 @@ using SFML.Graphics;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Gui class that acts as the root container
+    /// </summary>
     public class Gui : SFML.ObjectBase
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <remarks>
+        /// You will still need to set the Target property before using the Gui
+        /// </remarks>
         public Gui()
             : base(tguiGui_create())
         {
         }
 
+        /// <summary>
+        /// Default constructor that sets the window on which the gui should be drawn
+        /// </summary>
+        /// <param name="window">Window to draw the gui on</param>
         public Gui(RenderWindow window)
             : this()
         {
             Target = window;
         }
 
+        /// <summary>
+        /// Destroy the object
+        /// </summary>
+        /// <param name="disposing">Is the GC disposing the object, or is it an explicit call?</param>
         protected override void Destroy(bool disposing)
         {
             tguiGui_destroy(CPointer);
         }
 
+        /// <summary>
+        /// Gets or sets the window on which the gui should be drawn
+        /// </summary>
         public RenderWindow Target
         {
             get { return myRenderTarget; }
@@ -72,16 +92,30 @@ namespace TGUI
             }
         }
 
+        /// <summary>
+        /// Sets the view that is used to render the gui
+        /// </summary>
         public View View
         {
             set { tguiGui_setView(CPointer, value.CPointer); }
         }
 
+        /// <summary>
+        /// Sets the font that should be used by all widgets added to this gui
+        /// </summary>
         public Font Font
         {
             set { tguiGui_setFont(CPointer, value.CPointer); }
         }
 
+        /// <summary>
+        /// Adds a widget to the gui
+        /// </summary>
+        /// <param name="widget">The widget you would like to add</param>
+        /// <param name="widgetName">You can give the widget a unique name to retrieve it from the gui later</param>
+        /// <remarks>
+        /// The widget name should not contain whitespace
+        /// </remarks>
         public void Add(Widget widget, string widgetName = "")
         {
             tguiGui_add(CPointer, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
@@ -91,6 +125,18 @@ namespace TGUI
             myWidgetIds.Add(widgetName);
         }
 
+        /// <summary>
+        /// Returns a widget that was added earlier
+        /// </summary>
+        /// <param name="widgetName">The name that was given to the widget when it was added to the gui</param>
+        /// <returns>
+        /// The earlier added widget
+        /// </returns>
+        /// <remarks>
+        /// The gui will first search for widgets that are direct children of it, but when none of the child widgets match
+        /// the given name, a recursive search will be performed.
+        /// The function returns null when an unknown widget name was passed.
+        /// </remarks>
         public Widget Get(string widgetName)
         {
             // Search for the widget locally
@@ -104,6 +150,12 @@ namespace TGUI
             return Util.GetWidgetFromC(tguiGui_get(CPointer, Util.ConvertStringForC_UTF32(widgetName)), this);
         }
 
+        /// <summary>
+        /// Returns a list of all the widgets in this gui
+        /// </summary>
+        /// <returns>
+        /// List of widgets that have been added to the gui
+        /// </returns>
         public List<Widget> GetWidgets()
         {
             // We can't use our myWidgets member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
@@ -119,6 +171,12 @@ namespace TGUI
             }
         }
 
+        /// <summary>
+        /// Returns a list of the names of all the widgets in this gui
+        /// </summary>
+        /// <returns>
+        /// List of widget names belonging to the widgets that were added to the gui
+        /// </returns>
         public List<string> GetWidgetNames()
         {
             // We can't use our myWidgetIds member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
@@ -134,6 +192,13 @@ namespace TGUI
             }
         }
 
+        /// <summary>
+        /// Removes a single widget that was added to the gui
+        /// </summary>
+        /// <param name="widget">Widget to remove</param>
+        /// <returns>
+        /// True when widget is removed, false when widget was not found
+        /// </returns>
         public void Remove(Widget widget)
         {
             tguiGui_remove(CPointer, widget.CPointer);
@@ -146,6 +211,9 @@ namespace TGUI
             }
         }
 
+        /// <summary>
+        /// Removes all widgets that were added to the container
+        /// </summary>
         public void RemoveAllWidgets()
         {
             tguiGui_removeAllWidgets(CPointer);
@@ -154,29 +222,51 @@ namespace TGUI
             myWidgetIds.Clear();
         }
 
+        /// <summary>
+        /// Gets or sets whether pressing tab will focus another widget
+        /// </summary>
         public bool TabKeyUsageEnabled
         {
             get { return tguiGui_isTabKeyUsageEnabled(CPointer); }
             set { tguiGui_setTabKeyUsageEnabled(CPointer, value); }
         }
 
+        /// <summary>
+        /// Draws all the widgets that were added to the gui
+        /// </summary>
         public void Draw()
         {
             tguiGui_draw(CPointer);
         }
 
+        /// <summary>
+        /// Gets or sets the opacity of all widgets that are added to the gui
+        /// </summary>
+        /// <remarks>
+        /// 0 means completely transparent, while 1 (default) means fully opaque
+        /// </remarks>
         public float Opacity
         {
             get { return tguiGui_getOpacity(CPointer); }
             set { tguiGui_setOpacity(CPointer, value); }
         }
 
+        /// <summary>
+        /// Loads the child widgets from a text file
+        /// </summary>
+        /// <param name="filename">Filename of the widget file</param>
+        /// <exception cref="TGUIException">Thrown when file could not be opened or parsing failed</exception>
         public void LoadWidgetsFromFile(string filename)
         {
             if (!tguiGui_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_ASCII(filename)))
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
 
+        /// <summary>
+        /// Saves the child widgets to a text file
+        /// </summary>
+        /// <param name="filename">Filename of the widget file</param>
+        /// <exception cref="TGUIException">Thrown when file could not be opened for writing</exception>
         public void SaveWidgetsToFile(string filename)
         {
             if (!tguiGui_saveWidgetsToFile(CPointer, Util.ConvertStringForC_ASCII(filename)))

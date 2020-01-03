@@ -115,6 +115,30 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets the amount of characters before the start of the selected text
+        /// </summary>
+        /// <remarks>
+        /// The start of the selection may be behind the end of the selection when the user selected the text from
+        /// right to left or from bottom to top.
+        /// </remarks>
+        public uint SelectionStart
+        {
+            get { return tguiTextBox_getSelectionStart(CPointer); }
+        }
+
+        /// <summary>
+        /// Gets the amount of characters before the end of the selected text
+        /// </summary>
+        /// <remarks>
+        /// The start of the selection may be behind the end of the selection when the user selected the text from
+        /// right to left or from bottom to top.
+        /// </remarks>
+        public uint SelectionEnd
+        {
+            get { return tguiTextBox_getSelectionEnd(CPointer); }
+        }
+
+        /// <summary>
         /// Gets or sets the character size of the text
         /// </summary>
         public uint TextSize
@@ -182,6 +206,24 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets or sets the thumb position of the vertical scrollbar
+        /// </summary>
+        public uint VerticalScrollbarValue
+        {
+            get { return tguiTextBox_getVerticalScrollbarValue(CPointer); }
+            set { tguiTextBox_setVerticalScrollbarValue(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the thumb position of the horizontal scrollbar
+        /// </summary>
+        public uint HorizontalScrollbarValue
+        {
+            get { return tguiTextBox_getHorizontalScrollbarValue(CPointer); }
+            set { tguiTextBox_setHorizontalScrollbarValue(CPointer, value); }
+        }
+
+        /// <summary>
         /// Gets the amount of lines that the text occupies in the TextBox
         /// </summary>
         /// <remarks>
@@ -201,6 +243,10 @@ namespace TGUI
             TextChangedCallback = new CallbackActionString(ProcessTextChangedSignal);
             if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("TextChanged"), TextChangedCallback) == 0)
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+
+            SelectionChangedCallback = new CallbackAction(ProcessSelectionChangedSignal);
+            if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("SelectionChanged"), SelectionChangedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
 
         private void ProcessTextChangedSignal(IntPtr text)
@@ -208,10 +254,19 @@ namespace TGUI
             TextChanged?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
         }
 
+        private void ProcessSelectionChangedSignal()
+        {
+            SelectionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         /// <summary>Event handler for the TextChanged signal</summary>
         public event EventHandler<SignalArgsString> TextChanged = null;
 
+        /// <summary>Event handler for the SelectionChanged signal</summary>
+        public event EventHandler SelectionChanged = null;
+
         private CallbackActionString TextChangedCallback;
+        private CallbackAction SelectionChangedCallback;
 
 
         #region Imports
@@ -235,6 +290,12 @@ namespace TGUI
         static extern private IntPtr tguiTextBox_getSelectedText(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiTextBox_getSelectionStart(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiTextBox_getSelectionEnd(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiTextBox_setTextSize(IntPtr cPointer, uint textSize);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -247,10 +308,10 @@ namespace TGUI
         static extern private uint tguiTextBox_getMaximumCharacters(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiTextBox_setCaretPosition (IntPtr cPointer, uint charactersBeforeCaret);
+        static extern private void tguiTextBox_setCaretPosition(IntPtr cPointer, uint charactersBeforeCaret);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiTextBox_getCaretPosition (IntPtr cPointer);
+        static extern private uint tguiTextBox_getCaretPosition(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiTextBox_setReadOnly(IntPtr cPointer, bool readOnly);
@@ -275,6 +336,18 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private Scrollbar.Policy tguiTextBox_getHorizontalScrollbarPolicy(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiTextBox_setVerticalScrollbarValue(IntPtr cPointer, uint newValue);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiTextBox_getVerticalScrollbarValue(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiTextBox_setHorizontalScrollbarValue(IntPtr cPointer, uint newValue);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiTextBox_getHorizontalScrollbarValue(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private uint tguiTextBox_getLinesCount (IntPtr cPointer);

@@ -223,6 +223,24 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets or sets the thumb position of the vertical scrollbar
+        /// </summary>
+        public uint VerticalScrollbarValue
+        {
+            get { return tguiTreeView_getVerticalScrollbarValue(CPointer); }
+            set { tguiTreeView_setVerticalScrollbarValue(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the thumb position of the horizontal scrollbar
+        /// </summary>
+        public uint HorizontalScrollbarValue
+        {
+            get { return tguiTreeView_getHorizontalScrollbarValue(CPointer); }
+            set { tguiTreeView_setHorizontalScrollbarValue(CPointer, value); }
+        }
+
+        /// <summary>
         /// Initializes the signals
         /// </summary>
         protected override void InitSignals()
@@ -327,6 +345,18 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private uint tguiTreeView_getTextSize(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiTreeView_setVerticalScrollbarValue(IntPtr cPointer, uint newValue);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiTreeView_getVerticalScrollbarValue(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiTreeView_setHorizontalScrollbarValue(IntPtr cPointer, uint newValue);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiTreeView_getHorizontalScrollbarValue(IntPtr cPointer);
 
         #endregion
     }

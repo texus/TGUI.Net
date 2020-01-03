@@ -122,6 +122,42 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets or sets how much the value changes when scrolling or pressing one of the arrows of the vertical scrollbar
+        /// </summary>
+        public uint VerticalScrollAmount
+        {
+            get { return tguiScrollablePanel_getVerticalScrollAmount(CPointer); }
+            set { tguiScrollablePanel_setVerticalScrollAmount(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets how much the value changes when scrolling or pressing one of the arrows of the horizontal scrollbar
+        /// </summary>
+        public uint HorizontalScrollAmount
+        {
+            get { return tguiScrollablePanel_getHorizontalScrollAmount(CPointer); }
+            set { tguiScrollablePanel_setHorizontalScrollAmount(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the thumb position of the vertical scrollbar
+        /// </summary>
+        public uint VerticalScrollbarValue
+        {
+            get { return tguiScrollablePanel_getVerticalScrollbarValue(CPointer); }
+            set { tguiScrollablePanel_setVerticalScrollbarValue(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the thumb position of the horizontal scrollbar
+        /// </summary>
+        public uint HorizontalScrollbarValue
+        {
+            get { return tguiScrollablePanel_getHorizontalScrollbarValue(CPointer); }
+            set { tguiScrollablePanel_setHorizontalScrollbarValue(CPointer, value); }
+        }
+
+        /// <summary>
         /// Gets the amount of pixels the child widgets have been shifted to be displayed by the scrollable panel (i.e. the value of the scrollbars)
         /// </summary>
         public Vector2f ContentOffset
@@ -158,6 +194,30 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private Scrollbar.Policy tguiScrollablePanel_getHorizontalScrollbarPolicy(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiScrollablePanel_setVerticalScrollAmount(IntPtr cPointer, uint scrollAmount);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiScrollablePanel_getVerticalScrollAmount(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiScrollablePanel_setHorizontalScrollAmount(IntPtr cPointer, uint scrollAmount);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiScrollablePanel_getHorizontalScrollAmount(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiScrollablePanel_setVerticalScrollbarValue(IntPtr cPointer, uint newValue);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiScrollablePanel_getVerticalScrollbarValue(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiScrollablePanel_setHorizontalScrollbarValue(IntPtr cPointer, uint newValue);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiScrollablePanel_getHorizontalScrollbarValue(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private Vector2f tguiScrollablePanel_getContentOffset(IntPtr cPointer);

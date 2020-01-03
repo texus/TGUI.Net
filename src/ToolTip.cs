@@ -30,14 +30,23 @@ using SFML.System;
 
 namespace TGUI
 {
+    /// <summary>
+    /// This class provides global settings for tool tips
+    /// </summary>
     public static class ToolTip
     {
-        public static Time TimeToDisplay
+        /// <summary>
+        /// Gets or sets the time that the mouse has to stand still before the tooltip becomes visible
+        /// </summary>
+        public static Time InitialDelay
         {
-            get { return tguiToolTip_getTimeToDisplay(); }
-            set { tguiToolTip_setTimeToDisplay(value); }
+            get { return tguiToolTip_getInitialDelay(); }
+            set { tguiToolTip_setInitialDelay(value); }
         }
 
+        /// <summary>
+        /// Gets or sets the default distance between the mouse position and the tool tip
+        /// </summary>
         public static Vector2f DistanceToMouse
         {
             get { return tguiToolTip_getDistanceToMouse(); }
@@ -48,10 +57,10 @@ namespace TGUI
         #region Imports
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern void tguiToolTip_setTimeToDisplay(Time time);
+        static extern void tguiToolTip_setInitialDelay(Time time);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern Time tguiToolTip_getTimeToDisplay();
+        static extern Time tguiToolTip_getInitialDelay();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern void tguiToolTip_setDistanceToMouse(Vector2f distance);

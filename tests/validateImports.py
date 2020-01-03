@@ -47,6 +47,7 @@ def validateTypes(typeCS, typeC, returnType):
     or (typeCS == 'IntPtr*' and typeC == 'tguiWidget**') \
     or (typeCS == 'Vertex*' and typeC == 'const sfVertex*') \
     or (typeCS == 'IntPtr[]' and typeC == 'const sfUint32**') \
+    or (typeCS == 'uint[]' and typeC == 'const size_t*') \
     or (typeCS == 'out uint' and typeC == 'size_t*') \
     or (typeCS == 'out IntPtr' and typeC == 'const sfUint32**') \
     or (typeCS == 'out IntPtr' and typeC == 'const char**') \
@@ -73,7 +74,8 @@ def validateTypes(typeCS, typeC, returnType):
     or (typeCS == 'CallbackCustomWidgetTextEntered' and typeC == 'void (*function)(sfUint32)') \
     or (typeCS == 'CallbackCustomWidgetMouseWheelScrolled' and typeC == 'sfBool (*function)(float, sfVector2f)') \
     or (typeCS == 'CallbackCustomWidgetRenderer' and typeC == 'sfBool (*function)(const char*)') \
-    or (typeCS == 'CallbackCustomWidgetDraw' and typeC == 'void (*function)(sfRenderStates)'):
+    or (typeCS == 'CallbackCustomWidgetDraw' and typeC == 'void (*function)(sfRenderStates)') \
+    or (typeCS == 'SortCompareDelegateForC' and typeC == 'sfBool (*function)(const sfUint32*, const sfUint32*)'):
         return True
     else:
         # Try removing 'const' in the C type

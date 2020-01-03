@@ -258,6 +258,15 @@ namespace TGUI
             set { tguiChatBox_setNewLinesBelowOthers(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the thumb position of the scrollbar
+        /// </summary>
+        public uint ScrollbarValue
+        {
+            get { return tguiChatBox_getScrollbarValue(CPointer); }
+            set { tguiChatBox_setScrollbarValue(CPointer, value); }
+        }
+
 
         #region Imports
 
@@ -326,6 +335,12 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiChatBox_getNewLinesBelowOthers(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiChatBox_setScrollbarValue(IntPtr cPointer, uint newValue);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiChatBox_getScrollbarValue(IntPtr cPointer);
 
         #endregion
     }

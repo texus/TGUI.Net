@@ -98,6 +98,18 @@ namespace TGUI
             ClickedCallback = new CallbackActionVector2f(ProcessClickedSignal);
             if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("Clicked"), ClickedCallback) == 0)
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+
+            RightMousePressedCallback = new CallbackActionVector2f(ProcessRightMousePressedSignal);
+            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("RightMousePressed"), RightMousePressedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+
+            RightMouseReleasedCallback = new CallbackActionVector2f(ProcessRightMouseReleasedSignal);
+            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("RightMouseReleased"), RightMouseReleasedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+
+            RightClickedCallback = new CallbackActionVector2f(ProcessRightClickedSignal);
+            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("RightClicked"), ClickedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
 
         private void ProcessMousePressedSignal(Vector2f pos)
@@ -115,6 +127,21 @@ namespace TGUI
             Clicked?.Invoke(this, new SignalArgsVector2f(pos));
         }
 
+        private void ProcessRightMousePressedSignal(Vector2f pos)
+        {
+            RightMousePressed?.Invoke(this, new SignalArgsVector2f(pos));
+        }
+
+        private void ProcessRightMouseReleasedSignal(Vector2f pos)
+        {
+            RightMouseReleased?.Invoke(this, new SignalArgsVector2f(pos));
+        }
+
+        private void ProcessRightClickedSignal(Vector2f pos)
+        {
+            RightClicked?.Invoke(this, new SignalArgsVector2f(pos));
+        }
+
         /// <summary>Event handler for the MousePressed signal</summary>
         public event EventHandler<SignalArgsVector2f> MousePressed = null;
 
@@ -124,9 +151,21 @@ namespace TGUI
         /// <summary>Event handler for the Clicked signal</summary>
         public event EventHandler<SignalArgsVector2f> Clicked = null;
 
+        /// <summary>Event handler for the RightMousePressed signal</summary>
+        public event EventHandler<SignalArgsVector2f> RightMousePressed = null;
+
+        /// <summary>Event handler for the RightMouseReleased signal</summary>
+        public event EventHandler<SignalArgsVector2f> RightMouseReleased = null;
+
+        /// <summary>Event handler for the RightClicked signal</summary>
+        public event EventHandler<SignalArgsVector2f> RightClicked = null;
+
         private CallbackActionVector2f MousePressedCallback;
         private CallbackActionVector2f MouseReleasedCallback;
         private CallbackActionVector2f ClickedCallback;
+        private CallbackActionVector2f RightMousePressedCallback;
+        private CallbackActionVector2f RightMouseReleasedCallback;
+        private CallbackActionVector2f RightClickedCallback;
 
 
         #region Imports

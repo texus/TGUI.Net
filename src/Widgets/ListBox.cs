@@ -394,6 +394,15 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets or sets the thumb position of the scrollbar
+        /// </summary>
+        public uint ScrollbarValue
+        {
+            get { return tguiListBox_getScrollbarValue(CPointer); }
+            set { tguiListBox_setScrollbarValue(CPointer, value); }
+        }
+
+        /// <summary>
         /// Returns whether the list box contains the given item
         /// </summary>
         /// <param name="item">The item to search for</param>
@@ -560,10 +569,16 @@ namespace TGUI
         static extern private uint tguiListBox_getMaximumItems(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiListBox_setAutoScroll(IntPtr cPointer, bool autoHide);
+        static extern private void tguiListBox_setAutoScroll(IntPtr cPointer, bool autoScroll);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiListBox_getAutoScroll(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiListBox_setScrollbarValue(IntPtr cPointer, uint newValue);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiListBox_getScrollbarValue(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiListBox_contains(IntPtr cPointer, IntPtr item);

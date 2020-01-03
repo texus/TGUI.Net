@@ -87,7 +87,7 @@ namespace TGUI
         /// <param name="width">Width of the column. Set width to 0 to make it depend on the width of the column caption.</param>
         /// <param name="columnAlignment">The text alignment for all texts in the column</param>
         /// <returns>Index of the item that was just added</returns>
-        public uint AddColumn(string text, float width, HorizontalAlignment columnAlignment)
+        public uint AddColumn(string text, float width = 0, HorizontalAlignment columnAlignment = HorizontalAlignment.Left)
         {
             return tguiListView_addColumn(CPointer, Util.ConvertStringForC_UTF32(text), width, columnAlignment);
         }
@@ -274,6 +274,15 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Selects multiple items in the list view (if MultiSelect is true)
+        /// </summary>
+        /// <param name="indices">Indices of the items in the list view</param>
+        public void SetSelectedItems(List<uint> indices)
+        {
+            tguiListView_setSelectedItems(CPointer, indices.ToArray(), (uint)indices.Count);
+        }
+
+        /// <summary>
         /// Gets the index of the selected item
         /// </summary>
         /// <returns>The index of the selected item, or -1 when no item was selected</returns>
@@ -283,11 +292,20 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets or sets whether selection of multiple items is allowed
+        /// </summary>
+        public bool MultiSelect
+        {
+            get { return tguiListView_getMultiSelect(CPointer); }
+            set { tguiListView_setMultiSelect(CPointer, value); }
+        }
+
+        /// <summary>
         /// Deselects the selected item
         /// </summary>
-        public void DeselectItem()
+        public void DeselectItems()
         {
-            tguiListView_deselectItem(CPointer);
+            tguiListView_deselectItems(CPointer);
         }
 
         /// <summary>
@@ -341,6 +359,17 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Retrieves the value for a cell in the list
+        /// </summary>
+        /// <param name="rowIndex">The index of the row</param>
+        /// <param name="columnIndex">The index of the column</param>
+        /// <returns>Texts of the cell or an empty string when the index is out of range</returns>
+        public string GetItemCell(uint rowIndex, uint columnIndex)
+        {
+            return Util.GetStringFromC_UTF32(tguiListView_getItemCell(CPointer, rowIndex, columnIndex));
+        }
+
+        /// <summary>
         /// Returns a list of the texts in the first column for all items in the list view
         /// </summary>
         /// <returns>Texts of the first column of items</returns>
@@ -355,6 +384,16 @@ namespace TGUI
 
                 return Items;
             }
+        }
+
+        /// <summary>
+        /// Removes the item from the list view
+        /// </summary>
+        /// <param name="index">Index of the column to sort on</param>
+        /// <param name="comp">Comparison function that returns true if the first string belongs before the second one</param>
+        public void Sort(uint index, Func<string, string, bool> comp)
+        {
+            tguiListView_sort(CPointer, index, (str1,str2) => { return comp(Util.GetStringFromC_UTF32(str1), Util.GetStringFromC_UTF32(str2)); });
         }
 
         /// <summary>
@@ -476,6 +515,24 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets or sets the thumb position of the vertical scrollbar
+        /// </summary>
+        public uint VerticalScrollbarValue
+        {
+            get { return tguiListView_getVerticalScrollbarValue(CPointer); }
+            set { tguiListView_setVerticalScrollbarValue(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the thumb position of the horizontal scrollbar
+        /// </summary>
+        public uint HorizontalScrollbarValue
+        {
+            get { return tguiListView_getHorizontalScrollbarValue(CPointer); }
+            set { tguiListView_setHorizontalScrollbarValue(CPointer, value); }
+        }
+
+        /// <summary>
         /// Initializes the signals
         /// </summary>
         protected override void InitSignals()
@@ -492,6 +549,10 @@ namespace TGUI
 
             RightClickedCallback = new CallbackActionInt(ProcessRightClickedSignal);
             if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("RightClicked"), RightClickedCallback) == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+
+            HeaderClickedCallback = new CallbackActionInt(ProcessHeaderClickedSignal);
+            if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("HeaderClicked"), HeaderClickedCallback) == 0)
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
 
@@ -510,6 +571,11 @@ namespace TGUI
             RightClicked?.Invoke(this, new SignalArgsInt(index));
         }
 
+        private void ProcessHeaderClickedSignal(int index)
+        {
+            HeaderClicked?.Invoke(this, new SignalArgsInt(index));
+        }
+
         /// <summary>Event handler for the ItemSelected signal</summary>
         public event EventHandler<SignalArgsInt> ItemSelected = null;
 
@@ -519,10 +585,16 @@ namespace TGUI
         /// <summary>Event handler for the RightClicked signal</summary>
         public event EventHandler<SignalArgsInt> RightClicked = null;
 
+        /// <summary>Event handler for the HeaderClicked signal</summary>
+        public event EventHandler<SignalArgsInt> HeaderClicked = null;
+
 
         private CallbackActionInt ItemSelectedCallback;
         private CallbackActionInt DoubleClickedCallback;
         private CallbackActionInt RightClickedCallback;
+        private CallbackActionInt HeaderClickedCallback;
+
+        private delegate bool SortCompareDelegateForC(IntPtr str1, IntPtr str2);
 
 
         #region Imports
@@ -594,10 +666,19 @@ namespace TGUI
         static extern private void tguiListView_setSelectedItem(IntPtr cPointer, uint index);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiListView_setSelectedItems(IntPtr cPointer, uint[] indices, uint indicesLength);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private int tguiListView_getSelectedItemIndex(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiListView_deselectItem(IntPtr cPointer);
+        static extern private void tguiListView_setMultiSelect(IntPtr cPointer, bool multiSelect);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiListView_getMultiSelect(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiListView_deselectItems(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiListView_setItemIcon(IntPtr cPointer, uint index, IntPtr texture);
@@ -610,6 +691,9 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         unsafe static extern private IntPtr* tguiListView_getItemRow(IntPtr cPointer, uint index, out uint count);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        unsafe static extern private IntPtr tguiListView_getItemCell(IntPtr cPointer, uint row, uint col);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         unsafe static extern private IntPtr* tguiListView_getItems(IntPtr cPointer, out uint count);
@@ -685,6 +769,21 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private Scrollbar.Policy tguiListView_getHorizontalScrollbarPolicy(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiListView_setVerticalScrollbarValue(IntPtr cPointer, uint newValue);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiListView_getVerticalScrollbarValue(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiListView_setHorizontalScrollbarValue(IntPtr cPointer, uint newValue);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiListView_getHorizontalScrollbarValue(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiListView_sort(IntPtr cPointer, uint index, [MarshalAs(UnmanagedType.FunctionPtr)] SortCompareDelegateForC comp);
 
         #endregion
     }

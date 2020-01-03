@@ -31,37 +31,65 @@ namespace TGUI
 {
     public class PanelRenderer : GroupRenderer
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public PanelRenderer()
             : base(tguiPanelRenderer_create())
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal PanelRenderer(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public PanelRenderer(PanelRenderer copy)
             : base(tguiPanelRenderer_copy(copy.CPointer))
         {
         }
 
+        /// <summary>
+        /// Gets or sets the size of the borders
+        /// </summary>
         public Outline Borders
         {
             get { return new Outline(tguiPanelRenderer_getBorders(CPointer)); }
             set { tguiPanelRenderer_setBorders(CPointer, value.CPointer); }
         }
 
+        /// <summary>
+        /// Gets or sets the background color
+        /// </summary>
         public Color BackgroundColor
         {
             get { return tguiPanelRenderer_getBackgroundColor(CPointer); }
             set { tguiPanelRenderer_setBackgroundColor(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the color of the borders
+        /// </summary>
         public Color BorderColor
         {
             get { return tguiPanelRenderer_getBorderColor(CPointer); }
             set { tguiPanelRenderer_setBorderColor(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the background texture
+        /// </summary>
+        public Texture TextureBackground
+        {
+            set { tguiPanelRenderer_setTextureBackground(CPointer, value.CPointer); }
         }
 
         #region Imports
@@ -89,6 +117,9 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private Color tguiPanelRenderer_getBorderColor(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiPanelRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
 
         #endregion
     }

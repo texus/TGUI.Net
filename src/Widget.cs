@@ -320,6 +320,18 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets or sets whether the widget can be focused
+        /// </summary>
+        /// <remarks>
+        /// By default all widgets are focusable
+        /// </remarks>
+        public bool Focusable
+        {
+            get { return tguiWidget_isFocusable(CPointer); }
+            set { tguiWidget_setFocusable(CPointer, value); }
+        }
+
+        /// <summary>
         /// Gets the type of the widget
         /// </summary>
         public string WidgetType
@@ -393,6 +405,16 @@ namespace TGUI
         {
             get { return myParentGui; }
             set { myParentGui = value; }
+        }
+
+        /// <summary>
+        /// Enables or disables certain signals (e.g. to change a property without triggering the signal)
+        /// </summary>
+        /// <param name="signalName">Signal that should be enabled/disabled</param>
+        /// <param name="enabled">Whether the signal needs to be enabled or disabled</param>
+        public void SetSignalEnabled(string signalName, bool enabled)
+        {
+            tguiWidget_setSignalEnabled(CPointer, Util.ConvertStringForC_ASCII(signalName), enabled);
         }
 
 
@@ -623,6 +645,12 @@ namespace TGUI
         static extern private bool tguiWidget_isFocused(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiWidget_setFocusable(IntPtr cPointer, bool focusable);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiWidget_isFocusable(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiWidget_getWidgetType(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -642,6 +670,9 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiWidget_mouseOnWidget(IntPtr cPointer, Vector2f pos);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiWidget_setSignalEnabled(IntPtr cPointer, IntPtr signalName, bool enabled);
 
         #endregion
     }

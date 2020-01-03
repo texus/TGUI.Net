@@ -28,13 +28,24 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Spin button widget
+    /// </summary>
     public class SpinButton : Widget
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public SpinButton()
             : base(tguiSpinButton_create())
         {
         }
 
+        /// <summary>
+        /// Constructor that sets the minimum and maximum properties
+        /// </summary>
+        /// <param name="min">Minimum spin button value</param>
+        /// <param name="max">Maximum spin button value</param>
         public SpinButton(float min, float max)
             : this()
         {
@@ -42,50 +53,94 @@ namespace TGUI
             Maximum = max;
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal SpinButton(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public SpinButton(SpinButton copy)
             : base(copy)
         {
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
+        /// <remarks>
+        /// After calling this function, the widget has its own copy of the renderer and it will no longer be shared.
+        /// </remarks>
         public new SpinButtonRenderer Renderer
         {
             get { return new SpinButtonRenderer(tguiWidget_getRenderer(CPointer)); }
         }
 
+        /// <summary>
+        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// </summary>
         public new SpinButtonRenderer SharedRenderer
         {
             get { return new SpinButtonRenderer(tguiWidget_getSharedRenderer(CPointer)); }
         }
 
+        /// <summary>
+        /// Gets or sets the minimum value of the spin button
+        /// </summary>
         public float Minimum
         {
             get { return tguiSpinButton_getMinimum(CPointer); }
             set { tguiSpinButton_setMinimum(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the maximum value of the spin button
+        /// </summary>
         public float Maximum
         {
             get { return tguiSpinButton_getMaximum(CPointer); }
             set { tguiSpinButton_setMaximum(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the current value of the spin button
+        /// </summary>
         public float Value
         {
             get { return tguiSpinButton_getValue(CPointer); }
             set { tguiSpinButton_setValue(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the amount the value changes when clicking on the spin button
+        /// </summary>
         public float Step
         {
             get { return tguiSpinButton_getStep(CPointer); }
             set { tguiSpinButton_setStep(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets whether the spin button lies horizontally or vertically
+        /// </summary>
+        /// <remarks>
+        /// This function will swap the width and height of the scrollbar if it didn't lie in the wanted direction.
+        /// </remarks>
+        public bool VerticalScroll
+        {
+            get { return tguiSpinButton_getVerticalScroll(CPointer); }
+            set { tguiSpinButton_setVerticalScroll(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Initializes the signals
+        /// </summary>
         protected override void InitSignals()
         {
             base.InitSignals();
@@ -134,6 +189,12 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private float tguiSpinButton_getStep(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiSpinButton_setVerticalScroll(IntPtr cPointer, bool vertical);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiSpinButton_getVerticalScroll(IntPtr cPointer);
 
         #endregion
     }

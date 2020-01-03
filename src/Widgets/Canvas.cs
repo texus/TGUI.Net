@@ -71,6 +71,32 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Change the current active view
+        /// </summary>
+        /// <param name="view">New view</param>
+        public View View
+        {
+            get { return myRenderTexture.GetView(); }
+            set { myRenderTexture.SetView(value); }
+        }
+
+        /// <summary>
+        /// Default view of the canvas
+        /// </summary>
+        public View DefaultView
+        {
+            get { return myRenderTexture.DefaultView; }
+        }
+
+        /// <summary>
+        /// Get the viewport of the currently applied view
+        /// </summary>
+        public IntRect Viewport
+        {
+            get { return myRenderTexture.GetViewport(myRenderTexture.GetView()); }
+        }
+
+        /// <summary>
         /// Clear the entire canvas with black color
         /// </summary>
         public void Clear()

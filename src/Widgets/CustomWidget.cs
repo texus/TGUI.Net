@@ -240,7 +240,7 @@ namespace TGUI
         /// <summary>
         /// Function called when the left mouse button was released (not necessarily on top of the widget) after it was pressed on the widget
         /// </summary>
-        protected virtual void OnMouseNoLongerDown()
+        protected virtual void OnLeftMouseButtonNoLongerDown()
         {
         }
 
@@ -345,8 +345,8 @@ namespace TGUI
             MouseNoLongerOnWidgetCallback = new CallbackCustomWidgetVoid(OnMouseNoLongerOnWidget);
             tguiCustomWidgetForBindings_setMouseNoLongerOnWidgetCallback(CPointer, MouseNoLongerOnWidgetCallback);
 
-            MouseNoLongerDownCallback = new CallbackCustomWidgetVoid(OnMouseNoLongerDown);
-            tguiCustomWidgetForBindings_setMouseNoLongerDownCallback(CPointer, MouseNoLongerDownCallback);
+            LeftMouseButtonNoLongerDownCallback = new CallbackCustomWidgetVoid(OnLeftMouseButtonNoLongerDown);
+            tguiCustomWidgetForBindings_setLeftMouseButtonNoLongerDownCallback(CPointer, LeftMouseButtonNoLongerDownCallback);
 
             MouseEnteredWidgetCallback = new CallbackCustomWidgetVoid(OnMouseEnteredWidget);
             tguiCustomWidgetForBindings_setMouseEnteredWidgetCallback(CPointer, MouseEnteredWidgetCallback);
@@ -412,7 +412,7 @@ namespace TGUI
         private CallbackCustomWidgetTextEntered         TextEnteredCallback;
         private CallbackCustomWidgetMouseWheelScrolled  MouseWheelScrolledCallback;
         private CallbackCustomWidgetVoid                MouseNoLongerOnWidgetCallback;
-        private CallbackCustomWidgetVoid                MouseNoLongerDownCallback;
+        private CallbackCustomWidgetVoid                LeftMouseButtonNoLongerDownCallback;
         private CallbackCustomWidgetVoid                MouseEnteredWidgetCallback;
         private CallbackCustomWidgetVoid                MouseLeftWidgetCallback;
         private CallbackCustomWidgetRenderer            RendererChangedCallback;
@@ -485,7 +485,7 @@ namespace TGUI
         static extern private void tguiCustomWidgetForBindings_setMouseNoLongerOnWidgetCallback(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackCustomWidgetVoid func);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiCustomWidgetForBindings_setMouseNoLongerDownCallback(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackCustomWidgetVoid func);
+        static extern private void tguiCustomWidgetForBindings_setLeftMouseButtonNoLongerDownCallback(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackCustomWidgetVoid func);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiCustomWidgetForBindings_setMouseEnteredWidgetCallback(IntPtr cPointer, [MarshalAs(UnmanagedType.FunctionPtr)] CallbackCustomWidgetVoid func);

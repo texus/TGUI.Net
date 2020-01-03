@@ -11,6 +11,8 @@ cd ..
 
 cd SFML.Net
 mkdir -p lib
-dotnet build -c Release || goto :error
+echo `pwd`
+dotnet build -c Release
+echo `pwd`
 yes | cp -p src/SFML.Audio/bin/Release/netstandard2.0/* lib/
 cd ..

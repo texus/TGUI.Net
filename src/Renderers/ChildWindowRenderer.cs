@@ -31,110 +31,181 @@ namespace TGUI
 {
     public class ChildWindowRenderer : WidgetRenderer
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public ChildWindowRenderer()
             : base(tguiChildWindowRenderer_create())
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal ChildWindowRenderer(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public ChildWindowRenderer(ChildWindowRenderer copy)
             : base(tguiChildWindowRenderer_copy(copy.CPointer))
         {
         }
 
+        /// <summary>
+        /// Gets or sets the size of the borders
+        /// </summary>
         public Outline Borders
         {
             get { return new Outline(tguiChildWindowRenderer_getBorders(CPointer)); }
             set { tguiChildWindowRenderer_setBorders(CPointer, value.CPointer); }
         }
 
+        /// <summary>
+        /// Gets or sets the color of the title bar
+        /// </summary>
         public Color TitleBarColor
         {
             get { return tguiChildWindowRenderer_getTitleBarColor(CPointer); }
             set { tguiChildWindowRenderer_setTitleBarColor(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the color of the text in the title bar
+        /// </summary>
         public Color TitleColor
         {
             get { return tguiChildWindowRenderer_getTitleColor(CPointer); }
             set { tguiChildWindowRenderer_setTitleColor(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the background color
+        /// </summary>
         public Color BackgroundColor
         {
             get { return tguiChildWindowRenderer_getBackgroundColor(CPointer); }
             set { tguiChildWindowRenderer_setBackgroundColor(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the color of the borders
+        /// </summary>
         public Color BorderColor
         {
             get { return tguiChildWindowRenderer_getBorderColor(CPointer); }
             set { tguiChildWindowRenderer_setBorderColor(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the color of the borders while the child window is focused
+        /// </summary>
         public Color BorderColorFocused
         {
             get { return tguiChildWindowRenderer_getBorderColorFocused(CPointer); }
             set { tguiChildWindowRenderer_setBorderColorFocused(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the size of the border between the title bar and the window contents
+        /// </summary>
         public float BorderBelowTitleBar
         {
             get { return tguiChildWindowRenderer_getBorderBelowTitleBar(CPointer); }
             set { tguiChildWindowRenderer_setBorderBelowTitleBar(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the height of the title bar
+        /// </summary>
         public float TitleBarHeight
         {
             get { return tguiChildWindowRenderer_getTitleBarHeight(CPointer); }
             set { tguiChildWindowRenderer_setTitleBarHeight(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the distance between the title or close button from the side of the title bar
+        /// </summary>
         public float DistanceToSide
         {
             get { return tguiChildWindowRenderer_getDistanceToSide(CPointer); }
             set { tguiChildWindowRenderer_setDistanceToSide(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the distance between the title buttons if multiple exist
+        /// </summary>
         public float PaddingBetweenButtons
         {
             get { return tguiChildWindowRenderer_getPaddingBetweenButtons(CPointer); }
             set { tguiChildWindowRenderer_setPaddingBetweenButtons(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the minimum amount of pixels where the child window can be dragged to resize it
+        /// </summary>
+        /// <remarks>
+        /// If the border is larger than this value then this property has no effect. If the borders are smaller,
+        /// several invisible pixels on the outside to the border can also be used to resize the child window.
+        /// </remarks>
         public float MinimumResizableBorderWidth
         {
             get { return tguiChildWindowRenderer_getMinimumResizableBorderWidth(CPointer); }
             set { tguiChildWindowRenderer_setMinimumResizableBorderWidth(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets whether characters are rendered on top of the title buttons (e.g. "x" on close button)
+        /// </summary>
         public bool ShowTextOnTitleButtons
         {
             get { return tguiChildWindowRenderer_getShowTextOnTitleButtons(CPointer); }
             set { tguiChildWindowRenderer_setShowTextOnTitleButtons(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the texture of the title bar
+        /// </summary>
         public Texture TextureTitleBar
         {
             set { tguiChildWindowRenderer_setTextureTitleBar(CPointer, value.CPointer); }
         }
 
+        /// <summary>
+        /// Gets or sets the background texture
+        /// </summary>
+        public Texture TextureBackground
+        {
+            set { tguiChildWindowRenderer_setTextureBackground(CPointer, value.CPointer); }
+        }
+
+        /// <summary>
+        /// Gets or sets the look of the close button
+        /// </summary>
         public RendererData CloseButton
         {
             get { return new RendererData(tguiChildWindowRenderer_getCloseButton(CPointer)); }
             set { tguiChildWindowRenderer_setCloseButton(CPointer, value.CPointer); }
         }
 
+        /// <summary>
+        /// Gets or sets the look of the maximize button
+        /// </summary>
         public RendererData MaximizeButton
         {
             get { return new RendererData(tguiChildWindowRenderer_getMaximizeButton(CPointer)); }
             set { tguiChildWindowRenderer_setMaximizeButton(CPointer, value.CPointer); }
         }
 
+        /// <summary>
+        /// Gets or sets the look of the minimize button
+        /// </summary>
         public RendererData MinimizeButton
         {
             get { return new RendererData(tguiChildWindowRenderer_getMinimizeButton(CPointer)); }
@@ -224,6 +295,9 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiChildWindowRenderer_setTextureTitleBar(IntPtr cPointer, IntPtr texture);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiChildWindowRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiChildWindowRenderer_setCloseButton(IntPtr cPointer, IntPtr rendererData);

@@ -157,6 +157,18 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets or sets whether the scrollbar lies horizontally or vertically
+        /// </summary>
+        /// <remarks>
+        /// This function will swap the width and height of the scrollbar if it didn't lie in the wanted direction.
+        /// </remarks>
+        public bool VerticalScroll
+        {
+            get { return tguiScrollbar_getVerticalScroll(CPointer); }
+            set { tguiScrollbar_setVerticalScroll(CPointer, value); }
+        }
+
+        /// <summary>
         /// Gets the default width of the scrollbar
         /// </summary>
         /// <remarks>
@@ -223,6 +235,12 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiScrollbar_getAutoHide(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiScrollbar_setVerticalScroll(IntPtr cPointer, bool vertical);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiScrollbar_getVerticalScroll(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private float tguiScrollbar_getDefaultWidth(IntPtr cPointer);

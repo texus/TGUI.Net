@@ -88,6 +88,24 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets or sets the outline color of the text
+        /// </summary>
+        public Color TextOutlineColor
+        {
+            get { return tguiLabelRenderer_getTextOutlineColor(CPointer); }
+            set { tguiLabelRenderer_setTextOutlineColor(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the outline thickness of the text
+        /// </summary>
+        public float TextOutlineThickness
+        {
+            get { return tguiLabelRenderer_getTextOutlineThickness(CPointer); }
+            set { tguiLabelRenderer_setTextOutlineThickness(CPointer, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the background color
         /// </summary>
         public Color BackgroundColor
@@ -132,6 +150,14 @@ namespace TGUI
             set { tguiLabelRenderer_setScrollbarWidth(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the background texture
+        /// </summary>
+        public Texture TextureBackground
+        {
+            set { tguiLabelRenderer_setTextureBackground(CPointer, value.CPointer); }
+        }
+
 
         #region Imports
 
@@ -158,6 +184,18 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private Color tguiLabelRenderer_getTextColor(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiLabelRenderer_setTextOutlineColor(IntPtr cPointer, Color color);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private Color tguiLabelRenderer_getTextOutlineColor(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiLabelRenderer_setTextOutlineThickness(IntPtr cPointer, float thickness);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private float tguiLabelRenderer_getTextOutlineThickness(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiLabelRenderer_setBackgroundColor(IntPtr cPointer, Color color);
@@ -188,6 +226,9 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private float tguiLabelRenderer_getScrollbarWidth(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiLabelRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
 
         #endregion
     }
