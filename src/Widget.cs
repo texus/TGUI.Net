@@ -78,9 +78,18 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets or sets the position of the widget inside its parent as a layout
+        /// </summary>
+        public Layout2d PositionLayout
+        {
+            set { tguiWidget_setPositionFromLayout(CPointer, layout.CPointer); }
+        }
+
+        /// <summary>
         /// Sets the position of the widget inside its parent
         /// </summary>
         /// <param name="layout">Position of the widget that could be fixed or relative to the parent size</param>
+        [Obsolete("Use PositionLayout property instead")]
         public void SetPosition(Layout2d layout)
         {
             tguiWidget_setPositionFromLayout(CPointer, layout.CPointer);
@@ -104,9 +113,18 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Sets the size of the widget as a layout
+        /// </summary>
+        public Layout2d SizeLayout
+        {
+            set { tguiWidget_setSizeFromLayout(CPointer, layout.CPointer); }
+        }
+
+        /// <summary>
         /// Sets the size of the widget
         /// </summary>
         /// <param name="layout">Size of the widget that could be fixed or relative to the parent size</param>
+        [Obsolete("Use SizeLayout property instead")]
         public void SetSize(Layout2d layout)
         {
             tguiWidget_setSizeFromLayout(CPointer, layout.CPointer);
