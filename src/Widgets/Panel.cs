@@ -81,14 +81,15 @@ namespace TGUI
         }
 
         /// <summary>
-        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// Gets or sets the renderer, which gives access to properties that determine how the widget is displayed
         /// </summary>
         /// <remarks>
-        /// After calling this function, the widget has its own copy of the renderer and it will no longer be shared.
+        /// After retrieving the renderer, the widget has its own copy of the renderer and it will no longer be shared.
         /// </remarks>
         public new PanelRenderer Renderer
         {
             get { return new PanelRenderer(tguiWidget_getRenderer(CPointer)); }
+            set { SetRenderer(value.Data); }
         }
 
         /// <summary>

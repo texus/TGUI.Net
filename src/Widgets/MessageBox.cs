@@ -60,6 +60,7 @@ namespace TGUI
         public new MessageBoxRenderer Renderer
         {
             get { return new MessageBoxRenderer(tguiWidget_getRenderer(CPointer)); }
+            set { SetRenderer(value.Data); }
         }
 
         public new MessageBoxRenderer SharedRenderer

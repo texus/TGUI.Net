@@ -243,14 +243,15 @@ namespace TGUI
         }
 
         /// <summary>
-        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
+        /// Gets or sets the renderer, which gives access to properties that determine how the widget is displayed
         /// </summary>
         /// <remarks>
-        /// After calling this function, the widget has its own copy of the renderer and it will no longer be shared.
+        /// After retrieving the renderer, the widget has its own copy of the renderer and it will no longer be shared.
         /// </remarks>
         public WidgetRenderer Renderer
         {
             get { return new WidgetRenderer(tguiWidget_getRenderer(CPointer)); }
+            set { SetRenderer(value.Data); }
         }
 
         /// <summary>
@@ -262,15 +263,15 @@ namespace TGUI
         }
 
         /// <summary>
-        /// Sets a new renderer for the widget. The renderer determines how the widget looks.
+        /// Sets new renderer data for the widget. The renderer determines how the widget looks.
         /// </summary>
-        /// <param name="renderer">new renderer data</param>
+        /// <param name="rendererData">new renderer data</param>
         /// <remarks>
         /// The renderer data is shared with this widget. When the data is changed, this widget will be updated as well.
         /// </remarks>
-        public void SetRenderer(RendererData renderer)
+        public void SetRenderer(RendererData rendererData)
         {
-            if (!tguiWidget_setRenderer(CPointer, renderer.CPointer))
+            if (!tguiWidget_setRenderer(CPointer, rendererData.CPointer))
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
 

@@ -49,6 +49,7 @@ namespace TGUI
         public new TabsRenderer Renderer
         {
             get { return new TabsRenderer(tguiWidget_getRenderer(CPointer)); }
+            set { SetRenderer(value.Data); }
         }
 
         public new TabsRenderer SharedRenderer

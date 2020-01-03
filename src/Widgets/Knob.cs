@@ -55,6 +55,7 @@ namespace TGUI
         public new KnobRenderer Renderer
         {
             get { return new KnobRenderer(tguiWidget_getRenderer(CPointer)); }
+            set { SetRenderer(value.Data); }
         }
 
         public new KnobRenderer SharedRenderer

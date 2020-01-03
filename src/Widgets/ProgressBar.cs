@@ -57,6 +57,7 @@ namespace TGUI
         public new ProgressBarRenderer Renderer
         {
             get { return new ProgressBarRenderer(tguiWidget_getRenderer(CPointer)); }
+            set { SetRenderer(value.Data); }
         }
 
         public new ProgressBarRenderer SharedRenderer

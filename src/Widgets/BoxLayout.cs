@@ -43,6 +43,7 @@ namespace TGUI
         public new BoxLayoutRenderer Renderer
         {
             get { return new BoxLayoutRenderer(tguiWidget_getRenderer(CPointer)); }
+            set { SetRenderer(value.Data); }
         }
 
         public new BoxLayoutRenderer SharedRenderer

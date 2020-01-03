@@ -55,6 +55,7 @@ namespace TGUI
         public new RangeSliderRenderer Renderer
         {
             get { return new RangeSliderRenderer(tguiWidget_getRenderer(CPointer)); }
+            set { SetRenderer(value.Data); }
         }
 
         public new RangeSliderRenderer SharedRenderer
