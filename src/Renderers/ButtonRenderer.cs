@@ -42,7 +42,7 @@ namespace TGUI
         {
         }
 
-        // <summary>
+        /// <summary>
         /// Constructor that creates the object from its C pointer
         /// </summary>
         /// <param name="cPointer">Pointer to object in C code</param>

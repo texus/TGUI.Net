@@ -82,7 +82,7 @@ namespace TGUI
         /// </summary>
         public Layout2d PositionLayout
         {
-            set { tguiWidget_setPositionFromLayout(CPointer, layout.CPointer); }
+            set { tguiWidget_setPositionFromLayout(CPointer, value.CPointer); }
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace TGUI
         /// </summary>
         public Layout2d SizeLayout
         {
-            set { tguiWidget_setSizeFromLayout(CPointer, layout.CPointer); }
+            set { tguiWidget_setSizeFromLayout(CPointer, value.CPointer); }
         }
 
         /// <summary>
