@@ -367,6 +367,14 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets whether there is an active animation (started with ShowWithEffect or HideWithEffect)
+        /// </summary>
+        public bool AnimationPlaying
+        {
+            get { return tguiWidget_isAnimationPlaying(CPointer); }
+        }
+
+        /// <summary>
         /// Places the widget before all other widgets in its parent
         /// </summary>
         /// <remarks>
@@ -686,6 +694,9 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiWidget_getParent(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiWidget_isAnimationPlaying(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiWidget_mouseOnWidget(IntPtr cPointer, Vector2f pos);

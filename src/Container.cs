@@ -185,10 +185,11 @@ namespace TGUI
         /// Loads the child widgets from a text file
         /// </summary>
         /// <param name="filename">Filename of the widget file</param>
+        /// <param name="replaceExisting">Remove existing widgets first if there are any</param>
         /// <exception cref="TGUIException">Thrown when file could not be opened or parsing failed</exception>
-        public void LoadWidgetsFromFile(string filename)
+        public void LoadWidgetsFromFile(string filename, bool replaceExisting = true)
         {
-            if (!tguiContainer_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_ASCII(filename)))
+            if (!tguiContainer_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_ASCII(filename), replaceExisting))
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
 
@@ -237,7 +238,7 @@ namespace TGUI
         static extern private Vector2f tguiContainer_getChildWidgetsOffset(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiContainer_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename);
+        static extern private bool tguiContainer_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename, bool replaceExisting);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiContainer_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);
