@@ -121,8 +121,6 @@ namespace TGUI
             tguiGui_add(CPointer, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
 
             widget.ParentGui = this;
-            myWidgets.Add(widget);
-            myWidgetIds.Add(widgetName);
         }
 
         /// <summary>
@@ -139,14 +137,6 @@ namespace TGUI
         /// </remarks>
         public Widget Get(string widgetName)
         {
-            // Search for the widget locally
-            for (var i = 0; i < myWidgetIds.Count; ++i)
-            {
-                if (myWidgetIds[i] == widgetName)
-                    return myWidgets[i];
-            }
-
-            // If not found, it is still possible that it exists (e.g. it could have been loaded from a file inside the c++ code)
             return Util.GetWidgetFromC(tguiGui_get(CPointer, Util.ConvertStringForC_UTF32(widgetName)), this);
         }
 
@@ -158,8 +148,6 @@ namespace TGUI
         /// </returns>
         public List<Widget> GetWidgets()
         {
-            // We can't use our myWidgets member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
-
             unsafe
             {
                 IntPtr* WidgetsPtr = tguiGui_getWidgets(CPointer, out uint Count);
@@ -179,8 +167,6 @@ namespace TGUI
         /// </returns>
         public List<string> GetWidgetNames()
         {
-            // We can't use our myWidgetIds member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
-
             unsafe
             {
                 IntPtr* NamesPtr = tguiGui_getWidgetNames(CPointer, out uint Count);
@@ -202,13 +188,6 @@ namespace TGUI
         public void Remove(Widget widget)
         {
             tguiGui_remove(CPointer, widget.CPointer);
-
-            var index = myWidgets.IndexOf(widget);
-            if (index != -1)
-            {
-                myWidgets.RemoveAt(index);
-                myWidgetIds.RemoveAt(index);
-            }
         }
 
         /// <summary>
@@ -217,9 +196,6 @@ namespace TGUI
         public void RemoveAllWidgets()
         {
             tguiGui_removeAllWidgets(CPointer);
-
-            myWidgets.Clear();
-            myWidgetIds.Clear();
         }
 
         /// <summary>
@@ -449,8 +425,6 @@ namespace TGUI
         public event EventHandler<SignalArgsEventProcessed> EventProcessed = null;
 
         private RenderWindow myRenderTarget = null;
-        private List<Widget> myWidgets = new List<Widget>();
-        private List<string> myWidgetIds = new List<string>();
         private Func<Event, bool> myEventFilter = null;
 
 

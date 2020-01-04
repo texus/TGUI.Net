@@ -544,7 +544,7 @@ namespace TGUI
         private CallbackAction          UnfocusedCallback;
         private CallbackActionAnimation AnimationFinishedCallback;
 
-        protected Gui myParentGui;
+        protected Gui myParentGui; // Required to draw CustomWidget (and Canvas)
 
         protected Dictionary<string, List<uint>> myConnectedSignals = new Dictionary<string, List<uint>>();
 

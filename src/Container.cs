@@ -64,8 +64,6 @@ namespace TGUI
             tguiContainer_add(CPointer, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
 
             widget.ParentGui = ParentGui;
-            myWidgets.Add(widget);
-            myWidgetIds.Add(widgetName);
         }
 
         /// <summary>
@@ -82,24 +80,6 @@ namespace TGUI
         /// </remarks>
         public Widget Get(string widgetName)
         {
-            // Search for the widget locally in the direct children
-            for (var i = 0; i < myWidgetIds.Count; ++i)
-            {
-                if (myWidgetIds[i] == widgetName)
-                    return myWidgets[i];
-            }
-
-            // Search for the widget locally, recursively through the children
-            for (var i = 0; i < myWidgetIds.Count; ++i)
-            {
-                if (myWidgets[i] is Container)
-                {
-                    var widget = ((Container)myWidgets[i]).Get(widgetName);
-                    if (widget != null)
-                        return widget;
-                }
-            }
-
             // If not found, it is still possible that it exists (e.g. it could have been loaded from a file inside the c++ code)
             return Util.GetWidgetFromC(tguiContainer_get(CPointer, Util.ConvertStringForC_UTF32(widgetName)), ParentGui);
         }
@@ -112,8 +92,6 @@ namespace TGUI
         /// </returns>
         public List<Widget> GetWidgets()
         {
-            // We can't use our myWidgets member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
-
             unsafe
             {
                 IntPtr* WidgetsPtr = tguiContainer_getWidgets(CPointer, out uint Count);
@@ -133,8 +111,6 @@ namespace TGUI
         /// </returns>
         public List<string> GetWidgetNames()
         {
-            // We can't use our myWidgetIds member because the c++ code may contain more widgets (e.g. it could have been loaded from a file inside the c++ code)
-
             unsafe
             {
                 IntPtr* NamesPtr = tguiContainer_getWidgetNames(CPointer, out uint Count);
@@ -155,13 +131,6 @@ namespace TGUI
         /// </returns>
         public bool Remove(Widget widget)
         {
-            var index = myWidgets.IndexOf(widget);
-            if (index != -1)
-            {
-                myWidgets.RemoveAt(index);
-                myWidgetIds.RemoveAt(index);
-            }
-
             return tguiContainer_remove(CPointer, widget.CPointer);
         }
 
@@ -171,9 +140,6 @@ namespace TGUI
         public void RemoveAllWidgets()
         {
             tguiContainer_removeAllWidgets(CPointer);
-
-            myWidgets.Clear();
-            myWidgetIds.Clear();
         }
 
         /// <summary>
@@ -236,10 +202,6 @@ namespace TGUI
             if (!tguiContainer_saveWidgetsToFile(CPointer, Util.ConvertStringForC_ASCII(filename)))
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
-
-
-        protected List<Widget> myWidgets = new List<Widget>();
-        protected List<string> myWidgetIds = new List<string>();
 
 
         #region Imports
