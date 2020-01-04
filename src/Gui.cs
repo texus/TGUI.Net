@@ -273,6 +273,38 @@ namespace TGUI
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
 
+        /// <summary>
+        /// Gets or sets the filter function that determines whether the gui should handle the event
+        /// </summary>
+        /// <remarks>
+        /// By default the event filter is null and the gui will handle all events.
+        /// You can set a function here that takes an event as parameter and returns whether or not
+        /// the gui should handle this event.
+        /// </remarks>
+        public Func<Event, bool> EventFilter
+        {
+            get { return myEventFilter; }
+            set { myEventFilter = value; }
+        }
+
+        /// <summary>
+        /// Passes the event to the widgets
+        /// </summary>
+        /// <param name="ev">The event that was polled from the window</param>
+        /// <returns>
+        /// Has the event been consumed?
+        /// When this function returns false, then the event was ignored by all widgets.
+        /// </returns>
+        protected bool HandleEvent(Event ev)
+        {
+            if ((myEventFilter != null) && !myEventFilter(ev))
+                return false;
+
+            bool processed = tguiGui_handleEvent(CPointer, ev);
+            EventProcessed?.Invoke(this, new SignalArgsEventProcessed(ev, processed));
+            return processed;
+        }
+
         private void OnMouseMoved(object sender, MouseMoveEventArgs e)
         {
             Event ev = new Event
@@ -413,15 +445,13 @@ namespace TGUI
             HandleEvent(ev);
         }
 
-        private void HandleEvent(Event ev)
-        {
-            tguiGui_handleEvent(CPointer, ev);
-        }
-
+        /// <summary>Event handler that provides a callback for each event processed by the gui</summary>
+        public event EventHandler<SignalArgsEventProcessed> EventProcessed = null;
 
         private RenderWindow myRenderTarget = null;
         private List<Widget> myWidgets = new List<Widget>();
         private List<string> myWidgetIds = new List<string>();
+        private Func<Event, bool> myEventFilter = null;
 
 
         #region Imports
@@ -442,7 +472,7 @@ namespace TGUI
         static extern private void tguiGui_setView(IntPtr cPointer, IntPtr cPointerView);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiGui_handleEvent(IntPtr cPointer, Event ev);
+        static extern private bool tguiGui_handleEvent(IntPtr cPointer, Event ev);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiGui_add(IntPtr cPointer, IntPtr cPointerWidget, IntPtr widgetName);
