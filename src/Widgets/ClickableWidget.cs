@@ -108,7 +108,7 @@ namespace TGUI
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
             RightClickedCallback = new CallbackActionVector2f(ProcessRightClickedSignal);
-            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("RightClicked"), ClickedCallback) == 0)
+            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("RightClicked"), RightClickedCallback) == 0)
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
 
