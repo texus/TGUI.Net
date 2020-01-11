@@ -352,6 +352,15 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets or sets the custom data to store inside the widget
+        /// </summary>
+        public object UserData
+        {
+            get { return myUserData; }
+            set { myUserData = value; }
+        }
+
+        /// <summary>
         /// Gets the type of the widget
         /// </summary>
         public string WidgetType
@@ -582,7 +591,8 @@ namespace TGUI
         private CallbackAction          UnfocusedCallback;
         private CallbackActionAnimation AnimationFinishedCallback;
 
-        protected Gui myParentGui; // Required to draw CustomWidget (and Canvas)
+        protected Gui myParentGui = null; // Required to draw CustomWidget (and Canvas)
+        private object myUserData = null;
 
         protected Dictionary<string, List<uint>> myConnectedSignals = new Dictionary<string, List<uint>>();
         protected List<uint> myInternalSignalIds = new List<uint>();
