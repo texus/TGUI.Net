@@ -89,20 +89,19 @@ namespace TGUI
         {
             base.InitSignals();
 
-            ButtonPressedCallback = new CallbackActionString(ProcessButtonPressedSignal);
-            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("ButtonPressed"), ButtonPressedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessButtonPressedSignal(IntPtr text)
-        {
-            ButtonPressed?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
+            ButtonPressedCallback = new CallbackActionString((text) => SendSignal(myButtonPressedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(text))));
+            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("ButtonPressed"), ButtonPressedCallback));
         }
 
         /// <summary>Event handler for the ButtonPressed signal</summary>
-        public event EventHandler<SignalArgsString> ButtonPressed = null;
+        public event EventHandler<SignalArgsString> ButtonPressed
+        {
+            add { myEventHandlerList.AddHandler(myButtonPressedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myButtonPressedEventKey, value); }
+        }
 
         private CallbackActionString ButtonPressedCallback;
+        static readonly object myButtonPressedEventKey = new object();
 
         #region Imports
 

@@ -97,20 +97,19 @@ namespace TGUI
         {
             base.InitSignals();
 
-            RangeChangedCallback = new CallbackActionRange(ProcessRangeChangedSignal);
-            if (tguiWidget_connectRange(CPointer, Util.ConvertStringForC_ASCII("RangeChanged"), RangeChangedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessRangeChangedSignal(float start, float end)
-        {
-            RangeChanged?.Invoke(this, new SignalArgsRange(start, end));
+            RangeChangedCallback = new CallbackActionRange((start, end) => SendSignal(myRangeChangedEventKey, new SignalArgsRange(start, end)));
+            AddInternalSignal(tguiWidget_connectRange(CPointer, Util.ConvertStringForC_ASCII("RangeChanged"), RangeChangedCallback));
         }
 
         /// <summary>Event handler for the RangeChanged signal</summary>
-        public event EventHandler<SignalArgsRange> RangeChanged = null;
+        public event EventHandler<SignalArgsRange> RangeChanged
+        {
+            add { myEventHandlerList.AddHandler(myRangeChangedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myRangeChangedEventKey, value); }
+        }
 
         private CallbackActionRange RangeChangedCallback;
+        static readonly object myRangeChangedEventKey = new object();
 
         #region Imports
 

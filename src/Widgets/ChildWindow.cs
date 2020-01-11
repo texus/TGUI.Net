@@ -235,36 +235,26 @@ namespace TGUI
         {
             base.InitSignals();
 
-            MousePressedCallback = new CallbackAction(ProcessMousePressedSignal);
-            if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            MousePressedCallback = new CallbackAction(() => SendSignal(myMousePressedEventKey));
+            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback));
 
             ClosedCallback = new CallbackAction(ProcessClosedSignal);
-            if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Closed"), ClosedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Closed"), ClosedCallback));
 
-            MaximizedCallback = new CallbackAction(ProcessMaximizedSignal);
-            if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Maximized"), MaximizedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            MaximizedCallback = new CallbackAction(() => SendSignal(myMaximizedEventKey));
+            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Maximized"), MaximizedCallback));
 
-            MinimizedCallback = new CallbackAction(ProcessMinimizedSignal);
-            if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Minimized"), MinimizedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            MinimizedCallback = new CallbackAction(() => SendSignal(myMinimizedEventKey));
+            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Minimized"), MinimizedCallback));
 
-            EscapeKeyPressedCallback = new CallbackAction(ProcessEscapeKeyPressed);
-            if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("EscapeKeyPressed"), EscapeKeyPressedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessMousePressedSignal()
-        {
-            MousePressed?.Invoke(this, EventArgs.Empty);
+            EscapeKeyPressedCallback = new CallbackAction(() => SendSignal(myEscapeKeyPressedEventKey));
+            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("EscapeKeyPressed"), EscapeKeyPressedCallback));
         }
 
         private void ProcessClosedSignal()
         {
-            if (Closed != null)
-                Closed(this, EventArgs.Empty);
+            if (myEventHandlerList[myClosedEventKey] != null)
+                SendSignal(myClosedEventKey);
             else
             {
                 // Actually close the window when no signal handler is connected
@@ -276,35 +266,40 @@ namespace TGUI
             }
         }
 
-        private void ProcessMaximizedSignal()
-        {
-            Maximized?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void ProcessMinimizedSignal()
-        {
-            Minimized?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void ProcessEscapeKeyPressed()
-        {
-            EscapeKeyPressed?.Invoke(this, EventArgs.Empty);
-        }
-
         /// <summary>Event handler for the MousePressed signal</summary>
-        public event EventHandler MousePressed = null;
+        public event EventHandler MousePressed
+        {
+            add { myEventHandlerList.AddHandler(myMousePressedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myMousePressedEventKey, value); }
+        }
 
         /// <summary>Event handler for the Closed signal</summary>
-        public event EventHandler Closed = null;
+        public event EventHandler Closed
+        {
+            add { myEventHandlerList.AddHandler(myClosedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myClosedEventKey, value); }
+        }
 
         /// <summary>Event handler for the Maximized signal</summary>
-        public event EventHandler Maximized = null;
+        public event EventHandler Maximized
+        {
+            add { myEventHandlerList.AddHandler(myMaximizedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myMaximizedEventKey, value); }
+        }
 
         /// <summary>Event handler for the Minimized signal</summary>
-        public event EventHandler Minimized = null;
+        public event EventHandler Minimized
+        {
+            add { myEventHandlerList.AddHandler(myMinimizedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myMinimizedEventKey, value); }
+        }
 
         /// <summary>Event handler for the EscapeKeyPressed signal</summary>
-        public event EventHandler EscapeKeyPressed = null;
+        public event EventHandler EscapeKeyPressed
+        {
+            add { myEventHandlerList.AddHandler(myEscapeKeyPressedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myEscapeKeyPressedEventKey, value); }
+        }
 
         private CallbackAction MousePressedCallback;
         private CallbackAction ClosedCallback;
@@ -312,6 +307,11 @@ namespace TGUI
         private CallbackAction MinimizedCallback;
         private CallbackAction EscapeKeyPressedCallback;
 
+        static readonly object myMousePressedEventKey = new object();
+        static readonly object myClosedEventKey = new object();
+        static readonly object myMaximizedEventKey = new object();
+        static readonly object myMinimizedEventKey = new object();
+        static readonly object myEscapeKeyPressedEventKey = new object();
 
         #region Imports
 

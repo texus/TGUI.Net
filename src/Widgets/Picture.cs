@@ -111,20 +111,19 @@ namespace TGUI
         {
             base.InitSignals();
 
-            DoubleClickedCallback = new CallbackActionVector2f(ProcessDoubleClickedSignal);
-            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessDoubleClickedSignal(Vector2f pos)
-        {
-            DoubleClicked?.Invoke(this, new SignalArgsVector2f(pos));
+            DoubleClickedCallback = new CallbackActionVector2f((pos) => SendSignal(myDoubleClickedEventKey, new SignalArgsVector2f(pos)));
+            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback));
         }
 
         /// <summary>Event handler for the DoubleClicked signal</summary>
-        public event EventHandler<SignalArgsVector2f> DoubleClicked = null;
+        public event EventHandler<SignalArgsVector2f> DoubleClicked
+        {
+            add { myEventHandlerList.AddHandler(myDoubleClickedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myDoubleClickedEventKey, value); }
+        }
 
         private CallbackActionVector2f DoubleClickedCallback;
+        static readonly object myDoubleClickedEventKey = new object();
 
         #region Imports
 

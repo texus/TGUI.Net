@@ -29,8 +29,15 @@ using SFML.Graphics;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Bitmap button widget
+    /// </summary>
     public class BitmapButton : Button
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="text">Caption of the button</param>
         public BitmapButton(string text = "")
             : base(tguiBitmapButton_create())
         {
@@ -38,21 +45,39 @@ namespace TGUI
                 Text = text;
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal BitmapButton(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public BitmapButton(BitmapButton copy)
             : base(copy)
         {
         }
 
+        /// <summary>
+        /// Gets or sets the image that should be displayed next to the text
+        /// </summary>
         public Texture Image
         {
             set { tguiBitmapButton_setImage(CPointer, value.CPointer); }
         }
 
+        /// <summary>
+        /// Gets or sets the relative size of the image to display next to the text
+        /// </summary>
+        /// <remarks>
+        /// The value lies between 0 and 1 and determines the height of the image compared to the button height.
+        /// If set to 0 (default), the image will always have its original size, no matter what the button size is.
+        /// </remarks>
         public float ImageScaling
         {
             get { return tguiBitmapButton_getImageScaling(CPointer); }

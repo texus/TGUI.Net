@@ -184,20 +184,19 @@ namespace TGUI
         {
             base.InitSignals();
 
-            DoubleClickedCallback = new CallbackActionString(ProcessDoubleClickedSignal);
-            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessDoubleClickedSignal(IntPtr text)
-        {
-            DoubleClicked?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
+            DoubleClickedCallback = new CallbackActionString((text) => SendSignal(myDoubleClickedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(text))));
+            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback));
         }
 
         /// <summary>Event handler for the DoubleClicked signal</summary>
-        public event EventHandler<SignalArgsString> DoubleClicked = null;
+        public event EventHandler<SignalArgsString> DoubleClicked
+        {
+            add { myEventHandlerList.AddHandler(myDoubleClickedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myDoubleClickedEventKey, value); }
+        }
 
         private CallbackActionString DoubleClickedCallback;
+        static readonly object myDoubleClickedEventKey = new object();
 
         #region Imports
 

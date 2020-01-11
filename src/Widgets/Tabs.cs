@@ -170,20 +170,19 @@ namespace TGUI
         {
             base.InitSignals();
 
-            TabSelectedCallback = new CallbackActionString(ProcessTabSelectedSignal);
-            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("TabSelected"), TabSelectedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessTabSelectedSignal(IntPtr tab)
-        {
-            TabSelected?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(tab)));
+            TabSelectedCallback = new CallbackActionString((tab) => SendSignal(myTabSelectedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(tab))));
+            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("TabSelected"), TabSelectedCallback));
         }
 
         /// <summary>Event handler for the TabSelected signal</summary>
-        public event EventHandler<SignalArgsString> TabSelected = null;
+        public event EventHandler<SignalArgsString> TabSelected
+        {
+            add { myEventHandlerList.AddHandler(myTabSelectedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myTabSelectedEventKey, value); }
+        }
 
         private CallbackActionString TabSelectedCallback;
+        static readonly object myTabSelectedEventKey = new object();
 
         #region Imports
 

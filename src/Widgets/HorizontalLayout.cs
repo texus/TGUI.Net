@@ -28,18 +28,32 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Horizontal layout widget
+    /// </summary>
     public class HorizontalLayout : BoxLayoutRatios
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public HorizontalLayout()
             : base(tguiHorizontalLayout_create())
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal HorizontalLayout(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public HorizontalLayout(HorizontalLayout copy)
             : base(copy)
         {

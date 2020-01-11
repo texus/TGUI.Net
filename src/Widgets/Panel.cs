@@ -107,78 +107,66 @@ namespace TGUI
         {
             base.InitSignals();
 
-            MousePressedCallback = new CallbackActionVector2f(ProcessMousePressedSignal);
-            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            MousePressedCallback = new CallbackActionVector2f((pos) => SendSignal(myMousePressedEventKey, new SignalArgsVector2f(pos)));
+            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback));
 
-            MouseReleasedCallback = new CallbackActionVector2f(ProcessMouseReleasedSignal);
-            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("MouseReleased"), MouseReleasedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            MouseReleasedCallback = new CallbackActionVector2f((pos) => SendSignal(myMouseReleasedEventKey, new SignalArgsVector2f(pos)));
+            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("MouseReleased"), MouseReleasedCallback));
 
-            ClickedCallback = new CallbackActionVector2f(ProcessClickedSignal);
-            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("Clicked"), ClickedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            ClickedCallback = new CallbackActionVector2f((pos) => SendSignal(myClickedEventKey, new SignalArgsVector2f(pos)));
+            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("Clicked"), ClickedCallback));
 
-            RightMousePressedCallback = new CallbackActionVector2f(ProcessRightMousePressedSignal);
-            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("RightMousePressed"), RightMousePressedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            RightMousePressedCallback = new CallbackActionVector2f((pos) => SendSignal(myRightMousePressedEventKey, new SignalArgsVector2f(pos)));
+            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("RightMousePressed"), RightMousePressedCallback));
 
-            RightMouseReleasedCallback = new CallbackActionVector2f(ProcessRightMouseReleasedSignal);
-            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("RightMouseReleased"), RightMouseReleasedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            RightMouseReleasedCallback = new CallbackActionVector2f((pos) => SendSignal(myRightMouseReleasedEventKey, new SignalArgsVector2f(pos)));
+            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("RightMouseReleased"), RightMouseReleasedCallback));
 
-            RightClickedCallback = new CallbackActionVector2f(ProcessRightClickedSignal);
-            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("RightClicked"), RightClickedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessMousePressedSignal(Vector2f pos)
-        {
-            MousePressed?.Invoke(this, new SignalArgsVector2f(pos));
-        }
-
-        private void ProcessMouseReleasedSignal(Vector2f pos)
-        {
-            MouseReleased?.Invoke(this, new SignalArgsVector2f(pos));
-        }
-
-        private void ProcessClickedSignal(Vector2f pos)
-        {
-            Clicked?.Invoke(this, new SignalArgsVector2f(pos));
-        }
-
-        private void ProcessRightMousePressedSignal(Vector2f pos)
-        {
-            RightMousePressed?.Invoke(this, new SignalArgsVector2f(pos));
-        }
-
-        private void ProcessRightMouseReleasedSignal(Vector2f pos)
-        {
-            RightMouseReleased?.Invoke(this, new SignalArgsVector2f(pos));
-        }
-
-        private void ProcessRightClickedSignal(Vector2f pos)
-        {
-            RightClicked?.Invoke(this, new SignalArgsVector2f(pos));
+            RightClickedCallback = new CallbackActionVector2f((pos) => SendSignal(myRightClickedEventKey, new SignalArgsVector2f(pos)));
+            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("RightClicked"), RightClickedCallback));
         }
 
         /// <summary>Event handler for the MousePressed signal</summary>
-        public event EventHandler<SignalArgsVector2f> MousePressed = null;
+        public event EventHandler<SignalArgsVector2f> MousePressed
+        {
+            add { myEventHandlerList.AddHandler(myMousePressedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myMousePressedEventKey, value); }
+        }
 
         /// <summary>Event handler for the MouseReleased signal</summary>
-        public event EventHandler<SignalArgsVector2f> MouseReleased = null;
+        public event EventHandler<SignalArgsVector2f> MouseReleased
+        {
+            add { myEventHandlerList.AddHandler(myMouseReleasedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myMouseReleasedEventKey, value); }
+        }
 
         /// <summary>Event handler for the Clicked signal</summary>
-        public event EventHandler<SignalArgsVector2f> Clicked = null;
+        public event EventHandler<SignalArgsVector2f> Clicked
+        {
+            add { myEventHandlerList.AddHandler(myClickedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myClickedEventKey, value); }
+        }
 
         /// <summary>Event handler for the RightMousePressed signal</summary>
-        public event EventHandler<SignalArgsVector2f> RightMousePressed = null;
+        public event EventHandler<SignalArgsVector2f> RightMousePressed
+        {
+            add { myEventHandlerList.AddHandler(myRightMousePressedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myRightMousePressedEventKey, value); }
+        }
 
         /// <summary>Event handler for the RightMouseReleased signal</summary>
-        public event EventHandler<SignalArgsVector2f> RightMouseReleased = null;
+        public event EventHandler<SignalArgsVector2f> RightMouseReleased
+        {
+            add { myEventHandlerList.AddHandler(myRightMouseReleasedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myRightMouseReleasedEventKey, value); }
+        }
 
         /// <summary>Event handler for the RightClicked signal</summary>
-        public event EventHandler<SignalArgsVector2f> RightClicked = null;
+        public event EventHandler<SignalArgsVector2f> RightClicked
+        {
+            add { myEventHandlerList.AddHandler(myRightClickedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myRightClickedEventKey, value); }
+        }
 
         private CallbackActionVector2f MousePressedCallback;
         private CallbackActionVector2f MouseReleasedCallback;
@@ -186,6 +174,13 @@ namespace TGUI
         private CallbackActionVector2f RightMousePressedCallback;
         private CallbackActionVector2f RightMouseReleasedCallback;
         private CallbackActionVector2f RightClickedCallback;
+
+        static readonly object myMousePressedEventKey = new object();
+        static readonly object myMouseReleasedEventKey = new object();
+        static readonly object myClickedEventKey = new object();
+        static readonly object myRightMousePressedEventKey = new object();
+        static readonly object myRightMouseReleasedEventKey = new object();
+        static readonly object myRightClickedEventKey = new object();
 
 
         #region Imports

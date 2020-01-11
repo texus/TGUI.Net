@@ -240,33 +240,32 @@ namespace TGUI
         {
             base.InitSignals();
 
-            TextChangedCallback = new CallbackActionString(ProcessTextChangedSignal);
-            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("TextChanged"), TextChangedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            TextChangedCallback = new CallbackActionString((text) => SendSignal(myTextChangedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(text))));
+            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("TextChanged"), TextChangedCallback));
 
-            SelectionChangedCallback = new CallbackAction(ProcessSelectionChangedSignal);
-            if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("SelectionChanged"), SelectionChangedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessTextChangedSignal(IntPtr text)
-        {
-            TextChanged?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
-        }
-
-        private void ProcessSelectionChangedSignal()
-        {
-            SelectionChanged?.Invoke(this, EventArgs.Empty);
+            SelectionChangedCallback = new CallbackAction(() => SendSignal(mySelectionChangedEventKey));
+            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("SelectionChanged"), SelectionChangedCallback));
         }
 
         /// <summary>Event handler for the TextChanged signal</summary>
-        public event EventHandler<SignalArgsString> TextChanged = null;
+        public event EventHandler<SignalArgsString> TextChanged
+        {
+            add { myEventHandlerList.AddHandler(myTextChangedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myTextChangedEventKey, value); }
+        }
 
         /// <summary>Event handler for the SelectionChanged signal</summary>
-        public event EventHandler SelectionChanged = null;
+        public event EventHandler SelectionChanged
+        {
+            add { myEventHandlerList.AddHandler(mySelectionChangedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(mySelectionChangedEventKey, value); }
+        }
 
         private CallbackActionString TextChangedCallback;
         private CallbackAction SelectionChangedCallback;
+
+        static readonly object myTextChangedEventKey = new object();
+        static readonly object mySelectionChangedEventKey = new object();
 
 
         #region Imports

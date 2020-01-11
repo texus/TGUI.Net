@@ -540,60 +540,57 @@ namespace TGUI
         {
             base.InitSignals();
 
-            ItemSelectedCallback = new CallbackActionInt(ProcessItemSelectedSignal);
-            if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ItemSelectedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            ItemSelectedCallback = new CallbackActionInt((index) => SendSignal(myItemSelectedEventKey, new SignalArgsInt(index)));
+            AddInternalSignal(tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ItemSelectedCallback));
 
-            DoubleClickedCallback = new CallbackActionInt(ProcessDoubleClickedSignal);
-            if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            DoubleClickedCallback = new CallbackActionInt((index) => SendSignal(myDoubleClickedEventKey, new SignalArgsInt(index)));
+            AddInternalSignal(tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback));
 
-            RightClickedCallback = new CallbackActionInt(ProcessRightClickedSignal);
-            if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("RightClicked"), RightClickedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            RightClickedCallback = new CallbackActionInt((index) => SendSignal(myRightClickedEventKey, new SignalArgsInt(index)));
+            AddInternalSignal(tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("RightClicked"), RightClickedCallback));
 
-            HeaderClickedCallback = new CallbackActionInt(ProcessHeaderClickedSignal);
-            if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("HeaderClicked"), HeaderClickedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessItemSelectedSignal(int index)
-        {
-            ItemSelected?.Invoke(this, new SignalArgsInt(index));
-        }
-
-        private void ProcessDoubleClickedSignal(int index)
-        {
-            DoubleClicked?.Invoke(this, new SignalArgsInt(index));
-        }
-
-        private void ProcessRightClickedSignal(int index)
-        {
-            RightClicked?.Invoke(this, new SignalArgsInt(index));
-        }
-
-        private void ProcessHeaderClickedSignal(int index)
-        {
-            HeaderClicked?.Invoke(this, new SignalArgsInt(index));
+            HeaderClickedCallback = new CallbackActionInt((index) => SendSignal(myHeaderClickedEventKey, new SignalArgsInt(index)));
+            AddInternalSignal(tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("HeaderClicked"), HeaderClickedCallback));
         }
 
         /// <summary>Event handler for the ItemSelected signal</summary>
-        public event EventHandler<SignalArgsInt> ItemSelected = null;
+        public event EventHandler<SignalArgsInt> ItemSelected
+        {
+            add { myEventHandlerList.AddHandler(myItemSelectedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myItemSelectedEventKey, value); }
+        }
 
         /// <summary>Event handler for the DoubleClicked signal</summary>
-        public event EventHandler<SignalArgsInt> DoubleClicked = null;
+        public event EventHandler<SignalArgsInt> DoubleClicked
+        {
+            add { myEventHandlerList.AddHandler(myDoubleClickedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myDoubleClickedEventKey, value); }
+        }
 
         /// <summary>Event handler for the RightClicked signal</summary>
-        public event EventHandler<SignalArgsInt> RightClicked = null;
+        public event EventHandler<SignalArgsInt> RightClicked
+        {
+            add { myEventHandlerList.AddHandler(myRightClickedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myRightClickedEventKey, value); }
+        }
 
         /// <summary>Event handler for the HeaderClicked signal</summary>
-        public event EventHandler<SignalArgsInt> HeaderClicked = null;
+        public event EventHandler<SignalArgsInt> HeaderClicked
+        {
+            add { myEventHandlerList.AddHandler(myHeaderClickedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myHeaderClickedEventKey, value); }
+        }
 
 
         private CallbackActionInt ItemSelectedCallback;
         private CallbackActionInt DoubleClickedCallback;
         private CallbackActionInt RightClickedCallback;
         private CallbackActionInt HeaderClickedCallback;
+
+        static readonly object myItemSelectedEventKey = new object();
+        static readonly object myDoubleClickedEventKey = new object();
+        static readonly object myRightClickedEventKey = new object();
+        static readonly object myHeaderClickedEventKey = new object();
 
         private delegate bool SortCompareDelegateForC(IntPtr str1, IntPtr str2);
 

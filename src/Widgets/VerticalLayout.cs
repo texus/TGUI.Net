@@ -28,18 +28,32 @@ using System.Runtime.InteropServices;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Vertical layout widget
+    /// </summary>
     public class VerticalLayout : BoxLayoutRatios
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public VerticalLayout()
             : base(tguiVerticalLayout_create())
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal VerticalLayout(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public VerticalLayout(VerticalLayout copy)
             : base(copy)
         {

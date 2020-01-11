@@ -107,20 +107,19 @@ namespace TGUI
         {
             base.InitSignals();
 
-            PressedCallback = new CallbackActionString(ProcessPressedSignal);
-            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("Pressed"), PressedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessPressedSignal(IntPtr text)
-        {
-            Pressed?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
+            PressedCallback = new CallbackActionString((text) => SendSignal(myPressedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(text))));
+            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("Pressed"), PressedCallback));
         }
 
         /// <summary>Event handler for the Pressed signal</summary>
-        public event EventHandler<SignalArgsString> Pressed = null;
+        public event EventHandler<SignalArgsString> Pressed
+        {
+            add { myEventHandlerList.AddHandler(myPressedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myPressedEventKey, value); }
+        }
 
         private CallbackActionString PressedCallback;
+        static readonly object myPressedEventKey = new object();
 
 
         #region Imports

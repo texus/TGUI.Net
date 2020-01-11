@@ -343,20 +343,19 @@ namespace TGUI
         {
             base.InitSignals();
 
-            MenuItemClickedCallback = new CallbackActionString(ProcessMenuItemClickedSignal);
-            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("MenuItemClicked"), MenuItemClickedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessMenuItemClickedSignal(IntPtr menuItem)
-        {
-            MenuItemClicked?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(menuItem)));
+            MenuItemClickedCallback = new CallbackActionString((menuItem) => SendSignal(myMenuItemClickedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(menuItem))));
+            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("MenuItemClicked"), MenuItemClickedCallback));
         }
 
         /// <summary>Event handler for the ItemSelected signal</summary>
-        public event EventHandler<SignalArgsString> MenuItemClicked = null;
+        public event EventHandler<SignalArgsString> MenuItemClicked
+        {
+            add { myEventHandlerList.AddHandler(myMenuItemClickedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myMenuItemClickedEventKey, value); }
+        }
 
         private CallbackActionString MenuItemClickedCallback;
+        static readonly object myMenuItemClickedEventKey = new object();
 
 
         #region Imports

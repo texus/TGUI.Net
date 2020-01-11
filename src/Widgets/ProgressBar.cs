@@ -110,33 +110,32 @@ namespace TGUI
         {
             base.InitSignals();
 
-            ValueChangedCallback = new CallbackActionUInt(ProcessValueChangedSignal);
-            if (tguiWidget_connectUInt(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            ValueChangedCallback = new CallbackActionUInt((val) => SendSignal(myValueChangedEventKey, new SignalArgsUInt(val)));
+            AddInternalSignal(tguiWidget_connectUInt(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback));
 
-            FullCallback = new CallbackAction(ProcessFullSignal);
-            if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Full"), FullCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessValueChangedSignal(uint value)
-        {
-            ValueChanged?.Invoke(this, new SignalArgsUInt(value));
-        }
-
-        private void ProcessFullSignal()
-        {
-            Full?.Invoke(this, EventArgs.Empty);
+            FullCallback = new CallbackAction(() => SendSignal(myFullEventKey));
+            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Full"), FullCallback));
         }
 
         /// <summary>Event handler for the ValueChanged signal</summary>
-        public event EventHandler<SignalArgsUInt> ValueChanged = null;
+        public event EventHandler<SignalArgsUInt> ValueChanged
+        {
+            add { myEventHandlerList.AddHandler(myValueChangedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myValueChangedEventKey, value); }
+        }
 
         /// <summary>Event handler for the Full signal</summary>
-        public event EventHandler Full = null;
+        public event EventHandler Full
+        {
+            add { myEventHandlerList.AddHandler(myFullEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myFullEventKey, value); }
+        }
 
         private CallbackActionUInt ValueChangedCallback;
         private CallbackAction FullCallback;
+
+        static readonly object myValueChangedEventKey = new object();
+        static readonly object myFullEventKey = new object();
 
         #region Imports
 

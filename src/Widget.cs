@@ -25,6 +25,7 @@
 using System;
 using System.Text;
 using System.Security;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using SFML.System;
@@ -64,7 +65,7 @@ namespace TGUI
         {
             // We need to disconnect our delegates when destroying this reference to the widget.
             // Multiple references to the same widget can exist after e.g. calling gui.GetWidgets()
-            tguiWidget_disconnectAll(CPointer, IntPtr.Zero);
+            DeinitSignals();
             tguiWidget_destroy(CPointer);
         }
 
@@ -455,94 +456,123 @@ namespace TGUI
         }
 
         /// <summary>
-        /// Initializes the signals
+        /// Helper function to throw an error if connecting signal failed and store the signal
+        /// in a list for signals that need to be disconnected when the class instance is destroyed.
+        /// </summary>
+        /// <param name="callbackId">Unique id of the callback</param>
+        protected void AddInternalSignal(uint callbackId)
+        {
+            if (callbackId == 0)
+                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+
+            myInternalSignalIds.Add(callbackId);
+        }
+
+        /// <summary>
+        /// Helper function to trigger an event without parameters
+        /// <param name="eventKey">Unique event identifier</param>
+        /// </summary>
+        protected void SendSignal(object eventKey)
+        {
+            if (myEventHandlerList[eventKey] != null)
+                ((EventHandler)myEventHandlerList[eventKey])(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Helper function to trigger an event of type EventHandler<EventArgsType>
+        /// <param name="eventKey">Unique event identifier</param>
+        /// <param name="eventArgs">Arguments for the callback</param>
+        /// </summary>
+        protected void SendSignal<EventArgsType>(object eventKey, EventArgsType eventArgs) where EventArgsType : EventArgs
+        {
+            if (myEventHandlerList[eventKey] != null)
+                ((EventHandler<EventArgsType>)myEventHandlerList[eventKey])(this, eventArgs);
+        }
+
+        /// <summary>
+        /// Initializes the internal signals
         /// </summary>
         protected virtual void InitSignals()
         {
-            PositionChangedCallback = new CallbackActionVector2f(ProcessPositionChangedSignal);
-            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("PositionChanged"), PositionChangedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            PositionChangedCallback = new CallbackActionVector2f((pos) => SendSignal(myPositionChangedEventKey, new SignalArgsVector2f(pos)));
+            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("PositionChanged"), PositionChangedCallback));
 
-            SizeChangedCallback = new CallbackActionVector2f(ProcessSizeChangedSignal);
-            if (tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("SizeChanged"), SizeChangedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            SizeChangedCallback = new CallbackActionVector2f((size) => SendSignal(mySizeChangedEventKey, new SignalArgsVector2f(size)));
+            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("SizeChanged"), SizeChangedCallback));
 
-            MouseEnteredCallback = new CallbackAction(ProcessMouseEnteredSignal);
-            if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MouseEntered"), MouseEnteredCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            MouseEnteredCallback = new CallbackAction(() => SendSignal(myMouseEnteredEventKey));
+            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MouseEntered"), MouseEnteredCallback));
 
-            MouseLeftCallback = new CallbackAction(ProcessMouseLeftSignal);
-            if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MouseLeft"), MouseLeftCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            MouseLeftCallback = new CallbackAction(() => SendSignal(myMouseLeftEventKey));
+            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MouseLeft"), MouseLeftCallback));
 
-            FocusedCallback = new CallbackAction(ProcessFocusedSignal);
-            if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Focused"), FocusedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            FocusedCallback = new CallbackAction(() => SendSignal(myFocusedEventKey));
+            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Focused"), FocusedCallback));
 
-            UnfocusedCallback = new CallbackAction(ProcessUnfocusedSignal);
-            if (tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Unfocused"), UnfocusedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            UnfocusedCallback = new CallbackAction(() => SendSignal(myUnfocusedEventKey));
+            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Unfocused"), UnfocusedCallback));
 
-            AnimationFinishedCallback = new CallbackActionAnimation(ProcessAnimationFinishedSignal);
-            if (tguiWidget_connectAnimation(CPointer, Util.ConvertStringForC_ASCII("AnimationFinished"), AnimationFinishedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            AnimationFinishedCallback = new CallbackActionAnimation((type, visible) => SendSignal(myAnimationFinishedEventKey, new SignalArgsAnimation(type, visible)));
+            AddInternalSignal(tguiWidget_connectAnimation(CPointer, Util.ConvertStringForC_ASCII("AnimationFinished"), AnimationFinishedCallback));
         }
 
-        private void ProcessPositionChangedSignal(Vector2f pos)
+        /// <summary>
+        /// Disconnects the internal signals
+        /// </summary>
+        protected void DeinitSignals()
         {
-            PositionChanged?.Invoke(this, new SignalArgsVector2f(pos));
-        }
-
-        private void ProcessSizeChangedSignal(Vector2f pos)
-        {
-            SizeChanged?.Invoke(this, new SignalArgsVector2f(pos));
-        }
-
-        private void ProcessMouseEnteredSignal()
-        {
-            MouseEntered?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void ProcessMouseLeftSignal()
-        {
-            MouseLeft?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void ProcessFocusedSignal()
-        {
-            Focused?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void ProcessUnfocusedSignal()
-        {
-            Unfocused?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void ProcessAnimationFinishedSignal(ShowAnimationType type, bool visible)
-        {
-            AnimationFinished?.Invoke(this, new SignalArgsAnimation(type, visible));
+            foreach (var id in myInternalSignalIds)
+                tguiWidget_disconnect(CPointer, id);
         }
 
         /// <summary>Event handler for the Clicked signal</summary>
-        public event EventHandler<SignalArgsVector2f> PositionChanged = null;
+        public event EventHandler<SignalArgsVector2f> PositionChanged
+        {
+            add { myEventHandlerList.AddHandler(myPositionChangedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myPositionChangedEventKey, value); }
+        }
 
         /// <summary>Event handler for the Clicked signal</summary>
-        public event EventHandler<SignalArgsVector2f> SizeChanged = null;
+        public event EventHandler<SignalArgsVector2f> SizeChanged
+        {
+            add { myEventHandlerList.AddHandler(mySizeChangedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(mySizeChangedEventKey, value); }
+        }
 
         /// <summary>Event handler for the MouseEntered signal</summary>
-        public event EventHandler MouseEntered = null;
+        public event EventHandler MouseEntered
+        {
+            add { myEventHandlerList.AddHandler(myMouseEnteredEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myMouseEnteredEventKey, value); }
+        }
 
         /// <summary>Event handler for the MouseLeft signal</summary>
-        public event EventHandler MouseLeft = null;
+        public event EventHandler MouseLeft
+        {
+            add { myEventHandlerList.AddHandler(myMouseLeftEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myMouseLeftEventKey, value); }
+        }
 
         /// <summary>Event handler for the Focused signal</summary>
-        public event EventHandler Focused = null;
+        public event EventHandler Focused
+        {
+            add { myEventHandlerList.AddHandler(myFocusedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myFocusedEventKey, value); }
+        }
 
         /// <summary>Event handler for the Unfocused signal</summary>
-        public event EventHandler Unfocused = null;
+        public event EventHandler Unfocused
+        {
+            add { myEventHandlerList.AddHandler(myFocusedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myFocusedEventKey, value); }
+        }
 
         /// <summary>Event handler for the AnimationFinished signal</summary>
-        public event EventHandler AnimationFinished = null;
+        public event EventHandler<SignalArgsAnimation> AnimationFinished
+        {
+            add { myEventHandlerList.AddHandler(myAnimationFinishedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myAnimationFinishedEventKey, value); }
+        }
 
         private CallbackActionVector2f  PositionChangedCallback;
         private CallbackActionVector2f  SizeChangedCallback;
@@ -555,7 +585,16 @@ namespace TGUI
         protected Gui myParentGui; // Required to draw CustomWidget (and Canvas)
 
         protected Dictionary<string, List<uint>> myConnectedSignals = new Dictionary<string, List<uint>>();
+        protected List<uint> myInternalSignalIds = new List<uint>();
+        protected EventHandlerList myEventHandlerList = new EventHandlerList();
 
+        static readonly object myPositionChangedEventKey = new object();
+        static readonly object mySizeChangedEventKey = new object();
+        static readonly object myMouseEnteredEventKey = new object();
+        static readonly object myMouseLeftEventKey = new object();
+        static readonly object myFocusedEventKey = new object();
+        static readonly object myUnfocusedEventKey = new object();
+        static readonly object myAnimationFinishedEventKey = new object();
 
         protected delegate void CallbackAction();
         protected delegate void CallbackActionVector2f(Vector2f param);

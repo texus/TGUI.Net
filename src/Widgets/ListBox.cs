@@ -430,60 +430,57 @@ namespace TGUI
         {
             base.InitSignals();
 
-            ItemSelectedCallback = new CallbackActionItemSelected(ProcessItemSelectedSignal);
-            if (tguiWidget_connectItemSelected(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ItemSelectedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            ItemSelectedCallback = new CallbackActionItemSelected((item, id) => SendSignal(myItemSelectedEventKey, new SignalArgsItem(Util.GetStringFromC_UTF32(item), Util.GetStringFromC_UTF32(id))));
+            AddInternalSignal(tguiWidget_connectItemSelected(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ItemSelectedCallback));
 
-            MousePressedCallback = new CallbackActionItemSelected(ProcessMousePressedSignal);
-            if (tguiWidget_connectItemSelected(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            MousePressedCallback = new CallbackActionItemSelected((item, id) => SendSignal(myMousePressedEventKey, new SignalArgsItem(Util.GetStringFromC_UTF32(item), Util.GetStringFromC_UTF32(id))));
+            AddInternalSignal(tguiWidget_connectItemSelected(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback));
 
-            MouseReleasedCallback = new CallbackActionItemSelected(ProcessMouseReleasedSignal);
-            if (tguiWidget_connectItemSelected(CPointer, Util.ConvertStringForC_ASCII("MouseReleased"), MouseReleasedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            MouseReleasedCallback = new CallbackActionItemSelected((item, id) => SendSignal(myMouseReleasedEventKey, new SignalArgsItem(Util.GetStringFromC_UTF32(item), Util.GetStringFromC_UTF32(id))));
+            AddInternalSignal(tguiWidget_connectItemSelected(CPointer, Util.ConvertStringForC_ASCII("MouseReleased"), MouseReleasedCallback));
 
-            DoubleClickedCallback = new CallbackActionItemSelected(ProcessDoubleClickedSignal);
-            if (tguiWidget_connectItemSelected(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessItemSelectedSignal(IntPtr item, IntPtr id)
-        {
-            ItemSelected?.Invoke(this, new SignalArgsItem(Util.GetStringFromC_UTF32(item), Util.GetStringFromC_UTF32(id)));
-        }
-
-        private void ProcessMousePressedSignal(IntPtr item, IntPtr id)
-        {
-            MousePressed?.Invoke(this, new SignalArgsItem(Util.GetStringFromC_UTF32(item), Util.GetStringFromC_UTF32(id)));
-        }
-
-        private void ProcessMouseReleasedSignal(IntPtr item, IntPtr id)
-        {
-            MouseReleased?.Invoke(this, new SignalArgsItem(Util.GetStringFromC_UTF32(item), Util.GetStringFromC_UTF32(id)));
-        }
-
-        private void ProcessDoubleClickedSignal(IntPtr item, IntPtr id)
-        {
-            DoubleClicked?.Invoke(this, new SignalArgsItem(Util.GetStringFromC_UTF32(item), Util.GetStringFromC_UTF32(id)));
+            DoubleClickedCallback = new CallbackActionItemSelected((item, id) => SendSignal(myDoubleClickedEventKey, new SignalArgsItem(Util.GetStringFromC_UTF32(item), Util.GetStringFromC_UTF32(id))));
+            AddInternalSignal(tguiWidget_connectItemSelected(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback));
         }
 
         /// <summary>Event handler for the ItemSelected signal</summary>
-        public event EventHandler<SignalArgsItem> ItemSelected = null;
+        public event EventHandler<SignalArgsItem> ItemSelected
+        {
+            add { myEventHandlerList.AddHandler(myItemSelectedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myItemSelectedEventKey, value); }
+        }
 
         /// <summary>Event handler for the MousePressed signal</summary>
-        public event EventHandler<SignalArgsItem> MousePressed = null;
+        public event EventHandler<SignalArgsItem> MousePressed
+        {
+            add { myEventHandlerList.AddHandler(myMousePressedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myMousePressedEventKey, value); }
+        }
 
         /// <summary>Event handler for the MouseReleased signal</summary>
-        public event EventHandler<SignalArgsItem> MouseReleased = null;
+        public event EventHandler<SignalArgsItem> MouseReleased
+        {
+            add { myEventHandlerList.AddHandler(myMouseReleasedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myMouseReleasedEventKey, value); }
+        }
 
         /// <summary>Event handler for the DoubleClicked signal</summary>
-        public event EventHandler<SignalArgsItem> DoubleClicked = null;
+        public event EventHandler<SignalArgsItem> DoubleClicked
+        {
+            add { myEventHandlerList.AddHandler(myDoubleClickedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myDoubleClickedEventKey, value); }
+        }
 
 
         private CallbackActionItemSelected ItemSelectedCallback;
         private CallbackActionItemSelected MousePressedCallback;
         private CallbackActionItemSelected MouseReleasedCallback;
         private CallbackActionItemSelected DoubleClickedCallback;
+
+        static readonly object myItemSelectedEventKey = new object();
+        static readonly object myMousePressedEventKey = new object();
+        static readonly object myMouseReleasedEventKey = new object();
+        static readonly object myDoubleClickedEventKey = new object();
 
 
         #region Imports

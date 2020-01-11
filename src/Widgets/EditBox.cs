@@ -237,33 +237,32 @@ namespace TGUI
         {
             base.InitSignals();
 
-            TextChangedCallback = new CallbackActionString(ProcessTextChangedSignal);
-            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("TextChanged"), TextChangedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            TextChangedCallback = new CallbackActionString((text) => SendSignal(myTextChangedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(text))));
+            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("TextChanged"), TextChangedCallback));
 
-            ReturnKeyPressedCallback = new CallbackActionString(ProcessReturnKeyPressedSignal);
-            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("ReturnKeyPressed"), ReturnKeyPressedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessTextChangedSignal(IntPtr text)
-        {
-            TextChanged?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
-        }
-
-        private void ProcessReturnKeyPressedSignal(IntPtr text)
-        {
-            ReturnKeyPressed?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(text)));
+            ReturnKeyPressedCallback = new CallbackActionString((text) => SendSignal(myReturnKeyPressedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(text))));
+            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("ReturnKeyPressed"), ReturnKeyPressedCallback));
         }
 
         /// <summary>Event handler for the TextChanged signal</summary>
-        public event EventHandler<SignalArgsString> TextChanged = null;
+        public event EventHandler<SignalArgsString> TextChanged
+        {
+            add { myEventHandlerList.AddHandler(myTextChangedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myTextChangedEventKey, value); }
+        }
 
         /// <summary>Event handler for the ReturnKeyPressed signal</summary>
-        public event EventHandler<SignalArgsString> ReturnKeyPressed = null;
+        public event EventHandler<SignalArgsString> ReturnKeyPressed
+        {
+            add { myEventHandlerList.AddHandler(myReturnKeyPressedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myReturnKeyPressedEventKey, value); }
+        }
 
         private CallbackActionString TextChangedCallback;
         private CallbackActionString ReturnKeyPressedCallback;
+
+        static readonly object myTextChangedEventKey = new object();
+        static readonly object myReturnKeyPressedEventKey = new object();
 
 
         #region Imports

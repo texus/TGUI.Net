@@ -128,20 +128,19 @@ namespace TGUI
         {
             base.InitSignals();
 
-            ToggledCallback = new CallbackActionInt(ProcessToggledSignal);
-            if (tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("Changed"), ToggledCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessToggledSignal(int value)
-        {
-            Toggled?.Invoke(this, new SignalArgsBool(value != 0));
+            ToggledCallback = new CallbackActionInt((val) => SendSignal(myToggledEventKey, new SignalArgsBool(val != 0)));
+            AddInternalSignal(tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("Changed"), ToggledCallback));
         }
 
         /// <summary>Event handler for the Checked/Unchecked signal</summary>
-        public event EventHandler<SignalArgsBool> Toggled = null;
+        public event EventHandler<SignalArgsBool> Toggled
+        {
+            add { myEventHandlerList.AddHandler(myToggledEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myToggledEventKey, value); }
+        }
 
         private CallbackActionInt ToggledCallback;
+        static readonly object myToggledEventKey = new object();
 
         #region Imports
 

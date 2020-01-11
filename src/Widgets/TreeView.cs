@@ -248,59 +248,56 @@ namespace TGUI
         {
             base.InitSignals();
 
-            ItemSelectedCallback = new CallbackActionString(ProcessItemSelectedSignal);
-            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ItemSelectedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            ItemSelectedCallback = new CallbackActionString((item) => SendSignal(myItemSelectedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(item))));
+            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ItemSelectedCallback));
 
-            DoubleClickedCallback = new CallbackActionString(ProcessDoubleClickedSignal);
-            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            DoubleClickedCallback = new CallbackActionString((item) => SendSignal(myDoubleClickedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(item))));
+            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback));
 
-            ExpandedCallback = new CallbackActionString(ProcessExpandedSignal);
-            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("Expanded"), ExpandedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+            ExpandedCallback = new CallbackActionString((item) => SendSignal(myExpandedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(item))));
+            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("Expanded"), ExpandedCallback));
 
-            CollapsedCallback = new CallbackActionString(ProcessCollapsedSignal);
-            if (tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("Collapsed"), CollapsedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessItemSelectedSignal(IntPtr item)
-        {
-            ItemSelected?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(item)));
-        }
-
-        private void ProcessDoubleClickedSignal(IntPtr item)
-        {
-            DoubleClicked?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(item)));
-        }
-
-        private void ProcessExpandedSignal(IntPtr item)
-        {
-            Expanded?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(item)));
-        }
-
-        private void ProcessCollapsedSignal(IntPtr item)
-        {
-            Collapsed?.Invoke(this, new SignalArgsString(Util.GetStringFromC_UTF32(item)));
+            CollapsedCallback = new CallbackActionString((item) => SendSignal(myCollapsedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(item))));
+            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("Collapsed"), CollapsedCallback));
         }
 
         /// <summary>Event handler for the ItemSelected signal</summary>
-        public event EventHandler<SignalArgsString> ItemSelected = null;
+        public event EventHandler<SignalArgsString> ItemSelected
+        {
+            add { myEventHandlerList.AddHandler(myItemSelectedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myItemSelectedEventKey, value); }
+        }
 
         /// <summary>Event handler for the DoubleClicked signal</summary>
-        public event EventHandler<SignalArgsString> DoubleClicked = null;
+        public event EventHandler<SignalArgsString> DoubleClicked
+        {
+            add { myEventHandlerList.AddHandler(myDoubleClickedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myDoubleClickedEventKey, value); }
+        }
 
         /// <summary>Event handler for the Expanded signal</summary>
-        public event EventHandler<SignalArgsString> Expanded = null;
+        public event EventHandler<SignalArgsString> Expanded
+        {
+            add { myEventHandlerList.AddHandler(myExpandedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myExpandedEventKey, value); }
+        }
 
         /// <summary>Event handler for the Collapsed signal</summary>
-        public event EventHandler<SignalArgsString> Collapsed = null;
+        public event EventHandler<SignalArgsString> Collapsed
+        {
+            add { myEventHandlerList.AddHandler(myCollapsedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myCollapsedEventKey, value); }
+        }
 
         private CallbackActionString ItemSelectedCallback;
         private CallbackActionString DoubleClickedCallback;
         private CallbackActionString ExpandedCallback;
         private CallbackActionString CollapsedCallback;
+
+        static readonly object myItemSelectedEventKey = new object();
+        static readonly object myDoubleClickedEventKey = new object();
+        static readonly object myExpandedEventKey = new object();
+        static readonly object myCollapsedEventKey = new object();
 
 
         #region Imports

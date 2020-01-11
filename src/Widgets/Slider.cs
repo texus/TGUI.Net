@@ -164,20 +164,19 @@ namespace TGUI
         {
             base.InitSignals();
 
-            ValueChangedCallback = new CallbackActionFloat(ProcessValueChangedSignal);
-            if (tguiWidget_connectFloat(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessValueChangedSignal(float value)
-        {
-            ValueChanged?.Invoke(this, new SignalArgsFloat(value));
+            ValueChangedCallback = new CallbackActionFloat((val) => SendSignal(myValueChangedEventKey, new SignalArgsFloat(val)));
+            AddInternalSignal(tguiWidget_connectFloat(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback));
         }
 
         /// <summary>Event handler for the ValueChanged signal</summary>
-        public event EventHandler<SignalArgsFloat> ValueChanged = null;
+        public event EventHandler<SignalArgsFloat> ValueChanged
+        {
+            add { myEventHandlerList.AddHandler(myValueChangedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myValueChangedEventKey, value); }
+        }
 
         private CallbackActionFloat ValueChangedCallback;
+        static readonly object myValueChangedEventKey = new object();
 
         #region Imports
 

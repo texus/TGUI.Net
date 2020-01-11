@@ -226,20 +226,19 @@ namespace TGUI
         {
             base.InitSignals();
 
-            ItemSelectedCallback = new CallbackActionItemSelected(ProcessItemSelectedSignal);
-            if (tguiWidget_connectItemSelected(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ItemSelectedCallback) == 0)
-                throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
-        }
-
-        private void ProcessItemSelectedSignal(IntPtr item, IntPtr id)
-        {
-            ItemSelected?.Invoke(this, new SignalArgsItem(Util.GetStringFromC_UTF32(item), Util.GetStringFromC_UTF32(id)));
+            ItemSelectedCallback = new CallbackActionItemSelected((item, id) => SendSignal(myItemSelectedEventKey, new SignalArgsItem(Util.GetStringFromC_UTF32(item), Util.GetStringFromC_UTF32(id))));
+            AddInternalSignal(tguiWidget_connectItemSelected(CPointer, Util.ConvertStringForC_ASCII("ItemSelected"), ItemSelectedCallback));
         }
 
         /// <summary>Event handler for the ItemSelected signal</summary>
-        public event EventHandler<SignalArgsItem> ItemSelected = null;
+        public event EventHandler<SignalArgsItem> ItemSelected
+        {
+            add { myEventHandlerList.AddHandler(myItemSelectedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myItemSelectedEventKey, value); }
+        }
 
         private CallbackActionItemSelected ItemSelectedCallback;
+        static readonly object myItemSelectedEventKey = new object();
 
         #region Imports
 
