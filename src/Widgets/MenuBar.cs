@@ -147,7 +147,7 @@ namespace TGUI
         /// menuBar.AddMenuItem(new List&lt;string&gt;{"View", "Messages", "Tags", "Important"});
         /// </code>
         /// </example>
-        public bool AddMenuItem(List<string> hierarchy, bool createParents = true)
+        public bool AddMenuItem(IReadOnlyList<string> hierarchy, bool createParents = true)
         {
             IntPtr[] hierarchyForC = new IntPtr[hierarchy.Count];
             for (int i = 0; i < hierarchy.Count; ++i)
@@ -203,7 +203,7 @@ namespace TGUI
         /// menuBar.RemoveMenuItem(new List&lt;string&gt;{"View", "Messages", "Tags", "Important"});
         /// </code>
         /// </example>
-        public bool RemoveMenuItem(List<string> hierarchy, bool removeParentsWhenEmpty = true)
+        public bool RemoveMenuItem(IReadOnlyList<string> hierarchy, bool removeParentsWhenEmpty = true)
         {
             IntPtr[] hierarchyForC = new IntPtr[hierarchy.Count];
             for (int i = 0; i < hierarchy.Count; ++i)
@@ -272,7 +272,7 @@ namespace TGUI
         /// <returns>
         /// True when the menu item exists, false when hierarchy was incorrect
         /// </returns>
-        public bool SetMenuItemEnabled(List<string> hierarchy, bool enabled)
+        public bool SetMenuItemEnabled(IReadOnlyList<string> hierarchy, bool enabled)
         {
             IntPtr[] hierarchyForC = new IntPtr[hierarchy.Count];
             for (int i = 0; i < hierarchy.Count; ++i)
@@ -288,7 +288,7 @@ namespace TGUI
         /// <returns>
         /// True if the menu item is enabled, false if it was disabled or when the hierarchy was incorrect
         /// </returns>
-        public bool GetMenuItemEnabled(List<string> hierarchy)
+        public bool GetMenuItemEnabled(IReadOnlyList<string> hierarchy)
         {
             IntPtr[] hierarchyForC = new IntPtr[hierarchy.Count];
             for (int i = 0; i < hierarchy.Count; ++i)

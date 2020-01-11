@@ -211,7 +211,7 @@ namespace TGUI
         /// </summary>
         /// <param name="item">Texts for each column</param>
         /// <returns>Index of the item that was just added</returns>
-        public uint AddItem(List<string> item)
+        public uint AddItem(IReadOnlyList<string> item)
         {
             IntPtr[] itemForC = new IntPtr[item.Count];
             for (int i = 0; i < item.Count; ++i)
@@ -226,7 +226,7 @@ namespace TGUI
         /// <param name="index">Index of the item to update</param>
         /// <param name="item">Texts for each column</param>
         /// <returns>True when the item was updated, false when the index was too high</returns>
-        public bool ChangeItem(uint index, List<string> item)
+        public bool ChangeItem(uint index, IReadOnlyList<string> item)
         {
             IntPtr[] itemForC = new IntPtr[item.Count];
             for (int i = 0; i < item.Count; ++i)
@@ -278,9 +278,13 @@ namespace TGUI
         /// Selects multiple items in the list view (if MultiSelect is true)
         /// </summary>
         /// <param name="indices">Indices of the items in the list view</param>
-        public void SetSelectedItems(List<uint> indices)
+        public void SetSelectedItems(IReadOnlyList<uint> indices)
         {
-            tguiListView_setSelectedItems(CPointer, indices.ToArray(), (uint)indices.Count);
+            uint[] indicesForC = new uint[indices.Count];
+            for (int i = 0; i < indices.Count; ++i)
+                indicesForC[i] = indices[i];
+
+            tguiListView_setSelectedItems(CPointer, indicesForC, (uint)indicesForC.Length);
         }
 
         /// <summary>
@@ -346,16 +350,16 @@ namespace TGUI
         /// <remarks>
         /// The returned list has the same length as the amount of columns.
         /// </remarks>
-        public List<string> GetItemRow(uint index)
+        public IReadOnlyList<string> GetItemRow(uint index)
         {
             unsafe
             {
-                IntPtr* TextsPtr = tguiListView_getItemRow(CPointer, index, out uint Count);
-                List<string> Row = new List<string>();
-                for (uint i = 0; i < Count; ++i)
-                    Row.Add(Util.GetStringFromC_UTF32(TextsPtr[i]));
+                IntPtr* textsPtr = tguiListView_getItemRow(CPointer, index, out uint count);
+                string[] row = new string[count];
+                for (uint i = 0; i < count; ++i)
+                    row[i] = Util.GetStringFromC_UTF32(textsPtr[i]);
 
-                return Row;
+                return row;
             }
         }
 
@@ -374,16 +378,16 @@ namespace TGUI
         /// Returns a list of the texts in the first column for all items in the list view
         /// </summary>
         /// <returns>Texts of the first column of items</returns>
-        public List<string> GetItems()
+        public IReadOnlyList<string> GetItems()
         {
             unsafe
             {
-                IntPtr* ItemsPtr = tguiListView_getItems(CPointer, out uint Count);
-                List<string> Items = new List<string>();
-                for (uint i = 0; i < Count; ++i)
-                    Items.Add(Util.GetStringFromC_UTF32(ItemsPtr[i]));
+                IntPtr* itemsPtr = tguiListView_getItems(CPointer, out uint count);
+                string[] items = new string[count];
+                for (uint i = 0; i < count; ++i)
+                    items[i] = Util.GetStringFromC_UTF32(itemsPtr[i]);
 
-                return Items;
+                return items;
             }
         }
 

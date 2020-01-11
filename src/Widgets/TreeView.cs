@@ -94,7 +94,7 @@ namespace TGUI
         /// treeView.AddItem(new List&lt;string&gt;{"Parent_2", "Child_2", "Grandchild"});
         /// </code>
         /// </example>
-        public bool AddItem(List<string> hierarchy, bool createParents = true)
+        public bool AddItem(IReadOnlyList<string> hierarchy, bool createParents = true)
         {
             IntPtr[] hierarchyForC = new IntPtr[hierarchy.Count];
             for (int i = 0; i < hierarchy.Count; ++i)
@@ -107,7 +107,7 @@ namespace TGUI
         /// Expands the given item
         /// </summary>
         /// <param name="hierarchy">Hierarchy of items, identifying the node that has to be expanded</param>
-        public void Expand(List<string> hierarchy)
+        public void Expand(IReadOnlyList<string> hierarchy)
         {
             IntPtr[] hierarchyForC = new IntPtr[hierarchy.Count];
             for (int i = 0; i < hierarchy.Count; ++i)
@@ -128,7 +128,7 @@ namespace TGUI
         /// Collapses the given item
         /// </summary>
         /// <param name="hierarchy">Hierarchy of items, identifying the node that has to be collapsed</param>
-        public void Collapse(List<string> hierarchy)
+        public void Collapse(IReadOnlyList<string> hierarchy)
         {
             IntPtr[] hierarchyForC = new IntPtr[hierarchy.Count];
             for (int i = 0; i < hierarchy.Count; ++i)
@@ -157,7 +157,7 @@ namespace TGUI
         /// treeView.SelectItem(new List&lt;string&gt;{"Parent_1", "Child_1"});
         /// </code>
         /// </example>
-        public bool SelectItem(List<string> hierarchy)
+        public bool SelectItem(IReadOnlyList<string> hierarchy)
         {
             IntPtr[] hierarchyForC = new IntPtr[hierarchy.Count];
             for (int i = 0; i < hierarchy.Count; ++i)
@@ -180,7 +180,7 @@ namespace TGUI
         /// treeView.RemoveItem(new List&lt;string&gt;{"Parent_2", "Child_2", "Grandchild"});
         /// </code>
         /// </example>
-        public bool RemoveItem(List<string> hierarchy, bool removeParentsWhenEmpty = true)
+        public bool RemoveItem(IReadOnlyList<string> hierarchy, bool removeParentsWhenEmpty = true)
         {
             IntPtr[] hierarchyForC = new IntPtr[hierarchy.Count];
             for (int i = 0; i < hierarchy.Count; ++i)

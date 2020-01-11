@@ -156,29 +156,29 @@ namespace TGUI
             return tguiComboBox_getItemCount(CPointer);
         }
 
-        public List<string> GetItems()
+        public IReadOnlyList<string> GetItems()
         {
             unsafe
             {
-                IntPtr* ItemsPtr = tguiComboBox_getItems(CPointer, out uint Count);
-                List<string> Items = new List<string>();
-                for (uint i = 0; i < Count; ++i)
-                    Items.Add(Util.GetStringFromC_UTF32(ItemsPtr[i]));
+                IntPtr* itemsPtr = tguiComboBox_getItems(CPointer, out uint count);
+                string[] items = new string[count];
+                for (uint i = 0; i < count; ++i)
+                    items[i] = Util.GetStringFromC_UTF32(itemsPtr[i]);
 
-                return Items;
+                return items;
             }
         }
 
-        public List<string> GetItemIds()
+        public IReadOnlyList<string> GetItemIds()
         {
             unsafe
             {
-                IntPtr* ItemIdsPtr = tguiComboBox_getItemIds(CPointer, out uint Count);
-                List<string> ItemIds = new List<string>();
-                for (uint i = 0; i < Count; ++i)
-                    ItemIds.Add(Util.GetStringFromC_UTF32(ItemIdsPtr[i]));
+                IntPtr* itemIdsPtr = tguiComboBox_getItemIds(CPointer, out uint count);
+                string[] itemIds = new string[count];
+                for (uint i = 0; i < count; ++i)
+                    itemIds[i] = Util.GetStringFromC_UTF32(itemIdsPtr[i]);
 
-                return ItemIds;
+                return itemIds;
             }
         }
 

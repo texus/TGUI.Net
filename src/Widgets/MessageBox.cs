@@ -36,15 +36,16 @@ namespace TGUI
         {
         }
 
-        public MessageBox(string title, string text = "", List<string> buttons = null)
+        public MessageBox(string title, string text = "", IEnumerable<string> buttons = null)
             : base(tguiMessageBox_create())
         {
-            buttons = buttons ?? new List<string>();
-
             Title = title;
             Text = text;
-            foreach (var button in buttons)
-                AddButton(button);
+            if (buttons != null)
+            {
+                foreach (var button in buttons)
+                    AddButton(button);
+            }
         }
 
         protected internal MessageBox(IntPtr cPointer)

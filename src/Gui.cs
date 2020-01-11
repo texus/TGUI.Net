@@ -141,21 +141,70 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets a list of all the widgets in this gui or completely replace all widgets with a new list
+        /// </summary>
+        /// <remarks>
+        /// Setting this property is equivalent to calling RemoveAllWidgets() and then call Add(widget) for every widget in the list.
+        /// By setting the widgets via this property you lose the ability to give a name to the widget for later retrieval.
+        /// </remarks>
+        public IReadOnlyList<Widget> Widgets
+        {
+            get
+            {
+                unsafe
+                {
+                    IntPtr* widgetsPtr = tguiGui_getWidgets(CPointer, out uint count);
+                    Widget[] widgets = new Widget[count];
+                    for (uint i = 0; i < count; ++i)
+                        widgets[i] = Util.GetWidgetFromC(widgetsPtr[i], this);
+
+                    return widgets;
+                }
+            }
+            set
+            {
+                RemoveAllWidgets();
+                foreach(Widget widget in value)
+                    Add(widget);
+            }
+        }
+
+        /// <summary>
         /// Returns a list of all the widgets in this gui
         /// </summary>
         /// <returns>
         /// List of widgets that have been added to the gui
         /// </returns>
+        [Obsolete("Use Widgets property instead")]
         public List<Widget> GetWidgets()
         {
             unsafe
             {
-                IntPtr* WidgetsPtr = tguiGui_getWidgets(CPointer, out uint Count);
+                IntPtr* widgetsPtr = tguiGui_getWidgets(CPointer, out uint count);
                 List<Widget> Widgets = new List<Widget>();
-                for (uint i = 0; i < Count; ++i)
-                    Widgets.Add(Util.GetWidgetFromC(WidgetsPtr[i], this));
+                for (uint i = 0; i < count; ++i)
+                    Widgets.Add(Util.GetWidgetFromC(widgetsPtr[i], this));
 
                 return Widgets;
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of the names of all the widgets in this gui
+        /// </summary>
+        public IReadOnlyList<string> WidgetNames
+        {
+            get
+            {
+                unsafe
+                {
+                    IntPtr* namesPtr = tguiGui_getWidgetNames(CPointer, out uint count);
+                    string[] names = new string[count];
+                    for (uint i = 0; i < count; ++i)
+                        names[i] = Util.GetStringFromC_UTF32(namesPtr[i]);
+
+                    return names;
+                }
             }
         }
 
@@ -165,16 +214,17 @@ namespace TGUI
         /// <returns>
         /// List of widget names belonging to the widgets that were added to the gui
         /// </returns>
+        [Obsolete("Use WidgetNames property instead")]
         public List<string> GetWidgetNames()
         {
             unsafe
             {
-                IntPtr* NamesPtr = tguiGui_getWidgetNames(CPointer, out uint Count);
-                List<string> Names = new List<string>();
-                for (uint i = 0; i < Count; ++i)
-                    Names.Add(Util.GetStringFromC_UTF32(NamesPtr[i]));
+                IntPtr* namesPtr = tguiGui_getWidgetNames(CPointer, out uint count);
+                List<string> names = new List<string>();
+                for (uint i = 0; i < count; ++i)
+                    names.Add(Util.GetStringFromC_UTF32(namesPtr[i]));
 
-                return Names;
+                return names;
             }
         }
 

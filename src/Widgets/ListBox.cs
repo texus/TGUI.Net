@@ -318,16 +318,16 @@ namespace TGUI
         /// Returns a copy of the items in the list box
         /// </summary>
         /// <returns>List of items</returns>
-        public List<string> GetItems()
+        public IReadOnlyList<string> GetItems()
         {
             unsafe
             {
-                IntPtr* ItemsPtr = tguiListBox_getItems(CPointer, out uint Count);
-                List<string> Items = new List<string>();
-                for (uint i = 0; i < Count; ++i)
-                    Items.Add(Util.GetStringFromC_UTF32(ItemsPtr[i]));
+                IntPtr* itemsPtr = tguiListBox_getItems(CPointer, out uint count);
+                string[] items = new string[count];
+                for (uint i = 0; i < count; ++i)
+                    items[i] = Util.GetStringFromC_UTF32(itemsPtr[i]);
 
-                return Items;
+                return items;
             }
         }
 
@@ -338,16 +338,16 @@ namespace TGUI
         /// <remarks>
         /// Items that were not given an id simply have an empty string as id.
         /// </remarks>
-        public List<string> GetItemIds()
+        public IReadOnlyList<string> GetItemIds()
         {
             unsafe
             {
-                IntPtr* ItemIdsPtr = tguiListBox_getItemIds(CPointer, out uint Count);
-                List<string> ItemIds = new List<string>();
-                for (uint i = 0; i < Count; ++i)
-                    ItemIds.Add(Util.GetStringFromC_UTF32(ItemIdsPtr[i]));
+                IntPtr* itemIdsPtr = tguiListBox_getItemIds(CPointer, out uint count);
+                string[] itemIds = new string[count];
+                for (uint i = 0; i < count; ++i)
+                    itemIds[i] = Util.GetStringFromC_UTF32(itemIdsPtr[i]);
 
-                return ItemIds;
+                return itemIds;
             }
         }
 
