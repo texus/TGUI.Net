@@ -64,6 +64,7 @@ namespace TGUI
             tguiContainer_add(CPointer, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
 
             widget.ParentGui = ParentGui;
+            myWidgets.Add(widget);
         }
 
         /// <summary>
@@ -253,6 +254,25 @@ namespace TGUI
             if (!tguiContainer_saveWidgetsToFile(CPointer, Util.ConvertStringForC_ASCII(filename)))
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
         }
+
+        /// <summary>
+        /// Gets the gui to which the widget was added.
+        /// </summary>
+        /// <remarks>
+        /// The setter is only intended for internal use.
+        /// </remarks>
+        public override Gui ParentGui
+        {
+            get { return myParentGui; }
+            set
+            {
+                myParentGui = value;
+                foreach (var widget in myWidgets)
+                    widget.ParentGui = value;
+            }
+        }
+
+        protected List<Widget> myWidgets = new List<Widget>();
 
 
         #region Imports

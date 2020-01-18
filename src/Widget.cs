@@ -438,7 +438,7 @@ namespace TGUI
         /// <remarks>
         /// The setter is only intended for internal use.
         /// </remarks>
-        public Gui ParentGui
+        public virtual Gui ParentGui
         {
             get { return myParentGui; }
             set { myParentGui = value; }
