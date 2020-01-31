@@ -182,6 +182,10 @@ namespace TGUI
         /// </returns>
         public bool Remove(Widget widget)
         {
+            var index = myWidgets.IndexOf(widget);
+            if (index != -1)
+                myWidgets.RemoveAt(index);
+
             return tguiContainer_remove(CPointer, widget.CPointer);
         }
 
@@ -191,6 +195,7 @@ namespace TGUI
         public void RemoveAllWidgets()
         {
             tguiContainer_removeAllWidgets(CPointer);
+            myWidgets.Clear();
         }
 
         /// <summary>
@@ -272,7 +277,8 @@ namespace TGUI
             }
         }
 
-        protected List<Widget> myWidgets = new List<Widget>();
+        // Children need to be stored to keep their delegates alive
+        protected readonly List<Widget> myWidgets = new List<Widget>();
 
 
         #region Imports

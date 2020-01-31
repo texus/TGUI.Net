@@ -121,6 +121,7 @@ namespace TGUI
             tguiGui_add(CPointer, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
 
             widget.ParentGui = this;
+            myWidgets.Add(widget);
         }
 
         /// <summary>
@@ -237,6 +238,10 @@ namespace TGUI
         /// </returns>
         public void Remove(Widget widget)
         {
+            var index = myWidgets.IndexOf(widget);
+            if (index != -1)
+                myWidgets.RemoveAt(index);
+
             tguiGui_remove(CPointer, widget.CPointer);
         }
 
@@ -246,6 +251,7 @@ namespace TGUI
         public void RemoveAllWidgets()
         {
             tguiGui_removeAllWidgets(CPointer);
+            myWidgets.Clear();
         }
 
         /// <summary>
@@ -477,6 +483,9 @@ namespace TGUI
 
         private RenderWindow myRenderTarget = null;
         private Func<Event, bool> myEventFilter = null;
+
+        // Children need to be stored to keep their delegates alive
+        private readonly List<Widget> myWidgets = new List<Widget>();
 
 
         #region Imports
