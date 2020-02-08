@@ -188,12 +188,6 @@ namespace TGUI
             set { tguiComboBox_setMaximumItems(CPointer, value); }
         }
 
-        public uint TextSize
-        {
-            get { return tguiComboBox_getTextSize(CPointer); }
-            set { tguiComboBox_setTextSize(CPointer, value); }
-        }
-
         public string DefaultText
         {
             get { return Util.GetStringFromC_UTF32(tguiComboBox_getDefaultText(CPointer)); }
@@ -307,12 +301,6 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         unsafe static extern private IntPtr* tguiComboBox_getItemIds(IntPtr cPointer, out uint count);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiComboBox_setTextSize(IntPtr cPointer, uint textSize);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiComboBox_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiComboBox_setDefaultText(IntPtr cPointer, IntPtr value);

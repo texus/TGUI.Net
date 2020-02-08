@@ -65,6 +65,9 @@ namespace TGUI
         /// <param name="disposing">Is the GC disposing the object, or is it an explicit call?</param>
         protected override void Destroy(bool disposing)
         {
+            foreach (var widget in myWidgets)
+                widget.Parent = null;
+
             tguiGui_destroy(CPointer);
         }
 
@@ -138,7 +141,25 @@ namespace TGUI
         /// </remarks>
         public Widget Get(string widgetName)
         {
-            return Util.GetWidgetFromC(tguiGui_get(CPointer, Util.ConvertStringForC_UTF32(widgetName)), this);
+            foreach (var widget in myWidgets)
+            {
+                if (widget.Name == widgetName)
+                    return widget;
+            }
+
+            // If none of the child widgets matches then perform a recursive search
+            foreach (var widget in myWidgets)
+            {
+                Container container = widget as Container;
+                if (container != null)
+                {
+                    Widget foundWidget = container.Get(widgetName);
+                    if (foundWidget != null)
+                        return foundWidget;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -150,18 +171,7 @@ namespace TGUI
         /// </remarks>
         public IReadOnlyList<Widget> Widgets
         {
-            get
-            {
-                unsafe
-                {
-                    IntPtr* widgetsPtr = tguiGui_getWidgets(CPointer, out uint count);
-                    Widget[] widgets = new Widget[count];
-                    for (uint i = 0; i < count; ++i)
-                        widgets[i] = Util.GetWidgetFromC(widgetsPtr[i], this);
-
-                    return widgets;
-                }
-            }
+            get { return myWidgets; }
             set
             {
                 RemoveAllWidgets();
@@ -193,6 +203,7 @@ namespace TGUI
         /// <summary>
         /// Gets the list of the names of all the widgets in this gui
         /// </summary>
+        [Obsolete("Use Gui.Widgets property in combination with Widget.Name property instead")]
         public IReadOnlyList<string> WidgetNames
         {
             get
@@ -215,7 +226,7 @@ namespace TGUI
         /// <returns>
         /// List of widget names belonging to the widgets that were added to the gui
         /// </returns>
-        [Obsolete("Use WidgetNames property instead")]
+        [Obsolete("Use Gui.Widgets property in combination with Widget.Name property instead")]
         public List<string> GetWidgetNames()
         {
             unsafe
@@ -236,13 +247,11 @@ namespace TGUI
         /// <returns>
         /// True when widget is removed, false when widget was not found
         /// </returns>
-        public void Remove(Widget widget)
+        public bool Remove(Widget widget)
         {
-            var index = myWidgets.IndexOf(widget);
-            if (index != -1)
-                myWidgets.RemoveAt(index);
-
-            tguiGui_remove(CPointer, widget.CPointer);
+            widget.Parent = null;
+            myWidgets.Remove(widget);
+            return tguiGui_remove(CPointer, widget.CPointer);
         }
 
         /// <summary>
@@ -250,8 +259,64 @@ namespace TGUI
         /// </summary>
         public void RemoveAllWidgets()
         {
-            tguiGui_removeAllWidgets(CPointer);
+            foreach (var widget in myWidgets)
+                widget.Parent = null;
+
             myWidgets.Clear();
+            tguiGui_removeAllWidgets(CPointer);
+        }
+
+        /// <summary>
+        /// Places a widget before all other widgets
+        /// </summary>
+        /// <remarks>
+        public void MoveWidgetToFront(Widget widget)
+        {
+            var index = myWidgets.IndexOf(widget);
+            if (index != -1)
+            {
+                myWidgets.RemoveAt(index);
+                myWidgets.Add(widget);
+            }
+
+            tguiGui_moveWidgetToFront(CPointer, widget.CPointer);
+        }
+
+        /// <summary>
+        /// Places a widget behind all other widgets
+        /// </summary>
+        public void MoveWidgetToBack(Widget widget)
+        {
+            var index = myWidgets.IndexOf(widget);
+            if (index != -1)
+            {
+                myWidgets.RemoveAt(index);
+                myWidgets.Insert(0, widget);
+            }
+
+            tguiGui_moveWidgetToBack(CPointer, widget.CPointer);
+        }
+
+        /// <summary>
+        /// Focuses the next widget in the gui
+        /// </summary>
+        /// <returns>
+        /// Whether a new widget was focused
+        /// </returns>
+        public bool FocusNextWidget()
+        {
+            return tguiGui_focusNextWidget(CPointer);
+        }
+
+        /// <summary>
+        /// Focuses the previous widget in the gui
+        /// </summary>
+        /// <returns>
+        /// Whether a new widget was focused
+        /// </returns>
+        public bool FocusPreviousWidget()
+        {
+            return tguiGui_focusPreviousWidget(CPointer);
         }
 
         /// <summary>
@@ -284,6 +349,19 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets or sets the character size of all existing and future child widgets
+        /// </summary>
+        /// <remarks>
+        /// The text size specified here overrides the global text size property. By default, the gui does not
+        /// pass any text size to the widgets and the widgets will use the global text size as default value.
+        /// </remarks>
+        public uint TextSize
+        {
+            get { return tguiGui_getTextSize(CPointer); }
+            set { tguiGui_setTextSize(CPointer, value); }
+        }
+
+        /// <summary>
         /// Loads the child widgets from a text file
         /// </summary>
         /// <param name="filename">Filename of the widget file</param>
@@ -291,8 +369,23 @@ namespace TGUI
         /// <exception cref="TGUIException">Thrown when file could not be opened or parsing failed</exception>
         public void LoadWidgetsFromFile(string filename, bool replaceExisting = true)
         {
+            if (replaceExisting)
+            {
+                foreach (var widget in myWidgets)
+                    widget.Parent = null;
+
+                myWidgets.Clear();
+            }
+
             if (!tguiGui_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_ASCII(filename), replaceExisting))
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+
+            unsafe
+            {
+                IntPtr* widgetsPtr = tguiGui_getWidgets(CPointer, out uint count);
+                for (int i = myWidgets.Count; i < (int)count; ++i)
+                    myWidgets.Add(Util.GetWidgetFromC(widgetsPtr[i], this));
+            }
         }
 
         /// <summary>
@@ -521,10 +614,22 @@ namespace TGUI
         unsafe static extern private IntPtr* tguiGui_getWidgetNames(IntPtr cPointer, out uint count);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiGui_remove(IntPtr cPointer, IntPtr cPointerWidget);
+        static extern private bool tguiGui_remove(IntPtr cPointer, IntPtr cPointerWidget);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiGui_removeAllWidgets(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiGui_moveWidgetToFront(IntPtr cPointer, IntPtr cPointerWidget);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiGui_moveWidgetToBack(IntPtr cPointer, IntPtr cPointerWidget);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiGui_focusNextWidget(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiGui_focusPreviousWidget(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiGui_setTabKeyUsageEnabled(IntPtr cPointer, bool enabled);
@@ -543,6 +648,12 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private float tguiGui_getOpacity(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiGui_setTextSize(IntPtr cPointer, uint textSize);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiGui_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiGui_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename, bool replaceExisting);

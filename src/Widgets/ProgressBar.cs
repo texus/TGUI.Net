@@ -94,12 +94,6 @@ namespace TGUI
             set { tguiProgressBar_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
         }
 
-        public uint TextSize
-        {
-            get { return tguiProgressBar_getTextSize(CPointer); }
-            set { tguiProgressBar_setTextSize(CPointer, value); }
-        }
-
         public Direction FillDirection
         {
             get { return tguiProgressBar_getFillDirection(CPointer); }
@@ -168,12 +162,6 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiProgressBar_getText(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiProgressBar_setTextSize(IntPtr cPointer, uint textSize);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiProgressBar_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiProgressBar_setFillDirection(IntPtr cPointer, Direction fillDirection);

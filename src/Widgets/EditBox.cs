@@ -136,15 +136,6 @@ namespace TGUI
         }
 
         /// <summary>
-        /// Gets or sets the character size of the text
-        /// </summary>
-        public uint TextSize
-        {
-            get { return tguiEditBox_getTextSize(CPointer); }
-            set { tguiEditBox_setTextSize(CPointer, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the password character (0 to not use a password character, default)
         /// </summary>
         public char PasswordCharacter
@@ -287,12 +278,6 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiEditBox_getSelectedText(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiEditBox_setTextSize(IntPtr cPointer, uint textSize);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiEditBox_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiEditBox_setPasswordCharacter(IntPtr cPointer, char passwordChar);

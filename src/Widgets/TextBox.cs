@@ -88,6 +88,15 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Gets or sets the default text of the text box. This is the text drawn when the text box is empty.
+        /// </summary>
+        public string DefaultText
+        {
+            get { return Util.GetStringFromC_UTF32(tguiTextBox_getDefaultText(CPointer)); }
+            set { tguiTextBox_setDefaultText(CPointer, Util.ConvertStringForC_UTF32(value)); }
+        }
+
+        /// <summary>
         /// Appends some text to the text that was already in the text box
         /// </summary>
         /// <param name="text">Text to add</param>
@@ -136,15 +145,6 @@ namespace TGUI
         public uint SelectionEnd
         {
             get { return tguiTextBox_getSelectionEnd(CPointer); }
-        }
-
-        /// <summary>
-        /// Gets or sets the character size of the text
-        /// </summary>
-        public uint TextSize
-        {
-            get { return tguiTextBox_getTextSize(CPointer); }
-            set { tguiTextBox_setTextSize(CPointer, value); }
         }
 
         /// <summary>
@@ -283,6 +283,12 @@ namespace TGUI
         static extern private IntPtr tguiTextBox_getText(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiTextBox_setDefaultText(IntPtr cPointer, IntPtr defaultText);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiTextBox_getDefaultText(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiTextBox_setSelectedText(IntPtr cPointer, uint selectionStartIndex, uint selectionEndIndex);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -293,12 +299,6 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private uint tguiTextBox_getSelectionEnd(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiTextBox_setTextSize(IntPtr cPointer, uint textSize);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiTextBox_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiTextBox_setMaximumCharacters(IntPtr cPointer, uint maximumCharacters);

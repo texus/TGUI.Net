@@ -208,15 +208,6 @@ namespace TGUI
         }
 
         /// <summary>
-        /// Gets or sets the character size of the text
-        /// </summary>
-        public uint TextSize
-        {
-            get { return tguiChatBox_getTextSize(CPointer); }
-            set { tguiChatBox_setTextSize(CPointer, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the default text color
         /// </summary>
         public Color TextColor
@@ -306,12 +297,6 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private uint tguiChatBox_getLineLimit(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChatBox_setTextSize(IntPtr cPointer, uint textSize);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiChatBox_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiChatBox_setTextColor(IntPtr cPointer, Color color);

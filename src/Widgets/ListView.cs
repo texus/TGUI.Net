@@ -411,19 +411,6 @@ namespace TGUI
         }
 
         /// <summary>
-        /// Gets or sets the character size of the items
-        /// </summary>
-        /// <remarks>
-        /// This will not change the height that each item has.
-        /// When passing 0 to this function, the text will be auto-sized to nicely fit inside this item height.
-        /// </remarks>
-        public uint TextSize
-        {
-            get { return tguiListView_getTextSize(CPointer); }
-            set { tguiListView_setTextSize(CPointer, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the character size of the header captions
         /// </summary>
         /// <remarks>
@@ -705,12 +692,6 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private uint tguiListView_getItemHeight(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiListView_setTextSize(IntPtr cPointer, uint textSize);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiListView_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiListView_setHeaderTextSize(IntPtr cPointer, uint textSize);

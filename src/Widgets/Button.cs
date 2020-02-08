@@ -92,15 +92,6 @@ namespace TGUI
         }
 
         /// <summary>
-        /// Gets or sets the character size of the text
-        /// </summary>
-        public uint TextSize
-        {
-            get { return tguiButton_getTextSize(CPointer); }
-            set { tguiButton_setTextSize(CPointer, value); }
-        }
-
-        /// <summary>
         /// Initializes the signals
         /// </summary>
         protected override void InitSignals()
@@ -128,16 +119,10 @@ namespace TGUI
         static extern private IntPtr tguiButton_create();
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiButton_setText(IntPtr cPointer, IntPtr value);
+        static extern private void tguiButton_setText(IntPtr cPointer, IntPtr text);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiButton_getText(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiButton_setTextSize(IntPtr cPointer, uint textSize);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiButton_getTextSize(IntPtr cPointer);
 
         #endregion
     }

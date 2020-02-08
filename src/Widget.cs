@@ -63,9 +63,6 @@ namespace TGUI
         /// <param name="disposing">Is the GC disposing the object, or is it an explicit call?</param>
         protected override void Destroy(bool disposing)
         {
-            // We need to disconnect our delegates when destroying this reference to the widget.
-            // Multiple references to the same widget can exist after e.g. calling gui.GetWidgets()
-            DeinitSignals();
             tguiWidget_destroy(CPointer);
         }
 
@@ -371,9 +368,13 @@ namespace TGUI
         /// <summary>
         /// Gets the parent to which the widget was added
         /// </summary>
+        /// <remarks>
+        /// The setter is only intended for internal use.
+        /// </remarks>
         public Container Parent
         {
-            get { return (Container)Util.GetWidgetFromC(tguiWidget_getParent(CPointer), ParentGui); }
+            get { return myParent; }
+            set { myParent = value; }
         }
 
         /// <summary>
@@ -392,7 +393,10 @@ namespace TGUI
         /// </remarks>
         public void MoveToFront()
         {
-            tguiWidget_moveToFront(CPointer);
+            if (myParent != null)
+                myParent.MoveWidgetToFront(this);
+            else if (myParentGui != null)
+                myParentGui.MoveWidgetToFront(this);
         }
 
         /// <summary>
@@ -403,7 +407,10 @@ namespace TGUI
         /// </remarks>
         public void MoveToBack()
         {
-            tguiWidget_moveToBack(CPointer);
+            if (myParent != null)
+                myParent.MoveWidgetToBack(this);
+            else if (myParentGui != null)
+                myParentGui.MoveWidgetToBack(this);
         }
 
         /// <summary>
@@ -419,6 +426,27 @@ namespace TGUI
                 else
                     tguiWidget_setToolTip(CPointer, IntPtr.Zero);
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the character size of the text in this widget if it uses text
+        /// </summary>
+        public uint TextSize
+        {
+            get { return tguiWidget_getTextSize(CPointer); }
+            set { tguiWidget_setTextSize(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the name of a widget
+        /// </summary>
+        /// <remarks>
+        /// This name is overwritten when adding the widget to its parent. You should only change it afterwards.
+        /// </remarks>
+        public string Name
+        {
+            get { return Util.GetStringFromC_UTF32(tguiWidget_getName(CPointer)); }
+            set { tguiWidget_setName(CPointer, Util.ConvertStringForC_UTF32(value)); }
         }
 
         /// <summary>
@@ -591,7 +619,8 @@ namespace TGUI
         private CallbackAction          UnfocusedCallback;
         private CallbackActionAnimation AnimationFinishedCallback;
 
-        protected Gui myParentGui = null; // Required to draw CustomWidget (and Canvas)
+        protected Container myParent = null;
+        protected Gui myParentGui = null;
         private object myUserData = null;
 
         protected Dictionary<string, List<uint>> myConnectedSignals = new Dictionary<string, List<uint>>();
@@ -733,12 +762,6 @@ namespace TGUI
         static extern private IntPtr tguiWidget_getWidgetType(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiWidget_moveToFront(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiWidget_moveToBack(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiWidget_setToolTip(IntPtr cPointer, IntPtr toolTipCPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -749,6 +772,18 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiWidget_isAnimationPlaying(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiWidget_setTextSize(IntPtr cPointer, uint textSize);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tguiWidget_getTextSize(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiWidget_setName(IntPtr cPointer, IntPtr name);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiWidget_getName(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiWidget_mouseOnWidget(IntPtr cPointer, Vector2f pos);

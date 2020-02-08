@@ -75,12 +75,6 @@ namespace TGUI
             set { tguiMessageBox_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
         }
 
-        public uint TextSize
-        {
-            get { return tguiMessageBox_getTextSize(CPointer); }
-            set { tguiMessageBox_setTextSize(CPointer, value); }
-        }
-
         public void AddButton(string text)
         {
             tguiMessageBox_addButton(CPointer, Util.ConvertStringForC_UTF32(text));
@@ -114,12 +108,6 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiMessageBox_getText(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiMessageBox_setTextSize(IntPtr cPointer, uint textSize);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiMessageBox_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiMessageBox_addButton(IntPtr cPointer, IntPtr text);

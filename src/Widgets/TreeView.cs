@@ -215,15 +215,6 @@ namespace TGUI
         }
 
         /// <summary>
-        /// Gets or sets the character size of the text
-        /// </summary>
-        public uint TextSize
-        {
-            get { return tguiTreeView_getTextSize(CPointer); }
-            set { tguiTreeView_setTextSize(CPointer, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the thumb position of the vertical scrollbar
         /// </summary>
         public uint VerticalScrollbarValue
@@ -337,12 +328,6 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private uint tguiTreeView_getItemHeight(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiTreeView_setTextSize(IntPtr cPointer, uint textSize);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiTreeView_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiTreeView_setVerticalScrollbarValue(IntPtr cPointer, uint newValue);

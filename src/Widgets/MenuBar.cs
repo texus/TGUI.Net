@@ -298,15 +298,6 @@ namespace TGUI
         }
 
         /// <summary>
-        /// Gets or sets the character size of the text
-        /// </summary>
-        public uint TextSize
-        {
-            get { return tguiMenuBar_getTextSize(CPointer); }
-            set { tguiMenuBar_setTextSize(CPointer, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the minimum width of the submenus
         /// </summary>
         /// <remarks>
@@ -404,12 +395,6 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiMenuBar_getMenuItemEnabledHierarchy(IntPtr cPointer, IntPtr[] hierarcy, uint hierarchyLength);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiMenuBar_setTextSize(IntPtr cPointer, uint textSize);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiMenuBar_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiMenuBar_setMinimumSubMenuWidth(IntPtr cPointer, float minimumSubMenuWidth);

@@ -29,88 +29,148 @@ using SFML.Graphics;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Renderer for text box widgets
+    /// </summary>
     public class TextBoxRenderer : WidgetRenderer
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public TextBoxRenderer()
             : base(tguiTextBoxRenderer_create())
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal TextBoxRenderer(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public TextBoxRenderer(TextBoxRenderer copy)
             : base(tguiTextBoxRenderer_copy(copy.CPointer))
         {
         }
 
+        /// <summary>
+        /// Gets or sets the size of the borders
+        /// </summary>
         public Outline Borders
         {
             get { return new Outline(tguiTextBoxRenderer_getBorders(CPointer)); }
             set { tguiTextBoxRenderer_setBorders(CPointer, value.CPointer); }
         }
 
+        /// <summary>
+        /// Gets or sets the size of the padding
+        /// </summary>
         public Outline Padding
         {
             get { return new Outline(tguiTextBoxRenderer_getPadding(CPointer)); }
             set { tguiTextBoxRenderer_setPadding(CPointer, value.CPointer); }
         }
 
+        /// <summary>
+        /// Gets or sets the background color
+        /// </summary>
         public Color BackgroundColor
         {
             get { return tguiTextBoxRenderer_getBackgroundColor(CPointer); }
             set { tguiTextBoxRenderer_setBackgroundColor(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the text color
+        /// </summary>
         public Color TextColor
         {
             get { return tguiTextBoxRenderer_getTextColor(CPointer); }
             set { tguiTextBoxRenderer_setTextColor(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the text color of the default text that can optionally be displayed when the text box is empty
+        /// </summary>
+        public Color DefaultTextColor
+        {
+            get { return tguiTextBoxRenderer_getDefaultTextColor(CPointer); }
+            set { tguiTextBoxRenderer_setDefaultTextColor(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the text color of the selected text that will be used inside the text box
+        /// </summary>
         public Color SelectedTextColor
         {
             get { return tguiTextBoxRenderer_getSelectedTextColor(CPointer); }
             set { tguiTextBoxRenderer_setSelectedTextColor(CPointer, value); }
         }
 
+
+        /// <summary>
+        /// Gets or sets the background color of the selected text that will be used inside the text box
+        /// </summary>
         public Color SelectedTextBackgroundColor
         {
             get { return tguiTextBoxRenderer_getSelectedTextBackgroundColor(CPointer); }
             set { tguiTextBoxRenderer_setSelectedTextBackgroundColor(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the color of the borders
+        /// </summary>
         public Color BorderColor
         {
             get { return tguiTextBoxRenderer_getBorderColor(CPointer); }
             set { tguiTextBoxRenderer_setBorderColor(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the color that will be used inside the text box for the blinking caret
+        /// </summary>
         public Color CaretColor
         {
             get { return tguiTextBoxRenderer_getCaretColor(CPointer); }
             set { tguiTextBoxRenderer_setCaretColor(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the width of the caret
+        /// </summary>
         public float CaretWidth
         {
             get { return tguiTextBoxRenderer_getCaretWidth(CPointer); }
             set { tguiTextBoxRenderer_setCaretWidth(CPointer, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the background image that is displayed
+        /// </summary>
         public Texture TextureBackground
         {
             set { tguiTextBoxRenderer_setTextureBackground(CPointer, value.CPointer); }
         }
 
+        /// <summary>
+        /// Gets or sets the renderer data of the scrollbar
+        /// </summary>
         public RendererData Scrollbar
         {
             get { return new RendererData(tguiTextBoxRenderer_getScrollbar(CPointer)); }
             set { tguiTextBoxRenderer_setScrollbar(CPointer, value.CPointer); }
         }
 
+        /// <summary>
+        /// Gets or sets the wanted width scrollbar (0 to use the default width, which is the texture width when using textures)
+        /// </summary>
         public float ScrollbarWidth
         {
             get { return tguiTextBoxRenderer_getScrollbarWidth(CPointer); }
@@ -149,6 +209,12 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private Color tguiTextBoxRenderer_getTextColor(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiTextBoxRenderer_setDefaultTextColor(IntPtr cPointer, Color color);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private Color tguiTextBoxRenderer_getDefaultTextColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiTextBoxRenderer_setSelectedTextColor(IntPtr cPointer, Color color);

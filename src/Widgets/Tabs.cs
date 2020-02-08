@@ -148,12 +148,6 @@ namespace TGUI
             return tguiTabs_getTabEnabled(CPointer, index);
         }
 
-        public uint TextSize
-        {
-            get { return tguiTabs_getTextSize(CPointer); }
-            set { tguiTabs_setTextSize(CPointer, value); }
-        }
-
         public float MaximumTabWidth
         {
             get { return tguiTabs_getMaximumTabWidth(CPointer); }
@@ -245,12 +239,6 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiTabs_getTabEnabled(IntPtr cPointer, uint index);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiTabs_setTextSize(IntPtr cPointer, uint textSize);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiTabs_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiTabs_setMaximumTabWidth(IntPtr cPointer, float maximumTabWidth);

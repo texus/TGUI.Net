@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>0.8.3</Version>
+    <Version>0.8.7</Version>
     <RootNamespace>TGUI</RootNamespace>
     <AssemblyName>tgui.net</AssemblyName>
     <Authors>texus</Authors>

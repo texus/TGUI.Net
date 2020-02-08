@@ -361,19 +361,6 @@ namespace TGUI
         }
 
         /// <summary>
-        /// Gets or sets the character size of the items
-        /// </summary>
-        /// <remarks>
-        /// This will not change the height that each item has.
-        /// When passing 0 to this function, the text will be auto-sized to nicely fit inside this item height.
-        /// </remarks>
-        public uint TextSize
-        {
-            get { return tguiListBox_getTextSize(CPointer); }
-            set { tguiListBox_setTextSize(CPointer, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the maximum items inside the list box. When the maximum is 0 then the limit is disabled.
         /// </summary>
         public uint MaximumItems
@@ -553,12 +540,6 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private uint tguiListBox_getItemHeight(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiListBox_setTextSize(IntPtr cPointer, uint textSize);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiListBox_getTextSize(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiListBox_setMaximumItems(IntPtr cPointer, uint maximumItems);
