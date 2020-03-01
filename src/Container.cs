@@ -306,12 +306,7 @@ namespace TGUI
             if (!tguiContainer_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_ASCII(filename), replaceExisting))
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
 
-            unsafe
-            {
-                IntPtr* widgetsPtr = tguiContainer_getWidgets(CPointer, out uint count);
-                for (int i = myWidgets.Count; i < (int)count; ++i)
-                    myWidgets.Add(Util.GetWidgetFromC(widgetsPtr[i], ParentGui));
-            }
+            AddNewWidgetsAfterLoadFromFile();
         }
 
         /// <summary>
@@ -339,6 +334,26 @@ namespace TGUI
                 myParentGui = value;
                 foreach (var widget in myWidgets)
                     widget.ParentGui = value;
+            }
+        }
+
+        /// <summary>
+        /// Create the new C# widgets for all the the c++ widgets that got added
+        /// </summary>
+        protected internal void AddNewWidgetsAfterLoadFromFile()
+        {
+            unsafe
+            {
+                IntPtr* widgetsPtr = tguiContainer_getWidgets(CPointer, out uint count);
+                for (int i = myWidgets.Count; i < (int)count; ++i)
+                {
+                    Widget widget = Util.GetWidgetFromC(widgetsPtr[i], ParentGui);
+                    myWidgets.Add(widget);
+
+                    Container container = widget as Container;
+                    if (container != null)
+                        container.AddNewWidgetsAfterLoadFromFile();
+                }
             }
         }
 
