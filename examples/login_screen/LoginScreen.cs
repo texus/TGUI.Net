@@ -40,7 +40,7 @@ namespace TGUI.Example
             var gui = new Gui(window);
 
             window.Closed += (s,e) => window.Close();
-/*
+
             var picture = new Picture("background.jpg");
             picture.Size = new Vector2f(width, height);
             gui.Add(picture);
@@ -64,14 +64,6 @@ namespace TGUI.Example
 
             button.Pressed += (s, e) => Console.WriteLine("Username: " + editBoxUsername.Text + "\n"
                                                           + "Password: " + editBoxPassword.Text);
-*/
-
-            gui.LoadWidgetsFromFile("LoginScreen.txt");
-            ChildWindow root = (ChildWindow)gui.Get("LoginScreen");
-            Console.WriteLine(gui.Widgets);
-            Console.WriteLine(gui.Widgets[0].Name);
-            Console.WriteLine(gui.Get("LoginScreen"));
-            Console.WriteLine(root.Widgets.Count);
 
             while (window.IsOpen)
             {
