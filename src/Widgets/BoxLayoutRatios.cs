@@ -42,14 +42,19 @@ namespace TGUI
 
         public void Add(Widget widget, float ratio, string widgetName = "")
         {
-            tguiBoxLayoutRatios_add(CPointer, widget.CPointer, ratio, Util.ConvertStringForC_UTF32(widgetName));
-
-            widget.ParentGui = ParentGui;
+            Insert((uint)myWidgets.Count, widget, ratio, widgetName);
         }
 
         public void Insert(uint index, Widget widget, float ratio, string widgetName = "")
         {
             tguiBoxLayoutRatios_insert(CPointer, index, widget.CPointer, ratio, Util.ConvertStringForC_UTF32(widgetName));
+            widget.Parent = this;
+            widget.ParentGui = ParentGui;
+
+            if (index < myWidgets.Count)
+                myWidgets.Insert((int)index, widget);
+            else
+                myWidgets.Add(widget);
         }
 
         public void AddSpace(float ratio)
@@ -84,9 +89,6 @@ namespace TGUI
 
 
         #region Imports
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiBoxLayoutRatios_add(IntPtr cPointer, IntPtr widgetCPointer, float ratio, IntPtr widgetName);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiBoxLayoutRatios_insert(IntPtr cPointer, uint index, IntPtr widgetCPointer, float ratio, IntPtr widgetName);
