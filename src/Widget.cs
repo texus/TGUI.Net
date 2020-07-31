@@ -600,8 +600,8 @@ namespace TGUI
         /// <summary>Event handler for the Unfocused signal</summary>
         public event EventHandler Unfocused
         {
-            add { myEventHandlerList.AddHandler(myFocusedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myFocusedEventKey, value); }
+            add { myEventHandlerList.AddHandler(myUnfocusedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myUnfocusedEventKey, value); }
         }
 
         /// <summary>Event handler for the AnimationFinished signal</summary>
