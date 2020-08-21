@@ -250,6 +250,9 @@ namespace TGUI
 
             CollapsedCallback = new CallbackActionString((item) => SendSignal(myCollapsedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(item))));
             AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("Collapsed"), CollapsedCallback));
+
+            RightClickedCallback = new CallbackActionString((item) => SendSignal(myRightClickedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(item))));
+            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("RightClicked"), RightClickedCallback));
         }
 
         /// <summary>Event handler for the ItemSelected signal</summary>
@@ -280,15 +283,24 @@ namespace TGUI
             remove { myEventHandlerList.RemoveHandler(myCollapsedEventKey, value); }
         }
 
+        /// <summary>Event handler for the RightClicked signal</summary>
+        public event EventHandler<SignalArgsString> RightClicked
+        {
+            add { myEventHandlerList.AddHandler(myRightClickedEventKey, value); }
+            remove { myEventHandlerList.RemoveHandler(myRightClickedEventKey, value); }
+        }
+
         private CallbackActionString ItemSelectedCallback;
         private CallbackActionString DoubleClickedCallback;
         private CallbackActionString ExpandedCallback;
         private CallbackActionString CollapsedCallback;
+        private CallbackActionString RightClickedCallback;
 
         static readonly object myItemSelectedEventKey = new object();
         static readonly object myDoubleClickedEventKey = new object();
         static readonly object myExpandedEventKey = new object();
         static readonly object myCollapsedEventKey = new object();
+        static readonly object myRightClickedEventKey = new object();
 
 
         #region Imports

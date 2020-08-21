@@ -220,7 +220,6 @@ namespace TGUI
         /// <summary>
         /// Places a widget before all other widgets
         /// </summary>
-        /// <remarks>
         public void MoveWidgetToFront(Widget widget)
         {
             var index = myWidgets.IndexOf(widget);
@@ -246,6 +245,71 @@ namespace TGUI
             }
 
             tguiContainer_moveWidgetToBack(CPointer, widget.CPointer);
+        }
+
+        /// <summary>
+        /// Returns the child widget that is focused inside this container
+        /// </summary>
+        /// <returns>Focused child widget or null if none of the widgets are currently focused</returns>
+        /// <remarks>
+        /// If the focused widget is a container then that container is returned. If you want to know which widget
+        /// is focused inside that container (recursively) then you should use the GetFocusedLeaf() function.
+        /// </remarks>
+        public Widget GetFocusedChild()
+        {
+            int index = tguiContainer_getFocusedChildIndex(CPointer);
+            if (index >= 0)
+                return myWidgets[index];
+            else
+                return null;
+        }
+
+        /// <summary>
+        /// Returns the leaf child widget that is focused inside this container
+        /// </summary>
+        /// <returns>Focused leaf child widget or null if none of the widgets are currently focused</returns>
+        /// <remarks>
+        /// If the focused widget is a container then the GetFocusedLeaf() is recursively called on that container. If you want
+        /// to limit the search to only direct children of this container then you should use the GetFocusedChild() function.
+        /// </remarks>
+        public Widget GetFocusedLeaf()
+        {
+            int index = tguiContainer_getFocusedChildIndex(CPointer);
+            if (index < 0)
+                return null;
+
+            Widget widget = myWidgets[index];
+            Container container = widget as Container;
+            if (container == null)
+                return widget;
+
+            Widget leafWidget = container.GetFocusedLeaf();
+            if (leafWidget == null)
+                return container;
+
+            return leafWidget;
+        }
+
+        /// <summary>
+        /// Returns the leaf child widget that is located at the given position
+        /// </summary>
+        /// <param name="x">The x position where the widget will be searched, relative to the container</param>
+        /// <param name="y">The y position where the widget will be searched, relative to the container</param>
+        /// <returns>Widget at the queried position, or null when there is no widget at that location</returns>
+        public Widget GetWidgetAtPosition(float x, float y)
+        {
+            unsafe
+            {
+                int* indicesPtr = tguiContainer_getWidgetAtPositionIndices(CPointer, x, y, out uint count);
+                if (count == 0)
+                    return null;
+
+                Widget widget = myWidgets[indicesPtr[0]];
+                for (uint i = 1; i < count; ++i)
+                    widget = (widget as Container).Widgets[indicesPtr[i]];
+
+                return widget;
+            }
         }
 
         /// <summary>
@@ -386,6 +450,12 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiContainer_moveWidgetToBack(IntPtr cPointer, IntPtr cPointerWidget);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private int tguiContainer_getFocusedChildIndex(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        unsafe static extern private int* tguiContainer_getWidgetAtPositionIndices(IntPtr cPointer, float x, float y, out uint count);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiContainer_focusNextWidget(IntPtr cPointer);

@@ -64,10 +64,22 @@ namespace TGUI
             set { tguiComboBoxRenderer_setBackgroundColor(CPointer, value); }
         }
 
+        public Color BackgroundColorDisabled
+        {
+            get { return tguiComboBoxRenderer_getBackgroundColorDisabled(CPointer); }
+            set { tguiComboBoxRenderer_setBackgroundColorDisabled(CPointer, value); }
+        }
+
         public Color TextColor
         {
             get { return tguiComboBoxRenderer_getTextColor(CPointer); }
             set { tguiComboBoxRenderer_setTextColor(CPointer, value); }
+        }
+
+        public Color TextColorDisabled
+        {
+            get { return tguiComboBoxRenderer_getTextColorDisabled(CPointer); }
+            set { tguiComboBoxRenderer_setTextColorDisabled(CPointer, value); }
         }
 
         public Color DefaultTextColor
@@ -88,6 +100,12 @@ namespace TGUI
             set { tguiComboBoxRenderer_setArrowBackgroundColorHover(CPointer, value); }
         }
 
+        public Color ArrowBackgroundColorDisabled
+        {
+            get { return tguiComboBoxRenderer_getArrowBackgroundColorDisabled(CPointer); }
+            set { tguiComboBoxRenderer_setArrowBackgroundColorDisabled(CPointer, value); }
+        }
+
         public Color ArrowColor
         {
             get { return tguiComboBoxRenderer_getArrowColor(CPointer); }
@@ -98,6 +116,12 @@ namespace TGUI
         {
             get { return tguiComboBoxRenderer_getArrowColorHover(CPointer); }
             set { tguiComboBoxRenderer_setArrowColorHover(CPointer, value); }
+        }
+
+        public Color ArrowColorDisabled
+        {
+            get { return tguiComboBoxRenderer_getArrowColorDisabled(CPointer); }
+            set { tguiComboBoxRenderer_setArrowColorDisabled(CPointer, value); }
         }
 
         public Color BorderColor
@@ -111,6 +135,11 @@ namespace TGUI
             set { tguiComboBoxRenderer_setTextureBackground(CPointer, value.CPointer); }
         }
 
+        public Texture TextureBackgroundDisabled
+        {
+            set { tguiComboBoxRenderer_setTextureBackgroundDisabled(CPointer, value.CPointer); }
+        }
+
         public Texture TextureArrow
         {
             set { tguiComboBoxRenderer_setTextureArrow(CPointer, value.CPointer); }
@@ -119,6 +148,11 @@ namespace TGUI
         public Texture TextureArrowHover
         {
             set { tguiComboBoxRenderer_setTextureArrowHover(CPointer, value.CPointer); }
+        }
+
+        public Texture TextureArrowDisabled
+        {
+            set { tguiComboBoxRenderer_setTextureArrowDisabled(CPointer, value.CPointer); }
         }
 
         public Text.Styles TextStyle
@@ -167,10 +201,22 @@ namespace TGUI
         static extern private Color tguiComboBoxRenderer_getBackgroundColor(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiComboBoxRenderer_setBackgroundColorDisabled(IntPtr cPointer, Color color);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private Color tguiComboBoxRenderer_getBackgroundColorDisabled(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiComboBoxRenderer_setTextColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private Color tguiComboBoxRenderer_getTextColor(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiComboBoxRenderer_setTextColorDisabled(IntPtr cPointer, Color color);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private Color tguiComboBoxRenderer_getTextColorDisabled(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiComboBoxRenderer_setDefaultTextColor(IntPtr cPointer, Color color);
@@ -191,6 +237,12 @@ namespace TGUI
         static extern private Color tguiComboBoxRenderer_getArrowBackgroundColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiComboBoxRenderer_setArrowBackgroundColorDisabled(IntPtr cPointer, Color color);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private Color tguiComboBoxRenderer_getArrowBackgroundColorDisabled(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiComboBoxRenderer_setArrowColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -203,6 +255,12 @@ namespace TGUI
         static extern private Color tguiComboBoxRenderer_getArrowColorHover(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiComboBoxRenderer_setArrowColorDisabled(IntPtr cPointer, Color color);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private Color tguiComboBoxRenderer_getArrowColorDisabled(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiComboBoxRenderer_setBorderColor(IntPtr cPointer, Color color);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -212,10 +270,16 @@ namespace TGUI
         static extern private void tguiComboBoxRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiComboBoxRenderer_setTextureBackgroundDisabled(IntPtr cPointer, IntPtr texture);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiComboBoxRenderer_setTextureArrow(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiComboBoxRenderer_setTextureArrowHover(IntPtr cPointer, IntPtr texture);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiComboBoxRenderer_setTextureArrowDisabled(IntPtr cPointer, IntPtr texture);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiComboBoxRenderer_setTextStyle(IntPtr cPointer, Text.Styles style);

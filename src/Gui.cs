@@ -298,6 +298,99 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Returns the child widget that is focused inside this container
+        /// </summary>
+        /// <returns>Focused child widget or null if none of the widgets are currently focused</returns>
+        /// <remarks>
+        /// If the focused widget is a container then that container is returned. If you want to know which widget
+        /// is focused inside that container (recursively) then you should use the GetFocusedLeaf() function.
+        /// </remarks>
+        public Widget GetFocusedChild()
+        {
+            int index = tguiGui_getFocusedChildIndex(CPointer);
+            if (index >= 0)
+                return myWidgets[index];
+            else
+                return null;
+        }
+
+        /// <summary>
+        /// Returns the leaf child widget that is focused inside this container
+        /// </summary>
+        /// <returns>Focused leaf child widget or null if none of the widgets are currently focused</returns>
+        /// <remarks>
+        /// If the focused widget is a container then the GetFocusedLeaf() is recursively called on that container. If you want
+        /// to limit the search to only direct children of this container then you should use the GetFocusedChild() function.
+        /// </remarks>
+        public Widget GetFocusedLeaf()
+        {
+            int index = tguiGui_getFocusedChildIndex(CPointer);
+            if (index < 0)
+                return null;
+
+            Widget widget = myWidgets[index];
+            Container container = widget as Container;
+            if (container == null)
+                return widget;
+
+            Widget leafWidget = container.GetFocusedLeaf();
+            if (leafWidget == null)
+                return container;
+
+            return leafWidget;
+        }
+
+        /// <summary>
+        /// Returns the leaf child widget that is located at the given position
+        /// </summary>
+        /// <param name="x">The x position where the widget will be searched, relative to the gui view</param>
+        /// <param name="y">The y position where the widget will be searched, relative to the gui view</param>
+        /// <returns>Widget at the queried position, or null when there is no widget at that location</returns>
+        /// <remarks>
+        /// To use pixel coordinates instead of a position relative to the view, use the GetWidgetBelowMouseCursor function.
+        /// </remarks>
+        public Widget GetWidgetAtPosition(float x, float y)
+        {
+            unsafe
+            {
+                int* indicesPtr = tguiGui_getWidgetAtPositionIndices(CPointer, x, y, out uint count);
+                if (count == 0)
+                    return null;
+
+                Widget widget = myWidgets[indicesPtr[0]];
+                for (uint i = 1; i < count; ++i)
+                    widget = (widget as Container).Widgets[indicesPtr[i]];
+
+                return widget;
+            }
+        }
+
+        /// <summary>
+        /// Returns the leaf child widget below the mouse
+        /// </summary>
+        /// <param name="mouseX">X position of the mouse, in pixel coordinates, relative the the window</param>
+        /// <param name="mouseY">Y position of the mouse, in pixel coordinates, relative the the window</param>
+        /// <returns>Widget below the mouse, or null when the mouse isn't on top of any widgets</returns>
+        /// <remarks>
+        /// To coordinates relative to the view instead of absolute pixel coordinates, use the GetWidgetAtPosition function.
+        /// </remarks>
+        public Widget GetWidgetBelowMouseCursor(int mouseX, int mouseY)
+        {
+            unsafe
+            {
+                int* indicesPtr = tguiGui_getWidgetBelowMouseCursorIndices(CPointer, mouseX, mouseY, out uint count);
+                if (count == 0)
+                    return null;
+
+                Widget widget = myWidgets[indicesPtr[0]];
+                for (uint i = 1; i < count; ++i)
+                    widget = (widget as Container).Widgets[indicesPtr[i]];
+
+                return widget;
+            }
+        }
+
+        /// <summary>
         /// Focuses the next widget in the gui
         /// </summary>
         /// <returns>
@@ -392,6 +485,26 @@ namespace TGUI
         {
             if (!tguiGui_saveWidgetsToFile(CPointer, Util.ConvertStringForC_ASCII(filename)))
                 throw new TGUIException(Util.GetStringFromC_ASCII(tgui_getLastError()));
+        }
+
+        /// <summary>
+        /// Sets whether Draw() updates the clock (default), or whether you need to call UpdateTime() on the Gui
+        /// </summary>
+        public bool DrawingUpdatesTime
+        {
+            set { tguiGui_setDrawingUpdatesTime(CPointer, value); }
+        }
+
+        /// <summary>
+        /// Updates the internal clock (for timers, animations and blinking edit cursors)
+        /// </summary>
+        /// <returns>True if the the contents of the screen changed, false if nothing changed</returns>
+        /// <remarks>
+        /// You do not need to call this function unless you set DrawingUpdatesTime to false (it is true by default).
+        /// </remarks>
+        public bool UpdateTime()
+        {
+            return tguiGui_updateTime(CPointer);
         }
 
         /// <summary>
@@ -641,6 +754,15 @@ namespace TGUI
         static extern private void tguiGui_moveWidgetToBack(IntPtr cPointer, IntPtr cPointerWidget);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private int tguiGui_getFocusedChildIndex(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        unsafe static extern private int* tguiGui_getWidgetAtPositionIndices(IntPtr cPointer, float x, float y, out uint count);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        unsafe static extern private int* tguiGui_getWidgetBelowMouseCursorIndices(IntPtr cPointer, int x, int y, out uint count);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiGui_focusNextWidget(IntPtr cPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -677,7 +799,10 @@ namespace TGUI
         static extern private bool tguiGui_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiWidget_getWidgetType(IntPtr cPointer);
+        static extern private void tguiGui_setDrawingUpdatesTime(IntPtr cPointer, bool drawUpdatesTime);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private bool tguiGui_updateTime(IntPtr cPointer);
 
         #endregion
     }

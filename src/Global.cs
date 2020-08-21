@@ -57,6 +57,15 @@ namespace TGUI
             set { tgui_setGlobalTextSize(value); }
         }
 
+        /// <summary>
+        /// Gets or sets the blink rate of the cursor in edit fields such as EditBox and TextBox (in milliseconds)
+        /// </summary>
+        public static uint EditCursorBlinkRate
+        {
+            get { return tgui_getEditCursorBlinkRate(); }
+            set { tgui_setEditCursorBlinkRate(value); }
+        }
+
 
         #region Imports
 
@@ -68,6 +77,12 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private uint tgui_getGlobalTextSize();
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tgui_setEditCursorBlinkRate(uint blinkRateMilliseconds);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private uint tgui_getEditCursorBlinkRate();
 
         #endregion
     }

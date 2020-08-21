@@ -225,6 +225,27 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Returns the index of the item with the given id
+        /// </summary>
+        /// <param name="index">The id of the item that was given to it when it was added</param>
+        /// <returns>The index of the item that matched the id, or -1 when no item matches the id</returns>
+        /// <remarks>In case the id is not unique, the index of the first item with that id will be returned.</remarks>
+        public int GetIndexById(string id)
+        {
+            return tguiListBox_getIndexById(CPointer, Util.ConvertStringForC_UTF32(id));
+        }
+
+        /// <summary>
+        /// Returns the id of the item at the given index
+        /// </summary>
+        /// <param name="index">The index of the item to find</param>
+        /// <returns>The id of the requested item, or an empty string when the index was too high</returns>
+        public string GetIdByIndex(uint index)
+        {
+            return Util.GetStringFromC_UTF32(tguiListBox_getIdByIndex(CPointer, index));
+        }
+
+        /// <summary>
         /// Returns the currently selected item
         /// </summary>
         /// <returns>
@@ -507,6 +528,12 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiListBox_getItemByIndex(IntPtr cPointer, uint index);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private int tguiListBox_getIndexById(IntPtr cPointer, IntPtr id);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiListBox_getIdByIndex(IntPtr cPointer, uint index);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiListBox_getSelectedItem(IntPtr cPointer);
