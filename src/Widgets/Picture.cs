@@ -43,7 +43,11 @@ namespace TGUI
             : base(tguiPicture_create())
         {
             if (filename.Length > 0)
-                Renderer.Texture = new Texture(filename);
+            {
+                var texture = new Texture(filename);
+                Renderer.Texture = texture;
+                texture.Dispose();
+            }
         }
 
         /// <summary>
