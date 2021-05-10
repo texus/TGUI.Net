@@ -68,6 +68,7 @@ namespace TGUI
         public new TextBoxRenderer Renderer
         {
             get { return new TextBoxRenderer(tguiWidget_getRenderer(CPointer)); }
+            set { SetRenderer(value.Data); }
         }
 
         /// <summary>
