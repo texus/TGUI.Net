@@ -1,6 +1,8 @@
 TGUI.Net
 ========
 
+**This binding is no longber being actively developed. There are currently no plans to update it to TGUI 0.9**
+
 [TGUI.Net](https://tgui.net) is a .Net binding for the [TGUI library](https://github.com/texus/TGUI), a cross-platform GUI for SFML.
 
 [![NuGet](https://img.shields.io/badge/win--x64-blue.svg?label=NuGet&longCache=true)](https://www.nuget.org/packages/TGUI.Net.win-x64/)
