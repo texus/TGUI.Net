@@ -36,6 +36,12 @@ namespace TGUI
         {
         }
 
+        public ScrollbarRenderer(RendererData data)
+            : base(tguiScrollbarRenderer_create())
+        {
+            Data = data;
+        }
+
         protected internal ScrollbarRenderer(IntPtr cPointer)
             : base(cPointer)
         {

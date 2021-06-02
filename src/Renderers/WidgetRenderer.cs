@@ -127,6 +127,7 @@ namespace TGUI
         public RendererData Data
         {
             get { return new RendererData(tguiWidgetRenderer_getData(CPointer)); }
+            set { tguiWidgetRenderer_setData(CPointer, value.CPointer); }
         }
 
         /// <summary>
@@ -170,6 +171,9 @@ namespace TGUI
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private bool tguiWidgetRenderer_getTransparentTexture(IntPtr cPointer);
+
+        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tguiWidgetRenderer_setData(IntPtr cPointer, IntPtr dataCPointer);
 
         [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiWidgetRenderer_getData(IntPtr cPointer);

@@ -43,6 +43,16 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Constructor that creates a new renderer and immediately replaces its internal data
+        /// </summary>
+        /// <param name="data">Renderer data</param>
+        public ListBoxRenderer(RendererData data)
+            : base(tguiListBoxRenderer_create())
+        {
+            Data = data;
+        }
+
+        /// <summary>
         /// Constructor that creates the object from its C pointer
         /// </summary>
         /// <param name="cPointer">Pointer to object in C code</param>
