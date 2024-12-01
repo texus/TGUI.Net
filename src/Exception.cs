@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
+// Copyright (C) 2012-2024 Bruno Van de Velde (vdv_b@tgui.eu)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -27,25 +27,25 @@ using System;
 namespace TGUI
 {
     [Serializable()]
-    public class TGUIException : System.Exception
+    public class Exception : System.Exception
     {
-        public TGUIException()
+        public Exception()
             : base()
         {
         }
 
-        public TGUIException(string message)
+        public Exception(string message)
             : base(message)
         {
         }
 
-        public TGUIException(string message, System.Exception inner)
+        public Exception(string message, System.Exception inner)
             : base(message, inner)
         {
         }
 
-        protected TGUIException(System.Runtime.Serialization.SerializationInfo info,
-                                System.Runtime.Serialization.StreamingContext context)
+        protected Exception(System.Runtime.Serialization.SerializationInfo info,
+                            System.Runtime.Serialization.StreamingContext context)
         {
         }
     }

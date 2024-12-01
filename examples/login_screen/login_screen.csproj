@@ -1,59 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <RootNamespace>TGUI.Example</RootNamespace>
-    <AssemblyName>example-login-screen</AssemblyName>
-    <Configurations>Debug;Release;_WINDOWS_;_LINUX_;_OSX_</Configurations>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="sfml-graphics">
-      <HintPath>..\..\lib\SFML.Graphics.dll</HintPath>
-    </Reference>
-    <Reference Include="sfml-system">
-      <HintPath>..\..\lib\SFML.System.dll</HintPath>
-    </Reference>
-    <Reference Include="sfml-window">
-      <HintPath>..\..\lib\SFML.Window.dll</HintPath>
-    </Reference>
-    <Reference Include="tgui.net">
-      <HintPath>..\..\lib\tgui.net.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup Condition="($(RuntimeIdentifier.StartsWith('win')) And !$(RuntimeIdentifier.Equals('')) ) Or ( $(OS.Equals('Windows_NT')) And $(RuntimeIdentifier.Equals('')) ) ">
-    <Content Include="..\..\extlibs\lib\csfml-graphics.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\extlibs\lib\csfml-window.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\extlibs\lib\csfml-system.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\extlibs\lib\sfml-graphics-2.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\extlibs\lib\sfml-window-2.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\extlibs\lib\sfml-system-2.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\extlibs\lib\ctgui-0.8.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\extlibs\lib\tgui.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+  <PropertyGroup>
+    <RootNamespace>TGUI.Example</RootNamespace>
+    <AssemblyName>example-login-screen</AssemblyName>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
 
   <ItemGroup>
     <None Update="background.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/tgui.csproj" />
   </ItemGroup>
 
 </Project>

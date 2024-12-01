@@ -1,47 +1,22 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
+using System.Security;
+using System;
 
 namespace TGUI
 {
     /// <summary>
     /// Button widget
     /// </summary>
-    public class Button : ClickableWidget
+    public class Button : ButtonBase
     {
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="text">Caption of the button</param>
-        public Button(string text = "")
+        public Button()
             : base(tguiButton_create())
         {
-            if (text.Length > 0)
-                Text = text;
         }
 
         /// <summary>
@@ -62,67 +37,37 @@ namespace TGUI
         {
         }
 
-        /// <summary>
-        /// Gets or sets the renderer, which gives access to properties that determine how the widget is displayed
-        /// </summary>
-        /// <remarks>
-        /// After retrieving the renderer, the widget has its own copy of the renderer and it will no longer be shared.
-        /// </remarks>
-        public new ButtonRenderer Renderer
+        public class PressEventArgs : EventArgs
         {
-            get { return new ButtonRenderer(tguiWidget_getRenderer(CPointer)); }
-            set { SetRenderer(value.Data); }
+            public PressEventArgs(string buttonText)
+            {
+                ButtonText = buttonText;
+            }
+            public string ButtonText { get; }
+        }
+        public event EventHandler<PressEventArgs> OnPress
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackString func = (IntPtr str) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new PressEventArgs(Util.GetStringFromC_UTF32(str)));
+                };
+                uint id = tguiWidget_signalStringConnect(CPointer, Util.ConvertStringForC_UTF32("Pressed"), func);
+                ConnectEventHandler(id, "Pressed", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("Pressed", value);
+            }
         }
 
-        /// <summary>
-        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
-        /// </summary>
-        public new ButtonRenderer SharedRenderer
-        {
-            get { return new ButtonRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-        }
+        #region GeneratedImports
 
-        /// <summary>
-        /// Gets or sets the caption displayed on the button
-        /// </summary>
-        public string Text
-        {
-            get { return Util.GetStringFromC_UTF32(tguiButton_getText(CPointer)); }
-            set { tguiButton_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
-        }
-
-        /// <summary>
-        /// Initializes the signals
-        /// </summary>
-        protected override void InitSignals()
-        {
-            base.InitSignals();
-
-            PressedCallback = new CallbackActionString((text) => SendSignal(myPressedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(text))));
-            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("Pressed"), PressedCallback));
-        }
-
-        /// <summary>Event handler for the Pressed signal</summary>
-        public event EventHandler<SignalArgsString> Pressed
-        {
-            add { myEventHandlerList.AddHandler(myPressedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myPressedEventKey, value); }
-        }
-
-        private CallbackActionString PressedCallback;
-        static readonly object myPressedEventKey = new object();
-
-
-        #region Imports
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiButton_create();
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiButton_setText(IntPtr cPointer, IntPtr text);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiButton_getText(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiButton_create();
 
         #endregion
     }

@@ -1,167 +1,61 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.8.8</Version>
+    <Version>1.6.0-alpha</Version>
     <RootNamespace>TGUI</RootNamespace>
     <AssemblyName>tgui.net</AssemblyName>
     <Authors>texus</Authors>
     <Copyright>Copyright © Bruno Van de Velde</Copyright>
-    <PackageId>TGUI.Net.win-x64</PackageId>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageId>TGUI.Net</PackageId>
     <PackageTags>tgui;sfml;net;x64</PackageTags>
-    <Description>TGUI is an easy to use cross-platform GUI library for SFML.
-This package contains .NET Standard 2.0 libraries for both TGUI.Net and SFML.Net, including the 64-bit windows dependencies.</Description>
+    <Description>TGUI.NET is a .NET binding for the C++ TGUI library to provide a GUI for SFML.Net</Description>
     <PackageLicenseExpression>Zlib</PackageLicenseExpression>
     <PackageProjectUrl>https://tgui.net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/texus/TGUI.Net/</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIconUrl>https://tgui.eu/resources/NugetIcon.png</PackageIconUrl>
     <PackageIcon>NugetIcon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Configurations>Debug;Release;_WINDOWS_;_LINUX_;_OSX_</Configurations>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <PropertyGroup>
-    <IsWindows>False</IsWindows>
-    <IsOSX>False</IsOSX>
-    <IsAndroid>False</IsAndroid>
-    <IsLinux>False</IsLinux>
+    <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows>
+    <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true' Or '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::FreeBSD)))' == 'true'">true</IsLinux>
+    <IsMacOS Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsMacOS>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='_OSX_|AnyCPU'">
-    <DefineConstants>_OSX_;NETSTANDARD2_0</DefineConstants>
-    <IsOSX>True</IsOSX>
+  <PropertyGroup Condition="'$(IsWindows)'=='true'">
+    <DefineConstants>_WINDOWS_</DefineConstants>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='_LINUX_|AnyCPU'">
-    <DefineConstants>_LINUX_;NETSTANDARD2_0</DefineConstants>
-    <IsLinux>True</IsLinux>
+  <PropertyGroup Condition="'$(IsLinux)'=='true'">
+    <DefineConstants>_LINUX_</DefineConstants>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='_WINDOWS_|AnyCPU'">
-    <DefineConstants>_WINDOWS_;NETSTANDARD2_0</DefineConstants>
-    <IsWindows>True</IsWindows>
-  </PropertyGroup>
-
-  <!-- Check if we target Windows -->
-  <PropertyGroup Condition="($(RuntimeIdentifier.StartsWith('win')) And !$(RuntimeIdentifier.Equals('')) ) Or ( $(OS.Equals('Windows_NT')) And $(RuntimeIdentifier.Equals('')) ) ">
-    <!--Replacing '-' and '.' by '_' in Constants because we cannot use those characters in the source files -->
-    <DefineConstants>_WINDOWS_;NETSTANDARD2_0</DefineConstants>
-    <IsWindows>True</IsWindows>
-  </PropertyGroup>
-
-  <!-- Check if we target OSX -->
-  <PropertyGroup Condition="($(RuntimeIdentifier.StartsWith('osx')) And !$(RuntimeIdentifier.Equals('')) ) Or ( $([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX))) And $(RuntimeIdentifier.Equals('')) ) ">
-    <!--Replacing '-' and '.' by '_' in Constants because we cannot use those characters in the source files -->
-    <DefineConstants>_OSX_, $(RuntimeIdentifier.Replace("-","_").Replace(".","_"))</DefineConstants>
-    <IsOSX>True</IsOSX>
-  </PropertyGroup>
-
-  <!-- Check if we target Android (Doesn't Detect properly for now but is Official: https://docs.microsoft.com/en-us/dotnet/core/rid-catalog) -->
-  <!-- (Less check to do because we consider we cannot Dev on Android and anyway there<s no way to detect an Android Platform other then the RID) -->
-  <PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('android')) ">
-    <!--Replacing '-' and '.' by '_' in Constants because we cannot use those characters in the source files -->
-    <DefineConstants>_ANDROID_, $(RuntimeIdentifier.Replace("-","_").Replace(".","_"))</DefineConstants>
-    <IsAndroid>True</IsAndroid>
-  </PropertyGroup>
-
-  <!-- Check if we target Linux (To many name to check, instead we check if not one of the other OS) -->
-  <PropertyGroup Condition=" !$(IsWindows) And !$(IsOSX) And !$(IsAndroid)">
-    <!--Replacing '-' and '.' by '_' in Constants because we cannot use those characters in the source files -->
-    <DefineConstants>_LINUX_, $(RuntimeIdentifier.Replace("-","_").Replace(".","_"))</DefineConstants>
-    <IsLinux>True</IsLinux>
+  <PropertyGroup Condition="'$(IsMacOS)'=='true'">
+    <DefineConstants>_MACOS_</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="sfml-audio">
-      <HintPath>../lib/SFML.Audio.dll</HintPath>
-    </Reference>
-    <Reference Include="sfml-graphics">
-      <HintPath>../lib/SFML.Graphics.dll</HintPath>
-    </Reference>
-    <Reference Include="sfml-system">
-      <HintPath>../lib/SFML.System.dll</HintPath>
-    </Reference>
-    <Reference Include="sfml-window">
-      <HintPath>../lib/SFML.Window.dll</HintPath>
-    </Reference>
+    <None Pack="True" Include="NugetIcon.png" PackagePath="/" />
+    <None Pack="True" Include="../README.md" PackagePath="/" />
+    <None Pack="True" Include="../CTGUI-runtimes/**" PackagePath="runtimes" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="NugetPackBuild.targets">
-      <Pack>true</Pack>
-      <PackagePath>build/$(PackageId).targets</PackagePath>
-    </Content>
-    <Content Include="../lib/SFML.Audio.dll">
-      <Pack>true</Pack>
-      <PackagePath>lib/$(TargetFramework)/</PackagePath>
-    </Content>
-    <Content Include="../lib/SFML.Graphics.dll">
-      <Pack>true</Pack>
-      <PackagePath>lib/$(TargetFramework)/</PackagePath>
-    </Content>
-    <Content Include="../lib/SFML.System.dll">
-      <Pack>true</Pack>
-      <PackagePath>lib/$(TargetFramework)/</PackagePath>
-    </Content>
-    <Content Include="../lib/SFML.Window.dll">
-      <Pack>true</Pack>
-      <PackagePath>lib/$(TargetFramework)/</PackagePath>
-    </Content>
-    <Content Include="../extlibs/lib/csfml-audio.dll">
-      <Pack>true</Pack>
-      <PackagePath>build/</PackagePath>
-    </Content>
-    <Content Include="../extlibs/lib/csfml-graphics.dll">
-      <Pack>true</Pack>
-      <PackagePath>build/</PackagePath>
-    </Content>
-    <Content Include="../extlibs/lib/csfml-system.dll">
-      <Pack>true</Pack>
-      <PackagePath>build/</PackagePath>
-    </Content>
-    <Content Include="../extlibs/lib/csfml-window.dll">
-      <Pack>true</Pack>
-      <PackagePath>build/</PackagePath>
-    </Content>
-    <Content Include="../extlibs/lib/ctgui-0.8.dll">
-      <Pack>true</Pack>
-      <PackagePath>build/</PackagePath>
-    </Content>
-    <Content Include="../extlibs/lib/sfml-audio-2.dll">
-      <Pack>true</Pack>
-      <PackagePath>build/</PackagePath>
-    </Content>
-    <Content Include="../extlibs/lib/sfml-graphics-2.dll">
-      <Pack>true</Pack>
-      <PackagePath>build/</PackagePath>
-    </Content>
-    <Content Include="../extlibs/lib/sfml-system-2.dll">
-      <Pack>true</Pack>
-      <PackagePath>build/</PackagePath>
-    </Content>
-    <Content Include="../extlibs/lib/sfml-window-2.dll">
-      <Pack>true</Pack>
-      <PackagePath>build/</PackagePath>
-    </Content>
-    <Content Include="../extlibs/lib/tgui.dll">
-      <Pack>true</Pack>
-      <PackagePath>build/</PackagePath>
-    </Content>
-    <Content Include="NugetIcon.png">
-      <Pack>true</Pack>
-      <PackagePath>/</PackagePath>
-    </Content>
+    <PackageReference Include="SFML.Net" Version="2.6.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
-  </ItemGroup>
 </Project>

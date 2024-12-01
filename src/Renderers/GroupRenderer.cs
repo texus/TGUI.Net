@@ -1,46 +1,37 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
-using SFML.Graphics;
+using System.Security;
+using System;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Renderer for Group widgets
+    /// </summary>
     public class GroupRenderer : WidgetRenderer
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public GroupRenderer()
             : base(tguiGroupRenderer_create())
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal GroupRenderer(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Renderer object to copy</param>
         public GroupRenderer(GroupRenderer copy)
             : base(tguiGroupRenderer_copy(copy.CPointer))
         {
@@ -48,23 +39,23 @@ namespace TGUI
 
         public Outline Padding
         {
-            get { return new Outline(tguiGroupRenderer_getPadding(CPointer)); }
-            set { tguiGroupRenderer_setPadding(CPointer, value.CPointer); }
+            get => new Outline(tguiGroupRenderer_getPadding(CPointer));
+            set => tguiGroupRenderer_setPadding(CPointer, value.CPointer);
         }
 
-        #region Imports
+        #region GeneratedImports
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiGroupRenderer_create();
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiGroupRenderer_create();
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiGroupRenderer_copy(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiGroupRenderer_copy(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiGroupRenderer_setPadding(IntPtr cPointer, IntPtr borders);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiGroupRenderer_getPadding(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiGroupRenderer_getPadding(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiGroupRenderer_setPadding(IntPtr cPointer, IntPtr value);
 
         #endregion
     }

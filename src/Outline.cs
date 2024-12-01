@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
+// Copyright (C) 2012-2024 Bruno Van de Velde (vdv_b@tgui.eu)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -31,7 +31,7 @@ namespace TGUI
     /// <summary>
     /// Outline is used to define padding and borders
     /// </summary>
-    public class Outline : SFML.ObjectBase
+    public class Outline : ObjectBase
     {
         /// <summary>
         /// Construct the outline
@@ -134,60 +134,47 @@ namespace TGUI
         /// <summary>
         /// Gets the width of the left outline
         /// </summary>
-        public float Left
-        {
-            get { return tguiOutline_getLeft(CPointer); }
-        }
+        public float Left => tguiOutline_getLeft(CPointer);
 
         /// <summary>
         /// Gets the height of the top outline
         /// </summary>
-        public float Top
-        {
-            get { return tguiOutline_getTop(CPointer); }
-        }
+        public float Top => tguiOutline_getTop(CPointer);
 
         /// <summary>
         /// Gets the width of the right outline
         /// </summary>
-        public float Right
-        {
-            get { return tguiOutline_getRight(CPointer); }
-        }
+        public float Right => tguiOutline_getRight(CPointer);
 
         /// <summary>
         /// Gets the height of the bottom outline
         /// </summary>
-        public float Bottom
-        {
-            get { return tguiOutline_getBottom(CPointer); }
-        }
-
+        public float Bottom => tguiOutline_getBottom(CPointer);
 
         #region Imports
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiOutline_create(float left, float top, float right, float bottom);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiOutline_createFromStrings(IntPtr left, IntPtr top, IntPtr right, IntPtr bottom);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiOutline_copy(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiOutline_destroy(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private float tguiOutline_getLeft(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private float tguiOutline_getTop(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private float tguiOutline_getRight(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private float tguiOutline_getBottom(IntPtr cPointer);
 
         #endregion

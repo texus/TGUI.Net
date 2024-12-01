@@ -1,152 +1,197 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Security;
+using System;
 
 namespace TGUI
 {
+    public enum GridAlignment
+    {
+        Center,
+        UpperLeft,
+        Up,
+        UpperRight,
+        Right,
+        BottomRight,
+        Bottom,
+        BottomLeft,
+        Left,
+    }
+
+    /// <summary>
+    /// Grid widget
+    /// </summary>
     public class Grid : Container
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public Grid()
             : base(tguiGrid_create())
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal Grid(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public Grid(Grid copy)
             : base(copy)
         {
         }
 
+        public unsafe Dictionary<Widget, (int row, int column)> WidgetLocations
+        {
+            get
+            {
+                var dict = new Dictionary<Widget, (int row, int column)>();
+
+                WidgetLocationImpl* locationList = tguiGrid_getWidgetLocations(CPointer, out UIntPtr count);
+                for (int i = 0; i < (int)count; ++i)
+                {
+                    Widget? widget = Util.GetWidgetFromC(tguiWidget_addPointerReference(locationList[i].widget));
+                    if (!(widget is null))
+                        dict[widget] = ((int)locationList[i].row, (int)locationList[i].column);
+                }
+
+                tguiGridWidgetLocation_destroy(locationList, count);
+                return dict;
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct WidgetLocationImpl
+        {
+            public IntPtr widget;
+            public UIntPtr row;
+            public UIntPtr column;
+        }
+
         public bool AutoSize
         {
-            get { return tguiGrid_getAutoSize(CPointer); }
-            set { tguiGrid_setAutoSize(CPointer, value); }
+            get => tguiGrid_getAutoSize(CPointer) != 0;
+            set => tguiGrid_setAutoSize(CPointer, value ? (byte)1 : (byte)0);
         }
 
-        public void AddWidget(Widget widget, uint row, uint col)
+        public void AddWidget(Widget? widget, int row, int col, GridAlignment alignment, Outline padding)
         {
-            tguiGrid_addWidget(CPointer, widget.CPointer, row, col, (new Outline()).CPointer, Alignment.Center);
+            tguiGrid_addWidget(CPointer, widget is null ? IntPtr.Zero : widget.CPointer, (UIntPtr)row, (UIntPtr)col, alignment, padding.CPointer);
         }
 
-        public void AddWidget(Widget widget, uint row, uint col, Outline padding, Alignment alignment = Alignment.Center)
+        public void SetWidgetCell(Widget? widget, int row, int col, GridAlignment alignment, Outline padding)
         {
-            tguiGrid_addWidget(CPointer, widget.CPointer, row, col, padding.CPointer, alignment);
+            tguiGrid_setWidgetCell(CPointer, widget is null ? IntPtr.Zero : widget.CPointer, (UIntPtr)row, (UIntPtr)col, alignment, padding.CPointer);
         }
 
-        public Widget GetWidget(uint row, uint col)
+        public Widget? GetWidget(int row, int col)
         {
-            return Util.GetWidgetFromC(tguiGrid_getWidget(CPointer, row, col), ParentGui);
+            return Util.GetWidgetFromC(tguiGrid_getWidget(CPointer, (UIntPtr)row, (UIntPtr)col));
         }
 
-        public void SetWidgetPadding(Widget widget, Outline padding)
+        public void SetWidgetAlignment(Widget? widget, GridAlignment alignment)
         {
-            tguiGrid_setWidgetPadding(CPointer, widget.CPointer, padding.CPointer);
+            tguiGrid_setWidgetAlignment(CPointer, widget is null ? IntPtr.Zero : widget.CPointer, alignment);
         }
 
-        public void SetWidgetPadding(uint row, uint col, Outline padding)
+        public void SetWidgetAlignment(int row, int col, GridAlignment alignment)
         {
-            tguiGrid_setWidgetPaddingByCell(CPointer, row, col, padding.CPointer);
+            tguiGrid_setWidgetAlignmentByCell(CPointer, (UIntPtr)row, (UIntPtr)col, alignment);
         }
 
-        public Outline GetWidgetPadding(Widget widget)
+        public GridAlignment GetWidgetAlignment(Widget? widget)
         {
-            return new Outline(tguiGrid_getWidgetPadding(CPointer, widget.CPointer));
+            return tguiGrid_getWidgetAlignment(CPointer, widget is null ? IntPtr.Zero : widget.CPointer);
         }
 
-        public Outline GetWidgetPadding(uint row, uint col)
+        public GridAlignment GetWidgetAlignment(int row, int col)
         {
-            return new Outline(tguiGrid_getWidgetPaddingByCell(CPointer, row, col));
+            return tguiGrid_getWidgetAlignmentByCell(CPointer, (UIntPtr)row, (UIntPtr)col);
         }
 
-        public void SetWidgetAlignment(Widget widget, Alignment alignment)
+        public void SetWidgetPadding(Widget? widget, Outline padding)
         {
-            tguiGrid_setWidgetAlignment(CPointer, widget.CPointer, alignment);
+            tguiGrid_setWidgetPadding(CPointer, widget is null ? IntPtr.Zero : widget.CPointer, padding.CPointer);
         }
 
-        public void SetWidgetAlignment(uint row, uint col, Alignment alignment)
+        public void SetWidgetPadding(int row, int col, Outline padding)
         {
-            tguiGrid_setWidgetAlignmentByCell(CPointer, row, col, alignment);
+            tguiGrid_setWidgetPaddingByCell(CPointer, (UIntPtr)row, (UIntPtr)col, padding.CPointer);
         }
 
-        public Alignment GetWidgetAlignment(Widget widget)
+        public Outline GetWidgetPadding(Widget? widget)
         {
-            return tguiGrid_getWidgetAlignment(CPointer, widget.CPointer);
+            return new Outline(tguiGrid_getWidgetPadding(CPointer, widget is null ? IntPtr.Zero : widget.CPointer));
         }
 
-        public Alignment GetWidgetAlignment(uint row, uint col)
+        public Outline GetWidgetPadding(int row, int col)
         {
-            return tguiGrid_getWidgetAlignmentByCell(CPointer, row, col);
+            return new Outline(tguiGrid_getWidgetPaddingByCell(CPointer, (UIntPtr)row, (UIntPtr)col));
         }
-
 
         #region Imports
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiGrid_create();
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern unsafe void tguiGridWidgetLocation_destroy(WidgetLocationImpl* locationList, UIntPtr count);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiGrid_setAutoSize(IntPtr cPointer, bool autoSize);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern unsafe WidgetLocationImpl* tguiGrid_getWidgetLocations(IntPtr cPointer, out UIntPtr count);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiGrid_getAutoSize(IntPtr cPointer);
+        #endregion
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiGrid_addWidget(IntPtr cPointer, IntPtr widgetCPointer, uint row, uint col, IntPtr paddingCPointer, Alignment alignment);
+        #region GeneratedImports
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiGrid_getWidget(IntPtr cPointer, uint row, uint col);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiGrid_create();
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiGrid_setWidgetPadding(IntPtr cPointer, IntPtr widgetCPointer, IntPtr paddingCPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiGrid_getAutoSize(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiGrid_setWidgetPaddingByCell(IntPtr cPointer, uint row, uint col, IntPtr paddingCPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiGrid_setAutoSize(IntPtr cPointer, byte value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiGrid_getWidgetPadding(IntPtr cPointer, IntPtr widgetCPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiGrid_addWidget(IntPtr cPointer, IntPtr widget, UIntPtr row, UIntPtr col, GridAlignment alignment, IntPtr padding);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiGrid_getWidgetPaddingByCell(IntPtr cPointer, uint row, uint col);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiGrid_setWidgetCell(IntPtr cPointer, IntPtr widget, UIntPtr row, UIntPtr col, GridAlignment alignment, IntPtr padding);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiGrid_setWidgetAlignment(IntPtr cPointer, IntPtr widgetCPointer, Alignment alignment);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiGrid_getWidget(IntPtr cPointer, UIntPtr row, UIntPtr col);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiGrid_setWidgetAlignmentByCell(IntPtr cPointer, uint row, uint col, Alignment alignment);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiGrid_setWidgetAlignment(IntPtr cPointer, IntPtr widget, GridAlignment alignment);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Alignment tguiGrid_getWidgetAlignment(IntPtr cPointer, IntPtr widgetCPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiGrid_setWidgetAlignmentByCell(IntPtr cPointer, UIntPtr row, UIntPtr col, GridAlignment alignment);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Alignment tguiGrid_getWidgetAlignmentByCell(IntPtr cPointer, uint row, uint col);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern GridAlignment tguiGrid_getWidgetAlignment(IntPtr cPointer, IntPtr widget);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern GridAlignment tguiGrid_getWidgetAlignmentByCell(IntPtr cPointer, UIntPtr row, UIntPtr col);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiGrid_setWidgetPadding(IntPtr cPointer, IntPtr widget, IntPtr padding);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiGrid_setWidgetPaddingByCell(IntPtr cPointer, UIntPtr row, UIntPtr col, IntPtr padding);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiGrid_getWidgetPadding(IntPtr cPointer, IntPtr widget);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiGrid_getWidgetPaddingByCell(IntPtr cPointer, UIntPtr row, UIntPtr col);
 
         #endregion
     }

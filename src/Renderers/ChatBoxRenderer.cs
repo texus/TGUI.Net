@@ -1,46 +1,37 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
-using SFML.Graphics;
+using System.Security;
+using System;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Renderer for ChatBox widgets
+    /// </summary>
     public class ChatBoxRenderer : WidgetRenderer
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public ChatBoxRenderer()
             : base(tguiChatBoxRenderer_create())
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal ChatBoxRenderer(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Renderer object to copy</param>
         public ChatBoxRenderer(ChatBoxRenderer copy)
             : base(tguiChatBoxRenderer_copy(copy.CPointer))
         {
@@ -48,92 +39,95 @@ namespace TGUI
 
         public Outline Borders
         {
-            get { return new Outline(tguiChatBoxRenderer_getBorders(CPointer)); }
-            set { tguiChatBoxRenderer_setBorders(CPointer, value.CPointer); }
+            get => new Outline(tguiChatBoxRenderer_getBorders(CPointer));
+            set => tguiChatBoxRenderer_setBorders(CPointer, value.CPointer);
         }
 
         public Outline Padding
         {
-            get { return new Outline(tguiChatBoxRenderer_getPadding(CPointer)); }
-            set { tguiChatBoxRenderer_setPadding(CPointer, value.CPointer); }
+            get => new Outline(tguiChatBoxRenderer_getPadding(CPointer));
+            set => tguiChatBoxRenderer_setPadding(CPointer, value.CPointer);
         }
 
-        public Color BackgroundColor
+        public Color? BackgroundColor
         {
-            get { return tguiChatBoxRenderer_getBackgroundColor(CPointer); }
-            set { tguiChatBoxRenderer_setBackgroundColor(CPointer, value); }
+            get => Util.GetColorFromC(tguiChatBoxRenderer_getBackgroundColor(CPointer));
+            set => tguiChatBoxRenderer_setBackgroundColor(CPointer, Util.ConvertColorForC(value));
         }
 
-        public Color BorderColor
+        public Color? BorderColor
         {
-            get { return tguiChatBoxRenderer_getBorderColor(CPointer); }
-            set { tguiChatBoxRenderer_setBorderColor(CPointer, value); }
+            get => Util.GetColorFromC(tguiChatBoxRenderer_getBorderColor(CPointer));
+            set => tguiChatBoxRenderer_setBorderColor(CPointer, Util.ConvertColorForC(value));
         }
 
         public Texture TextureBackground
         {
-            set { tguiChatBoxRenderer_setTextureBackground(CPointer, value.CPointer); }
+            get => new Texture(tguiChatBoxRenderer_getTextureBackground(CPointer));
+            set => tguiChatBoxRenderer_setTextureBackground(CPointer, value.CPointer);
         }
 
         public RendererData Scrollbar
         {
-            get { return new RendererData(tguiChatBoxRenderer_getScrollbar(CPointer)); }
-            set { tguiChatBoxRenderer_setScrollbar(CPointer, value.CPointer); }
+            get => new RendererData(tguiChatBoxRenderer_getScrollbar(CPointer));
+            set => tguiChatBoxRenderer_setScrollbar(CPointer, value.CPointer);
         }
 
         public float ScrollbarWidth
         {
-            get { return tguiChatBoxRenderer_getScrollbarWidth(CPointer); }
-            set { tguiChatBoxRenderer_setScrollbarWidth(CPointer, value); }
+            get => tguiChatBoxRenderer_getScrollbarWidth(CPointer);
+            set => tguiChatBoxRenderer_setScrollbarWidth(CPointer, value);
         }
 
+        #region GeneratedImports
 
-        #region Imports
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiChatBoxRenderer_create();
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiChatBoxRenderer_create();
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiChatBoxRenderer_copy(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiChatBoxRenderer_copy(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiChatBoxRenderer_getBorders(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChatBoxRenderer_setBorders(IntPtr cPointer, IntPtr borders);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChatBoxRenderer_setBorders(IntPtr cPointer, IntPtr value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiChatBoxRenderer_getBorders(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiChatBoxRenderer_getPadding(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChatBoxRenderer_setPadding(IntPtr cPointer, IntPtr padding);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChatBoxRenderer_setPadding(IntPtr cPointer, IntPtr value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiChatBoxRenderer_getPadding(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiChatBoxRenderer_getBackgroundColor(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChatBoxRenderer_setBackgroundColor(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChatBoxRenderer_setBackgroundColor(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiChatBoxRenderer_getBackgroundColor(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiChatBoxRenderer_getBorderColor(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChatBoxRenderer_setBorderColor(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChatBoxRenderer_setBorderColor(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiChatBoxRenderer_getBorderColor(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiChatBoxRenderer_getTextureBackground(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChatBoxRenderer_setTextureBackground(IntPtr cPointer, IntPtr texture);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChatBoxRenderer_setTextureBackground(IntPtr cPointer, IntPtr value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChatBoxRenderer_setScrollbar(IntPtr cPointer, IntPtr rendererData);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiChatBoxRenderer_getScrollbar(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiChatBoxRenderer_getScrollbar(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChatBoxRenderer_setScrollbar(IntPtr cPointer, IntPtr value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChatBoxRenderer_setScrollbarWidth(IntPtr cPointer, float width);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiChatBoxRenderer_getScrollbarWidth(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiChatBoxRenderer_getScrollbarWidth(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChatBoxRenderer_setScrollbarWidth(IntPtr cPointer, float value);
 
         #endregion
     }

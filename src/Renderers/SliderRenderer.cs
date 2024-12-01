@@ -1,46 +1,37 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
-using SFML.Graphics;
+using System.Security;
+using System;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Renderer for Slider widgets
+    /// </summary>
     public class SliderRenderer : WidgetRenderer
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public SliderRenderer()
             : base(tguiSliderRenderer_create())
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal SliderRenderer(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Renderer object to copy</param>
         public SliderRenderer(SliderRenderer copy)
             : base(tguiSliderRenderer_copy(copy.CPointer))
         {
@@ -48,127 +39,155 @@ namespace TGUI
 
         public Outline Borders
         {
-            get { return new Outline(tguiSliderRenderer_getBorders(CPointer)); }
-            set { tguiSliderRenderer_setBorders(CPointer, value.CPointer); }
+            get => new Outline(tguiSliderRenderer_getBorders(CPointer));
+            set => tguiSliderRenderer_setBorders(CPointer, value.CPointer);
         }
 
-        public Color TrackColor
+        public Color? TrackColor
         {
-            get { return tguiSliderRenderer_getTrackColor(CPointer); }
-            set { tguiSliderRenderer_setTrackColor(CPointer, value); }
+            get => Util.GetColorFromC(tguiSliderRenderer_getTrackColor(CPointer));
+            set => tguiSliderRenderer_setTrackColor(CPointer, Util.ConvertColorForC(value));
         }
 
-        public Color TrackColorHover
+        public Color? TrackColorHover
         {
-            get { return tguiSliderRenderer_getTrackColorHover(CPointer); }
-            set { tguiSliderRenderer_setTrackColorHover(CPointer, value); }
+            get => Util.GetColorFromC(tguiSliderRenderer_getTrackColorHover(CPointer));
+            set => tguiSliderRenderer_setTrackColorHover(CPointer, Util.ConvertColorForC(value));
         }
 
-        public Color ThumbColor
+        public Color? ThumbColor
         {
-            get { return tguiSliderRenderer_getThumbColor(CPointer); }
-            set { tguiSliderRenderer_setThumbColor(CPointer, value); }
+            get => Util.GetColorFromC(tguiSliderRenderer_getThumbColor(CPointer));
+            set => tguiSliderRenderer_setThumbColor(CPointer, Util.ConvertColorForC(value));
         }
 
-        public Color ThumbColorHover
+        public Color? ThumbColorHover
         {
-            get { return tguiSliderRenderer_getThumbColorHover(CPointer); }
-            set { tguiSliderRenderer_setThumbColorHover(CPointer, value); }
+            get => Util.GetColorFromC(tguiSliderRenderer_getThumbColorHover(CPointer));
+            set => tguiSliderRenderer_setThumbColorHover(CPointer, Util.ConvertColorForC(value));
         }
 
-        public Color BorderColor
+        public Color? BorderColor
         {
-            get { return tguiSliderRenderer_getBorderColor(CPointer); }
-            set { tguiSliderRenderer_setBorderColor(CPointer, value); }
+            get => Util.GetColorFromC(tguiSliderRenderer_getBorderColor(CPointer));
+            set => tguiSliderRenderer_setBorderColor(CPointer, Util.ConvertColorForC(value));
         }
 
-        public Color BorderColorHover
+        public Color? BorderColorHover
         {
-            get { return tguiSliderRenderer_getBorderColorHover(CPointer); }
-            set { tguiSliderRenderer_setBorderColorHover(CPointer, value); }
+            get => Util.GetColorFromC(tguiSliderRenderer_getBorderColorHover(CPointer));
+            set => tguiSliderRenderer_setBorderColorHover(CPointer, Util.ConvertColorForC(value));
         }
 
         public Texture TextureTrack
         {
-            set { tguiSliderRenderer_setTextureTrack(CPointer, value.CPointer); }
+            get => new Texture(tguiSliderRenderer_getTextureTrack(CPointer));
+            set => tguiSliderRenderer_setTextureTrack(CPointer, value.CPointer);
         }
 
         public Texture TextureTrackHover
         {
-            set { tguiSliderRenderer_setTextureTrackHover(CPointer, value.CPointer); }
+            get => new Texture(tguiSliderRenderer_getTextureTrackHover(CPointer));
+            set => tguiSliderRenderer_setTextureTrackHover(CPointer, value.CPointer);
         }
 
         public Texture TextureThumb
         {
-            set { tguiSliderRenderer_setTextureThumb(CPointer, value.CPointer); }
+            get => new Texture(tguiSliderRenderer_getTextureThumb(CPointer));
+            set => tguiSliderRenderer_setTextureThumb(CPointer, value.CPointer);
         }
 
         public Texture TextureThumbHover
         {
-            set { tguiSliderRenderer_setTextureThumbHover(CPointer, value.CPointer); }
+            get => new Texture(tguiSliderRenderer_getTextureThumbHover(CPointer));
+            set => tguiSliderRenderer_setTextureThumbHover(CPointer, value.CPointer);
         }
 
-        #region Imports
+        public bool ThumbWithinTrack
+        {
+            get => tguiSliderRenderer_getThumbWithinTrack(CPointer) != 0;
+            set => tguiSliderRenderer_setThumbWithinTrack(CPointer, value ? (byte)1 : (byte)0);
+        }
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiSliderRenderer_create();
+        #region GeneratedImports
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiSliderRenderer_copy(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiSliderRenderer_create();
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSliderRenderer_setBorders(IntPtr cPointer, IntPtr borders);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiSliderRenderer_copy(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiSliderRenderer_getBorders(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiSliderRenderer_getBorders(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSliderRenderer_setTrackColor(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSliderRenderer_setBorders(IntPtr cPointer, IntPtr value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiSliderRenderer_getTrackColor(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiSliderRenderer_getTrackColor(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSliderRenderer_setTrackColorHover(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSliderRenderer_setTrackColor(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiSliderRenderer_getTrackColorHover(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiSliderRenderer_getTrackColorHover(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSliderRenderer_setThumbColor(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSliderRenderer_setTrackColorHover(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiSliderRenderer_getThumbColor(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiSliderRenderer_getThumbColor(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSliderRenderer_setThumbColorHover(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSliderRenderer_setThumbColor(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiSliderRenderer_getThumbColorHover(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiSliderRenderer_getThumbColorHover(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSliderRenderer_setBorderColor(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSliderRenderer_setThumbColorHover(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiSliderRenderer_getBorderColor(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiSliderRenderer_getBorderColor(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSliderRenderer_setBorderColorHover(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSliderRenderer_setBorderColor(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiSliderRenderer_getBorderColorHover(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiSliderRenderer_getBorderColorHover(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSliderRenderer_setTextureTrack(IntPtr cPointer, IntPtr texture);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSliderRenderer_setBorderColorHover(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSliderRenderer_setTextureTrackHover(IntPtr cPointer, IntPtr texture);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiSliderRenderer_getTextureTrack(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSliderRenderer_setTextureThumb(IntPtr cPointer, IntPtr texture);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSliderRenderer_setTextureTrack(IntPtr cPointer, IntPtr value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSliderRenderer_setTextureThumbHover(IntPtr cPointer, IntPtr texture);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiSliderRenderer_getTextureTrackHover(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSliderRenderer_setTextureTrackHover(IntPtr cPointer, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiSliderRenderer_getTextureThumb(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSliderRenderer_setTextureThumb(IntPtr cPointer, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiSliderRenderer_getTextureThumbHover(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSliderRenderer_setTextureThumbHover(IntPtr cPointer, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiSliderRenderer_getThumbWithinTrack(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSliderRenderer_setThumbWithinTrack(IntPtr cPointer, byte value);
 
         #endregion
     }

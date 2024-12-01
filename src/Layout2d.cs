@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
+// Copyright (C) 2012-2024 Bruno Van de Velde (vdv_b@tgui.eu)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -25,11 +25,10 @@
 using System;
 using System.Security;
 using System.Runtime.InteropServices;
-using SFML.System;
 
 namespace TGUI
 {
-    public class Layout2d : SFML.ObjectBase
+    public class Layout2d : ObjectBase
     {
         public Layout2d()
             : base(tguiLayout2d_create(new Vector2f(0, 0)))
@@ -76,25 +75,41 @@ namespace TGUI
             get { return tguiLayout2d_getValue(CPointer); }
         }
 
+        public Layout X
+        {
+            get { return new Layout(tguiLayout2d_getX(CPointer)); }
+        }
+
+        public Layout Y
+        {
+            get { return new Layout(tguiLayout2d_getY(CPointer)); }
+        }
+
         #region Imports
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiLayout2d_create(Vector2f constant);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiLayout2d_createFromLayouts(IntPtr x, IntPtr y);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiLayout2d_createFromString(IntPtr expression);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiLayout2d_copy(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiLayout2d_destroy(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private Vector2f tguiLayout2d_getValue(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiLayout2d_getX(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiLayout2d_getY(IntPtr cPointer);
 
         #endregion
     }

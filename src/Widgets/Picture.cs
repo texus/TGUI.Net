@@ -1,32 +1,8 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
-using SFML.System;
-using SFML.Graphics;
+using System.Security;
+using System;
 
 namespace TGUI
 {
@@ -36,29 +12,11 @@ namespace TGUI
     public class Picture : ClickableWidget
     {
         /// <summary>
-        /// Constructor to create the picture with a texture loaded from a file
+        /// Default constructor
         /// </summary>
-        /// <param name="filename">Filename of the texture to load</param>
-        public Picture(string filename = "")
+        public Picture()
             : base(tguiPicture_create())
         {
-            if (filename.Length > 0)
-            {
-                var texture = new Texture(filename);
-                Renderer.Texture = texture;
-                texture.Dispose();
-            }
-        }
-
-        /// <summary>
-        /// Constructor to create the picture with a given texture
-        /// </summary>
-        /// <param name="texture">Texture used by the widget</param>
-        public Picture(Texture texture)
-            : base(tguiPicture_create())
-        {
-            if (texture != null)
-                Renderer.Texture = texture;
         }
 
         /// <summary>
@@ -79,66 +37,45 @@ namespace TGUI
         {
         }
 
-        /// <summary>
-        /// Gets or sets the renderer, which gives access to properties that determine how the widget is displayed
-        /// </summary>
-        /// <remarks>
-        /// After retrieving the renderer, the widget has its own copy of the renderer and it will no longer be shared.
-        /// </remarks>
         public new PictureRenderer Renderer
         {
-            get { return new PictureRenderer(tguiWidget_getRenderer(CPointer)); }
-            set { SetRenderer(value.Data); }
+            get => new PictureRenderer(tguiWidget_getRenderer(CPointer));
+            set => SetRenderer(value.Data);
         }
 
-        /// <summary>
-        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
-        /// </summary>
-        public new PictureRenderer SharedRenderer
+        public  new PictureRenderer SharedRenderer => new PictureRenderer(tguiWidget_getSharedRenderer(CPointer));
+
+        public class DoubleClickEventArgs : EventArgs
         {
-            get { return new PictureRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+            public DoubleClickEventArgs(Vector2f mousePos)
+            {
+                MousePos = mousePos;
+            }
+            public Vector2f MousePos { get; }
         }
-
-        /// <summary>
-        /// Gets or sets whether the widget should completely ignore mouse events and let them pass to the widgets behind it.
-        /// </summary>
-        public bool IgnoreMouseEvents
+        public event EventHandler<DoubleClickEventArgs> OnDoubleClick
         {
-            get { return tguiPicture_isIgnoringMouseEvents(CPointer); }
-            set { tguiPicture_ignoreMouseEvents(CPointer, value); }
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackVector2f func = (Vector2f vec) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new DoubleClickEventArgs(vec));
+                };
+                uint id = tguiWidget_signalVector2fConnect(CPointer, Util.ConvertStringForC_UTF32("DoubleClicked"), func);
+                ConnectEventHandler(id, "DoubleClicked", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("DoubleClicked", value);
+            }
         }
 
-        /// <summary>
-        /// Initializes the signals
-        /// </summary>
-        protected override void InitSignals()
-        {
-            base.InitSignals();
+        #region GeneratedImports
 
-            DoubleClickedCallback = new CallbackActionVector2f((pos) => SendSignal(myDoubleClickedEventKey, new SignalArgsVector2f(pos)));
-            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("DoubleClicked"), DoubleClickedCallback));
-        }
-
-        /// <summary>Event handler for the DoubleClicked signal</summary>
-        public event EventHandler<SignalArgsVector2f> DoubleClicked
-        {
-            add { myEventHandlerList.AddHandler(myDoubleClickedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myDoubleClickedEventKey, value); }
-        }
-
-        private CallbackActionVector2f DoubleClickedCallback;
-        static readonly object myDoubleClickedEventKey = new object();
-
-        #region Imports
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiPicture_create();
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiPicture_ignoreMouseEvents(IntPtr cPointer, bool ignore);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiPicture_isIgnoringMouseEvents(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiPicture_create();
 
         #endregion
     }

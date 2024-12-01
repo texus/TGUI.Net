@@ -1,52 +1,37 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
+using System.Security;
+using System;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Knob widget
+    /// </summary>
     public class Knob : Widget
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public Knob()
             : base(tguiKnob_create())
         {
         }
 
-        public Knob(int min, int max)
-            : this()
-        {
-            Minimum = min;
-            Maximum = max;
-        }
-
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal Knob(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public Knob(Knob copy)
             : base(copy)
         {
@@ -54,109 +39,115 @@ namespace TGUI
 
         public new KnobRenderer Renderer
         {
-            get { return new KnobRenderer(tguiWidget_getRenderer(CPointer)); }
-            set { SetRenderer(value.Data); }
+            get => new KnobRenderer(tguiWidget_getRenderer(CPointer));
+            set => SetRenderer(value.Data);
         }
 
-        public new KnobRenderer SharedRenderer
-        {
-            get { return new KnobRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-        }
+        public  new KnobRenderer SharedRenderer => new KnobRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public float StartRotation
         {
-            get { return tguiKnob_getStartRotation(CPointer); }
-            set { tguiKnob_setStartRotation(CPointer, value); }
+            get => tguiKnob_getStartRotation(CPointer);
+            set => tguiKnob_setStartRotation(CPointer, value);
         }
 
         public float EndRotation
         {
-            get { return tguiKnob_getEndRotation(CPointer); }
-            set { tguiKnob_setEndRotation(CPointer, value); }
+            get => tguiKnob_getEndRotation(CPointer);
+            set => tguiKnob_setEndRotation(CPointer, value);
         }
 
-        public int Minimum
+        public float Minimum
         {
-            get { return tguiKnob_getMinimum(CPointer); }
-            set { tguiKnob_setMinimum(CPointer, value); }
+            get => tguiKnob_getMinimum(CPointer);
+            set => tguiKnob_setMinimum(CPointer, value);
         }
 
-        public int Maximum
+        public float Maximum
         {
-            get { return tguiKnob_getMaximum(CPointer); }
-            set { tguiKnob_setMaximum(CPointer, value); }
+            get => tguiKnob_getMaximum(CPointer);
+            set => tguiKnob_setMaximum(CPointer, value);
         }
 
-        public int Value
+        public float Value
         {
-            get { return tguiKnob_getValue(CPointer); }
-            set { tguiKnob_setValue(CPointer, value); }
+            get => tguiKnob_getValue(CPointer);
+            set => tguiKnob_setValue(CPointer, value);
         }
 
         public bool ClockwiseTurning
         {
-            get { return tguiKnob_getClockwiseTurning(CPointer); }
-            set { tguiKnob_setClockwiseTurning(CPointer, value); }
+            get => tguiKnob_getClockwiseTurning(CPointer) != 0;
+            set => tguiKnob_setClockwiseTurning(CPointer, value ? (byte)1 : (byte)0);
         }
 
-        protected override void InitSignals()
+        public class ValueChangeEventArgs : EventArgs
         {
-            base.InitSignals();
-
-            ValueChangedCallback = new CallbackActionInt((val) => SendSignal(myValueChangedEventKey, new SignalArgsInt(val)));
-            AddInternalSignal(tguiWidget_connectInt(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback));
+            public ValueChangeEventArgs(float val)
+            {
+                Value = val;
+            }
+            public float Value { get; }
         }
-
-        /// <summary>Event handler for the ValueChanged signal</summary>
-        public event EventHandler<SignalArgsInt> ValueChanged
+        public event EventHandler<ValueChangeEventArgs> OnValueChange
         {
-            add { myEventHandlerList.AddHandler(myValueChangedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myValueChangedEventKey, value); }
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackFloat func = (float val) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new ValueChangeEventArgs(val));
+                };
+                uint id = tguiWidget_signalFloatConnect(CPointer, Util.ConvertStringForC_UTF32("ValueChanged"), func);
+                ConnectEventHandler(id, "ValueChanged", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("ValueChanged", value);
+            }
         }
 
-        private CallbackActionInt ValueChangedCallback;
-        static readonly object myValueChangedEventKey = new object();
+        #region GeneratedImports
 
-        #region Imports
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiKnob_create();
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiKnob_create();
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiKnob_getStartRotation(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiKnob_setStartRotation(IntPtr cPointer, float startRotation);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiKnob_setStartRotation(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiKnob_getStartRotation(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiKnob_getEndRotation(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiKnob_setEndRotation(IntPtr cPointer, float endRotation);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiKnob_setEndRotation(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiKnob_getEndRotation(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiKnob_getMinimum(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiKnob_setMinimum(IntPtr cPointer, int minimum);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiKnob_setMinimum(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private int tguiKnob_getMinimum(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiKnob_getMaximum(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiKnob_setMaximum(IntPtr cPointer, int maximum);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiKnob_setMaximum(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private int tguiKnob_getMaximum(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiKnob_getValue(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiKnob_setValue(IntPtr cPointer, int value);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiKnob_setValue(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private int tguiKnob_getValue(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiKnob_getClockwiseTurning(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiKnob_setClockwiseTurning(IntPtr cPointer, bool clockwise);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiKnob_getClockwiseTurning(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiKnob_setClockwiseTurning(IntPtr cPointer, byte value);
 
         #endregion
     }

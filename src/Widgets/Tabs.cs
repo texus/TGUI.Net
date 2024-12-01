@@ -1,46 +1,37 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
-using System.Collections.Generic;
+using System.Security;
+using System;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Tabs widget
+    /// </summary>
     public class Tabs : Widget
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public Tabs()
             : base(tguiTabs_create())
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal Tabs(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public Tabs(Tabs copy)
             : base(copy)
         {
@@ -48,64 +39,41 @@ namespace TGUI
 
         public new TabsRenderer Renderer
         {
-            get { return new TabsRenderer(tguiWidget_getRenderer(CPointer)); }
-            set { SetRenderer(value.Data); }
+            get => new TabsRenderer(tguiWidget_getRenderer(CPointer));
+            set => SetRenderer(value.Data);
         }
 
-        public new TabsRenderer SharedRenderer
-        {
-            get { return new TabsRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-        }
+        public  new TabsRenderer SharedRenderer => new TabsRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public bool AutoSize
         {
-            get { return tguiTabs_getAutoSize(CPointer); }
-            set { tguiTabs_setAutoSize(CPointer, value); }
+            get => tguiTabs_getAutoSize(CPointer) != 0;
+            set => tguiTabs_setAutoSize(CPointer, value ? (byte)1 : (byte)0);
         }
 
-        public uint Add(string text, bool selectTab = true)
+        public int Add(string text, bool select)
         {
-            return tguiTabs_add(CPointer, Util.ConvertStringForC_UTF32(text), selectTab);
+            return (int)tguiTabs_add(CPointer, Util.ConvertStringForC_UTF32(text), select ? (byte)1 : (byte)0);
         }
 
-        public void Insert(uint index, string text, bool selectTab = true)
+        public void Insert(int index, string text, bool select)
         {
-            tguiTabs_insert(CPointer, index, Util.ConvertStringForC_UTF32(text), selectTab);
+            tguiTabs_insert(CPointer, (UIntPtr)index, Util.ConvertStringForC_UTF32(text), select ? (byte)1 : (byte)0);
         }
 
-        public string GetText(uint index)
+        public string GetText(int index)
         {
-            return Util.GetStringFromC_UTF32(tguiTabs_getText(CPointer, index));
+            return Util.GetStringFromC_UTF32(tguiTabs_getText(CPointer, (UIntPtr)index));
         }
 
-        public bool ChangeText(uint index, string text)
+        public bool ChangeText(int index, string text)
         {
-            return tguiTabs_changeText(CPointer, index, Util.ConvertStringForC_UTF32(text));
-        }
-
-        public bool Select(string text)
-        {
-            return tguiTabs_selectByText(CPointer, Util.ConvertStringForC_UTF32(text));
-        }
-
-        public bool Select(uint index)
-        {
-            return tguiTabs_selectByIndex(CPointer, index);
+            return tguiTabs_changeText(CPointer, (UIntPtr)index, Util.ConvertStringForC_UTF32(text)) != 0;
         }
 
         public void Deselect()
         {
             tguiTabs_deselect(CPointer);
-        }
-
-        public bool Remove(string text)
-        {
-            return tguiTabs_removeByText(CPointer, Util.ConvertStringForC_UTF32(text));
-        }
-
-        public bool Remove(uint index)
-        {
-            return tguiTabs_removeByIndex(CPointer, index);
         }
 
         public void RemoveAll()
@@ -123,134 +91,171 @@ namespace TGUI
             return tguiTabs_getSelectedIndex(CPointer);
         }
 
-        public uint GetTabsCount()
+        public int GetHoveredIndex()
         {
-            return tguiTabs_getTabsCount(CPointer);
+            return tguiTabs_getHoveredIndex(CPointer);
         }
 
-        public void SetTabVisible(uint index, bool visible)
+        public int GetTabsCount()
         {
-            tguiTabs_setTabVisible(CPointer, index, visible);
+            return (int)tguiTabs_getTabsCount(CPointer);
         }
 
-        public bool GetTabVisible(uint index)
+        public void SetTabVisible(int index, bool visible)
         {
-            return tguiTabs_getTabVisible(CPointer, index);
+            tguiTabs_setTabVisible(CPointer, (UIntPtr)index, visible ? (byte)1 : (byte)0);
         }
 
-        public void SetTabEnabled(uint index, bool enabled)
+        public bool GetTabVisible(int index)
         {
-            tguiTabs_setTabEnabled(CPointer, index, enabled);
+            return tguiTabs_getTabVisible(CPointer, (UIntPtr)index) != 0;
         }
 
-        public bool GetTabEnabled(uint index)
+        public void SetTabEnabled(int index, bool visible)
         {
-            return tguiTabs_getTabEnabled(CPointer, index);
+            tguiTabs_setTabEnabled(CPointer, (UIntPtr)index, visible ? (byte)1 : (byte)0);
+        }
+
+        public bool GetTabEnabled(int index)
+        {
+            return tguiTabs_getTabEnabled(CPointer, (UIntPtr)index) != 0;
         }
 
         public float MaximumTabWidth
         {
-            get { return tguiTabs_getMaximumTabWidth(CPointer); }
-            set { tguiTabs_setMaximumTabWidth(CPointer, value); }
+            get => tguiTabs_getMaximumTabWidth(CPointer);
+            set => tguiTabs_setMaximumTabWidth(CPointer, value);
         }
 
         public float MinimumTabWidth
         {
-            get { return tguiTabs_getMinimumTabWidth(CPointer); }
-            set { tguiTabs_setMinimumTabWidth(CPointer, value); }
+            get => tguiTabs_getMinimumTabWidth(CPointer);
+            set => tguiTabs_setMinimumTabWidth(CPointer, value);
         }
 
-        protected override void InitSignals()
+        public bool Select(string text)
         {
-            base.InitSignals();
-
-            TabSelectedCallback = new CallbackActionString((tab) => SendSignal(myTabSelectedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(tab))));
-            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("TabSelected"), TabSelectedCallback));
+            return tguiTabs_selectByText(CPointer, Util.ConvertStringForC_UTF32(text)) != 0;
         }
 
-        /// <summary>Event handler for the TabSelected signal</summary>
-        public event EventHandler<SignalArgsString> TabSelected
+        public bool Select(int index)
         {
-            add { myEventHandlerList.AddHandler(myTabSelectedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myTabSelectedEventKey, value); }
+            return tguiTabs_selectByIndex(CPointer, (UIntPtr)index) != 0;
         }
 
-        private CallbackActionString TabSelectedCallback;
-        static readonly object myTabSelectedEventKey = new object();
+        public bool Remove(string text)
+        {
+            return tguiTabs_removeByText(CPointer, Util.ConvertStringForC_UTF32(text)) != 0;
+        }
 
-        #region Imports
+        public bool Remove(int index)
+        {
+            return tguiTabs_removeByIndex(CPointer, (UIntPtr)index) != 0;
+        }
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiTabs_create();
+        public class TabSelectEventArgs : EventArgs
+        {
+            public TabSelectEventArgs(string tabText)
+            {
+                TabText = tabText;
+            }
+            public string TabText { get; }
+        }
+        public event EventHandler<TabSelectEventArgs> OnTabSelect
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackString func = (IntPtr str) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new TabSelectEventArgs(Util.GetStringFromC_UTF32(str)));
+                };
+                uint id = tguiWidget_signalStringConnect(CPointer, Util.ConvertStringForC_UTF32("TabSelected"), func);
+                ConnectEventHandler(id, "TabSelected", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("TabSelected", value);
+            }
+        }
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiTabs_setAutoSize(IntPtr cPointer, bool autoSize);
+        #region GeneratedImports
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiTabs_getAutoSize(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiTabs_create();
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiTabs_add(IntPtr cPointer, IntPtr text, bool selectTab);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiTabs_getAutoSize(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiTabs_insert(IntPtr cPointer, uint index, IntPtr text, bool selectTab);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTabs_setAutoSize(IntPtr cPointer, byte value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiTabs_getText(IntPtr cPointer, uint index);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern UIntPtr tguiTabs_add(IntPtr cPointer, IntPtr text, byte select);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiTabs_changeText(IntPtr cPointer, uint index, IntPtr text);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTabs_insert(IntPtr cPointer, UIntPtr index, IntPtr text, byte select);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiTabs_selectByText(IntPtr cPointer, IntPtr text);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiTabs_getText(IntPtr cPointer, UIntPtr index);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiTabs_selectByIndex(IntPtr cPointer, uint index);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiTabs_changeText(IntPtr cPointer, UIntPtr index, IntPtr text);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiTabs_deselect(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTabs_deselect(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiTabs_removeByText(IntPtr cPointer, IntPtr text);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTabs_removeAll(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiTabs_removeByIndex(IntPtr cPointer, uint index);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiTabs_getSelected(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiTabs_removeAll(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern int tguiTabs_getSelectedIndex(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiTabs_getSelected(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern int tguiTabs_getHoveredIndex(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private int tguiTabs_getSelectedIndex(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern UIntPtr tguiTabs_getTabsCount(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiTabs_getTabsCount(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTabs_setTabVisible(IntPtr cPointer, UIntPtr index, byte visible);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiTabs_setTabVisible(IntPtr cPointer, uint index, bool visible);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiTabs_getTabVisible(IntPtr cPointer, UIntPtr index);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiTabs_getTabVisible(IntPtr cPointer, uint index);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTabs_setTabEnabled(IntPtr cPointer, UIntPtr index, byte visible);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiTabs_setTabEnabled(IntPtr cPointer, uint index, bool enabled);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiTabs_getTabEnabled(IntPtr cPointer, UIntPtr index);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiTabs_getTabEnabled(IntPtr cPointer, uint index);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiTabs_getMaximumTabWidth(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiTabs_setMaximumTabWidth(IntPtr cPointer, float maximumTabWidth);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTabs_setMaximumTabWidth(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiTabs_getMaximumTabWidth(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiTabs_getMinimumTabWidth(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiTabs_setMinimumTabWidth(IntPtr cPointer, float minimumTabWidth);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTabs_setMinimumTabWidth(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiTabs_getMinimumTabWidth(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiTabs_selectByText(IntPtr cPointer, IntPtr text);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiTabs_selectByIndex(IntPtr cPointer, UIntPtr index);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiTabs_removeByText(IntPtr cPointer, IntPtr text);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiTabs_removeByIndex(IntPtr cPointer, UIntPtr index);
 
         #endregion
     }

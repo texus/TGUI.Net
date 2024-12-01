@@ -1,39 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Text;
-using System.Security;
 using System.Runtime.InteropServices;
-using SFML.Graphics;
+using System.Security;
+using System;
 
 namespace TGUI
 {
     /// <summary>
-    /// Base class for renderers of all widgets
+    /// Renderer for Widget widgets
     /// </summary>
-    public class WidgetRenderer : SFML.ObjectBase
+    public class WidgetRenderer : ObjectBase
     {
         /// <summary>
         /// Default constructor
@@ -55,10 +31,141 @@ namespace TGUI
         /// <summary>
         /// Copy constructor
         /// </summary>
-        /// <param name="copy">Object to copy</param>
+        /// <param name="copy">Renderer object to copy</param>
         public WidgetRenderer(WidgetRenderer copy)
             : base(tguiWidgetRenderer_copy(copy.CPointer))
         {
+        }
+
+        public float Opacity
+        {
+            get => tguiWidgetRenderer_getOpacity(CPointer);
+            set => tguiWidgetRenderer_setOpacity(CPointer, value);
+        }
+
+        public float OpacityDisabled
+        {
+            get => tguiWidgetRenderer_getOpacityDisabled(CPointer);
+            set => tguiWidgetRenderer_setOpacityDisabled(CPointer, value);
+        }
+
+        public Font Font
+        {
+            get => new Font(tguiWidgetRenderer_getFont(CPointer));
+            set => tguiWidgetRenderer_setFont(CPointer, value.CPointer);
+        }
+
+        public int TextSize
+        {
+            get => (int)tguiWidgetRenderer_getTextSize(CPointer);
+            set => tguiWidgetRenderer_setTextSize(CPointer, (uint)value);
+        }
+
+        public bool TransparentTexture
+        {
+            get => tguiWidgetRenderer_getTransparentTexture(CPointer) != 0;
+            set => tguiWidgetRenderer_setTransparentTexture(CPointer, value ? (byte)1 : (byte)0);
+        }
+
+        public RendererData Data
+        {
+            get => new RendererData(tguiWidgetRenderer_getData(CPointer));
+            set => tguiWidgetRenderer_setData(CPointer, value.CPointer);
+        }
+
+        public void SetProperty(string property, bool value)
+        {
+            tguiWidgetRenderer_setPropertyBool(CPointer, Util.ConvertStringForC_UTF32(property), value ? (byte)1 : (byte)0);
+        }
+
+        public void SetProperty(string property, Font value)
+        {
+            tguiWidgetRenderer_setPropertyFont(CPointer, Util.ConvertStringForC_UTF32(property), value.CPointer);
+        }
+
+        public void SetProperty(string property, Color? value)
+        {
+            tguiWidgetRenderer_setPropertyColor(CPointer, Util.ConvertStringForC_UTF32(property), Util.ConvertColorForC(value));
+        }
+
+        public void SetProperty(string property, string value)
+        {
+            tguiWidgetRenderer_setPropertyString(CPointer, Util.ConvertStringForC_UTF32(property), Util.ConvertStringForC_UTF32(value));
+        }
+
+        public void SetProperty(string property, float value)
+        {
+            tguiWidgetRenderer_setPropertyNumber(CPointer, Util.ConvertStringForC_UTF32(property), value);
+        }
+
+        public void SetProperty(string property, Outline value)
+        {
+            tguiWidgetRenderer_setPropertyOutline(CPointer, Util.ConvertStringForC_UTF32(property), value.CPointer);
+        }
+
+        public void SetProperty(string property, Texture value)
+        {
+            tguiWidgetRenderer_setPropertyTexture(CPointer, Util.ConvertStringForC_UTF32(property), value.CPointer);
+        }
+
+        public void SetProperty(string property, TextStyles value)
+        {
+            tguiWidgetRenderer_setPropertyTextStyle(CPointer, Util.ConvertStringForC_UTF32(property), value);
+        }
+
+        public void SetProperty(string property, RendererData value)
+        {
+            tguiWidgetRenderer_setPropertyRendererData(CPointer, Util.ConvertStringForC_UTF32(property), value.CPointer);
+        }
+
+        public bool hasProperty(string property)
+        {
+            return tguiWidgetRenderer_hasProperty(CPointer, Util.ConvertStringForC_UTF32(property)) != 0;
+        }
+
+        public bool getPropertyBool(string property)
+        {
+            return tguiWidgetRenderer_getPropertyBool(CPointer, Util.ConvertStringForC_UTF32(property)) != 0;
+        }
+
+        public Font getPropertyFont(string property)
+        {
+            return new Font(tguiWidgetRenderer_getPropertyFont(CPointer, Util.ConvertStringForC_UTF32(property)));
+        }
+
+        public Color? getPropertyColor(string property)
+        {
+            return Util.GetColorFromC(tguiWidgetRenderer_getPropertyColor(CPointer, Util.ConvertStringForC_UTF32(property)));
+        }
+
+        public string getPropertyString(string property)
+        {
+            return Util.GetStringFromC_UTF32(tguiWidgetRenderer_getPropertyString(CPointer, Util.ConvertStringForC_UTF32(property)));
+        }
+
+        public float getPropertyNumber(string property)
+        {
+            return tguiWidgetRenderer_getPropertyNumber(CPointer, Util.ConvertStringForC_UTF32(property));
+        }
+
+        public Outline getPropertyOutline(string property)
+        {
+            return new Outline(tguiWidgetRenderer_getPropertyOutline(CPointer, Util.ConvertStringForC_UTF32(property)));
+        }
+
+        public Texture getPropertyTexture(string property)
+        {
+            return new Texture(tguiWidgetRenderer_getPropertyTexture(CPointer, Util.ConvertStringForC_UTF32(property)));
+        }
+
+        public TextStyles getPropertyTextStyle(string property)
+        {
+            return tguiWidgetRenderer_getPropertyTextStyle(CPointer, Util.ConvertStringForC_UTF32(property));
+        }
+
+        public RendererData getPropertyRendererData(string property)
+        {
+            return new RendererData(tguiWidgetRenderer_getPropertyRendererData(CPointer, Util.ConvertStringForC_UTF32(property)));
         }
 
         /// <summary>
@@ -70,113 +177,113 @@ namespace TGUI
             tguiWidgetRenderer_destroy(CPointer);
         }
 
-        /// <summary>
-        /// Gets or sets the opacity of the widget
-        /// </summary>
-        /// <remarks>
-        /// 0 means completely transparent, while 1 (default) means fully opaque
-        /// </remarks>
-        public float Opacity
-        {
-            get { return tguiWidgetRenderer_getOpacity(CPointer); }
-            set { tguiWidgetRenderer_setOpacity(CPointer, value); }
-        }
+        #region CustomImports
 
-        /// <summary>
-        /// Gets or sets the opacity of the widget when it is disabled
-        /// </summary>
-        /// <remarks>
-        /// 0 means completely transparent, while 1 (default) means fully opaque.
-        /// Set to -1 (default) to use the normal opacity value even when the widget is disabled.
-        /// </remarks>
-        public float OpacityDisabled
-        {
-            get { return tguiWidgetRenderer_getOpacityDisabled(CPointer); }
-            set { tguiWidgetRenderer_setOpacityDisabled(CPointer, value); }
-        }
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private byte tguiWidgetRenderer_hasProperty(IntPtr cPointer, IntPtr property);
 
-        /// <summary>
-        /// Gets or sets the font used for the text in the widget
-        /// </summary>
-        /// <remarks>
-        /// When you don't set this font then the font from the parent widget will be used.
-        /// </remarks>
-        public Font Font
-        {
-            set { tguiWidgetRenderer_setFont(CPointer, value.CPointer); }
-        }
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private byte tguiWidgetRenderer_getPropertyBool(IntPtr cPointer, IntPtr property);
 
-        /// <summary>
-        /// Gets or sets whether mouse events should be ignored on transparent parts of the texture of the widget in normal state
-        /// </summary>
-        /// <remarks>
-        /// When mouse events are ignored, they are passed to a widget behind the widget.
-        /// By default, mouse events are NOT ignored and the widget will receive mouse events even on transparent texture parts.
-        ///
-        /// This property does nothing if the widget doesn't use textures.
-        /// </remarks>
-        public bool TransparentTexture
-        {
-            get { return tguiWidgetRenderer_getTransparentTexture(CPointer); }
-            set { tguiWidgetRenderer_setTransparentTexture(CPointer, value); }
-        }
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiWidgetRenderer_getPropertyFont(IntPtr cPointer, IntPtr property);
 
-        /// <summary>
-        /// Gets the renderer data that is shared between the renderers
-        /// </summary>
-        public RendererData Data
-        {
-            get { return new RendererData(tguiWidgetRenderer_getData(CPointer)); }
-            set { tguiWidgetRenderer_setData(CPointer, value.CPointer); }
-        }
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private ColorCTGUI tguiWidgetRenderer_getPropertyColor(IntPtr cPointer, IntPtr property);
 
-        /// <summary>
-        /// Provide a string describing the object
-        /// </summary>
-        /// <returns>String description of the object</returns>
-        public override string ToString()
-        {
-            return "[WidgetRenderer]";
-        }
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiWidgetRenderer_getPropertyString(IntPtr cPointer, IntPtr property);
 
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private float tguiWidgetRenderer_getPropertyNumber(IntPtr cPointer, IntPtr property);
 
-        #region Imports
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiWidgetRenderer_getPropertyOutline(IntPtr cPointer, IntPtr property);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiWidgetRenderer_create();
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiWidgetRenderer_getPropertyTexture(IntPtr cPointer, IntPtr property);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiWidgetRenderer_copy(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private TextStyles tguiWidgetRenderer_getPropertyTextStyle(IntPtr cPointer, IntPtr property);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tguiWidgetRenderer_getPropertyRendererData(IntPtr cPointer, IntPtr property);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiWidgetRenderer_destroy(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiWidgetRenderer_setOpacity(IntPtr cPointer, float opacity);
+        #endregion
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiWidgetRenderer_getOpacity(IntPtr cPointer);
+        #region GeneratedImports
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiWidgetRenderer_setOpacityDisabled(IntPtr cPointer, float opacity);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiWidgetRenderer_create();
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiWidgetRenderer_getOpacityDisabled(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiWidgetRenderer_copy(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiWidgetRenderer_setFont(IntPtr cPointer, IntPtr font);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiWidgetRenderer_getOpacity(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiWidgetRenderer_setTransparentTexture(IntPtr cPointer, bool ignoreTransparentParts);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidgetRenderer_setOpacity(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiWidgetRenderer_getTransparentTexture(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiWidgetRenderer_getOpacityDisabled(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiWidgetRenderer_setData(IntPtr cPointer, IntPtr dataCPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidgetRenderer_setOpacityDisabled(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiWidgetRenderer_getData(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiWidgetRenderer_getFont(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidgetRenderer_setFont(IntPtr cPointer, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern uint tguiWidgetRenderer_getTextSize(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidgetRenderer_setTextSize(IntPtr cPointer, uint value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiWidgetRenderer_getTransparentTexture(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidgetRenderer_setTransparentTexture(IntPtr cPointer, byte value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiWidgetRenderer_getData(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidgetRenderer_setData(IntPtr cPointer, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidgetRenderer_setPropertyBool(IntPtr cPointer, IntPtr property, byte value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidgetRenderer_setPropertyFont(IntPtr cPointer, IntPtr property, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidgetRenderer_setPropertyColor(IntPtr cPointer, IntPtr property, ColorCTGUI value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidgetRenderer_setPropertyString(IntPtr cPointer, IntPtr property, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidgetRenderer_setPropertyNumber(IntPtr cPointer, IntPtr property, float value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidgetRenderer_setPropertyOutline(IntPtr cPointer, IntPtr property, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidgetRenderer_setPropertyTexture(IntPtr cPointer, IntPtr property, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidgetRenderer_setPropertyTextStyle(IntPtr cPointer, IntPtr property, TextStyles value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidgetRenderer_setPropertyRendererData(IntPtr cPointer, IntPtr property, IntPtr value);
 
         #endregion
     }

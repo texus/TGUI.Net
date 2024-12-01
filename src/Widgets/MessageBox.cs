@@ -1,58 +1,38 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
-using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Security;
+using System;
 
 namespace TGUI
 {
+    /// <summary>
+    /// MessageBox widget
+    /// </summary>
     public class MessageBox : ChildWindow
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public MessageBox()
             : base(tguiMessageBox_create())
         {
         }
 
-        public MessageBox(string title, string text = "", IEnumerable<string> buttons = null)
-            : base(tguiMessageBox_create())
-        {
-            Title = title;
-            Text = text;
-            if (buttons != null)
-            {
-                foreach (var button in buttons)
-                    AddButton(button);
-            }
-        }
-
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal MessageBox(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public MessageBox(MessageBox copy)
             : base(copy)
         {
@@ -60,19 +40,16 @@ namespace TGUI
 
         public new MessageBoxRenderer Renderer
         {
-            get { return new MessageBoxRenderer(tguiWidget_getRenderer(CPointer)); }
-            set { SetRenderer(value.Data); }
+            get => new MessageBoxRenderer(tguiWidget_getRenderer(CPointer));
+            set => SetRenderer(value.Data);
         }
 
-        public new MessageBoxRenderer SharedRenderer
-        {
-            get { return new MessageBoxRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-        }
+        public  new MessageBoxRenderer SharedRenderer => new MessageBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public string Text
         {
-            get { return Util.GetStringFromC_UTF32(tguiMessageBox_getText(CPointer)); }
-            set { tguiMessageBox_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
+            get => Util.GetStringFromC_UTF32(tguiMessageBox_getText(CPointer));
+            set => tguiMessageBox_setText(CPointer, Util.ConvertStringForC_UTF32(value));
         }
 
         public void AddButton(string text)
@@ -80,37 +57,98 @@ namespace TGUI
             tguiMessageBox_addButton(CPointer, Util.ConvertStringForC_UTF32(text));
         }
 
-        protected override void InitSignals()
+        public void ChangeButtons(ReadOnlySpan<string> buttonCaptions)
         {
-            base.InitSignals();
+            IntPtr[] buttonCaptionsForC = new IntPtr[buttonCaptions.Length];
+            for (int i = 0; i < buttonCaptions.Length; ++i)
+                buttonCaptionsForC[i] = Util.ConvertStringForC_UTF32(buttonCaptions[i]);
 
-            ButtonPressedCallback = new CallbackActionString((text) => SendSignal(myButtonPressedEventKey, new SignalArgsString(Util.GetStringFromC_UTF32(text))));
-            AddInternalSignal(tguiWidget_connectString(CPointer, Util.ConvertStringForC_ASCII("ButtonPressed"), ButtonPressedCallback));
+            tguiMessageBox_changeButtons(CPointer, buttonCaptionsForC, (UIntPtr)buttonCaptionsForC.Length);
         }
 
-        /// <summary>Event handler for the ButtonPressed signal</summary>
-        public event EventHandler<SignalArgsString> ButtonPressed
+        public IReadOnlyList<string> GetButtons()
         {
-            add { myEventHandlerList.AddHandler(myButtonPressedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myButtonPressedEventKey, value); }
+            unsafe
+            {
+                IntPtr* returnStringsC = tguiMessageBox_getButtons(CPointer, out UIntPtr returnCount);
+                string[] returnStrings = new string[(int)returnCount];
+                for (int i = 0; i < (int)returnCount; ++i)
+                    returnStrings[i] = Util.GetStringFromC_UTF32(returnStringsC[i]) ?? throw new ArgumentNullException();
+
+                return returnStrings;
+            }
         }
 
-        private CallbackActionString ButtonPressedCallback;
-        static readonly object myButtonPressedEventKey = new object();
+        public HorizontalAlignment LabelAlignment
+        {
+            get => tguiMessageBox_getLabelAlignment(CPointer);
+            set => tguiMessageBox_setLabelAlignment(CPointer, value);
+        }
 
-        #region Imports
+        public HorizontalAlignment ButtonAlignment
+        {
+            get => tguiMessageBox_getButtonAlignment(CPointer);
+            set => tguiMessageBox_setButtonAlignment(CPointer, value);
+        }
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiMessageBox_create();
+        public class ButtonPressEventArgs : EventArgs
+        {
+            public ButtonPressEventArgs(string buttonText)
+            {
+                ButtonText = buttonText;
+            }
+            public string ButtonText { get; }
+        }
+        public event EventHandler<ButtonPressEventArgs> OnButtonPress
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackString func = (IntPtr str) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new ButtonPressEventArgs(Util.GetStringFromC_UTF32(str)));
+                };
+                uint id = tguiWidget_signalStringConnect(CPointer, Util.ConvertStringForC_UTF32("ButtonPressed"), func);
+                ConnectEventHandler(id, "ButtonPressed", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("ButtonPressed", value);
+            }
+        }
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiMessageBox_setText(IntPtr cPointer, IntPtr value);
+        #region GeneratedImports
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiMessageBox_getText(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiMessageBox_create();
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiMessageBox_addButton(IntPtr cPointer, IntPtr text);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiMessageBox_getText(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiMessageBox_setText(IntPtr cPointer, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiMessageBox_addButton(IntPtr cPointer, IntPtr text);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiMessageBox_changeButtons(IntPtr cPointer, IntPtr[] buttonCaptions, UIntPtr buttonCaptionsLength);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern unsafe IntPtr* tguiMessageBox_getButtons(IntPtr cPointer, out UIntPtr returnCount);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern HorizontalAlignment tguiMessageBox_getLabelAlignment(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiMessageBox_setLabelAlignment(IntPtr cPointer, HorizontalAlignment value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern HorizontalAlignment tguiMessageBox_getButtonAlignment(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiMessageBox_setButtonAlignment(IntPtr cPointer, HorizontalAlignment value);
 
         #endregion
     }

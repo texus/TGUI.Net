@@ -1,37 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
+using System.Security;
+using System;
 
 namespace TGUI
 {
     /// <summary>
-    /// Spin button widget
+    /// SpinButton widget
     /// </summary>
-    public class SpinButton : Widget
+    public class SpinButton : ClickableWidget
     {
         /// <summary>
         /// Default constructor
@@ -39,18 +17,6 @@ namespace TGUI
         public SpinButton()
             : base(tguiSpinButton_create())
         {
-        }
-
-        /// <summary>
-        /// Constructor that sets the minimum and maximum properties
-        /// </summary>
-        /// <param name="min">Minimum spin button value</param>
-        /// <param name="max">Maximum spin button value</param>
-        public SpinButton(float min, float max)
-            : this()
-        {
-            Minimum = min;
-            Maximum = max;
         }
 
         /// <summary>
@@ -71,130 +37,105 @@ namespace TGUI
         {
         }
 
-        /// <summary>
-        /// Gets or sets the renderer, which gives access to properties that determine how the widget is displayed
-        /// </summary>
-        /// <remarks>
-        /// After retrieving the renderer, the widget has its own copy of the renderer and it will no longer be shared.
-        /// </remarks>
         public new SpinButtonRenderer Renderer
         {
-            get { return new SpinButtonRenderer(tguiWidget_getRenderer(CPointer)); }
-            set { SetRenderer(value.Data); }
+            get => new SpinButtonRenderer(tguiWidget_getRenderer(CPointer));
+            set => SetRenderer(value.Data);
         }
 
-        /// <summary>
-        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
-        /// </summary>
-        public new SpinButtonRenderer SharedRenderer
-        {
-            get { return new SpinButtonRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-        }
+        public  new SpinButtonRenderer SharedRenderer => new SpinButtonRenderer(tguiWidget_getSharedRenderer(CPointer));
 
-        /// <summary>
-        /// Gets or sets the minimum value of the spin button
-        /// </summary>
         public float Minimum
         {
-            get { return tguiSpinButton_getMinimum(CPointer); }
-            set { tguiSpinButton_setMinimum(CPointer, value); }
+            get => tguiSpinButton_getMinimum(CPointer);
+            set => tguiSpinButton_setMinimum(CPointer, value);
         }
 
-        /// <summary>
-        /// Gets or sets the maximum value of the spin button
-        /// </summary>
         public float Maximum
         {
-            get { return tguiSpinButton_getMaximum(CPointer); }
-            set { tguiSpinButton_setMaximum(CPointer, value); }
+            get => tguiSpinButton_getMaximum(CPointer);
+            set => tguiSpinButton_setMaximum(CPointer, value);
         }
 
-        /// <summary>
-        /// Gets or sets the current value of the spin button
-        /// </summary>
         public float Value
         {
-            get { return tguiSpinButton_getValue(CPointer); }
-            set { tguiSpinButton_setValue(CPointer, value); }
+            get => tguiSpinButton_getValue(CPointer);
+            set => tguiSpinButton_setValue(CPointer, value);
         }
 
-        /// <summary>
-        /// Gets or sets the amount the value changes when clicking on the spin button
-        /// </summary>
         public float Step
         {
-            get { return tguiSpinButton_getStep(CPointer); }
-            set { tguiSpinButton_setStep(CPointer, value); }
+            get => tguiSpinButton_getStep(CPointer);
+            set => tguiSpinButton_setStep(CPointer, value);
         }
 
-        /// <summary>
-        /// Gets or sets whether the spin button lies horizontally or vertically
-        /// </summary>
-        /// <remarks>
-        /// This function will swap the width and height of the scrollbar if it didn't lie in the wanted direction.
-        /// </remarks>
-        public bool VerticalScroll
+        public Orientation Orientation
         {
-            get { return tguiSpinButton_getVerticalScroll(CPointer); }
-            set { tguiSpinButton_setVerticalScroll(CPointer, value); }
+            get => tguiSpinButton_getOrientation(CPointer);
+            set => tguiSpinButton_setOrientation(CPointer, value);
         }
 
-        /// <summary>
-        /// Initializes the signals
-        /// </summary>
-        protected override void InitSignals()
+        public class ValueChangeEventArgs : EventArgs
         {
-            base.InitSignals();
-
-            ValueChangedCallback = new CallbackActionFloat((val) => SendSignal(myValueChangedEventKey, new SignalArgsFloat(val)));
-            AddInternalSignal(tguiWidget_connectFloat(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback));
+            public ValueChangeEventArgs(float val)
+            {
+                Value = val;
+            }
+            public float Value { get; }
         }
-
-        /// <summary>Event handler for the ValueChanged signal</summary>
-        public event EventHandler<SignalArgsFloat> ValueChanged
+        public event EventHandler<ValueChangeEventArgs> OnValueChange
         {
-            add { myEventHandlerList.AddHandler(myValueChangedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myValueChangedEventKey, value); }
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackFloat func = (float val) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new ValueChangeEventArgs(val));
+                };
+                uint id = tguiWidget_signalFloatConnect(CPointer, Util.ConvertStringForC_UTF32("ValueChanged"), func);
+                ConnectEventHandler(id, "ValueChanged", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("ValueChanged", value);
+            }
         }
 
-        private CallbackActionFloat ValueChangedCallback;
-        static readonly object myValueChangedEventKey = new object();
+        #region GeneratedImports
 
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiSpinButton_create();
 
-        #region Imports
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiSpinButton_getMinimum(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiSpinButton_create();
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSpinButton_setMinimum(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSpinButton_setMinimum(IntPtr cPointer, float minimum);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiSpinButton_getMaximum(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiSpinButton_getMinimum(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSpinButton_setMaximum(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSpinButton_setMaximum(IntPtr cPointer, float maximum);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiSpinButton_getValue(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiSpinButton_getMaximum(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSpinButton_setValue(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSpinButton_setValue(IntPtr cPointer, float value);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiSpinButton_getStep(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiSpinButton_getValue(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSpinButton_setStep(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSpinButton_setStep(IntPtr cPointer, float step);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern Orientation tguiSpinButton_getOrientation(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiSpinButton_getStep(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiSpinButton_setVerticalScroll(IntPtr cPointer, bool vertical);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiSpinButton_getVerticalScroll(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSpinButton_setOrientation(IntPtr cPointer, Orientation value);
 
         #endregion
     }

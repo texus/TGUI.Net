@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
+// Copyright (C) 2012-2024 Bruno Van de Velde (vdv_b@tgui.eu)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -25,14 +25,13 @@
 using System;
 using System.Security;
 using System.Runtime.InteropServices;
-using SFML.System;
 
 namespace TGUI
 {
     /// <summary>
     /// Layout stores either a value or a string expression that is used to represent a Left, Top, Width or Height property
     /// </summary>
-    public class Layout : SFML.ObjectBase
+    public class Layout : ObjectBase
     {
         /// <summary>
         /// Construct the layout with a constant value
@@ -49,6 +48,15 @@ namespace TGUI
         /// <param name="expression">String to parse</param>
         public Layout(string expression)
             : base(tguiLayout_createFromString(Util.ConvertStringForC_ASCII(expression)))
+        {
+        }
+
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
+        protected internal Layout(IntPtr cPointer)
+            : base(cPointer)
         {
         }
 
@@ -75,25 +83,36 @@ namespace TGUI
         /// </summary>
         public float Value
         {
-            get { return tguiLayout_getValue(CPointer); }
+            get => tguiLayout_getValue(CPointer);
+        }
+
+        /// <summary>
+        /// Gets whether the layout stores a constant value
+        /// </summary>
+        public bool Constant
+        {
+            get => tguiLayout_isConstant(CPointer) != 0;
         }
 
         #region Imports
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiLayout_create(float constant);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiLayout_createFromString(IntPtr expression);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private IntPtr tguiLayout_copy(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tguiLayout_destroy(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private float tguiLayout_getValue(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private byte tguiLayout_isConstant(IntPtr cPointer);
 
         #endregion
     }

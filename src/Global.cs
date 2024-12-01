@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
+// Copyright (C) 2012-2024 Bruno Van de Velde (vdv_b@tgui.eu)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -25,29 +25,11 @@
 using System;
 using System.Security;
 using System.Runtime.InteropServices;
-using SFML.Graphics;
 
 namespace TGUI
 {
     public static class Global
     {
-        /// <summary>Name of the CTGUI library to import</summary>
-#if _WINDOWS_
-        public const string CTGUI = "ctgui-0.8.dll";
-#elif _OSX_
-        public const string CTGUI = "libctgui.dylib";
-#elif _LINUX_
-        public const string CTGUI = "libctgui.so";
-#endif
-
-        /// <summary>
-        /// Gets or sets the default font for all new widgets
-        /// </summary>
-        public static Font Font
-        {
-            set { tgui_setGlobalFont(value.CPointer); }
-        }
-
         /// <summary>
         /// Gets or sets the default text size for all new widgets
         /// </summary>
@@ -58,9 +40,28 @@ namespace TGUI
         }
 
         /// <summary>
-        /// Gets or sets the blink rate of the cursor in edit fields such as EditBox and TextBox (in milliseconds)
+        /// Gets or sets the double-click time for the mouse
         /// </summary>
-        public static uint EditCursorBlinkRate
+        public static Duration DoubleClickTime
+        {
+            get { return tgui_getDoubleClickTime(); }
+            set { tgui_setDoubleClickTime(value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the resource path
+        /// </summary>
+        /// <remarks>This pathname is placed in front of every filename that is used to load a resource.</remarks>
+        public static string ResourcePath
+        {
+            get { return Util.GetStringFromC_UTF32(tgui_getResourcePath()); }
+            set { tgui_setResourcePath(Util.ConvertStringForC_UTF32(value)); }
+        }
+
+        /// <summary>
+        /// Gets or sets the blink rate of the cursor in edit fields such as EditBox and TextArea
+        /// </summary>
+        public static Duration EditCursorBlinkRate
         {
             get { return tgui_getEditCursorBlinkRate(); }
             set { tgui_setEditCursorBlinkRate(value); }
@@ -69,20 +70,29 @@ namespace TGUI
 
         #region Imports
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tgui_setGlobalFont(IntPtr font);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tgui_setGlobalTextSize(uint textSize);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private uint tgui_getGlobalTextSize();
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tgui_setEditCursorBlinkRate(uint blinkRateMilliseconds);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tgui_setEditCursorBlinkRate(Duration blinkRate);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tgui_getEditCursorBlinkRate();
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private Duration tgui_getEditCursorBlinkRate();
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tgui_setDoubleClickTime(Duration duration);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private Duration tgui_getDoubleClickTime();
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tgui_setResourcePath(IntPtr path);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private IntPtr tgui_getResourcePath();
 
         #endregion
     }

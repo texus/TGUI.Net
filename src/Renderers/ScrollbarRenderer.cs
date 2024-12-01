@@ -1,224 +1,241 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
-using SFML.Graphics;
+using System.Security;
+using System;
 
 namespace TGUI
 {
+    /// <summary>
+    /// Renderer for Scrollbar widgets
+    /// </summary>
     public class ScrollbarRenderer : WidgetRenderer
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public ScrollbarRenderer()
             : base(tguiScrollbarRenderer_create())
         {
         }
 
-        public ScrollbarRenderer(RendererData data)
-            : base(tguiScrollbarRenderer_create())
-        {
-            Data = data;
-        }
-
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal ScrollbarRenderer(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Renderer object to copy</param>
         public ScrollbarRenderer(ScrollbarRenderer copy)
             : base(tguiScrollbarRenderer_copy(copy.CPointer))
         {
         }
 
-        public Color TrackColor
+        public Color? TrackColor
         {
-            get { return tguiScrollbarRenderer_getTrackColor(CPointer); }
-            set { tguiScrollbarRenderer_setTrackColor(CPointer, value); }
+            get => Util.GetColorFromC(tguiScrollbarRenderer_getTrackColor(CPointer));
+            set => tguiScrollbarRenderer_setTrackColor(CPointer, Util.ConvertColorForC(value));
         }
 
-        public Color TrackColorHover
+        public Color? TrackColorHover
         {
-            get { return tguiScrollbarRenderer_getTrackColorHover(CPointer); }
-            set { tguiScrollbarRenderer_setTrackColorHover(CPointer, value); }
+            get => Util.GetColorFromC(tguiScrollbarRenderer_getTrackColorHover(CPointer));
+            set => tguiScrollbarRenderer_setTrackColorHover(CPointer, Util.ConvertColorForC(value));
         }
 
-        public Color ThumbColor
+        public Color? ThumbColor
         {
-            get { return tguiScrollbarRenderer_getThumbColor(CPointer); }
-            set { tguiScrollbarRenderer_setThumbColor(CPointer, value); }
+            get => Util.GetColorFromC(tguiScrollbarRenderer_getThumbColor(CPointer));
+            set => tguiScrollbarRenderer_setThumbColor(CPointer, Util.ConvertColorForC(value));
         }
 
-        public Color ThumbColorHover
+        public Color? ThumbColorHover
         {
-            get { return tguiScrollbarRenderer_getThumbColorHover(CPointer); }
-            set { tguiScrollbarRenderer_setThumbColorHover(CPointer, value); }
+            get => Util.GetColorFromC(tguiScrollbarRenderer_getThumbColorHover(CPointer));
+            set => tguiScrollbarRenderer_setThumbColorHover(CPointer, Util.ConvertColorForC(value));
         }
 
-        public Color ArrowBackgroundColor
+        public Color? ArrowBackgroundColor
         {
-            get { return tguiScrollbarRenderer_getArrowBackgroundColor(CPointer); }
-            set { tguiScrollbarRenderer_setArrowBackgroundColor(CPointer, value); }
+            get => Util.GetColorFromC(tguiScrollbarRenderer_getArrowBackgroundColor(CPointer));
+            set => tguiScrollbarRenderer_setArrowBackgroundColor(CPointer, Util.ConvertColorForC(value));
         }
 
-        public Color ArrowBackgroundColorHover
+        public Color? ArrowBackgroundColorHover
         {
-            get { return tguiScrollbarRenderer_getArrowBackgroundColorHover(CPointer); }
-            set { tguiScrollbarRenderer_setArrowBackgroundColorHover(CPointer, value); }
+            get => Util.GetColorFromC(tguiScrollbarRenderer_getArrowBackgroundColorHover(CPointer));
+            set => tguiScrollbarRenderer_setArrowBackgroundColorHover(CPointer, Util.ConvertColorForC(value));
         }
 
-        public Color ArrowColor
+        public Color? ArrowColor
         {
-            get { return tguiScrollbarRenderer_getArrowColor(CPointer); }
-            set { tguiScrollbarRenderer_setArrowColor(CPointer, value); }
+            get => Util.GetColorFromC(tguiScrollbarRenderer_getArrowColor(CPointer));
+            set => tguiScrollbarRenderer_setArrowColor(CPointer, Util.ConvertColorForC(value));
         }
 
-        public Color ArrowColorHover
+        public Color? ArrowColorHover
         {
-            get { return tguiScrollbarRenderer_getArrowColorHover(CPointer); }
-            set { tguiScrollbarRenderer_setArrowColorHover(CPointer, value); }
+            get => Util.GetColorFromC(tguiScrollbarRenderer_getArrowColorHover(CPointer));
+            set => tguiScrollbarRenderer_setArrowColorHover(CPointer, Util.ConvertColorForC(value));
         }
 
         public Texture TextureTrack
         {
-            set { tguiScrollbarRenderer_setTextureTrack(CPointer, value.CPointer); }
+            get => new Texture(tguiScrollbarRenderer_getTextureTrack(CPointer));
+            set => tguiScrollbarRenderer_setTextureTrack(CPointer, value.CPointer);
         }
 
         public Texture TextureTrackHover
         {
-            set { tguiScrollbarRenderer_setTextureTrackHover(CPointer, value.CPointer); }
+            get => new Texture(tguiScrollbarRenderer_getTextureTrackHover(CPointer));
+            set => tguiScrollbarRenderer_setTextureTrackHover(CPointer, value.CPointer);
         }
 
         public Texture TextureThumb
         {
-            set { tguiScrollbarRenderer_setTextureThumb(CPointer, value.CPointer); }
+            get => new Texture(tguiScrollbarRenderer_getTextureThumb(CPointer));
+            set => tguiScrollbarRenderer_setTextureThumb(CPointer, value.CPointer);
         }
 
         public Texture TextureThumbHover
         {
-            set { tguiScrollbarRenderer_setTextureThumbHover(CPointer, value.CPointer); }
+            get => new Texture(tguiScrollbarRenderer_getTextureThumbHover(CPointer));
+            set => tguiScrollbarRenderer_setTextureThumbHover(CPointer, value.CPointer);
         }
 
         public Texture TextureArrowUp
         {
-            set { tguiScrollbarRenderer_setTextureArrowUp(CPointer, value.CPointer); }
+            get => new Texture(tguiScrollbarRenderer_getTextureArrowUp(CPointer));
+            set => tguiScrollbarRenderer_setTextureArrowUp(CPointer, value.CPointer);
         }
 
         public Texture TextureArrowUpHover
         {
-            set { tguiScrollbarRenderer_setTextureArrowUpHover(CPointer, value.CPointer); }
+            get => new Texture(tguiScrollbarRenderer_getTextureArrowUpHover(CPointer));
+            set => tguiScrollbarRenderer_setTextureArrowUpHover(CPointer, value.CPointer);
         }
 
         public Texture TextureArrowDown
         {
-            set { tguiScrollbarRenderer_setTextureArrowDown(CPointer, value.CPointer); }
+            get => new Texture(tguiScrollbarRenderer_getTextureArrowDown(CPointer));
+            set => tguiScrollbarRenderer_setTextureArrowDown(CPointer, value.CPointer);
         }
 
         public Texture TextureArrowDownHover
         {
-            set { tguiScrollbarRenderer_setTextureArrowDownHover(CPointer, value.CPointer); }
+            get => new Texture(tguiScrollbarRenderer_getTextureArrowDownHover(CPointer));
+            set => tguiScrollbarRenderer_setTextureArrowDownHover(CPointer, value.CPointer);
         }
 
-        #region Imports
+        #region GeneratedImports
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiScrollbarRenderer_create();
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiScrollbarRenderer_create();
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiScrollbarRenderer_copy(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiScrollbarRenderer_copy(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setTrackColor(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiScrollbarRenderer_getTrackColor(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiScrollbarRenderer_getTrackColor(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setTrackColor(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setTrackColorHover(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiScrollbarRenderer_getTrackColorHover(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiScrollbarRenderer_getTrackColorHover(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setTrackColorHover(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setThumbColor(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiScrollbarRenderer_getThumbColor(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiScrollbarRenderer_getThumbColor(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setThumbColor(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setThumbColorHover(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiScrollbarRenderer_getThumbColorHover(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiScrollbarRenderer_getThumbColorHover(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setThumbColorHover(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setArrowBackgroundColor(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiScrollbarRenderer_getArrowBackgroundColor(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiScrollbarRenderer_getArrowBackgroundColor(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setArrowBackgroundColor(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setArrowBackgroundColorHover(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiScrollbarRenderer_getArrowBackgroundColorHover(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiScrollbarRenderer_getArrowBackgroundColorHover(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setArrowBackgroundColorHover(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setArrowColor(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiScrollbarRenderer_getArrowColor(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiScrollbarRenderer_getArrowColor(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setArrowColor(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setArrowColorHover(IntPtr cPointer, Color color);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ColorCTGUI tguiScrollbarRenderer_getArrowColorHover(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Color tguiScrollbarRenderer_getArrowColorHover(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setArrowColorHover(IntPtr cPointer, ColorCTGUI value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setTextureTrack(IntPtr cPointer, IntPtr texture);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiScrollbarRenderer_getTextureTrack(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setTextureTrackHover(IntPtr cPointer, IntPtr texture);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setTextureTrack(IntPtr cPointer, IntPtr value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setTextureThumb(IntPtr cPointer, IntPtr texture);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiScrollbarRenderer_getTextureTrackHover(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setTextureThumbHover(IntPtr cPointer, IntPtr texture);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setTextureTrackHover(IntPtr cPointer, IntPtr value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setTextureArrowUp(IntPtr cPointer, IntPtr texture);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiScrollbarRenderer_getTextureThumb(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setTextureArrowUpHover(IntPtr cPointer, IntPtr texture);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setTextureThumb(IntPtr cPointer, IntPtr value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setTextureArrowDown(IntPtr cPointer, IntPtr texture);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiScrollbarRenderer_getTextureThumbHover(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbarRenderer_setTextureArrowDownHover(IntPtr cPointer, IntPtr texture);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setTextureThumbHover(IntPtr cPointer, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiScrollbarRenderer_getTextureArrowUp(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setTextureArrowUp(IntPtr cPointer, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiScrollbarRenderer_getTextureArrowUpHover(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setTextureArrowUpHover(IntPtr cPointer, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiScrollbarRenderer_getTextureArrowDown(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setTextureArrowDown(IntPtr cPointer, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiScrollbarRenderer_getTextureArrowDownHover(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbarRenderer_setTextureArrowDownHover(IntPtr cPointer, IntPtr value);
 
         #endregion
     }

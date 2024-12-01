@@ -1,54 +1,45 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
+using System.Security;
+using System;
 
 namespace TGUI
 {
-    public class ProgressBar : Widget
+    public enum ProgressBarFillDirection
     {
-        public enum Direction
-        {
-            LeftToRight,
-            RightToLeft,
-            TopToBottom,
-            BottomToTop
-        }
+        LeftToRight,
+        RightToLeft,
+        TopToBottom,
+        BottomToTop,
+    }
 
-
+    /// <summary>
+    /// ProgressBar widget
+    /// </summary>
+    public class ProgressBar : ClickableWidget
+    {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public ProgressBar()
             : base(tguiProgressBar_create())
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal ProgressBar(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public ProgressBar(ProgressBar copy)
             : base(copy)
         {
@@ -56,118 +47,130 @@ namespace TGUI
 
         public new ProgressBarRenderer Renderer
         {
-            get { return new ProgressBarRenderer(tguiWidget_getRenderer(CPointer)); }
-            set { SetRenderer(value.Data); }
+            get => new ProgressBarRenderer(tguiWidget_getRenderer(CPointer));
+            set => SetRenderer(value.Data);
         }
 
-        public new ProgressBarRenderer SharedRenderer
+        public  new ProgressBarRenderer SharedRenderer => new ProgressBarRenderer(tguiWidget_getSharedRenderer(CPointer));
+
+        public int Minimum
         {
-            get { return new ProgressBarRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+            get => (int)tguiProgressBar_getMinimum(CPointer);
+            set => tguiProgressBar_setMinimum(CPointer, (uint)value);
         }
 
-        public uint Minimum
+        public int Maximum
         {
-            get { return tguiProgressBar_getMinimum(CPointer); }
-            set { tguiProgressBar_setMinimum(CPointer, value); }
+            get => (int)tguiProgressBar_getMaximum(CPointer);
+            set => tguiProgressBar_setMaximum(CPointer, (uint)value);
         }
 
-        public uint Maximum
+        public int Value
         {
-            get { return tguiProgressBar_getMaximum(CPointer); }
-            set { tguiProgressBar_setMaximum(CPointer, value); }
+            get => (int)tguiProgressBar_getValue(CPointer);
+            set => tguiProgressBar_setValue(CPointer, (uint)value);
         }
 
-        public uint Value
+        public int IncrementValue()
         {
-            get { return tguiProgressBar_getValue(CPointer); }
-            set { tguiProgressBar_setValue(CPointer, value); }
-        }
-
-        public uint IncrementValue()
-        {
-            return tguiProgressBar_incrementValue(CPointer);
+            return (int)tguiProgressBar_incrementValue(CPointer);
         }
 
         public string Text
         {
-            get { return Util.GetStringFromC_UTF32(tguiProgressBar_getText(CPointer)); }
-            set { tguiProgressBar_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
+            get => Util.GetStringFromC_UTF32(tguiProgressBar_getText(CPointer));
+            set => tguiProgressBar_setText(CPointer, Util.ConvertStringForC_UTF32(value));
         }
 
-        public Direction FillDirection
+        public ProgressBarFillDirection FillDirection
         {
-            get { return tguiProgressBar_getFillDirection(CPointer); }
-            set { tguiProgressBar_setFillDirection(CPointer, value); }
+            get => tguiProgressBar_getFillDirection(CPointer);
+            set => tguiProgressBar_setFillDirection(CPointer, value);
         }
 
-        protected override void InitSignals()
+        public class ValueChangeEventArgs : EventArgs
         {
-            base.InitSignals();
-
-            ValueChangedCallback = new CallbackActionUInt((val) => SendSignal(myValueChangedEventKey, new SignalArgsUInt(val)));
-            AddInternalSignal(tguiWidget_connectUInt(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback));
-
-            FullCallback = new CallbackAction(() => SendSignal(myFullEventKey));
-            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Full"), FullCallback));
+            public ValueChangeEventArgs(uint val)
+            {
+                Value = val;
+            }
+            public uint Value { get; }
         }
-
-        /// <summary>Event handler for the ValueChanged signal</summary>
-        public event EventHandler<SignalArgsUInt> ValueChanged
+        public event EventHandler<ValueChangeEventArgs> OnValueChange
         {
-            add { myEventHandlerList.AddHandler(myValueChangedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myValueChangedEventKey, value); }
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackUInt func = (uint val) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new ValueChangeEventArgs(val));
+                };
+                uint id = tguiWidget_signalUIntConnect(CPointer, Util.ConvertStringForC_UTF32("ValueChanged"), func);
+                ConnectEventHandler(id, "ValueChanged", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("ValueChanged", value);
+            }
         }
 
-        /// <summary>Event handler for the Full signal</summary>
-        public event EventHandler Full
+        public event EventHandler OnFull
         {
-            add { myEventHandlerList.AddHandler(myFullEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myFullEventKey, value); }
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallback func = () => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, EventArgs.Empty);
+                };
+                uint id = tguiWidget_signalConnect(CPointer, Util.ConvertStringForC_UTF32("Full"), func);
+                ConnectEventHandler(id, "Full", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("Full", value);
+            }
         }
 
-        private CallbackActionUInt ValueChangedCallback;
-        private CallbackAction FullCallback;
+        #region GeneratedImports
 
-        static readonly object myValueChangedEventKey = new object();
-        static readonly object myFullEventKey = new object();
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiProgressBar_create();
 
-        #region Imports
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern uint tguiProgressBar_getMinimum(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiProgressBar_create();
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiProgressBar_setMinimum(IntPtr cPointer, uint value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiProgressBar_setMinimum(IntPtr cPointer, uint minimum);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern uint tguiProgressBar_getMaximum(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiProgressBar_getMinimum(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiProgressBar_setMaximum(IntPtr cPointer, uint value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiProgressBar_setMaximum(IntPtr cPointer, uint maximum);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern uint tguiProgressBar_getValue(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiProgressBar_getMaximum(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiProgressBar_setValue(IntPtr cPointer, uint value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiProgressBar_setValue(IntPtr cPointer, uint value);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern uint tguiProgressBar_incrementValue(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiProgressBar_getValue(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiProgressBar_getText(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiProgressBar_incrementValue(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiProgressBar_setText(IntPtr cPointer, IntPtr value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiProgressBar_setText(IntPtr cPointer, IntPtr value);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ProgressBarFillDirection tguiProgressBar_getFillDirection(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiProgressBar_getText(IntPtr cPointer);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiProgressBar_setFillDirection(IntPtr cPointer, Direction fillDirection);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Direction tguiProgressBar_getFillDirection(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiProgressBar_setFillDirection(IntPtr cPointer, ProgressBarFillDirection value);
 
         #endregion
     }

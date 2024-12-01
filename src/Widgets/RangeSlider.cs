@@ -1,52 +1,37 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
+using System.Security;
+using System;
 
 namespace TGUI
 {
+    /// <summary>
+    /// RangeSlider widget
+    /// </summary>
     public class RangeSlider : Widget
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public RangeSlider()
             : base(tguiRangeSlider_create())
         {
         }
 
-        public RangeSlider(float min, float max)
-            : this()
-        {
-            Minimum = min;
-            Maximum = max;
-        }
-
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal RangeSlider(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public RangeSlider(RangeSlider copy)
             : base(copy)
         {
@@ -54,97 +39,105 @@ namespace TGUI
 
         public new RangeSliderRenderer Renderer
         {
-            get { return new RangeSliderRenderer(tguiWidget_getRenderer(CPointer)); }
-            set { SetRenderer(value.Data); }
+            get => new RangeSliderRenderer(tguiWidget_getRenderer(CPointer));
+            set => SetRenderer(value.Data);
         }
 
-        public new RangeSliderRenderer SharedRenderer
-        {
-            get { return new RangeSliderRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-        }
+        public  new RangeSliderRenderer SharedRenderer => new RangeSliderRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public float Minimum
         {
-            get { return tguiRangeSlider_getMinimum(CPointer); }
-            set { tguiRangeSlider_setMinimum(CPointer, value); }
+            get => tguiRangeSlider_getMinimum(CPointer);
+            set => tguiRangeSlider_setMinimum(CPointer, value);
         }
 
         public float Maximum
         {
-            get { return tguiRangeSlider_getMaximum(CPointer); }
-            set { tguiRangeSlider_setMaximum(CPointer, value); }
+            get => tguiRangeSlider_getMaximum(CPointer);
+            set => tguiRangeSlider_setMaximum(CPointer, value);
         }
 
         public float SelectionStart
         {
-            get { return tguiRangeSlider_getSelectionStart(CPointer); }
-            set { tguiRangeSlider_setSelectionStart(CPointer, value); }
+            get => tguiRangeSlider_getSelectionStart(CPointer);
+            set => tguiRangeSlider_setSelectionStart(CPointer, value);
         }
 
         public float SelectionEnd
         {
-            get { return tguiRangeSlider_getSelectionEnd(CPointer); }
-            set { tguiRangeSlider_setSelectionEnd(CPointer, value); }
+            get => tguiRangeSlider_getSelectionEnd(CPointer);
+            set => tguiRangeSlider_setSelectionEnd(CPointer, value);
         }
 
         public float Step
         {
-            get { return tguiRangeSlider_getStep(CPointer); }
-            set { tguiRangeSlider_setStep(CPointer, value); }
+            get => tguiRangeSlider_getStep(CPointer);
+            set => tguiRangeSlider_setStep(CPointer, value);
         }
 
-        protected override void InitSignals()
+        public class RangeChangeEventArgs : EventArgs
         {
-            base.InitSignals();
-
-            RangeChangedCallback = new CallbackActionRange((start, end) => SendSignal(myRangeChangedEventKey, new SignalArgsRange(start, end)));
-            AddInternalSignal(tguiWidget_connectRange(CPointer, Util.ConvertStringForC_ASCII("RangeChanged"), RangeChangedCallback));
+            public RangeChangeEventArgs(float start, float end)
+            {
+                Start = start;
+                End = end;
+            }
+            public float Start { get; }
+            public float End { get; }
         }
-
-        /// <summary>Event handler for the RangeChanged signal</summary>
-        public event EventHandler<SignalArgsRange> RangeChanged
+        public event EventHandler<RangeChangeEventArgs> OnRangeChange
         {
-            add { myEventHandlerList.AddHandler(myRangeChangedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myRangeChangedEventKey, value); }
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackRange func = (float val1, float val2) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new RangeChangeEventArgs(val1, val2));
+                };
+                uint id = tguiWidget_signalRangeConnect(CPointer, Util.ConvertStringForC_UTF32("RangeChanged"), func);
+                ConnectEventHandler(id, "RangeChanged", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("RangeChanged", value);
+            }
         }
 
-        private CallbackActionRange RangeChangedCallback;
-        static readonly object myRangeChangedEventKey = new object();
+        #region GeneratedImports
 
-        #region Imports
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiRangeSlider_create();
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiRangeSlider_create();
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiRangeSlider_getMinimum(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiRangeSlider_setMinimum(IntPtr cPointer, float minimum);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiRangeSlider_setMinimum(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiRangeSlider_getMinimum(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiRangeSlider_getMaximum(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiRangeSlider_setMaximum(IntPtr cPointer, float maximum);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiRangeSlider_setMaximum(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiRangeSlider_getMaximum(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiRangeSlider_getSelectionStart(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiRangeSlider_setSelectionStart(IntPtr cPointer, float start);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiRangeSlider_setSelectionStart(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiRangeSlider_getSelectionStart(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiRangeSlider_getSelectionEnd(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiRangeSlider_setSelectionEnd(IntPtr cPointer, float end);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiRangeSlider_setSelectionEnd(IntPtr cPointer, float value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiRangeSlider_getSelectionEnd(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiRangeSlider_getStep(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiRangeSlider_setStep(IntPtr cPointer, float step);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiRangeSlider_getStep(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiRangeSlider_setStep(IntPtr cPointer, float value);
 
         #endregion
     }

@@ -1,58 +1,23 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
-using SFML.System;
+using System.Security;
+using System;
 
 namespace TGUI
 {
+    public enum ChildWindowCloseBehavior
+    {
+        None,
+        Hide,
+        Remove,
+    }
+
     /// <summary>
-    /// Child window widget
+    /// ChildWindow widget
     /// </summary>
     public class ChildWindow : Container
     {
-        /// <summary>
-        /// Buttons that can be displayed in the title bar
-        /// </summary>
-        [Flags]
-        public enum TitleButton
-        {
-            ///<summary>Display no buttons</summary>
-            None     = 0,
-
-            ///<summary>Display the close button</summary>
-            Close    = 1 << 0,
-
-            ///<summary>Display the maximize button</summary>
-            Maximize = 1 << 1,
-
-            ///<summary>Display the minimize button</summary>
-            Minimize = 1 << 2
-        }
-
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -62,20 +27,9 @@ namespace TGUI
         }
 
         /// <summary>
-        /// Constructor to create the ChildWindow with the given title and title buttons
-        /// </summary>
-        /// <param name="title">Title to display in the title bar</param>
-        /// <param name="titleButtons">Buttons to display in the title bar</param>
-        public ChildWindow(string title, TitleButton titleButtons = TitleButton.Close)
-            : base(tguiChildWindow_create())
-        {
-            Title = title;
-            TitleButtons = titleButtons;
-        }
-
-        /// <summary>
         /// Constructor that creates the object from its C pointer
         /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal ChildWindow(IntPtr cPointer)
             : base(cPointer)
         {
@@ -84,293 +38,324 @@ namespace TGUI
         /// <summary>
         /// Copy constructor
         /// </summary>
+        /// <param name="copy">Object to copy</param>
         public ChildWindow(ChildWindow copy)
             : base(copy)
         {
         }
 
-        /// <summary>
-        /// Gets or sets the renderer, which gives access to properties that determine how the widget is displayed
-        /// </summary>
-        /// <remarks>
-        /// After retrieving the renderer, the widget has its own copy of the renderer and it will no longer be shared.
-        /// </remarks>
         public new ChildWindowRenderer Renderer
         {
-            get { return new ChildWindowRenderer(tguiWidget_getRenderer(CPointer)); }
-            set { SetRenderer(value.Data); }
+            get => new ChildWindowRenderer(tguiWidget_getRenderer(CPointer));
+            set => SetRenderer(value.Data);
         }
 
-        /// <summary>
-        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
-        /// </summary>
-        public new ChildWindowRenderer SharedRenderer
+        public  new ChildWindowRenderer SharedRenderer => new ChildWindowRenderer(tguiWidget_getSharedRenderer(CPointer));
+
+        public void SetClientSize(Vector2f size)
         {
-            get { return new ChildWindowRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+            tguiChildWindow_setClientSize(CPointer, size);
         }
 
-        /// <summary>
-        /// Gets or sets the minimum size of the child window
-        /// </summary>
-        /// <remarks>
-        /// The given minimum size excludes the borders and titlebar.
-        /// If the window is smaller than the minimum size, it will automatically be enlarged.
-        /// </remarks>
-        public Vector2f MinimumSize
+        public void SetClientSize(Layout2d layout)
         {
-            get { return tguiChildWindow_getMinimumSize(CPointer); }
-            set { tguiChildWindow_setMinimumSize(CPointer, value); }
+            tguiChildWindow_setClientSizeFromLayout(CPointer, layout.CPointer);
         }
 
-        /// <summary>
-        /// Gets or sets the maximum size of the child window
-        /// </summary>
-        /// <remarks>
-        /// The given maximum size excludes the borders and titlebar.
-        /// If the window is larger than the maximum size, it will automatically be shrunk.
-        /// </remarks>
+        public Vector2f GetClientSize()
+        {
+            return tguiChildWindow_getClientSize(CPointer);
+        }
+
         public Vector2f MaximumSize
         {
-            get { return tguiChildWindow_getMaximumSize(CPointer); }
-            set { tguiChildWindow_setMaximumSize(CPointer, value); }
+            get => tguiChildWindow_getMaximumSize(CPointer);
+            set => tguiChildWindow_setMaximumSize(CPointer, value);
         }
 
-        /// <summary>
-        /// Gets or sets the title that is displayed in the title bar of the child window
-        /// </summary>
+        public Vector2f MinimumSize
+        {
+            get => tguiChildWindow_getMinimumSize(CPointer);
+            set => tguiChildWindow_setMinimumSize(CPointer, value);
+        }
+
         public string Title
         {
-            get { return Util.GetStringFromC_UTF32(tguiChildWindow_getTitle(CPointer)); }
-            set { tguiChildWindow_setTitle(CPointer, Util.ConvertStringForC_UTF32(value)); }
+            get => Util.GetStringFromC_UTF32(tguiChildWindow_getTitle(CPointer));
+            set => tguiChildWindow_setTitle(CPointer, Util.ConvertStringForC_UTF32(value));
         }
 
-        /// <summary>
-        /// Gets or sets the character size of the title
-        /// </summary>
-        /// <remarks>
-        /// If the size is set to 0 then the character size is determined by the height of the title bar.
-        /// </remarks>
-        public uint TitleTextSize
+        public int TitleTextSize
         {
-            get { return tguiChildWindow_getTitleTextSize(CPointer); }
-            set { tguiChildWindow_setTitleTextSize(CPointer, value); }
+            get => (int)tguiChildWindow_getTitleTextSize(CPointer);
+            set => tguiChildWindow_setTitleTextSize(CPointer, (uint)value);
         }
 
-        /// <summary>
-        /// Gets or sets the title alignment
-        /// </summary>
         public HorizontalAlignment TitleAlignment
         {
-            get { return tguiChildWindow_getTitleAlignment(CPointer); }
-            set { tguiChildWindow_setTitleAlignment(CPointer, value); }
+            get => tguiChildWindow_getTitleAlignment(CPointer);
+            set => tguiChildWindow_setTitleAlignment(CPointer, value);
         }
 
-        /// <summary>
-        /// Gets or sets the title buttons that are shown in the title bar
-        /// </summary>
-        /// <remarks>
-        /// By default ChildWindows only display a close button.
-        /// </remarks>
-        /// <example>
-        /// The following example gives the ChildWindow both a minimize and close button.
-        /// <code>
-        /// childWindow.SetTitleButtons(ChildWindow.TitleButton.Minimize | ChildWindow.TitleButton.Close);
-        /// </code>
-        /// </example>
-        public TitleButton TitleButtons
+        public int TitleButtons
         {
-            get { return tguiChildWindow_getTitleButtons(CPointer); }
-            set { tguiChildWindow_setTitleButtons(CPointer, value); }
+            get => (int)tguiChildWindow_getTitleButtons(CPointer);
+            set => tguiChildWindow_setTitleButtons(CPointer, (uint)value);
         }
 
-        /// <summary>
-        /// Gets or sets whether the child window can be resized by dragging its borders or not
-        /// </summary>
+        public ChildWindowCloseBehavior CloseBehavior
+        {
+            get => tguiChildWindow_getCloseBehavior(CPointer);
+            set => tguiChildWindow_setCloseBehavior(CPointer, value);
+        }
+
         public bool Resizable
         {
-            get { return tguiChildWindow_isResizable(CPointer); }
-            set { tguiChildWindow_setResizable(CPointer, value); }
+            get => tguiChildWindow_isResizable(CPointer) != 0;
+            set => tguiChildWindow_setResizable(CPointer, value ? (byte)1 : (byte)0);
         }
 
-        /// <summary>
-        /// Gets or sets whether the child window is to be kept inside its parent
-        /// </summary>
-        /// <remarks>
-        /// When it's set to true, it will not be possible to move the window outside its parent, not even partially.
-        /// It's set to false by default.
-        /// </remarks>
         public bool KeepInParent
         {
-            get { return tguiChildWindow_isKeptInParent(CPointer); }
-            set { tguiChildWindow_setKeepInParent(CPointer, value); }
+            get => tguiChildWindow_getKeepInParent(CPointer) != 0;
+            set => tguiChildWindow_setKeepInParent(CPointer, value ? (byte)1 : (byte)0);
         }
 
-        /// <summary>
-        /// Gets or sets whether the child window can be moved by dragging its title bar or not
-        /// </summary>
-        /// <remarks>
-        /// Locking the position only affects user interaction, the setPosition function will still move the window.
-        /// </remarks>
         public bool PositionLocked
         {
-            get { return tguiChildWindow_isPositionLocked(CPointer); }
-            set { tguiChildWindow_setPositionLocked(CPointer, value); }
+            get => tguiChildWindow_isPositionLocked(CPointer) != 0;
+            set => tguiChildWindow_setPositionLocked(CPointer, value ? (byte)1 : (byte)0);
         }
 
-        /// <summary>
-        /// Try to close the window
-        /// </summary>
-        /// <remarks>
-        /// This will trigger the Closed signal. If no callback is requested then the window will be closed.
-        /// </remarks>
-        public void CloseWindow()
+        public event EventHandler OnMousePress
         {
-            ProcessClosedSignal();
-        }
-
-        /// <summary>
-        /// Initializes the signals
-        /// </summary>
-        protected override void InitSignals()
-        {
-            base.InitSignals();
-
-            MousePressedCallback = new CallbackAction(() => SendSignal(myMousePressedEventKey));
-            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback));
-
-            ClosedCallback = new CallbackAction(ProcessClosedSignal);
-            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Closed"), ClosedCallback));
-
-            MaximizedCallback = new CallbackAction(() => SendSignal(myMaximizedEventKey));
-            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Maximized"), MaximizedCallback));
-
-            MinimizedCallback = new CallbackAction(() => SendSignal(myMinimizedEventKey));
-            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("Minimized"), MinimizedCallback));
-
-            EscapeKeyPressedCallback = new CallbackAction(() => SendSignal(myEscapeKeyPressedEventKey));
-            AddInternalSignal(tguiWidget_connect(CPointer, Util.ConvertStringForC_ASCII("EscapeKeyPressed"), EscapeKeyPressedCallback));
-        }
-
-        private void ProcessClosedSignal()
-        {
-            if (myEventHandlerList[myClosedEventKey] != null)
-                SendSignal(myClosedEventKey);
-            else
+            add
             {
-                // Actually close the window when no signal handler is connected
-                if (!myConnectedSignals.ContainsKey("closed"))
-                {
-                    if (Parent != null)
-                        Parent.Remove(this);
-                }
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallback func = () => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, EventArgs.Empty);
+                };
+                uint id = tguiWidget_signalConnect(CPointer, Util.ConvertStringForC_UTF32("MousePressed"), func);
+                ConnectEventHandler(id, "MousePressed", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("MousePressed", value);
             }
         }
 
-        /// <summary>Event handler for the MousePressed signal</summary>
-        public event EventHandler MousePressed
+        public class CloseEventArgs : EventArgs
         {
-            add { myEventHandlerList.AddHandler(myMousePressedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myMousePressedEventKey, value); }
+            public CloseEventArgs(ChildWindow window)
+            {
+                Window = window;
+            }
+            public ChildWindow Window { get; }
+        }
+        public event EventHandler<CloseEventArgs> OnClose
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackChildWindow func = (IntPtr windowCPointer) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    using var childWindow = new ChildWindow(windowCPointer);value(sender, new CloseEventArgs(childWindow));
+                };
+                uint id = tguiWidget_signalChildWindowConnect(CPointer, Util.ConvertStringForC_UTF32("Closed"), func);
+                ConnectEventHandler(id, "Closed", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("Closed", value);
+            }
         }
 
-        /// <summary>Event handler for the Closed signal</summary>
-        public event EventHandler Closed
+        public class MinimizeEventArgs : EventArgs
         {
-            add { myEventHandlerList.AddHandler(myClosedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myClosedEventKey, value); }
+            public MinimizeEventArgs(ChildWindow window)
+            {
+                Window = window;
+            }
+            public ChildWindow Window { get; }
+        }
+        public event EventHandler<MinimizeEventArgs> OnMinimize
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackChildWindow func = (IntPtr windowCPointer) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    using var childWindow = new ChildWindow(windowCPointer);value(sender, new MinimizeEventArgs(childWindow));
+                };
+                uint id = tguiWidget_signalChildWindowConnect(CPointer, Util.ConvertStringForC_UTF32("Minimized"), func);
+                ConnectEventHandler(id, "Minimized", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("Minimized", value);
+            }
         }
 
-        /// <summary>Event handler for the Maximized signal</summary>
-        public event EventHandler Maximized
+        public class MaximizeEventArgs : EventArgs
         {
-            add { myEventHandlerList.AddHandler(myMaximizedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myMaximizedEventKey, value); }
+            public MaximizeEventArgs(ChildWindow window)
+            {
+                Window = window;
+            }
+            public ChildWindow Window { get; }
+        }
+        public event EventHandler<MaximizeEventArgs> OnMaximize
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackChildWindow func = (IntPtr windowCPointer) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    using var childWindow = new ChildWindow(windowCPointer);value(sender, new MaximizeEventArgs(childWindow));
+                };
+                uint id = tguiWidget_signalChildWindowConnect(CPointer, Util.ConvertStringForC_UTF32("Maximized"), func);
+                ConnectEventHandler(id, "Maximized", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("Maximized", value);
+            }
         }
 
-        /// <summary>Event handler for the Minimized signal</summary>
-        public event EventHandler Minimized
+        public class EscapeKeyPressEventArgs : EventArgs
         {
-            add { myEventHandlerList.AddHandler(myMinimizedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myMinimizedEventKey, value); }
+            public EscapeKeyPressEventArgs(ChildWindow window)
+            {
+                Window = window;
+            }
+            public ChildWindow Window { get; }
+        }
+        public event EventHandler<EscapeKeyPressEventArgs> OnEscapeKeyPress
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackChildWindow func = (IntPtr windowCPointer) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    using var childWindow = new ChildWindow(windowCPointer);value(sender, new EscapeKeyPressEventArgs(childWindow));
+                };
+                uint id = tguiWidget_signalChildWindowConnect(CPointer, Util.ConvertStringForC_UTF32("EscapeKeyPressed"), func);
+                ConnectEventHandler(id, "EscapeKeyPressed", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("EscapeKeyPressed", value);
+            }
         }
 
-        /// <summary>Event handler for the EscapeKeyPressed signal</summary>
-        public event EventHandler EscapeKeyPressed
+        public class ClosingEventArgs : EventArgs
         {
-            add { myEventHandlerList.AddHandler(myEscapeKeyPressedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myEscapeKeyPressedEventKey, value); }
+            public ClosingEventArgs(bool abort)
+            {
+                Abort = abort;
+            }
+            public bool Abort { get; set; }
+        }
+        public unsafe event EventHandler<ClosingEventArgs> OnClosing
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackBoolPtr func = (byte* ptr) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    var e = new ClosingEventArgs(*ptr != 0);
+                    value(sender, e);
+                    *ptr = e.Abort ? (byte)1 : (byte)0;
+                };
+                uint id = tguiWidget_signalBoolPtrConnect(CPointer, Util.ConvertStringForC_UTF32("Closing"), func);
+                ConnectEventHandler(id, "Closing", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("Closing", value);
+            }
         }
 
-        private CallbackAction MousePressedCallback;
-        private CallbackAction ClosedCallback;
-        private CallbackAction MaximizedCallback;
-        private CallbackAction MinimizedCallback;
-        private CallbackAction EscapeKeyPressedCallback;
+        #region GeneratedImports
 
-        static readonly object myMousePressedEventKey = new object();
-        static readonly object myClosedEventKey = new object();
-        static readonly object myMaximizedEventKey = new object();
-        static readonly object myMinimizedEventKey = new object();
-        static readonly object myEscapeKeyPressedEventKey = new object();
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiChildWindow_create();
 
-        #region Imports
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChildWindow_setClientSize(IntPtr cPointer, Vector2f size);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiChildWindow_create();
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChildWindow_setClientSizeFromLayout(IntPtr cPointer, IntPtr layout);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChildWindow_setTitle(IntPtr cPointer, IntPtr value);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern Vector2f tguiChildWindow_getClientSize(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChildWindow_setMaximumSize(IntPtr cPointer, Vector2f maxSize);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern Vector2f tguiChildWindow_getMaximumSize(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Vector2f tguiChildWindow_getMaximumSize(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChildWindow_setMaximumSize(IntPtr cPointer, Vector2f value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChildWindow_setMinimumSize(IntPtr cPointer, Vector2f minSize);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern Vector2f tguiChildWindow_getMinimumSize(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private Vector2f tguiChildWindow_getMinimumSize(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChildWindow_setMinimumSize(IntPtr cPointer, Vector2f value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiChildWindow_getTitle(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiChildWindow_getTitle(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChildWindow_setTitleTextSize(IntPtr cPointer, uint textSize);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChildWindow_setTitle(IntPtr cPointer, IntPtr value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiChildWindow_getTitleTextSize(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern uint tguiChildWindow_getTitleTextSize(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChildWindow_setTitleAlignment(IntPtr cPointer, HorizontalAlignment alignment);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChildWindow_setTitleTextSize(IntPtr cPointer, uint value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private HorizontalAlignment tguiChildWindow_getTitleAlignment(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern HorizontalAlignment tguiChildWindow_getTitleAlignment(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChildWindow_setTitleButtons(IntPtr cPointer, TitleButton buttons);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChildWindow_setTitleAlignment(IntPtr cPointer, HorizontalAlignment value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private TitleButton tguiChildWindow_getTitleButtons(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern uint tguiChildWindow_getTitleButtons(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChildWindow_setResizable(IntPtr cPointer, bool resizable);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChildWindow_setTitleButtons(IntPtr cPointer, uint value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiChildWindow_isResizable(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ChildWindowCloseBehavior tguiChildWindow_getCloseBehavior(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChildWindow_setKeepInParent(IntPtr cPointer, bool keepInParent);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChildWindow_setCloseBehavior(IntPtr cPointer, ChildWindowCloseBehavior value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiChildWindow_isKeptInParent(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiChildWindow_isResizable(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiChildWindow_setPositionLocked(IntPtr cPointer, bool positionLocked);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChildWindow_setResizable(IntPtr cPointer, byte value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiChildWindow_isPositionLocked(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiChildWindow_getKeepInParent(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChildWindow_setKeepInParent(IntPtr cPointer, byte value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiChildWindow_isPositionLocked(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChildWindow_setPositionLocked(IntPtr cPointer, byte value);
 
         #endregion
     }

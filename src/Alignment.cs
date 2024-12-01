@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
+// Copyright (C) 2012-2024 Bruno Van de Velde (vdv_b@tgui.eu)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -38,16 +38,33 @@ namespace TGUI
         Bottom
     }
 
-    public enum Alignment
+    /// <summary>
+    /// Alignments for how to position a widget in its parent
+    /// </summary>
+    public enum AutoLayout
     {
-        Center,
-        UpperLeft,
-        Up,
-        UpperRight,
+        /// <summary>Position and size need to be manually set. This is the default.</summary>
+        Manual,
+
+        /// <summary>Places the widget on on the top and sets its width to the area between Leftmost and Rightmost aligned components. Height needs to be manually set.</summary>
+        Top,
+
+        /// <summary>Places the widget on the left side and sets its height to the area between Top and Bottom aligned components. Width needs to be manually set.</summary>
+        Left,
+
+        /// <summary>Places the widget on the right side and sets its height to the area between Top and Bottom aligned components. Width needs to be manually set.</summary>
         Right,
-        BottomRight,
+
+        /// <summary>Places the widget on on the bottom and sets its width to the area between Leftmost and Rightmost aligned components. Height needs to be manually set.</summary>
         Bottom,
-        BottomLeft,
-        Left
-    };
+
+        /// <summary>Places the widget on the left side and sets height to 100%. Width needs to be manually set. Same as Left alignment if no widget uses Top or Bottom alignment.</summary>
+        Leftmost,
+
+        /// <summary>Places the widget on the right side and sets height to 100%. Width needs to be manually set. Same as Right alignment if no widget uses Top or Bottom alignment.</summary>
+        Rightmost,
+
+        /// <summary>Sets the position and size to fill the entire area that isn't already taken by components with the other AutoLayout values.</summary>
+        Fill,
+    }
 }

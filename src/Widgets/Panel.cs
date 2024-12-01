@@ -1,31 +1,8 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
-using SFML.System;
+using System.Security;
+using System;
 
 namespace TGUI
 {
@@ -39,26 +16,6 @@ namespace TGUI
         /// </summary>
         public Panel()
             : base(tguiPanel_create())
-        {
-        }
-
-        /// <summary>
-        /// Constructor to create the panel with a given size
-        /// </summary>
-        /// <param name="size">Initial size of the panel</param>
-        public Panel(Vector2f size)
-            : this()
-        {
-            Size = size;
-        }
-
-        /// <summary>
-        /// Constructor to create the panel with a given size
-        /// </summary>
-        /// <param name="width">Initial width of the panel</param>
-        /// <param name="height">Initial height of the panel</param>
-        public Panel(float width, float height)
-            : this(new Vector2f(width, height))
         {
         }
 
@@ -80,113 +37,223 @@ namespace TGUI
         {
         }
 
-        /// <summary>
-        /// Gets or sets the renderer, which gives access to properties that determine how the widget is displayed
-        /// </summary>
-        /// <remarks>
-        /// After retrieving the renderer, the widget has its own copy of the renderer and it will no longer be shared.
-        /// </remarks>
         public new PanelRenderer Renderer
         {
-            get { return new PanelRenderer(tguiWidget_getRenderer(CPointer)); }
-            set { SetRenderer(value.Data); }
+            get => new PanelRenderer(tguiWidget_getRenderer(CPointer));
+            set => SetRenderer(value.Data);
         }
 
-        /// <summary>
-        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
-        /// </summary>
-        public new PanelRenderer SharedRenderer
+        public  new PanelRenderer SharedRenderer => new PanelRenderer(tguiWidget_getSharedRenderer(CPointer));
+
+        public static void SetEventBubbling(bool useEventBubbling)
         {
-            get { return new PanelRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+            tguiPanel_setEventBubbling(useEventBubbling ? (byte)1 : (byte)0);
         }
 
-        /// <summary>
-        /// Initializes the signals
-        /// </summary>
-        protected override void InitSignals()
+        public static bool GetEventBubbling()
         {
-            base.InitSignals();
-
-            MousePressedCallback = new CallbackActionVector2f((pos) => SendSignal(myMousePressedEventKey, new SignalArgsVector2f(pos)));
-            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("MousePressed"), MousePressedCallback));
-
-            MouseReleasedCallback = new CallbackActionVector2f((pos) => SendSignal(myMouseReleasedEventKey, new SignalArgsVector2f(pos)));
-            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("MouseReleased"), MouseReleasedCallback));
-
-            ClickedCallback = new CallbackActionVector2f((pos) => SendSignal(myClickedEventKey, new SignalArgsVector2f(pos)));
-            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("Clicked"), ClickedCallback));
-
-            RightMousePressedCallback = new CallbackActionVector2f((pos) => SendSignal(myRightMousePressedEventKey, new SignalArgsVector2f(pos)));
-            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("RightMousePressed"), RightMousePressedCallback));
-
-            RightMouseReleasedCallback = new CallbackActionVector2f((pos) => SendSignal(myRightMouseReleasedEventKey, new SignalArgsVector2f(pos)));
-            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("RightMouseReleased"), RightMouseReleasedCallback));
-
-            RightClickedCallback = new CallbackActionVector2f((pos) => SendSignal(myRightClickedEventKey, new SignalArgsVector2f(pos)));
-            AddInternalSignal(tguiWidget_connectVector2f(CPointer, Util.ConvertStringForC_ASCII("RightClicked"), RightClickedCallback));
+            return tguiPanel_getEventBubbling() != 0;
         }
 
-        /// <summary>Event handler for the MousePressed signal</summary>
-        public event EventHandler<SignalArgsVector2f> MousePressed
+        public class MousePressEventArgs : EventArgs
         {
-            add { myEventHandlerList.AddHandler(myMousePressedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myMousePressedEventKey, value); }
+            public MousePressEventArgs(Vector2f mousePos)
+            {
+                MousePos = mousePos;
+            }
+            public Vector2f MousePos { get; }
         }
-
-        /// <summary>Event handler for the MouseReleased signal</summary>
-        public event EventHandler<SignalArgsVector2f> MouseReleased
+        public event EventHandler<MousePressEventArgs> OnMousePress
         {
-            add { myEventHandlerList.AddHandler(myMouseReleasedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myMouseReleasedEventKey, value); }
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackVector2f func = (Vector2f vec) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new MousePressEventArgs(vec));
+                };
+                uint id = tguiWidget_signalVector2fConnect(CPointer, Util.ConvertStringForC_UTF32("MousePressed"), func);
+                ConnectEventHandler(id, "MousePressed", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("MousePressed", value);
+            }
         }
 
-        /// <summary>Event handler for the Clicked signal</summary>
-        public event EventHandler<SignalArgsVector2f> Clicked
+        public class MouseReleaseEventArgs : EventArgs
         {
-            add { myEventHandlerList.AddHandler(myClickedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myClickedEventKey, value); }
+            public MouseReleaseEventArgs(Vector2f mousePos)
+            {
+                MousePos = mousePos;
+            }
+            public Vector2f MousePos { get; }
         }
-
-        /// <summary>Event handler for the RightMousePressed signal</summary>
-        public event EventHandler<SignalArgsVector2f> RightMousePressed
+        public event EventHandler<MouseReleaseEventArgs> OnMouseRelease
         {
-            add { myEventHandlerList.AddHandler(myRightMousePressedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myRightMousePressedEventKey, value); }
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackVector2f func = (Vector2f vec) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new MouseReleaseEventArgs(vec));
+                };
+                uint id = tguiWidget_signalVector2fConnect(CPointer, Util.ConvertStringForC_UTF32("MouseReleased"), func);
+                ConnectEventHandler(id, "MouseReleased", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("MouseReleased", value);
+            }
         }
 
-        /// <summary>Event handler for the RightMouseReleased signal</summary>
-        public event EventHandler<SignalArgsVector2f> RightMouseReleased
+        public class ClickEventArgs : EventArgs
         {
-            add { myEventHandlerList.AddHandler(myRightMouseReleasedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myRightMouseReleasedEventKey, value); }
+            public ClickEventArgs(Vector2f mousePos)
+            {
+                MousePos = mousePos;
+            }
+            public Vector2f MousePos { get; }
         }
-
-        /// <summary>Event handler for the RightClicked signal</summary>
-        public event EventHandler<SignalArgsVector2f> RightClicked
+        public event EventHandler<ClickEventArgs> OnClick
         {
-            add { myEventHandlerList.AddHandler(myRightClickedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myRightClickedEventKey, value); }
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackVector2f func = (Vector2f vec) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new ClickEventArgs(vec));
+                };
+                uint id = tguiWidget_signalVector2fConnect(CPointer, Util.ConvertStringForC_UTF32("Clicked"), func);
+                ConnectEventHandler(id, "Clicked", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("Clicked", value);
+            }
         }
 
-        private CallbackActionVector2f MousePressedCallback;
-        private CallbackActionVector2f MouseReleasedCallback;
-        private CallbackActionVector2f ClickedCallback;
-        private CallbackActionVector2f RightMousePressedCallback;
-        private CallbackActionVector2f RightMouseReleasedCallback;
-        private CallbackActionVector2f RightClickedCallback;
+        public class DoubleClickEventArgs : EventArgs
+        {
+            public DoubleClickEventArgs(Vector2f mousePos)
+            {
+                MousePos = mousePos;
+            }
+            public Vector2f MousePos { get; }
+        }
+        public event EventHandler<DoubleClickEventArgs> OnDoubleClick
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackVector2f func = (Vector2f vec) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new DoubleClickEventArgs(vec));
+                };
+                uint id = tguiWidget_signalVector2fConnect(CPointer, Util.ConvertStringForC_UTF32("DoubleClicked"), func);
+                ConnectEventHandler(id, "DoubleClicked", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("DoubleClicked", value);
+            }
+        }
 
-        static readonly object myMousePressedEventKey = new object();
-        static readonly object myMouseReleasedEventKey = new object();
-        static readonly object myClickedEventKey = new object();
-        static readonly object myRightMousePressedEventKey = new object();
-        static readonly object myRightMouseReleasedEventKey = new object();
-        static readonly object myRightClickedEventKey = new object();
+        public class RightMousePressEventArgs : EventArgs
+        {
+            public RightMousePressEventArgs(Vector2f mousePos)
+            {
+                MousePos = mousePos;
+            }
+            public Vector2f MousePos { get; }
+        }
+        public event EventHandler<RightMousePressEventArgs> OnRightMousePress
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackVector2f func = (Vector2f vec) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new RightMousePressEventArgs(vec));
+                };
+                uint id = tguiWidget_signalVector2fConnect(CPointer, Util.ConvertStringForC_UTF32("RightMousePressed"), func);
+                ConnectEventHandler(id, "RightMousePressed", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("RightMousePressed", value);
+            }
+        }
 
+        public class RightMouseReleaseEventArgs : EventArgs
+        {
+            public RightMouseReleaseEventArgs(Vector2f mousePos)
+            {
+                MousePos = mousePos;
+            }
+            public Vector2f MousePos { get; }
+        }
+        public event EventHandler<RightMouseReleaseEventArgs> OnRightMouseRelease
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackVector2f func = (Vector2f vec) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new RightMouseReleaseEventArgs(vec));
+                };
+                uint id = tguiWidget_signalVector2fConnect(CPointer, Util.ConvertStringForC_UTF32("RightMouseReleased"), func);
+                ConnectEventHandler(id, "RightMouseReleased", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("RightMouseReleased", value);
+            }
+        }
 
-        #region Imports
+        public class RightClickEventArgs : EventArgs
+        {
+            public RightClickEventArgs(Vector2f mousePos)
+            {
+                MousePos = mousePos;
+            }
+            public Vector2f MousePos { get; }
+        }
+        public event EventHandler<RightClickEventArgs> OnRightClick
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackVector2f func = (Vector2f vec) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new RightClickEventArgs(vec));
+                };
+                uint id = tguiWidget_signalVector2fConnect(CPointer, Util.ConvertStringForC_UTF32("RightClicked"), func);
+                ConnectEventHandler(id, "RightClicked", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("RightClicked", value);
+            }
+        }
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiPanel_create();
+        #region GeneratedImports
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiPanel_create();
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiPanel_setEventBubbling(byte useEventBubbling);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiPanel_getEventBubbling();
 
         #endregion
     }

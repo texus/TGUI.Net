@@ -1,0 +1,298 @@
+name: CTGUI-nuget-runtimes
+
+on:
+    workflow_dispatch:
+
+env:
+    DOTNET_CLI_TELEMETRY_OPTOUT: 1
+    CTGUI_VERSION: 1.x
+    TGUI_VERSION: 1.x
+    CSFML_VERSION: 2.6.1
+
+jobs:
+    windows:
+        name: Windows VS2022
+        runs-on: windows-2022
+
+        steps:
+            - name: Download dependencies
+              run: |
+                  C:\msys64\usr\bin\wget.exe -nv https://github.com/texus/CTGUI/archive/refs/heads/${{ env.CTGUI_VERSION }}.zip
+                  7z x ${{ env.CTGUI_VERSION }}.zip
+                  del ${{ env.CTGUI_VERSION }}.zip
+                  C:\msys64\usr\bin\wget.exe -nv https://github.com/texus/TGUI/archive/refs/heads/${{ env.TGUI_VERSION }}.zip
+                  7z x ${{ env.TGUI_VERSION }}.zip
+                  C:\msys64\usr\bin\wget.exe -nv https://github.com/SFML/CSFML/releases/download/${{ env.CSFML_VERSION }}/CSFML-${{ env.CSFML_VERSION }}-windows-32-bit.zip
+                  7z x CSFML-${{ env.CSFML_VERSION }}-windows-32-bit.zip
+                  ren CSFML CSFML-32
+                  C:\msys64\usr\bin\wget.exe -nv https://github.com/SFML/CSFML/releases/download/${{ env.CSFML_VERSION }}/CSFML-${{ env.CSFML_VERSION }}-windows-64-bit.zip
+                  7z x CSFML-${{ env.CSFML_VERSION }}-windows-64-bit.zip
+                  ren CSFML CSFML-64
+                  C:\msys64\usr\bin\wget.exe -nv https://github.com/SFML/CSFML/releases/download/${{ env.CSFML_VERSION }}/CSFML.${{ env.CSFML_VERSION }}.nupkg
+                  mkdir CSFML-nuget
+                  cd CSFML-nuget
+                  7z x ..\CSFML.${{ env.CSFML_VERSION }}.nupkg
+
+            - name: Build x86
+              run: |
+                  cmake -B TGUI-build-x86 -S TGUI-${{ env.TGUI_VERSION }} -G "Visual Studio 17 2022" -A Win32 -DTGUI_BACKEND=Custom -DTGUI_BUILD_GUI_BUILDER=OFF -DBUILD_SHARED_LIBS=OFF -DTGUI_USE_STATIC_STD_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=TGUI-x86
+                  cmake --build TGUI-build-x86 --config Release --target install
+                  cmake -B CTGUI-build-x86 -S CTGUI-${{ env.CTGUI_VERSION }} -G "Visual Studio 17 2022" -A Win32 -DTGUI_ROOT="${{ github.workspace }}/TGUI-x86" -DCSFML_INCLUDE_DIR="${{ github.workspace }}/CSFML-32/include" -DCSFML_LIBRARIES_DIR="${{ github.workspace }}/CSFML-32/lib/msvc/" -DCTGUI_HAS_BACKEND_CSFML_GRAPHICS=ON -DBUILD_SHARED_LIBS=ON -DCTGUI_LINK_TGUI_STATICALLY=ON -DCMAKE_INSTALL_PREFIX=CTGUI-x86
+                  cmake --build CTGUI-build-x86 --config Release --target install
+                  mkdir runtimes\win-x86\native
+                  copy CTGUI-x86\bin\ctgui-1.dll runtimes\win-x86\native\
+
+            - name: Build x64
+              run: |
+                  cmake -B TGUI-build-x64 -S TGUI-${{ env.TGUI_VERSION }} -G "Visual Studio 17 2022" -A x64 -DTGUI_BACKEND=Custom -DTGUI_BUILD_GUI_BUILDER=OFF -DBUILD_SHARED_LIBS=OFF -DTGUI_USE_STATIC_STD_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=TGUI-x64
+                  cmake --build TGUI-build-x64 --config Release --target install
+                  cmake -B CTGUI-build-x64 -S CTGUI-${{ env.CTGUI_VERSION }} -G "Visual Studio 17 2022" -A x64 -DTGUI_ROOT="${{ github.workspace }}/TGUI-x64" -DCSFML_INCLUDE_DIR="${{ github.workspace }}/CSFML-64/include" -DCSFML_LIBRARIES_DIR="${{ github.workspace }}/CSFML-64/lib/msvc/" -DCTGUI_HAS_BACKEND_CSFML_GRAPHICS=ON -DBUILD_SHARED_LIBS=ON -DCTGUI_LINK_TGUI_STATICALLY=ON -DCMAKE_INSTALL_PREFIX=CTGUI-x64
+                  cmake --build CTGUI-build-x64 --config Release --target install
+                  mkdir runtimes\win-x64\native
+                  copy CTGUI-x64\bin\ctgui-1.dll runtimes\win-x64\native\
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: CTGUI-win-x86-x64
+                  path: runtimes
+
+    linux-x64:
+        name: Linux x64
+        runs-on: ubuntu-22.04
+        container:
+            image: ubuntu:22.04
+
+        steps:
+            - name: Download dependencies
+              run: |
+                  apt-get update -y
+                  apt-get -y install git cmake g++ wget unzip ninja-build libsfml-dev
+                  wget -nv -O- https://github.com/texus/CTGUI/archive/refs/heads/${{ env.CTGUI_VERSION }}.tar.gz | tar -xz
+                  wget -nv -O- https://github.com/texus/TGUI/archive/refs/heads/${{ env.TGUI_VERSION }}.tar.gz | tar -xz
+                  wget -nv -O- https://github.com/SFML/CSFML/archive/refs/tags/${{ env.CSFML_VERSION }}.tar.gz | tar -xz
+                  wget -nv https://github.com/SFML/CSFML/releases/download/${{ env.CSFML_VERSION }}/CSFML.${{ env.CSFML_VERSION }}.nupkg
+                  unzip CSFML.${{ env.CSFML_VERSION }}.nupkg -d CSFML-nuget
+
+            - name: Build
+              run: |
+                  cmake -B TGUI-build -S TGUI-${{ env.TGUI_VERSION }} -G Ninja -DTGUI_BACKEND=Custom -DTGUI_BUILD_GUI_BUILDER=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=TGUI
+                  cmake --build TGUI-build --config Release --target install
+                  cmake -B CTGUI-build -S CTGUI-${{ env.CTGUI_VERSION }} -G Ninja -DTGUI_ROOT="${GITHUB_WORKSPACE}/TGUI" -DCSFML_INCLUDE_DIR="${GITHUB_WORKSPACE}/CSFML-${{ env.CSFML_VERSION }}/include" -DCSFML_LIBRARIES_DIR="${GITHUB_WORKSPACE}/CSFML-nuget/runtimes/linux-x64/native/" -DCTGUI_HAS_BACKEND_CSFML_GRAPHICS=ON -DBUILD_SHARED_LIBS=ON -DCTGUI_LINK_TGUI_STATICALLY=ON -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON '-DCMAKE_INSTALL_RPATH=$ORIGIN' -DCMAKE_INSTALL_PREFIX=CTGUI
+                  cmake --build CTGUI-build --config Release --target install
+                  mkdir -p runtimes/linux-x64/native
+                  CTGUI_VERSION_NUMBER=$(grep "project(" CTGUI-${{ env.CTGUI_VERSION }}/CMakeLists.txt | sed "s/.*VERSION \(.*\) LANGUAGES.*/\1/g")
+                  cp -a CTGUI/lib/libctgui.so.${CTGUI_VERSION_NUMBER} runtimes/linux-x64/native/
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: CTGUI-linux-x64
+                  path: runtimes
+
+    linux-arm32:
+        name: Linux ARM32
+        runs-on: ubuntu-22.04
+
+        steps:
+            - name: Build in an ARM32 container
+              uses: uraimo/run-on-arch-action@v2.7.2
+              with:
+                  arch: none
+                  distro: none
+                  base_image: "--platform=linux/arm/v7 arm32v7/ubuntu:22.04"
+                  githubToken: ${{ github.token }}
+                  dockerRunArgs: |
+                      --volume "${PWD}:/build"
+                  install: |
+                      apt-get update -y
+                      apt-get install -y git cmake g++ wget unzip ninja-build libsfml-dev
+                  run: |
+                      cd /build
+                      wget -nv -O- https://github.com/texus/CTGUI/archive/refs/heads/${{ env.CTGUI_VERSION }}.tar.gz | tar -xz
+                      wget -nv -O- https://github.com/texus/TGUI/archive/refs/heads/${{ env.TGUI_VERSION }}.tar.gz | tar -xz
+                      wget -nv -O- https://github.com/SFML/CSFML/archive/refs/tags/${{ env.CSFML_VERSION }}.tar.gz | tar -xz
+                      wget -nv https://github.com/SFML/CSFML/releases/download/${{ env.CSFML_VERSION }}/CSFML.${{ env.CSFML_VERSION }}.nupkg
+                      unzip CSFML.${{ env.CSFML_VERSION }}.nupkg -d CSFML-nuget
+                      cmake -B TGUI-build -S TGUI-${{ env.TGUI_VERSION }} -G Ninja -DTGUI_BACKEND=Custom -DTGUI_BUILD_GUI_BUILDER=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=TGUI
+                      cmake --build TGUI-build --config Release --target install
+                      cmake -B CTGUI-build -S CTGUI-${{ env.CTGUI_VERSION }} -G Ninja -DTGUI_ROOT="/build/TGUI" -DCSFML_INCLUDE_DIR="/build/CSFML-${{ env.CSFML_VERSION }}/include" -DCSFML_LIBRARIES_DIR="/build/CSFML-nuget/runtimes/linux-arm/native/" -DCTGUI_HAS_BACKEND_CSFML_GRAPHICS=ON -DBUILD_SHARED_LIBS=ON -DCTGUI_LINK_TGUI_STATICALLY=ON -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON '-DCMAKE_INSTALL_RPATH=$ORIGIN' -DCMAKE_INSTALL_PREFIX=CTGUI
+                      cmake --build CTGUI-build --config Release --target install
+                      mkdir -p runtimes/linux-arm/native
+                      CTGUI_VERSION_NUMBER=$(grep "project(" CTGUI-${{ env.CTGUI_VERSION }}/CMakeLists.txt | sed "s/.*VERSION \(.*\) LANGUAGES.*/\1/g")
+                      cp -a CTGUI/lib/libctgui.so.${CTGUI_VERSION_NUMBER} runtimes/linux-arm/native/
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: CTGUI-linux-arm
+                  path: runtimes
+
+    linux-arm64:
+        name: Linux ARM64
+        runs-on: ubuntu-22.04
+
+        steps:
+            - name: Build in an ARM64 container
+              uses: uraimo/run-on-arch-action@v2.7.2
+              with:
+                  arch: none
+                  distro: none
+                  base_image: "--platform=linux/arm64 arm64v8/ubuntu:22.04"
+                  githubToken: ${{ github.token }}
+                  dockerRunArgs: |
+                      --volume "${PWD}:/build"
+                  install: |
+                      apt-get update -y
+                      apt-get install -y git cmake g++ wget unzip ninja-build libsfml-dev
+                  run: |
+                      cd /build
+                      wget -nv -O- https://github.com/texus/CTGUI/archive/refs/heads/${{ env.CTGUI_VERSION }}.tar.gz | tar -xz
+                      wget -nv -O- https://github.com/texus/TGUI/archive/refs/heads/${{ env.TGUI_VERSION }}.tar.gz | tar -xz
+                      wget -nv -O- https://github.com/SFML/CSFML/archive/refs/tags/${{ env.CSFML_VERSION }}.tar.gz | tar -xz
+                      wget -nv https://github.com/SFML/CSFML/releases/download/${{ env.CSFML_VERSION }}/CSFML.${{ env.CSFML_VERSION }}.nupkg
+                      unzip CSFML.${{ env.CSFML_VERSION }}.nupkg -d CSFML-nuget
+                      cmake -B TGUI-build -S TGUI-${{ env.TGUI_VERSION }} -G Ninja -DTGUI_BACKEND=Custom -DTGUI_BUILD_GUI_BUILDER=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=TGUI
+                      cmake --build TGUI-build --config Release --target install
+                      cmake -B CTGUI-build -S CTGUI-${{ env.CTGUI_VERSION }} -G Ninja -DTGUI_ROOT="/build/TGUI" -DCSFML_INCLUDE_DIR="/build/CSFML-${{ env.CSFML_VERSION }}/include" -DCSFML_LIBRARIES_DIR="/build/CSFML-nuget/runtimes/linux-arm64/native/" -DCTGUI_HAS_BACKEND_CSFML_GRAPHICS=ON -DBUILD_SHARED_LIBS=ON -DCTGUI_LINK_TGUI_STATICALLY=ON -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON '-DCMAKE_INSTALL_RPATH=$ORIGIN' -DCMAKE_INSTALL_PREFIX=CTGUI
+                      cmake --build CTGUI-build --config Release --target install
+                      mkdir -p runtimes/linux-arm64/native
+                      CTGUI_VERSION_NUMBER=$(grep "project(" CTGUI-${{ env.CTGUI_VERSION }}/CMakeLists.txt | sed "s/.*VERSION \(.*\) LANGUAGES.*/\1/g")
+                      cp -a CTGUI/lib/libctgui.so.${CTGUI_VERSION_NUMBER} runtimes/linux-arm64/native/
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: CTGUI-linux-arm64
+                  path: runtimes
+
+    linux-musl-x64:
+        name: Linux MUSL x64
+        runs-on: ubuntu-22.04
+        container:
+            image: alpine:3.20.3
+
+        steps:
+            - name: Download dependencies
+              run: |
+                  apk add git cmake make g++ wget unzip samurai sfml
+                  wget -nv -O- https://github.com/texus/CTGUI/archive/refs/heads/${{ env.CTGUI_VERSION }}.tar.gz | tar -xz
+                  wget -nv -O- https://github.com/texus/TGUI/archive/refs/heads/${{ env.TGUI_VERSION }}.tar.gz | tar -xz
+                  wget -nv -O- https://github.com/SFML/CSFML/archive/refs/tags/${{ env.CSFML_VERSION }}.tar.gz | tar -xz
+                  wget -nv https://github.com/SFML/CSFML/releases/download/${{ env.CSFML_VERSION }}/CSFML.${{ env.CSFML_VERSION }}.nupkg
+                  unzip CSFML.${{ env.CSFML_VERSION }}.nupkg -d CSFML-nuget
+
+            - name: Build
+              run: |
+                  cmake -B TGUI-build -S TGUI-${{ env.TGUI_VERSION }} -G Ninja -DTGUI_BACKEND=Custom -DTGUI_BUILD_GUI_BUILDER=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=TGUI
+                  cmake --build TGUI-build --config Release --target install
+                  cmake -B CTGUI-build -S CTGUI-${{ env.CTGUI_VERSION }} -G Ninja -DTGUI_ROOT="${GITHUB_WORKSPACE}/TGUI" -DCSFML_INCLUDE_DIR="${GITHUB_WORKSPACE}/CSFML-${{ env.CSFML_VERSION }}/include" -DCSFML_LIBRARIES_DIR="${GITHUB_WORKSPACE}/CSFML-nuget/runtimes/linux-musl-x64/native/" -DCTGUI_HAS_BACKEND_CSFML_GRAPHICS=ON -DBUILD_SHARED_LIBS=ON -DCTGUI_LINK_TGUI_STATICALLY=ON -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON '-DCMAKE_INSTALL_RPATH=$ORIGIN' -DCMAKE_INSTALL_PREFIX=CTGUI
+                  cmake --build CTGUI-build --config Release --target install
+                  mkdir -p runtimes/linux-musl-x64/native
+                  CTGUI_VERSION_NUMBER=$(grep "project(" CTGUI-${{ env.CTGUI_VERSION }}/CMakeLists.txt | sed "s/.*VERSION \(.*\) LANGUAGES.*/\1/g")
+                  cp -a CTGUI/lib/libctgui.so.${CTGUI_VERSION_NUMBER} runtimes/linux-musl-x64/native/
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: CTGUI-linux-musl-x64
+                  path: runtimes
+
+    macos:
+        name: macOS
+        runs-on: macos-14
+
+        steps:
+            - name: Download dependencies
+              run: |
+                  brew install coreutils
+                  wget -nv -O- https://github.com/texus/CTGUI/archive/refs/heads/${{ env.CTGUI_VERSION }}.tar.gz | tar -xz
+                  wget -nv -O- https://github.com/texus/TGUI/archive/refs/heads/${{ env.TGUI_VERSION }}.tar.gz | tar -xz
+                  wget -nv -O- https://github.com/SFML/CSFML/archive/refs/tags/${{ env.CSFML_VERSION }}.tar.gz | tar -xz
+                  wget -nv https://github.com/SFML/CSFML/releases/download/${{ env.CSFML_VERSION }}/CSFML.${{ env.CSFML_VERSION }}.nupkg
+                  unzip CSFML.${{ env.CSFML_VERSION }}.nupkg -d CSFML-nuget
+
+            - name: Build x64
+              run: |
+                  cmake -B TGUI-build-x64 -S TGUI-${{ env.TGUI_VERSION }} -G "Unix Makefiles" -DCMAKE_OSX_ARCHITECTURES=x86_64 -DTGUI_BACKEND=Custom -DTGUI_BUILD_GUI_BUILDER=OFF -DTGUI_BUILD_FRAMEWORK=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=TGUI-x64
+                  cmake --build TGUI-build-x64 --config Release --target install
+                  cmake -B CTGUI-build-x64 -S CTGUI-${{ env.CTGUI_VERSION }} -G "Unix Makefiles" -DCMAKE_OSX_ARCHITECTURES=x86_64 -DTGUI_ROOT="${GITHUB_WORKSPACE}/TGUI-x64" -DCSFML_INCLUDE_DIR="${GITHUB_WORKSPACE}/CSFML-${{ env.CSFML_VERSION }}/include" -DCSFML_LIBRARIES_DIR="${GITHUB_WORKSPACE}/CSFML-nuget/runtimes/osx-x64/native/" -DCTGUI_HAS_BACKEND_CSFML_GRAPHICS=ON -DBUILD_SHARED_LIBS=ON -DCTGUI_LINK_TGUI_STATICALLY=ON -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON -D 'CMAKE_INSTALL_RPATH=@loader_path' -DCMAKE_INSTALL_PREFIX=CTGUI-x64
+                  cmake --build CTGUI-build-x64 --config Release --target install
+                  mkdir -p runtimes/osx-x64/native
+                  CTGUI_VERSION_NUMBER=$(grep "project(" CTGUI-${{ env.CTGUI_VERSION }}/CMakeLists.txt | sed "s/.*VERSION \(.*\) LANGUAGES.*/\1/g")
+                  cp -a CTGUI-x64/lib/libctgui.${CTGUI_VERSION_NUMBER}.dylib runtimes/osx-x64/native/
+
+            - name: Build ARM64
+              run: |
+                  cmake -B TGUI-build-arm64 -S TGUI-${{ env.TGUI_VERSION }} -G "Unix Makefiles" -DCMAKE_OSX_ARCHITECTURES=arm64 -DTGUI_BACKEND=Custom -DTGUI_BUILD_GUI_BUILDER=OFF -DTGUI_BUILD_FRAMEWORK=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=TGUI-arm64
+                  cmake --build TGUI-build-arm64 --config Release --target install
+                  cmake -B CTGUI-build-arm64 -S CTGUI-${{ env.CTGUI_VERSION }} -G "Unix Makefiles" -DCMAKE_OSX_ARCHITECTURES=arm64 -DTGUI_ROOT="${GITHUB_WORKSPACE}/TGUI-arm64" -DCSFML_INCLUDE_DIR="${GITHUB_WORKSPACE}/CSFML-${{ env.CSFML_VERSION }}/include" -DCSFML_LIBRARIES_DIR="${GITHUB_WORKSPACE}/CSFML-nuget/runtimes/osx-arm64/native/" -DCTGUI_HAS_BACKEND_CSFML_GRAPHICS=ON -DBUILD_SHARED_LIBS=ON -DCTGUI_LINK_TGUI_STATICALLY=ON -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON -D 'CMAKE_INSTALL_RPATH=@loader_path' -DCMAKE_INSTALL_PREFIX=CTGUI-arm64
+                  cmake --build CTGUI-build-arm64 --config Release --target install
+                  mkdir -p runtimes/osx-arm64/native
+                  CTGUI_VERSION_NUMBER=$(grep "project(" CTGUI-${{ env.CTGUI_VERSION }}/CMakeLists.txt | sed "s/.*VERSION \(.*\) LANGUAGES.*/\1/g")
+                  cp -a CTGUI-arm64/lib/libctgui.${CTGUI_VERSION_NUMBER}.dylib runtimes/osx-arm64/native/
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: CTGUI-macOS-x64-arm64
+                  path: runtimes
+
+    package:
+        name: Package Builds
+        runs-on: ubuntu-24.04
+        needs:
+            - windows
+            - linux-x64
+            - linux-arm32
+            - linux-arm64
+            - linux-musl-x64
+            - macos
+
+        steps:
+            - name: Check out TGUI.Net
+              uses: actions/checkout@v4
+              with:
+                  path: TGUI.Net
+
+            - name: Download dependencies
+              run: |
+                  sudo apt-get update -y
+                  sudo apt-get -y install dotnet-sdk-8.0
+
+            - name: Download Artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  path: TGUI.Net/CTGUI-runtimes/
+                  merge-multiple: true
+
+            # Because uploading artifacts doesn't support symbolic links (it just uploads a copy of the linked file),
+            # we only uploaded the actual library. Recreating the links here is pointless as apparently placing
+            # the files into the nupkg file also turns the links into files. So instead we will just rename the files
+            # so that they match with the hardcoded name that is used in TGUI.NET to load the libraries.
+            - name: Rename CTGUI libraries
+              run: |
+                  cd ${GITHUB_WORKSPACE}/TGUI.Net/CTGUI-runtimes/linux-arm/native/
+                  mv $(ls libctgui.so.*) libctgui.so
+                  cd ${GITHUB_WORKSPACE}/TGUI.Net/CTGUI-runtimes/linux-arm64/native/
+                  mv $(ls libctgui.so.*) libctgui.so
+                  cd ${GITHUB_WORKSPACE}/TGUI.Net/CTGUI-runtimes/linux-musl-x64/native/
+                  mv $(ls libctgui.so.*) libctgui.so
+                  cd ${GITHUB_WORKSPACE}/TGUI.Net/CTGUI-runtimes/linux-x64/native/
+                  mv $(ls libctgui.so.*) libctgui.so
+                  cd ${GITHUB_WORKSPACE}/TGUI.Net/CTGUI-runtimes/osx-arm64/native/
+                  mv $(ls libctgui.*.dylib) libctgui.dylib
+                  cd ${GITHUB_WORKSPACE}/TGUI.Net/CTGUI-runtimes/osx-x64/native/
+                  mv $(ls libctgui.*.dylib) libctgui.dylib
+
+            - name: Build NuGet Package
+              run: |
+                  cd TGUI.Net/src
+                  dotnet pack --configuration Release --verbosity detailed
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: TGUINet-NuGet
+                  path: TGUI.Net/src/bin/Release/TGUI.Net*
+

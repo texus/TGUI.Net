@@ -1,40 +1,29 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
+using System.Security;
+using System;
 
 namespace TGUI
 {
-    public abstract class BoxLayout : Group
+    /// <summary>
+    /// BoxLayout widget
+    /// </summary>
+    public class BoxLayout : Group
     {
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
         protected internal BoxLayout(IntPtr cPointer)
             : base(cPointer)
         {
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy">Object to copy</param>
         public BoxLayout(BoxLayout copy)
             : base(copy)
         {
@@ -42,41 +31,40 @@ namespace TGUI
 
         public new BoxLayoutRenderer Renderer
         {
-            get { return new BoxLayoutRenderer(tguiWidget_getRenderer(CPointer)); }
-            set { SetRenderer(value.Data); }
+            get => new BoxLayoutRenderer(tguiWidget_getRenderer(CPointer));
+            set => SetRenderer(value.Data);
         }
 
-        public new BoxLayoutRenderer SharedRenderer
+        public  new BoxLayoutRenderer SharedRenderer => new BoxLayoutRenderer(tguiWidget_getSharedRenderer(CPointer));
+
+        public void Insert(int index, Widget? widgetToAdd, string widgetName)
         {
-            get { return new BoxLayoutRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+            tguiBoxLayout_insert(CPointer, (UIntPtr)index, widgetToAdd is null ? IntPtr.Zero : widgetToAdd.CPointer, Util.ConvertStringForC_UTF32(widgetName));
         }
 
-        public void Insert(uint index, Widget widget, string widgetName = "")
+        public bool Remove(int index)
         {
-            tguiBoxLayout_insert(CPointer, index, widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
+            return tguiBoxLayout_removeAtIndex(CPointer, (UIntPtr)index) != 0;
         }
 
-        public bool Remove(uint index)
+        public Widget? Get(int index)
         {
-            return tguiBoxLayout_removeAtIndex(CPointer, index);
+            return Util.GetWidgetFromC(tguiBoxLayout_getAtIndex(CPointer, (UIntPtr)index));
         }
 
-        public Widget Get(uint index)
-        {
-            return Util.GetWidgetFromC(tguiBoxLayout_getAtIndex(CPointer, index), ParentGui);
-        }
+        #region GeneratedImports
 
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiBoxLayout_create();
 
-        #region Imports
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiBoxLayout_insert(IntPtr cPointer, UIntPtr index, IntPtr widgetToAdd, IntPtr widgetName);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiBoxLayout_insert(IntPtr cPointer, uint index, IntPtr widgetCPointer, IntPtr widgetName);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiBoxLayout_removeAtIndex(IntPtr cPointer, UIntPtr index);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiBoxLayout_removeAtIndex(IntPtr cPointer, uint index);
-
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiBoxLayout_getAtIndex(IntPtr cPointer, uint index);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiBoxLayout_getAtIndex(IntPtr cPointer, UIntPtr index);
 
         #endregion
     }

@@ -1,53 +1,23 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
+using System.Security;
+using System;
 
 namespace TGUI
 {
+    public enum ScrollbarPolicy
+    {
+        Automatic,
+        Always,
+        Never,
+    }
+
     /// <summary>
     /// Scrollbar widget
     /// </summary>
     public class Scrollbar : Widget
     {
-        /// <summary>
-        /// Defines when the scrollbar shows up
-        /// </summary>
-        public enum Policy
-        {
-            /// <summary>Show the scrollbar only when needed (default)</summary>
-            Automatic,
-
-            /// <summary>Always show the scrollbar, even when the contents fits</summary>
-            Always,
-
-            /// <summary>Never show the scrollbar, even if the contents does not fit</summary>
-            Never
-        }
-
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -74,176 +44,141 @@ namespace TGUI
         {
         }
 
-        /// <summary>
-        /// Gets or sets the renderer, which gives access to properties that determine how the widget is displayed
-        /// </summary>
-        /// <remarks>
-        /// After retrieving the renderer, the widget has its own copy of the renderer and it will no longer be shared.
-        /// </remarks>
         public new ScrollbarRenderer Renderer
         {
-            get { return new ScrollbarRenderer(tguiWidget_getRenderer(CPointer)); }
-            set { SetRenderer(value.Data); }
+            get => new ScrollbarRenderer(tguiWidget_getRenderer(CPointer));
+            set => SetRenderer(value.Data);
         }
 
-        /// <summary>
-        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
-        /// </summary>
-        public new ScrollbarRenderer SharedRenderer
+        public  new ScrollbarRenderer SharedRenderer => new ScrollbarRenderer(tguiWidget_getSharedRenderer(CPointer));
+
+        public int ViewportSize
         {
-            get { return new ScrollbarRenderer(tguiWidget_getSharedRenderer(CPointer)); }
+            get => (int)tguiScrollbar_getViewportSize(CPointer);
+            set => tguiScrollbar_setViewportSize(CPointer, (uint)value);
         }
 
-        /// <summary>
-        /// Gets or sets the viewport size
-        /// </summary>
-        /// <remarks>
-        /// If the contents through which the scrollbar can scroll is 600 pixels of which only 200 pixels are visible on the
-        /// screen then the viewport size should be set to 200 and the maximum should be set to 600. The thumb will occupy
-        /// one third of the scrollbar track in this case. The possible scrollbar values are in the range [0, 400] in this case.
-        ///
-        /// Until the maximum is bigger than this value, no scrollbar will be drawn.
-        /// You can however choose to always draw the scrollbar by setting AutoHide to false.
-        /// </remarks>
-        public uint ViewportSize
+        public int Maximum
         {
-            get { return tguiScrollbar_getViewportSize(CPointer); }
-            set { tguiScrollbar_setViewportSize(CPointer, value); }
+            get => (int)tguiScrollbar_getMaximum(CPointer);
+            set => tguiScrollbar_setMaximum(CPointer, (uint)value);
         }
 
-        /// <summary>
-        /// Gets or sets the maximum value
-        /// </summary>
-        /// <remarks>
-        /// When the value is bigger than Maximum - ViewportSize then the value is set to Maximum - ViewportSize.
-        /// The default maximum value is 10.
-        /// </remarks>
-        public uint Maximum
+        public int Value
         {
-            get { return tguiScrollbar_getMaximum(CPointer); }
-            set { tguiScrollbar_setMaximum(CPointer, value); }
+            get => (int)tguiScrollbar_getValue(CPointer);
+            set => tguiScrollbar_setValue(CPointer, (uint)value);
         }
 
-        /// <summary>
-        /// Gets or sets the value of the scrollbar
-        /// </summary>
-        /// <remarks>
-        /// The value has to be smaller than Maximum - ViewportSize.
-        /// </remarks>
-        public uint Value
+        public int ScrollAmount
         {
-            get { return tguiScrollbar_getValue(CPointer); }
-            set { tguiScrollbar_setValue(CPointer, value); }
+            get => (int)tguiScrollbar_getScrollAmount(CPointer);
+            set => tguiScrollbar_setScrollAmount(CPointer, (uint)value);
         }
 
-        /// <summary>
-        /// Gets or sets how much the value changes when scrolling or pressing one of the arrows of the scrollbar
-        /// </summary>
-        public uint ScrollAmount
+        public ScrollbarPolicy Policy
         {
-            get { return tguiScrollbar_getScrollAmount(CPointer); }
-            set { tguiScrollbar_setScrollAmount(CPointer, value); }
+            get => tguiScrollbar_getPolicy(CPointer);
+            set => tguiScrollbar_setPolicy(CPointer, value);
         }
 
-        /// <summary>
-        /// Gets or sets whether the scrollbar should hide automatically or not
-        /// </summary>
-        /// <remarks>
-        /// When true (default), the scrollbar will not be drawn when the maximum is smaller than the viewportSize.
-        /// </remarks>
-        public bool AutoHide
+        public Orientation Orientation
         {
-            get { return tguiScrollbar_getAutoHide(CPointer); }
-            set { tguiScrollbar_setAutoHide(CPointer, value); }
+            get => tguiScrollbar_getOrientation(CPointer);
+            set => tguiScrollbar_setOrientation(CPointer, value);
         }
 
-        /// <summary>
-        /// Gets or sets whether the scrollbar lies horizontally or vertically
-        /// </summary>
-        /// <remarks>
-        /// This function will swap the width and height of the scrollbar if it didn't lie in the wanted direction.
-        /// </remarks>
-        public bool VerticalScroll
+        public bool IsShown()
         {
-            get { return tguiScrollbar_getVerticalScroll(CPointer); }
-            set { tguiScrollbar_setVerticalScroll(CPointer, value); }
+            return tguiScrollbar_isShown(CPointer) != 0;
         }
 
-        /// <summary>
-        /// Gets the default width of the scrollbar
-        /// </summary>
-        /// <remarks>
-        /// The default width is the value the scrollbar has on construction or the size of the texture once a texture is set.
-        /// </remarks>
-        public float DefaultWidth
+        public int GetMaxValue()
         {
-            get { return tguiScrollbar_getDefaultWidth(CPointer); }
+            return (int)tguiScrollbar_getMaxValue(CPointer);
         }
 
-        /// <summary>
-        /// Initializes the signals
-        /// </summary>
-        protected override void InitSignals()
+        public float GetDefaultWidth()
         {
-            base.InitSignals();
-
-            ValueChangedCallback = new CallbackActionUInt((val) => SendSignal(myValueChangedEventKey, new SignalArgsUInt(val)));
-            AddInternalSignal(tguiWidget_connectUInt(CPointer, Util.ConvertStringForC_ASCII("ValueChanged"), ValueChangedCallback));
+            return tguiScrollbar_getDefaultWidth(CPointer);
         }
 
-        /// <summary>Event handler for the ValueChanged signal</summary>
-        public event EventHandler<SignalArgsUInt> ValueChanged
+        public class ValueChangeEventArgs : EventArgs
         {
-            add { myEventHandlerList.AddHandler(myValueChangedEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myValueChangedEventKey, value); }
+            public ValueChangeEventArgs(uint val)
+            {
+                Value = val;
+            }
+            public uint Value { get; }
+        }
+        public event EventHandler<ValueChangeEventArgs> OnValueChange
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackUInt func = (uint val) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new ValueChangeEventArgs(val));
+                };
+                uint id = tguiWidget_signalUIntConnect(CPointer, Util.ConvertStringForC_UTF32("ValueChanged"), func);
+                ConnectEventHandler(id, "ValueChanged", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("ValueChanged", value);
+            }
         }
 
-        private CallbackActionUInt ValueChangedCallback;
-        static readonly object myValueChangedEventKey = new object();
+        #region GeneratedImports
 
-        #region Imports
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiScrollbar_create();
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiScrollbar_create();
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern uint tguiScrollbar_getViewportSize(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbar_setViewportSize(IntPtr cPointer, uint viewport);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbar_setViewportSize(IntPtr cPointer, uint value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiScrollbar_getViewportSize(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern uint tguiScrollbar_getMaximum(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbar_setMaximum(IntPtr cPointer, uint maximum);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbar_setMaximum(IntPtr cPointer, uint value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiScrollbar_getMaximum(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern uint tguiScrollbar_getValue(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbar_setValue(IntPtr cPointer, uint value);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbar_setValue(IntPtr cPointer, uint value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiScrollbar_getValue(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern uint tguiScrollbar_getScrollAmount(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbar_setScrollAmount(IntPtr cPointer, uint scrollAmount);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbar_setScrollAmount(IntPtr cPointer, uint value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private uint tguiScrollbar_getScrollAmount(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern ScrollbarPolicy tguiScrollbar_getPolicy(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbar_setAutoHide(IntPtr cPointer, bool autoHide);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbar_setPolicy(IntPtr cPointer, ScrollbarPolicy value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiScrollbar_getAutoHide(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern Orientation tguiScrollbar_getOrientation(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiScrollbar_setVerticalScroll(IntPtr cPointer, bool vertical);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiScrollbar_setOrientation(IntPtr cPointer, Orientation value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiScrollbar_getVerticalScroll(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiScrollbar_isShown(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiScrollbar_getDefaultWidth(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern uint tguiScrollbar_getMaxValue(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiScrollbar_getDefaultWidth(IntPtr cPointer);
 
         #endregion
     }

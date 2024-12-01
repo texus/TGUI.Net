@@ -1,47 +1,22 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2020 Bruno Van de Velde (vdv_b@tgui.eu)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file is generated, it should not be edited directly.
 
-using System;
-using System.Security;
 using System.Runtime.InteropServices;
+using System.Security;
+using System;
 
 namespace TGUI
 {
     /// <summary>
-    /// Radio button widget
+    /// RadioButton widget
     /// </summary>
     public class RadioButton : ClickableWidget
     {
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="text">The text to display next to the radio button</param>
-        public RadioButton(string text = "")
+        public RadioButton()
             : base(tguiRadioButton_create())
         {
-            if (text.Length > 0)
-                Text = text;
         }
 
         /// <summary>
@@ -62,99 +37,135 @@ namespace TGUI
         {
         }
 
-        /// <summary>
-        /// Gets or sets the renderer, which gives access to properties that determine how the widget is displayed
-        /// </summary>
-        /// <remarks>
-        /// After retrieving the renderer, the widget has its own copy of the renderer and it will no longer be shared.
-        /// </remarks>
         public new RadioButtonRenderer Renderer
         {
-            get { return new RadioButtonRenderer(tguiWidget_getRenderer(CPointer)); }
-            set { SetRenderer(value.Data); }
+            get => new RadioButtonRenderer(tguiWidget_getRenderer(CPointer));
+            set => SetRenderer(value.Data);
         }
 
-        /// <summary>
-        /// Gets the renderer, which gives access to properties that determine how the widget is displayed
-        /// </summary>
-        public new RadioButtonRenderer SharedRenderer
-        {
-            get { return new RadioButtonRenderer(tguiWidget_getSharedRenderer(CPointer)); }
-        }
+        public  new RadioButtonRenderer SharedRenderer => new RadioButtonRenderer(tguiWidget_getSharedRenderer(CPointer));
 
-        /// <summary>
-        /// Gets or sets whether the radio button is checked
-        /// </summary>
-        /// <remarks>
-        /// When checking a radio button, all other radio buttons that have the same parent will be unchecked.
-        /// </remarks>
         public bool Checked
         {
-            get { return tguiRadioButton_isChecked(CPointer); }
-            set { tguiRadioButton_setChecked(CPointer, value); }
+            get => tguiRadioButton_isChecked(CPointer) != 0;
+            set => tguiRadioButton_setChecked(CPointer, value ? (byte)1 : (byte)0);
         }
 
-        /// <summary>
-        /// Gets or sets the text to display next to the radio button
-        /// </summary>
         public string Text
         {
-            get { return Util.GetStringFromC_UTF32(tguiRadioButton_getText(CPointer)); }
-            set { tguiRadioButton_setText(CPointer, Util.ConvertStringForC_UTF32(value)); }
+            get => Util.GetStringFromC_UTF32(tguiRadioButton_getText(CPointer));
+            set => tguiRadioButton_setText(CPointer, Util.ConvertStringForC_UTF32(value));
         }
 
-        /// <summary>
-        /// Gets or sets whether the radio button is be checked by clicking on the text next to it
-        /// </summary>
         public bool TextClickable
         {
-            get { return tguiRadioButton_isTextClickable(CPointer); }
-            set { tguiRadioButton_setTextClickable(CPointer, value); }
+            get => tguiRadioButton_isTextClickable(CPointer) != 0;
+            set => tguiRadioButton_setTextClickable(CPointer, value ? (byte)1 : (byte)0);
         }
 
-        /// <summary>
-        /// Initializes the signals
-        /// </summary>
-        protected override void InitSignals()
+        public class CheckEventArgs : EventArgs
         {
-            base.InitSignals();
-
-            ToggledCallback = new CallbackActionInt((val) => SendSignal(myToggledEventKey, new SignalArgsBool(val != 0)));
-            AddInternalSignal(tguiWidget_connectBool(CPointer, Util.ConvertStringForC_ASCII("Changed"), ToggledCallback));
+            public CheckEventArgs(bool isChecked)
+            {
+                Checked = isChecked;
+            }
+            public bool Checked { get; }
         }
-
-        /// <summary>Event handler for the Checked/Unchecked signal</summary>
-        public event EventHandler<SignalArgsBool> Toggled
+        public event EventHandler<CheckEventArgs> OnCheck
         {
-            add { myEventHandlerList.AddHandler(myToggledEventKey, value); }
-            remove { myEventHandlerList.RemoveHandler(myToggledEventKey, value); }
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackBool func = (byte val) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new CheckEventArgs(val != 0));
+                };
+                uint id = tguiWidget_signalBoolConnect(CPointer, Util.ConvertStringForC_UTF32("Checked"), func);
+                ConnectEventHandler(id, "Checked", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("Checked", value);
+            }
         }
 
-        private CallbackActionInt ToggledCallback;
-        static readonly object myToggledEventKey = new object();
+        public class UncheckEventArgs : EventArgs
+        {
+            public UncheckEventArgs(bool isChecked)
+            {
+                Checked = isChecked;
+            }
+            public bool Checked { get; }
+        }
+        public event EventHandler<UncheckEventArgs> OnUncheck
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackBool func = (byte val) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new UncheckEventArgs(val != 0));
+                };
+                uint id = tguiWidget_signalBoolConnect(CPointer, Util.ConvertStringForC_UTF32("Unchecked"), func);
+                ConnectEventHandler(id, "Unchecked", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("Unchecked", value);
+            }
+        }
 
-        #region Imports
+        public class ChangeEventArgs : EventArgs
+        {
+            public ChangeEventArgs(bool isChecked)
+            {
+                Checked = isChecked;
+            }
+            public bool Checked { get; }
+        }
+        public event EventHandler<ChangeEventArgs> OnChange
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackBool func = (byte val) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new ChangeEventArgs(val != 0));
+                };
+                uint id = tguiWidget_signalBoolConnect(CPointer, Util.ConvertStringForC_UTF32("Changed"), func);
+                ConnectEventHandler(id, "Changed", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("Changed", value);
+            }
+        }
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiRadioButton_create();
+        #region GeneratedImports
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiRadioButton_setChecked(IntPtr cPointer, bool check);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiRadioButton_create();
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiRadioButton_isChecked(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiRadioButton_isChecked(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiRadioButton_setText(IntPtr cPointer, IntPtr value);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiRadioButton_setChecked(IntPtr cPointer, byte value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiRadioButton_getText(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiRadioButton_getText(IntPtr cPointer);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiRadioButton_setTextClickable(IntPtr cPointer, bool clickable);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiRadioButton_setText(IntPtr cPointer, IntPtr value);
 
-        [DllImport(Global.CTGUI, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private bool tguiRadioButton_isTextClickable(IntPtr cPointer);
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiRadioButton_isTextClickable(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiRadioButton_setTextClickable(IntPtr cPointer, byte value);
 
         #endregion
     }
