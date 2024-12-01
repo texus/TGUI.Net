@@ -32,22 +32,6 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows>
-    <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true' Or '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::FreeBSD)))' == 'true'">true</IsLinux>
-    <IsMacOS Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsMacOS>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(IsWindows)'=='true'">
-    <DefineConstants>_WINDOWS_</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(IsLinux)'=='true'">
-    <DefineConstants>_LINUX_</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(IsMacOS)'=='true'">
-    <DefineConstants>_MACOS_</DefineConstants>
-  </PropertyGroup>
-
   <ItemGroup>
     <None Pack="True" Include="NugetIcon.png" PackagePath="/" />
     <None Pack="True" Include="../README.md" PackagePath="/" />

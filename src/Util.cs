@@ -34,13 +34,7 @@ namespace TGUI
     public static class Util
     {
         /// <summary>Name of the CTGUI library to import</summary>
-#if _WINDOWS_
-        public const string LibName = "ctgui-1.dll";
-#elif _MACOS_
-        public const string LibName = "libctgui.dylib";
-#elif _LINUX_
-        public const string LibName = "libctgui.so";
-#endif
+        public const string LibName = "ctgui";
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         internal delegate void UnmanagedCallbackWidgetCleanup(IntPtr widgetCPointer);

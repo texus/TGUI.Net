@@ -22,34 +22,60 @@ jobs:
                   del ${{ env.CTGUI_VERSION }}.zip
                   C:\msys64\usr\bin\wget.exe -nv https://github.com/texus/TGUI/archive/refs/heads/${{ env.TGUI_VERSION }}.zip
                   7z x ${{ env.TGUI_VERSION }}.zip
-                  C:\msys64\usr\bin\wget.exe -nv https://github.com/SFML/CSFML/releases/download/${{ env.CSFML_VERSION }}/CSFML-${{ env.CSFML_VERSION }}-windows-32-bit.zip
-                  7z x CSFML-${{ env.CSFML_VERSION }}-windows-32-bit.zip
-                  ren CSFML CSFML-32
-                  C:\msys64\usr\bin\wget.exe -nv https://github.com/SFML/CSFML/releases/download/${{ env.CSFML_VERSION }}/CSFML-${{ env.CSFML_VERSION }}-windows-64-bit.zip
-                  7z x CSFML-${{ env.CSFML_VERSION }}-windows-64-bit.zip
-                  ren CSFML CSFML-64
+                  C:\msys64\usr\bin\wget -nv https://github.com/SFML/CSFML/archive/refs/tags/${{ env.CSFML_VERSION }}.zip
+                  7z x ${{ env.CSFML_VERSION }}.zip
                   C:\msys64\usr\bin\wget.exe -nv https://github.com/SFML/CSFML/releases/download/${{ env.CSFML_VERSION }}/CSFML.${{ env.CSFML_VERSION }}.nupkg
                   mkdir CSFML-nuget
                   cd CSFML-nuget
                   7z x ..\CSFML.${{ env.CSFML_VERSION }}.nupkg
 
+            # We can't just download the precompiled CSFML version because it's DLL names don't match with the ones inside the NuGet package.
+            # And since the lib files hardcode the name of the dll, renaming files isn't enough. So we just generate new lib files based on
+            # the dll files that are shipped in the NuGet package.
+            - name: Generate lib files from dlls
+              shell: pwsh
+              run: |
+                  $vsPath = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC"
+                  $latestVersion = (Get-ChildItem -Path $vsPath | Sort-Object Name -Descending | Select-Object -First 1).Name
+                  $dumpbinExe = "$vsPath\$latestVersion\bin\Hostx64\x64\dumpbin.exe"
+                  $libExe = "$vsPath\$latestVersion\bin\Hostx64\x64\lib.exe"
+                  cd CSFML-nuget\runtimes
+                  . $dumpbinExe /EXPORTS win-x86\native\csfml-graphics.dll > win-x86\native\csfml-graphics.def
+                  . $dumpbinExe /EXPORTS win-x86\native\csfml-window.dll > win-x86\native\csfml-window.def
+                  . $dumpbinExe /EXPORTS win-x86\native\csfml-system.dll > win-x86\native\csfml-system.def
+                  . $dumpbinExe /EXPORTS win-x64\native\csfml-graphics.dll > win-x64\native\csfml-graphics.def
+                  . $dumpbinExe /EXPORTS win-x64\native\csfml-window.dll > win-x64\native\csfml-window.def
+                  . $dumpbinExe /EXPORTS win-x64\native\csfml-system.dll > win-x64\native\csfml-system.def
+                  'EXPORTS', ((Get-Content win-x86\native\csfml-graphics.def) -match ' sf' -replace '.* (sf.*)','$1') | Set-Content win-x86\native\csfml-graphics.def
+                  'EXPORTS', ((Get-Content win-x86\native\csfml-window.def) -match ' sf' -replace '.* (sf.*)','$1') | Set-Content win-x86\native\csfml-window.def
+                  'EXPORTS', ((Get-Content win-x86\native\csfml-system.def) -match ' sf' -replace '.* (sf.*)','$1') | Set-Content win-x86\native\csfml-system.def
+                  'EXPORTS', ((Get-Content win-x64\native\csfml-graphics.def) -match ' sf' -replace '.* (sf.*)','$1') | Set-Content win-x64\native\csfml-graphics.def
+                  'EXPORTS', ((Get-Content win-x64\native\csfml-window.def) -match ' sf' -replace '.* (sf.*)','$1') | Set-Content win-x64\native\csfml-window.def
+                  'EXPORTS', ((Get-Content win-x64\native\csfml-system.def) -match ' sf' -replace '.* (sf.*)','$1') | Set-Content win-x64\native\csfml-system.def
+                  . $libExe /def:win-x86\native\csfml-graphics.def /out:win-x86\native\csfml-graphics.lib /machine:x86
+                  . $libExe /def:win-x86\native\csfml-window.def /out:win-x86\native\csfml-window.lib /machine:x86
+                  . $libExe /def:win-x86\native\csfml-system.def /out:win-x86\native\csfml-system.lib /machine:x86
+                  . $libExe /def:win-x64\native\csfml-graphics.def /out:win-x64\native\csfml-graphics.lib /machine:x64
+                  . $libExe /def:win-x64\native\csfml-window.def /out:win-x64\native\csfml-window.lib /machine:x64
+                  . $libExe /def:win-x64\native\csfml-system.def /out:win-x64\native\csfml-system.lib /machine:x64
+
             - name: Build x86
               run: |
                   cmake -B TGUI-build-x86 -S TGUI-${{ env.TGUI_VERSION }} -G "Visual Studio 17 2022" -A Win32 -DTGUI_BACKEND=Custom -DTGUI_BUILD_GUI_BUILDER=OFF -DBUILD_SHARED_LIBS=OFF -DTGUI_USE_STATIC_STD_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=TGUI-x86
-                  cmake --build TGUI-build-x86 --config Release --target install
-                  cmake -B CTGUI-build-x86 -S CTGUI-${{ env.CTGUI_VERSION }} -G "Visual Studio 17 2022" -A Win32 -DTGUI_ROOT="${{ github.workspace }}/TGUI-x86" -DCSFML_INCLUDE_DIR="${{ github.workspace }}/CSFML-32/include" -DCSFML_LIBRARIES_DIR="${{ github.workspace }}/CSFML-32/lib/msvc/" -DCTGUI_HAS_BACKEND_CSFML_GRAPHICS=ON -DBUILD_SHARED_LIBS=ON -DCTGUI_LINK_TGUI_STATICALLY=ON -DCMAKE_INSTALL_PREFIX=CTGUI-x86
-                  cmake --build CTGUI-build-x86 --config Release --target install
+                  cmake --build TGUI-build-x86 --config RelWithDebInfo --target install
+                  cmake -B CTGUI-build-x86 -S CTGUI-${{ env.CTGUI_VERSION }} -G "Visual Studio 17 2022" -A Win32 -DTGUI_ROOT="${{ github.workspace }}/TGUI-x86" -DCSFML_INCLUDE_DIR="${{ github.workspace }}/CSFML-${{ env.CSFML_VERSION }}/include" -DCSFML_LIBRARIES_DIR="${{ github.workspace }}/CSFML-nuget/runtimes/win-x86/native/" -DCTGUI_HAS_BACKEND_CSFML_GRAPHICS=ON -DBUILD_SHARED_LIBS=ON -DCTGUI_LINK_TGUI_STATICALLY=ON -DCMAKE_INSTALL_PREFIX=CTGUI-x86
+                  cmake --build CTGUI-build-x86 --config RelWithDebInfo --target install
                   mkdir runtimes\win-x86\native
-                  copy CTGUI-x86\bin\ctgui-1.dll runtimes\win-x86\native\
+                  copy CTGUI-x86\bin\ctgui-1.dll runtimes\win-x86\native\ctgui.dll
 
             - name: Build x64
               run: |
                   cmake -B TGUI-build-x64 -S TGUI-${{ env.TGUI_VERSION }} -G "Visual Studio 17 2022" -A x64 -DTGUI_BACKEND=Custom -DTGUI_BUILD_GUI_BUILDER=OFF -DBUILD_SHARED_LIBS=OFF -DTGUI_USE_STATIC_STD_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=TGUI-x64
-                  cmake --build TGUI-build-x64 --config Release --target install
-                  cmake -B CTGUI-build-x64 -S CTGUI-${{ env.CTGUI_VERSION }} -G "Visual Studio 17 2022" -A x64 -DTGUI_ROOT="${{ github.workspace }}/TGUI-x64" -DCSFML_INCLUDE_DIR="${{ github.workspace }}/CSFML-64/include" -DCSFML_LIBRARIES_DIR="${{ github.workspace }}/CSFML-64/lib/msvc/" -DCTGUI_HAS_BACKEND_CSFML_GRAPHICS=ON -DBUILD_SHARED_LIBS=ON -DCTGUI_LINK_TGUI_STATICALLY=ON -DCMAKE_INSTALL_PREFIX=CTGUI-x64
-                  cmake --build CTGUI-build-x64 --config Release --target install
+                  cmake --build TGUI-build-x64 --config RelWithDebInfo --target install
+                  cmake -B CTGUI-build-x64 -S CTGUI-${{ env.CTGUI_VERSION }} -G "Visual Studio 17 2022" -A x64 -DTGUI_ROOT="${{ github.workspace }}/TGUI-x64" -DCSFML_INCLUDE_DIR="${{ github.workspace }}/CSFML-${{ env.CSFML_VERSION }}/include" -DCSFML_LIBRARIES_DIR="${{ github.workspace }}/CSFML-nuget/runtimes/win-x64/native/" -DCTGUI_HAS_BACKEND_CSFML_GRAPHICS=ON -DBUILD_SHARED_LIBS=ON -DCTGUI_LINK_TGUI_STATICALLY=ON -DCMAKE_INSTALL_PREFIX=CTGUI-x64
+                  cmake --build CTGUI-build-x64 --config RelWithDebInfo --target install
                   mkdir runtimes\win-x64\native
-                  copy CTGUI-x64\bin\ctgui-1.dll runtimes\win-x64\native\
+                  copy CTGUI-x64\bin\ctgui-1.dll runtimes\win-x64\native\ctgui.dll
 
             - name: Upload Artifact
               uses: actions/upload-artifact@v4
