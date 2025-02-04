@@ -147,7 +147,7 @@ namespace TGUI
 
         public static Color? GetColorFromC(ColorCTGUI color)
         {
-            if (color.IsSet)
+            if (color.IsSet != 0)
                 return new Color(color.R, color.G, color.B, color.A);
             else
                 return null;

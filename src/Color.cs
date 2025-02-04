@@ -127,7 +127,7 @@ namespace TGUI
                 G = color.Value.G;
                 B = color.Value.B;
                 A = color.Value.A;
-                IsSet = true;
+                IsSet = (byte)1;
             }
             else
             {
@@ -135,7 +135,7 @@ namespace TGUI
                 G = 0;
                 B = 0;
                 A = 0;
-                IsSet = false;
+                IsSet = (byte)0;
             }
         }
 
@@ -152,6 +152,6 @@ namespace TGUI
         public readonly byte A;
 
         /// <summary>Determines if the RGBA value is valid or whether this color is the equivalent to a null object</summary>
-        public readonly bool IsSet;
+        public readonly byte IsSet;
     }
 }
