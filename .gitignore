@@ -8,11 +8,4 @@ obj/
 lib/
 bin/
 .vs/
-/doc/build/*xml
-/examples/*/*.dll
-/extlibs/bin/
-/extlibs/build/
-/extlibs/include/
-/themes/
-/gui-builder/
 /_site/

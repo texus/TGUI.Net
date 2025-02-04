@@ -9,14 +9,14 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.6.0-alpha</Version>
+    <Version>1.7.0-beta</Version>
     <RootNamespace>TGUI</RootNamespace>
     <AssemblyName>tgui.net</AssemblyName>
     <Authors>texus</Authors>
     <Copyright>Copyright © Bruno Van de Velde</Copyright>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>TGUI.Net</PackageId>
-    <PackageTags>tgui;sfml;net;x64</PackageTags>
+    <PackageTags>tgui;sfml;net</PackageTags>
     <Description>TGUI.NET is a .NET binding for the C++ TGUI library to provide a GUI for SFML.Net</Description>
     <PackageLicenseExpression>Zlib</PackageLicenseExpression>
     <PackageProjectUrl>https://tgui.net</PackageProjectUrl>
