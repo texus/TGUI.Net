@@ -58,7 +58,7 @@ namespace TGUI
 
         public  new ListViewRenderer SharedRenderer => new ListViewRenderer(tguiWidget_getSharedRenderer(CPointer));
 
-        public int AddColumn(string text, float width, HorizontalAlignment columnAlignment)
+        public int AddColumn(string text, float width = 0, HorizontalAlignment columnAlignment = HorizontalAlignment.Left)
         {
             return (int)tguiListView_addColumn(CPointer, Util.ConvertStringForC_UTF32(text), width, columnAlignment);
         }

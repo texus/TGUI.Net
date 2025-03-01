@@ -51,12 +51,12 @@ namespace TGUI
             set => tguiTabs_setAutoSize(CPointer, value ? (byte)1 : (byte)0);
         }
 
-        public int Add(string text, bool select)
+        public int Add(string text, bool select = true)
         {
             return (int)tguiTabs_add(CPointer, Util.ConvertStringForC_UTF32(text), select ? (byte)1 : (byte)0);
         }
 
-        public void Insert(int index, string text, bool select)
+        public void Insert(int index, string text, bool select = true)
         {
             tguiTabs_insert(CPointer, (UIntPtr)index, Util.ConvertStringForC_UTF32(text), select ? (byte)1 : (byte)0);
         }
@@ -177,6 +177,33 @@ namespace TGUI
             remove
             {
                 DisconnectEventHandler("TabSelected", value);
+            }
+        }
+
+        public class TabRightClickEventArgs : EventArgs
+        {
+            public TabRightClickEventArgs(string tabText)
+            {
+                TabText = tabText;
+            }
+            public string TabText { get; }
+        }
+        public event EventHandler<TabRightClickEventArgs> OnTabRightClick
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackString func = (IntPtr str) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new TabRightClickEventArgs(Util.GetStringFromC_UTF32(str)));
+                };
+                uint id = tguiWidget_signalStringConnect(CPointer, Util.ConvertStringForC_UTF32("TabRightClicked"), func);
+                ConnectEventHandler(id, "TabRightClicked", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("TabRightClicked", value);
             }
         }
 

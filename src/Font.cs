@@ -21,7 +21,7 @@ namespace TGUI
         /// Construct the font from a filename
         /// </summary>
         public Font(string filename)
-            : base(tguiFont_createFromFile(Util.ConvertStringForC_UTF32(filename)))
+            : base(CreateFontFromFileImpl(filename))
         {
         }
 
@@ -33,11 +33,24 @@ namespace TGUI
         {
         }
 
+        private static IntPtr CreateFontFromFileImpl(string filename)
+        {
+            IntPtr cPtr = tguiFont_createFromFile(Util.ConvertStringForC_UTF32(filename));
+            if (cPtr == IntPtr.Zero)
+                throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
+            else
+                return cPtr;
+        }
+
         private static unsafe IntPtr CreateFontFromMemoryImpl(ReadOnlySpan<byte> bytes)
         {
             fixed (byte* ptr = bytes)
             {
-                return tguiFont_createFromMemory(ptr, (UIntPtr)bytes.Length);
+                IntPtr cPtr = tguiFont_createFromMemory(ptr, (UIntPtr)bytes.Length);
+                if (cPtr == IntPtr.Zero)
+                    throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
+                else
+                    return cPtr;
             }
         }
 
@@ -62,7 +75,7 @@ namespace TGUI
         /// If the font is a bitmap font, not all character sizes might be available. If the glyph is not available at the
         /// requested size, an empty glyph is returned.
         /// </remarks>
-        public FontGlyph getGlyph(uint codePoint, uint characterSize, bool bold, float outlineThickness)
+        public FontGlyph getGlyph(uint codePoint, uint characterSize, bool bold, float outlineThickness = 0)
         {
             return tguiFont_getGlyph(CPointer, codePoint, characterSize, bold ? (byte)1 : (byte)0, outlineThickness);
         }
@@ -78,7 +91,7 @@ namespace TGUI
             return Util.GetStringFromC_UTF32(tguiFont_getId(CPointer));
         }
 
-        public float GetKerning(string first, string second, int characterSize, bool bold)
+        public float GetKerning(string first, string second, int characterSize, bool bold = false)
         {
             return tguiFont_getKerning(CPointer, (uint)Char.ConvertToUtf32(first, 0), (uint)Char.ConvertToUtf32(second, 0), (uint)characterSize, bold ? (byte)1 : (byte)0);
         }
@@ -100,6 +113,9 @@ namespace TGUI
         }
 
         #region Imports
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        protected static extern IntPtr tgui_getLastError();
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern IntPtr tguiFont_createFromFile(IntPtr filename);

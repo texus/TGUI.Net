@@ -37,7 +37,7 @@ namespace TGUI
 
         public  new BoxLayoutRenderer SharedRenderer => new BoxLayoutRenderer(tguiWidget_getSharedRenderer(CPointer));
 
-        public void Insert(int index, Widget? widgetToAdd, string widgetName)
+        public void Insert(int index, Widget? widgetToAdd, string widgetName = "")
         {
             tguiBoxLayout_insert(CPointer, (UIntPtr)index, widgetToAdd is null ? IntPtr.Zero : widgetToAdd.CPointer, Util.ConvertStringForC_UTF32(widgetName));
         }

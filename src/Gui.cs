@@ -441,7 +441,7 @@ namespace TGUI
             set => tguiGui_setFont(CPointer, value.CPointer);
         }
 
-        public void Add(Widget? widget, string widgetName)
+        public void Add(Widget? widget, string widgetName = "")
         {
             tguiGui_add(CPointer, widget is null ? IntPtr.Zero : widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
         }
@@ -494,12 +494,12 @@ namespace TGUI
             return Util.GetWidgetFromC(tguiGui_getWidgetBelowMouseCursor(CPointer, mousePos, recursive ? (byte)1 : (byte)0));
         }
 
-        public bool FocusNextWidget(bool recursive)
+        public bool FocusNextWidget(bool recursive = true)
         {
             return tguiGui_focusNextWidget(CPointer, recursive ? (byte)1 : (byte)0) != 0;
         }
 
-        public bool FocusPreviousWidget(bool recursive)
+        public bool FocusPreviousWidget(bool recursive = true)
         {
             return tguiGui_focusPreviousWidget(CPointer, recursive ? (byte)1 : (byte)0) != 0;
         }

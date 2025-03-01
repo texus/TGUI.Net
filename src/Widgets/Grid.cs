@@ -99,12 +99,12 @@ namespace TGUI
             return Util.GetWidgetFromC(tguiGrid_getWidget(CPointer, (UIntPtr)row, (UIntPtr)col));
         }
 
-        public void SetWidgetAlignment(Widget? widget, GridAlignment alignment)
+        public void SetWidgetAlignment(Widget? widget, GridAlignment alignment = GridAlignment.Center)
         {
             tguiGrid_setWidgetAlignment(CPointer, widget is null ? IntPtr.Zero : widget.CPointer, alignment);
         }
 
-        public void SetWidgetAlignment(int row, int col, GridAlignment alignment)
+        public void SetWidgetAlignment(int row, int col, GridAlignment alignment = GridAlignment.Center)
         {
             tguiGrid_setWidgetAlignmentByCell(CPointer, (UIntPtr)row, (UIntPtr)col, alignment);
         }

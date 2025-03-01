@@ -48,7 +48,7 @@ namespace TGUI
 
         public  new ListBoxRenderer SharedRenderer => new ListBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
 
-        public int AddItem(string item, string id)
+        public int AddItem(string item, string id = "")
         {
             return (int)tguiListBox_addItem(CPointer, Util.ConvertStringForC_UTF32(item), Util.ConvertStringForC_UTF32(id));
         }
@@ -337,6 +337,33 @@ namespace TGUI
             remove
             {
                 DisconnectEventHandler("DoubleClicked", value);
+            }
+        }
+
+        public class RightClickEventArgs : EventArgs
+        {
+            public RightClickEventArgs(int index)
+            {
+                Index = index;
+            }
+            public int Index { get; }
+        }
+        public event EventHandler<RightClickEventArgs> OnRightClick
+        {
+            add
+            {
+                var selfCPointer = CPointer;
+                var selfType = GetType();
+                UnmanagedCallbackItem func = (int index) => {
+                    using var sender = Util.GetWidgetFromC(tguiWidget_addPointerReference(selfCPointer), selfType);
+                    value(sender, new RightClickEventArgs(index));
+                };
+                uint id = tguiWidget_signalItemConnect(CPointer, Util.ConvertStringForC_UTF32("RightClicked"), func);
+                ConnectEventHandler(id, "RightClicked", value, func);
+            }
+            remove
+            {
+                DisconnectEventHandler("RightClicked", value);
             }
         }
 

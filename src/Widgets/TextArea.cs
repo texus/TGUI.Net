@@ -119,7 +119,7 @@ namespace TGUI
             set => tguiTextArea_setReadOnly(CPointer, value ? (byte)1 : (byte)0);
         }
 
-        public void EnableMonospacedFontOptimization(bool enable)
+        public void EnableMonospacedFontOptimization(bool enable = true)
         {
             tguiTextArea_enableMonospacedFontOptimization(CPointer, enable ? (byte)1 : (byte)0);
         }

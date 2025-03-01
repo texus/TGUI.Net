@@ -59,7 +59,7 @@ namespace TGUI
             return tguiText_getStaticLineWidth(Util.ConvertStringForC_UTF32(text), font.CPointer, (uint)characterSize, style);
         }
 
-        public static int FindBestTextSize(Font font, float height, int fit)
+        public static int FindBestTextSize(Font font, float height, int fit = 0)
         {
             return (int)tguiText_findBestTextSize(font.CPointer, height, fit);
         }

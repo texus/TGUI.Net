@@ -8,15 +8,15 @@ using System;
 namespace TGUI
 {
     /// <summary>
-    /// MenuBar widget
+    /// ContextMenu widget
     /// </summary>
-    public class MenuBar : MenuWidgetBase
+    public class ContextMenu : MenuWidgetBase
     {
         /// <summary>
         /// Default constructor
         /// </summary>
-        public MenuBar()
-            : base(tguiMenuBar_create())
+        public ContextMenu()
+            : base(tguiContextMenu_create())
         {
         }
 
@@ -24,7 +24,7 @@ namespace TGUI
         /// Constructor that creates the object from its C pointer
         /// </summary>
         /// <param name="cPointer">Pointer to object in C code</param>
-        protected internal MenuBar(IntPtr cPointer)
+        protected internal ContextMenu(IntPtr cPointer)
             : base(cPointer)
         {
         }
@@ -33,39 +33,39 @@ namespace TGUI
         /// Copy constructor
         /// </summary>
         /// <param name="copy">Object to copy</param>
-        public MenuBar(MenuBar copy)
+        public ContextMenu(ContextMenu copy)
             : base(copy)
         {
         }
 
-        public struct Menu
+        public struct MenuItem
         {
             public string text;
             public bool enabled;
-            public List<Menu> menuItems;
+            public List<MenuItem> subMenuItems;
         }
 
-        public unsafe IReadOnlyList<Menu> GetMenus()
+        public unsafe IReadOnlyList<MenuItem> GetMenuItems()
         {
-            var menus = new List<Menu>();
-            MenuListImpl* menuList = tguiMenuBar_getMenus(CPointer);
-            GetMenusImpl(menus, menuList->menus, (int)menuList->menusCount);
-            tguiMenuBarMenuList_destroy(menuList);
-            return menus;
+            var menuItems = new List<MenuItem>();
+            MenuItemListImpl* menuItemList = tguiContextMenu_getMenuItems(CPointer);
+            GetMenusImpl(menuItems, menuItemList->menuItems, (int)menuItemList->menuItemsCount);
+            tguiContextMenuItemList_destroy(menuItemList);
+            return menuItems;
         }
 
-        private unsafe void GetMenusImpl(List<Menu> menusToFill, MenuElementImpl* menuElementPtr, int menusCount)
+        private unsafe void GetMenusImpl(List<MenuItem> menusToFill, MenuElementImpl* menuElementPtr, int menuItemsCount)
         {
-            for (int i = 0; i < menusCount; ++i)
+            for (int i = 0; i < menuItemsCount; ++i)
             {
-                Menu menu = new Menu();
-                menu.text = Util.GetStringFromC_UTF32(menuElementPtr[i].text);
-                menu.enabled = menuElementPtr[i].enabled != 0;
-                menu.menuItems = new List<Menu>();
+                MenuItem menuItem = new MenuItem();
+                menuItem.text = Util.GetStringFromC_UTF32(menuElementPtr[i].text);
+                menuItem.enabled = menuElementPtr[i].enabled != 0;
+                menuItem.subMenuItems = new List<MenuItem>();
                 if ((int)menuElementPtr[i].menuItemsCount > 0)
-                    GetMenusImpl(menu.menuItems, menuElementPtr[i].menuItems, (int)menuElementPtr[i].menuItemsCount);
+                    GetMenusImpl(menuItem.subMenuItems, menuElementPtr[i].menuItems, (int)menuElementPtr[i].menuItemsCount);
 
-                menusToFill.Add(menu);
+                menusToFill.Add(menuItem);
             }
         }
 
@@ -79,33 +79,48 @@ namespace TGUI
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private unsafe struct MenuListImpl
+        private unsafe struct MenuItemListImpl
         {
-            public MenuElementImpl* menus;
-            public UIntPtr menusCount;
+            public MenuElementImpl* menuItems;
+            public UIntPtr menuItemsCount;
         }
 
-        public new MenuBarRenderer Renderer
+        public new ContextMenuRenderer Renderer
         {
-            get => new MenuBarRenderer(tguiWidget_getRenderer(CPointer));
+            get => new ContextMenuRenderer(tguiWidget_getRenderer(CPointer));
             set => SetRenderer(value.Data);
         }
 
-        public  new MenuBarRenderer SharedRenderer => new MenuBarRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public  new ContextMenuRenderer SharedRenderer => new ContextMenuRenderer(tguiWidget_getSharedRenderer(CPointer));
 
-        public void AddMenu(string text)
+        public bool IsMenuOpen()
         {
-            tguiMenuBar_addMenu(CPointer, Util.ConvertStringForC_UTF32(text));
+            return tguiContextMenu_isMenuOpen(CPointer) != 0;
         }
 
-        public bool AddMenuItem(string menu, string text)
+        public void OpenMenu()
         {
-            return tguiMenuBar_addMenuItem(CPointer, Util.ConvertStringForC_UTF32(menu), Util.ConvertStringForC_UTF32(text)) != 0;
+            tguiContextMenu_openMenu(CPointer);
         }
 
-        public bool AddMenuItem(string text)
+        public void OpenMenu(Vector2f position)
         {
-            return tguiMenuBar_addMenuItemToLastMenu(CPointer, Util.ConvertStringForC_UTF32(text)) != 0;
+            tguiContextMenu_openMenuAtPos(CPointer, position);
+        }
+
+        public void OpenMenuAtMouseCursor()
+        {
+            tguiContextMenu_openMenuAtMouseCursor(CPointer);
+        }
+
+        public void CloseMenu()
+        {
+            tguiContextMenu_closeMenu(CPointer);
+        }
+
+        public void AddMenuItem(string text)
+        {
+            tguiContextMenu_addMenuItem(CPointer, Util.ConvertStringForC_UTF32(text));
         }
 
         public bool AddMenuItem(ReadOnlySpan<string> hierarchy, bool createParents = true)
@@ -114,7 +129,7 @@ namespace TGUI
             for (int i = 0; i < hierarchy.Length; ++i)
                 hierarchyForC[i] = Util.ConvertStringForC_UTF32(hierarchy[i]);
 
-            return tguiMenuBar_addMenuItemHierarchy(CPointer, hierarchyForC, (UIntPtr)hierarchyForC.Length, createParents ? (byte)1 : (byte)0) != 0;
+            return tguiContextMenu_addMenuItemHierarchy(CPointer, hierarchyForC, (UIntPtr)hierarchyForC.Length, createParents ? (byte)1 : (byte)0) != 0;
         }
 
         public bool ChangeMenuItem(ReadOnlySpan<string> hierarchy, string text)
@@ -123,17 +138,17 @@ namespace TGUI
             for (int i = 0; i < hierarchy.Length; ++i)
                 hierarchyForC[i] = Util.ConvertStringForC_UTF32(hierarchy[i]);
 
-            return tguiMenuBar_changeMenuItem(CPointer, hierarchyForC, (UIntPtr)hierarchyForC.Length, Util.ConvertStringForC_UTF32(text)) != 0;
+            return tguiContextMenu_changeMenuItem(CPointer, hierarchyForC, (UIntPtr)hierarchyForC.Length, Util.ConvertStringForC_UTF32(text)) != 0;
         }
 
-        public bool RemoveMenu(string menu)
+        public void RemoveAllMenuItems()
         {
-            return tguiMenuBar_removeMenu(CPointer, Util.ConvertStringForC_UTF32(menu)) != 0;
+            tguiContextMenu_removeAllMenuItems(CPointer);
         }
 
-        public bool RemoveMenuItem(string menu, string menuItem)
+        public bool RemoveMenuItem(string menuItem)
         {
-            return tguiMenuBar_removeMenuItem(CPointer, Util.ConvertStringForC_UTF32(menu), Util.ConvertStringForC_UTF32(menuItem)) != 0;
+            return tguiContextMenu_removeMenuItem(CPointer, Util.ConvertStringForC_UTF32(menuItem)) != 0;
         }
 
         public bool RemoveMenuItem(ReadOnlySpan<string> hierarchy, bool removeParentsWhenEmpty = true)
@@ -142,32 +157,26 @@ namespace TGUI
             for (int i = 0; i < hierarchy.Length; ++i)
                 hierarchyForC[i] = Util.ConvertStringForC_UTF32(hierarchy[i]);
 
-            return tguiMenuBar_removeMenuItemHierarchy(CPointer, hierarchyForC, (UIntPtr)hierarchyForC.Length, removeParentsWhenEmpty ? (byte)1 : (byte)0) != 0;
+            return tguiContextMenu_removeMenuItemHierarchy(CPointer, hierarchyForC, (UIntPtr)hierarchyForC.Length, removeParentsWhenEmpty ? (byte)1 : (byte)0) != 0;
         }
 
-        public void RemoveAllMenus()
+        public bool RemoveSubMenuItems(ReadOnlySpan<string> hierarchy)
         {
-            tguiMenuBar_removeAllMenus(CPointer);
+            IntPtr[] hierarchyForC = new IntPtr[hierarchy.Length];
+            for (int i = 0; i < hierarchy.Length; ++i)
+                hierarchyForC[i] = Util.ConvertStringForC_UTF32(hierarchy[i]);
+
+            return tguiContextMenu_removeSubMenuItems(CPointer, hierarchyForC, (UIntPtr)hierarchyForC.Length) != 0;
         }
 
-        public bool SetMenuEnabled(string text, bool enabled)
+        public bool SetMenuItemEnabled(string menuItem, bool enabled)
         {
-            return tguiMenuBar_setMenuEnabled(CPointer, Util.ConvertStringForC_UTF32(text), enabled ? (byte)1 : (byte)0) != 0;
+            return tguiContextMenu_setMenuItemEnabled(CPointer, Util.ConvertStringForC_UTF32(menuItem), enabled ? (byte)1 : (byte)0) != 0;
         }
 
-        public bool GetMenuEnabled(string text)
+        public bool GetMenuItemEnabled(string menuItem)
         {
-            return tguiMenuBar_getMenuEnabled(CPointer, Util.ConvertStringForC_UTF32(text)) != 0;
-        }
-
-        public bool SetMenuItemEnabled(string menu, string text, bool enabled)
-        {
-            return tguiMenuBar_setMenuItemEnabled(CPointer, Util.ConvertStringForC_UTF32(menu), Util.ConvertStringForC_UTF32(text), enabled ? (byte)1 : (byte)0) != 0;
-        }
-
-        public bool GetMenuItemEnabled(string menu, string text)
-        {
-            return tguiMenuBar_getMenuItemEnabled(CPointer, Util.ConvertStringForC_UTF32(menu), Util.ConvertStringForC_UTF32(text)) != 0;
+            return tguiContextMenu_getMenuItemEnabled(CPointer, Util.ConvertStringForC_UTF32(menuItem)) != 0;
         }
 
         public bool SetMenuItemEnabled(ReadOnlySpan<string> hierarchy, bool enabled)
@@ -176,7 +185,7 @@ namespace TGUI
             for (int i = 0; i < hierarchy.Length; ++i)
                 hierarchyForC[i] = Util.ConvertStringForC_UTF32(hierarchy[i]);
 
-            return tguiMenuBar_setMenuItemEnabledHierarchy(CPointer, hierarchyForC, (UIntPtr)hierarchyForC.Length, enabled ? (byte)1 : (byte)0) != 0;
+            return tguiContextMenu_setMenuItemEnabledHierarchy(CPointer, hierarchyForC, (UIntPtr)hierarchyForC.Length, enabled ? (byte)1 : (byte)0) != 0;
         }
 
         public bool GetMenuItemEnabled(ReadOnlySpan<string> hierarchy)
@@ -185,24 +194,19 @@ namespace TGUI
             for (int i = 0; i < hierarchy.Length; ++i)
                 hierarchyForC[i] = Util.ConvertStringForC_UTF32(hierarchy[i]);
 
-            return tguiMenuBar_getMenuItemEnabledHierarchy(CPointer, hierarchyForC, (UIntPtr)hierarchyForC.Length) != 0;
+            return tguiContextMenu_getMenuItemEnabledHierarchy(CPointer, hierarchyForC, (UIntPtr)hierarchyForC.Length) != 0;
         }
 
-        public void CloseMenu()
+        public float ItemHeight
         {
-            tguiMenuBar_closeMenu(CPointer);
+            get => tguiContextMenu_getItemHeight(CPointer);
+            set => tguiContextMenu_setItemHeight(CPointer, value);
         }
 
-        public float MinimumSubMenuWidth
+        public float MinimumMenuWidth
         {
-            get => tguiMenuBar_getMinimumSubMenuWidth(CPointer);
-            set => tguiMenuBar_setMinimumSubMenuWidth(CPointer, value);
-        }
-
-        public bool InvertedMenuDirection
-        {
-            get => tguiMenuBar_getInvertedMenuDirection(CPointer) != 0;
-            set => tguiMenuBar_setInvertedMenuDirection(CPointer, value ? (byte)1 : (byte)0);
+            get => tguiContextMenu_getMinimumMenuWidth(CPointer);
+            set => tguiContextMenu_setMinimumMenuWidth(CPointer, value);
         }
 
         public class MenuItemClickEventArgs : EventArgs
@@ -238,77 +242,77 @@ namespace TGUI
         #region Imports
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern unsafe void tguiMenuBarMenuList_destroy(MenuListImpl* menuList);
+        private static extern unsafe void tguiContextMenuItemList_destroy(MenuItemListImpl* menuItemList);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern unsafe MenuListImpl* tguiMenuBar_getMenus(IntPtr cPointer);
+        private static extern unsafe MenuItemListImpl* tguiContextMenu_getMenuItems(IntPtr cPointer);
 
         #endregion
 
         #region GeneratedImports
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern IntPtr tguiMenuBar_create();
+        private static extern IntPtr tguiContextMenu_create();
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiMenuBar_addMenu(IntPtr cPointer, IntPtr text);
+        private static extern byte tguiContextMenu_isMenuOpen(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiMenuBar_addMenuItem(IntPtr cPointer, IntPtr menu, IntPtr text);
+        private static extern void tguiContextMenu_openMenu(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiMenuBar_addMenuItemToLastMenu(IntPtr cPointer, IntPtr text);
+        private static extern void tguiContextMenu_openMenuAtPos(IntPtr cPointer, Vector2f position);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiMenuBar_addMenuItemHierarchy(IntPtr cPointer, IntPtr[] hierarchy, UIntPtr hierarchyLength, byte createParents);
+        private static extern void tguiContextMenu_openMenuAtMouseCursor(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiMenuBar_changeMenuItem(IntPtr cPointer, IntPtr[] hierarchy, UIntPtr hierarchyLength, IntPtr text);
+        private static extern void tguiContextMenu_closeMenu(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiMenuBar_removeMenu(IntPtr cPointer, IntPtr menu);
+        private static extern void tguiContextMenu_addMenuItem(IntPtr cPointer, IntPtr text);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiMenuBar_removeMenuItem(IntPtr cPointer, IntPtr menu, IntPtr menuItem);
+        private static extern byte tguiContextMenu_addMenuItemHierarchy(IntPtr cPointer, IntPtr[] hierarchy, UIntPtr hierarchyLength, byte createParents);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiMenuBar_removeMenuItemHierarchy(IntPtr cPointer, IntPtr[] hierarchy, UIntPtr hierarchyLength, byte removeParentsWhenEmpty);
+        private static extern byte tguiContextMenu_changeMenuItem(IntPtr cPointer, IntPtr[] hierarchy, UIntPtr hierarchyLength, IntPtr text);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiMenuBar_removeAllMenus(IntPtr cPointer);
+        private static extern void tguiContextMenu_removeAllMenuItems(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiMenuBar_setMenuEnabled(IntPtr cPointer, IntPtr text, byte enabled);
+        private static extern byte tguiContextMenu_removeMenuItem(IntPtr cPointer, IntPtr menuItem);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiMenuBar_getMenuEnabled(IntPtr cPointer, IntPtr text);
+        private static extern byte tguiContextMenu_removeMenuItemHierarchy(IntPtr cPointer, IntPtr[] hierarchy, UIntPtr hierarchyLength, byte removeParentsWhenEmpty);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiMenuBar_setMenuItemEnabled(IntPtr cPointer, IntPtr menu, IntPtr text, byte enabled);
+        private static extern byte tguiContextMenu_removeSubMenuItems(IntPtr cPointer, IntPtr[] hierarchy, UIntPtr hierarchyLength);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiMenuBar_getMenuItemEnabled(IntPtr cPointer, IntPtr menu, IntPtr text);
+        private static extern byte tguiContextMenu_setMenuItemEnabled(IntPtr cPointer, IntPtr menuItem, byte enabled);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiMenuBar_setMenuItemEnabledHierarchy(IntPtr cPointer, IntPtr[] hierarchy, UIntPtr hierarchyLength, byte enabled);
+        private static extern byte tguiContextMenu_getMenuItemEnabled(IntPtr cPointer, IntPtr menuItem);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiMenuBar_getMenuItemEnabledHierarchy(IntPtr cPointer, IntPtr[] hierarchy, UIntPtr hierarchyLength);
+        private static extern byte tguiContextMenu_setMenuItemEnabledHierarchy(IntPtr cPointer, IntPtr[] hierarchy, UIntPtr hierarchyLength, byte enabled);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiMenuBar_closeMenu(IntPtr cPointer);
+        private static extern byte tguiContextMenu_getMenuItemEnabledHierarchy(IntPtr cPointer, IntPtr[] hierarchy, UIntPtr hierarchyLength);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern float tguiMenuBar_getMinimumSubMenuWidth(IntPtr cPointer);
+        private static extern float tguiContextMenu_getItemHeight(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiMenuBar_setMinimumSubMenuWidth(IntPtr cPointer, float value);
+        private static extern void tguiContextMenu_setItemHeight(IntPtr cPointer, float value);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiMenuBar_getInvertedMenuDirection(IntPtr cPointer);
+        private static extern float tguiContextMenu_getMinimumMenuWidth(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiMenuBar_setInvertedMenuDirection(IntPtr cPointer, byte value);
+        private static extern void tguiContextMenu_setMinimumMenuWidth(IntPtr cPointer, float value);
 
         #endregion
     }

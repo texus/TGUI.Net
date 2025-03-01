@@ -32,7 +32,7 @@ namespace TGUI
         /// <param name="partRect">Load only part of the image. Pass an empty rectangle if you want to load the full image</param>
         /// <param name="middleRect">Choose the middle part of the image for 9-slice scaling (relative to the part defined by partRect)</param>
         public Texture(string filename, UIntRect partRect = default, UIntRect middleRect = default)
-            : base(tguiTexture_createFromFile(Util.ConvertStringForC_UTF32(filename), partRect, middleRect))
+            : base(CreateTextureFromFileImpl(filename, partRect, middleRect))
         {
         }
 
@@ -44,7 +44,7 @@ namespace TGUI
         /// <param name="middleRect">Choose the middle part of the image for 9-slice scaling (relative to the part defined by partRect)</param>
         /// <param name="smooth">Enable smoothing on the texture</param>
         public Texture(string filename, UIntRect partRect, UIntRect middleRect, bool smooth)
-            : base(tguiTexture_createFromFileEx(Util.ConvertStringForC_UTF32(filename), partRect, middleRect, smooth ? (byte)1 : (byte)0))
+            : base(CreateTextureFromFileExImpl(filename, partRect, middleRect, smooth))
         {
         }
 
@@ -98,11 +98,33 @@ namespace TGUI
         {
         }
 
+        private static IntPtr CreateTextureFromFileImpl(string filename, UIntRect partRect, UIntRect middleRect)
+        {
+            IntPtr cPtr = tguiTexture_createFromFile(Util.ConvertStringForC_UTF32(filename), partRect, middleRect);
+            if (cPtr == IntPtr.Zero)
+                throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
+            else
+                return cPtr;
+        }
+
+        private static IntPtr CreateTextureFromFileExImpl(string filename, UIntRect partRect, UIntRect middleRect, bool smooth)
+        {
+            IntPtr cPtr = tguiTexture_createFromFileEx(Util.ConvertStringForC_UTF32(filename), partRect, middleRect, smooth ? (byte)1 : (byte)0);
+            if (cPtr == IntPtr.Zero)
+                throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
+            else
+                return cPtr;
+        }
+
         private static unsafe IntPtr CreateTextureFromMemoryImpl(ReadOnlySpan<byte> bytes, UIntRect partRect, UIntRect middleRect)
         {
             fixed (byte* ptr = bytes)
             {
-                return tguiTexture_createFromMemory(ptr, (UIntPtr)bytes.Length, partRect, middleRect);
+                IntPtr cPtr = tguiTexture_createFromMemory(ptr, (UIntPtr)bytes.Length, partRect, middleRect);
+                if (cPtr == IntPtr.Zero)
+                    throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
+                else
+                    return cPtr;
             }
         }
 
@@ -110,7 +132,11 @@ namespace TGUI
         {
             fixed (byte* ptr = bytes)
             {
-                return tguiTexture_createFromMemoryEx(ptr, (UIntPtr)bytes.Length, partRect, middleRect, smooth ? (byte)1 : (byte)0);
+                IntPtr cPtr = tguiTexture_createFromMemoryEx(ptr, (UIntPtr)bytes.Length, partRect, middleRect, smooth ? (byte)1 : (byte)0);
+                if (cPtr == IntPtr.Zero)
+                    throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
+                else
+                    return cPtr;
             }
         }
 
@@ -121,7 +147,11 @@ namespace TGUI
 
             fixed (byte* ptr = pixels)
             {
-                return tguiTexture_createFromPixelData(size, ptr, partRect, middleRect);
+                IntPtr cPtr = tguiTexture_createFromPixelData(size, ptr, partRect, middleRect);
+                if (cPtr == IntPtr.Zero)
+                    throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
+                else
+                    return cPtr;
             }
         }
 
@@ -132,7 +162,11 @@ namespace TGUI
 
             fixed (byte* ptr = pixels)
             {
-                return tguiTexture_createFromPixelDataEx(size, ptr, partRect, middleRect, smooth ? (byte)1 : (byte)0);
+                IntPtr cPtr = tguiTexture_createFromPixelDataEx(size, ptr, partRect, middleRect, smooth ? (byte)1 : (byte)0);
+                if (cPtr == IntPtr.Zero)
+                    throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
+                else
+                    return cPtr;
             }
         }
 
@@ -193,6 +227,9 @@ namespace TGUI
         }
 
         #region Imports
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        protected static extern IntPtr tgui_getLastError();
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern IntPtr tguiTexture_createNull();

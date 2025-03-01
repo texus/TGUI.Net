@@ -99,7 +99,7 @@ namespace TGUI
             set => tguiEditBox_setSuffix(CPointer, Util.ConvertStringForC_UTF32(value));
         }
 
-        public bool SetInputValidator(string regex)
+        public bool SetInputValidator(string regex = ".*")
         {
             return tguiEditBox_setInputValidator(CPointer, Util.ConvertStringForC_UTF32(regex)) != 0;
         }

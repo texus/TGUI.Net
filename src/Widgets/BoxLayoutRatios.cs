@@ -29,12 +29,12 @@ namespace TGUI
         {
         }
 
-        public void Add(Widget? widget, float ratio, string widgetName)
+        public void Add(Widget? widget, float ratio, string widgetName = "")
         {
             tguiBoxLayoutRatios_add(CPointer, widget is null ? IntPtr.Zero : widget.CPointer, ratio, Util.ConvertStringForC_UTF32(widgetName));
         }
 
-        public void Insert(int index, Widget? widget, float ratio, string widgetName)
+        public void Insert(int index, Widget? widget, float ratio, string widgetName = "")
         {
             tguiBoxLayoutRatios_insert(CPointer, (UIntPtr)index, widget is null ? IntPtr.Zero : widget.CPointer, ratio, Util.ConvertStringForC_UTF32(widgetName));
         }

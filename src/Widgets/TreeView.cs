@@ -109,7 +109,7 @@ namespace TGUI
             set => tguiTreeView_setItemHeight(CPointer, (uint)value);
         }
 
-        public bool AddItem(ReadOnlySpan<string> hierarchy, bool createParents)
+        public bool AddItem(ReadOnlySpan<string> hierarchy, bool createParents = true)
         {
             IntPtr[] hierarchyForC = new IntPtr[hierarchy.Length];
             for (int i = 0; i < hierarchy.Length; ++i)
@@ -218,7 +218,7 @@ namespace TGUI
             return tguiTreeView_selectItem(CPointer, hierarchyForC, (UIntPtr)hierarchyForC.Length) != 0;
         }
 
-        public bool RemoveItem(ReadOnlySpan<string> hierarchy, bool removeParentsWhenEmpty)
+        public bool RemoveItem(ReadOnlySpan<string> hierarchy, bool removeParentsWhenEmpty = true)
         {
             IntPtr[] hierarchyForC = new IntPtr[hierarchy.Length];
             for (int i = 0; i < hierarchy.Length; ++i)

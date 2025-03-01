@@ -59,7 +59,7 @@ namespace TGUI
             set => tguiComboBox_setItemsToDisplay(CPointer, (UIntPtr)value);
         }
 
-        public int AddItem(string item, string id)
+        public int AddItem(string item, string id = "")
         {
             return (int)tguiComboBox_addItem(CPointer, Util.ConvertStringForC_UTF32(item), Util.ConvertStringForC_UTF32(id));
         }

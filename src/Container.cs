@@ -45,7 +45,7 @@ namespace TGUI
             return tguiContainer_saveWidgetsToFile(CPointer, Util.ConvertStringForC_UTF32(filename)) != 0;
         }
 
-        public void Add(Widget? widget, string widgetName)
+        public void Add(Widget? widget, string widgetName = "")
         {
             tguiContainer_add(CPointer, widget is null ? IntPtr.Zero : widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
         }
@@ -123,12 +123,12 @@ namespace TGUI
             return Util.GetWidgetFromC(tguiContainer_getWidgetAtPos(CPointer, pos, recursive ? (byte)1 : (byte)0));
         }
 
-        public bool FocusNextWidget(bool recursive)
+        public bool FocusNextWidget(bool recursive = true)
         {
             return tguiContainer_focusNextWidget(CPointer, recursive ? (byte)1 : (byte)0) != 0;
         }
 
-        public bool FocusPreviousWidget(bool recursive)
+        public bool FocusPreviousWidget(bool recursive = true)
         {
             return tguiContainer_focusPreviousWidget(CPointer, recursive ? (byte)1 : (byte)0) != 0;
         }

@@ -105,17 +105,18 @@ TYPE_MAP_CS = {
 def generateExportedSymbolCSharpToC(className, enums, funcNameC, static, returnType, params):
     paramsC = '' if static else 'IntPtr cPointer'
     for param in params:
-        if param[0] in enums:
-            paramsC += ', ' + className + param[0] + ' ' + param[1]
+        paramType, paramName, paramDefaultValue = param
+        if paramType in enums:
+            paramsC += ', ' + className + paramType + ' ' + paramName
         else:
-            if TYPE_MAP_C[param[0]] == 'IntPtr[]_or_IntPtr*':
-                paramsC += ', IntPtr[] ' + param[1]
-            elif TYPE_MAP_C[param[0]] == 'UIntPtr[]_or_UIntPtr*':
-                paramsC += ', UIntPtr[] ' + param[1]
+            if TYPE_MAP_C[paramType] == 'IntPtr[]_or_IntPtr*':
+                paramsC += ', IntPtr[] ' + paramName
+            elif TYPE_MAP_C[paramType] == 'UIntPtr[]_or_UIntPtr*':
+                paramsC += ', UIntPtr[] ' + paramName
             else:
-                paramsC += ', ' + TYPE_MAP_C[param[0]] + ' ' + param[1]
-            if param[0].startswith('List<') or param[0].startswith('Set<'):
-                paramsC += ', UIntPtr ' + param[1] + 'Length'
+                paramsC += ', ' + TYPE_MAP_C[paramType] + ' ' + paramName
+            if paramType.startswith('List<') or paramType.startswith('Set<'):
+                paramsC += ', UIntPtr ' + paramName + 'Length'
 
     if returnType.startswith('List<') or returnType.startswith('Set<'):
         paramsC += ', out UIntPtr returnCount'
@@ -139,7 +140,7 @@ def generateFunctionBodyCSharp(className, enums, funcNameC, static, returnType, 
 
     funcCallParams = [] if static else ['CPointer']
     for param in params:
-        paramType, paramName = param
+        paramType, paramName, defaultValue = param
         if paramType in enums or paramType == 'Vector2f' or paramType == 'Vector2u' or paramType == 'Vector2i' \
         or paramType == 'FloatRect' or paramType == 'UIntRect' or paramType == 'IntRect' or paramType == 'int' \
         or paramType == 'float' or paramType == 'TextStyle' or paramType == 'VerticalAlignment' or paramType == 'HorizontalAlignment' \
@@ -282,10 +283,10 @@ def generatePropertyCSharp(className, segment, enums):
 
     getterPrefix = 'is' if segment.getterUsesIsPrefix else 'get'
     getterBody = generateFunctionBodyCSharp(className, enums, getterPrefix + propertyName, segment.static, propertyType, [])
-    setterBody = generateFunctionBodyCSharp(className, enums, 'set' + propertyName, segment.static, 'void', [(propertyType, 'value')])
+    setterBody = generateFunctionBodyCSharp(className, enums, 'set' + propertyName, segment.static, 'void', [(propertyType, 'value', None)])
     exportedSymbols = [
         generateExportedSymbolCSharpToC(className, enums, getterPrefix + propertyName, segment.static, propertyType, []),
-        generateExportedSymbolCSharpToC(className, enums, 'set' + propertyName, segment.static, 'void', [(propertyType, 'value')])
+        generateExportedSymbolCSharpToC(className, enums, 'set' + propertyName, segment.static, 'void', [(propertyType, 'value', None)])
     ]
 
     returnType = generateReturnTypeCSharp(className, enums, propertyType)
@@ -338,15 +339,32 @@ def generateFunctionCSharp(className, segment, enums):
             else:
                 params += ', '
 
-            if param[0] in enums:
-                params += className + param[0] + ' ' + param[1]
+            paramType, paramName, paramDefaultValue = param
+            if paramType in enums:
+                params += className + paramType + ' ' + paramName
+                if paramDefaultValue is not None:
+                    params += ' = ' + className + paramType + '.' + paramDefaultValue
             else:
-                if param[0] not in TYPE_MAP_CS:
-                    raise RuntimeError('Type "' + param[0] + '" does not exist')
-                elif 'ReadOnlySpan_or_IReadOnlyList' in TYPE_MAP_CS[param[0]]:
-                    params += TYPE_MAP_CS[param[0]].replace('ReadOnlySpan_or_IReadOnlyList', 'ReadOnlySpan') + ' ' + param[1]
+                if paramType not in TYPE_MAP_CS:
+                    raise RuntimeError('Type "' + paramType + '" does not exist')
+                elif 'ReadOnlySpan_or_IReadOnlyList' in TYPE_MAP_CS[paramType]:
+                    params += TYPE_MAP_CS[paramType].replace('ReadOnlySpan_or_IReadOnlyList', 'ReadOnlySpan') + ' ' + paramName
                 else:
-                    params += TYPE_MAP_CS[param[0]] + ' ' + param[1]
+                    params += TYPE_MAP_CS[paramType] + ' ' + paramName
+
+                if paramDefaultValue is not None:
+                    if paramType == 'string' and paramDefaultValue.startswith("'") and paramDefaultValue.startswith("'"):
+                        params += ' = "' + paramDefaultValue[1:-1] + '"'
+                    elif paramType == 'bool' and (paramDefaultValue == 'true' or paramDefaultValue == 'false'):
+                        params += ' = ' + paramDefaultValue
+                    elif paramType == 'int' or paramType == 'uint' or paramType == 'float':
+                        params += ' = ' + paramDefaultValue
+                    elif paramType == 'HorizontalAlignment':
+                        params += ' = HorizontalAlignment.' + paramDefaultValue
+                    elif paramType == 'VerticalAlignment':
+                        params += ' = VerticalAlignment.' + paramDefaultValue
+                    else:
+                        raise RuntimeError('Default value "' + paramDefaultValue + '" for type "' + paramType + '" is not supported yet')
 
     returnType = generateReturnTypeCSharp(className, enums, segment.returnType)
     staticStr = 'static ' if segment.static else ''
