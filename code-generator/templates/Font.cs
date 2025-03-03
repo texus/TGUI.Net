@@ -16,6 +16,9 @@ public Font(ReadOnlySpan<byte> bytes)
 
 private static IntPtr CreateFontFromFileImpl(string filename)
 {
+    if (Util.Guis.Count == 0)
+        throw new Exception("Gui must be created before creating a Font!");
+
     IntPtr cPtr = tguiFont_createFromFile(Util.ConvertStringForC_UTF32(filename));
     if (cPtr == IntPtr.Zero)
         throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
@@ -25,6 +28,9 @@ private static IntPtr CreateFontFromFileImpl(string filename)
 
 private static unsafe IntPtr CreateFontFromMemoryImpl(ReadOnlySpan<byte> bytes)
 {
+    if (Util.Guis.Count == 0)
+        throw new Exception("Gui must be created before creating a Font!");
+
     fixed (byte* ptr = bytes)
     {
         IntPtr cPtr = tguiFont_createFromMemory(ptr, (UIntPtr)bytes.Length);

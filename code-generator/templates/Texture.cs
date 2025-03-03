@@ -81,6 +81,9 @@ public Texture(Vector2u size, ReadOnlySpan<byte> pixels, UIntRect partRect, UInt
 
 private static IntPtr CreateTextureFromFileImpl(string filename, UIntRect partRect, UIntRect middleRect)
 {
+    if (Util.Guis.Count == 0)
+        throw new Exception("Gui must be created before creating a Texture!");
+
     IntPtr cPtr = tguiTexture_createFromFile(Util.ConvertStringForC_UTF32(filename), partRect, middleRect);
     if (cPtr == IntPtr.Zero)
         throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
@@ -90,6 +93,9 @@ private static IntPtr CreateTextureFromFileImpl(string filename, UIntRect partRe
 
 private static IntPtr CreateTextureFromFileExImpl(string filename, UIntRect partRect, UIntRect middleRect, bool smooth)
 {
+    if (Util.Guis.Count == 0)
+        throw new Exception("Gui must be created before creating a Texture!");
+
     IntPtr cPtr = tguiTexture_createFromFileEx(Util.ConvertStringForC_UTF32(filename), partRect, middleRect, smooth ? (byte)1 : (byte)0);
     if (cPtr == IntPtr.Zero)
         throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
@@ -99,6 +105,9 @@ private static IntPtr CreateTextureFromFileExImpl(string filename, UIntRect part
 
 private static unsafe IntPtr CreateTextureFromMemoryImpl(ReadOnlySpan<byte> bytes, UIntRect partRect, UIntRect middleRect)
 {
+    if (Util.Guis.Count == 0)
+        throw new Exception("Gui must be created before creating a Texture!");
+
     fixed (byte* ptr = bytes)
     {
         IntPtr cPtr = tguiTexture_createFromMemory(ptr, (UIntPtr)bytes.Length, partRect, middleRect);
@@ -111,6 +120,9 @@ private static unsafe IntPtr CreateTextureFromMemoryImpl(ReadOnlySpan<byte> byte
 
 private static unsafe IntPtr CreateTextureFromMemoryExImpl(ReadOnlySpan<byte> bytes, UIntRect partRect, UIntRect middleRect, bool smooth)
 {
+    if (Util.Guis.Count == 0)
+        throw new Exception("Gui must be created before creating a Texture!");
+
     fixed (byte* ptr = bytes)
     {
         IntPtr cPtr = tguiTexture_createFromMemoryEx(ptr, (UIntPtr)bytes.Length, partRect, middleRect, smooth ? (byte)1 : (byte)0);
@@ -123,6 +135,9 @@ private static unsafe IntPtr CreateTextureFromMemoryExImpl(ReadOnlySpan<byte> by
 
 private static unsafe IntPtr CreateTextureFromPixelDataImpl(Vector2u size, ReadOnlySpan<byte> pixels, UIntRect partRect, UIntRect middleRect)
 {
+    if (Util.Guis.Count == 0)
+        throw new Exception("Gui must be created before creating a Texture!");
+
     if (pixels.Length != 4 * size.X * size.Y)
         throw new Exception("Pixel data passed to Texture constructor must be RGBA (pixels.Length must equal 4 * size.X * size.Y)");
 
@@ -138,6 +153,9 @@ private static unsafe IntPtr CreateTextureFromPixelDataImpl(Vector2u size, ReadO
 
 private static unsafe IntPtr CreateTextureFromPixelDataExImpl(Vector2u size, ReadOnlySpan<byte> pixels, UIntRect partRect, UIntRect middleRect, bool smooth)
 {
+    if (Util.Guis.Count == 0)
+        throw new Exception("Gui must be created before creating a Texture!");
+
     if (pixels.Length != 4 * size.X * size.Y)
         throw new Exception("Pixel data passed to Texture constructor must be RGBA (pixels.Length must equal 4 * size.X * size.Y)");
 
