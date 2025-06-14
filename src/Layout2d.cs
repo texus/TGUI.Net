@@ -60,6 +60,15 @@ namespace TGUI
         {
         }
 
+        /// <summary>
+        /// Constructor that creates the object from its C pointer
+        /// </summary>
+        /// <param name="cPointer">Pointer to object in C code</param>
+        protected internal Layout2d(IntPtr cPointer)
+            : base(cPointer)
+        {
+        }
+
         public Layout2d(Layout2d copy)
             : base(tguiLayout2d_copy(copy.CPointer))
         {

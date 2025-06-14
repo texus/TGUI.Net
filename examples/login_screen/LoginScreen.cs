@@ -25,7 +25,7 @@ namespace TGUI.Example
             using var texture = new TGUI.Texture("background.jpg");
             using var picture = new TGUI.Picture();
             picture.Renderer.Texture = texture;
-            picture.SetSize(new TGUI.Vector2f(width, height));
+            picture.Size = new TGUI.Vector2f(width, height);
             gui.Add(picture);
 
             // We don't use "using" here because we still need the edit boxes in our button callback
@@ -33,21 +33,21 @@ namespace TGUI.Example
             // would be destroyed at the end of this function. While the edit box continues to exist in the gui,
             // we could no longer access it with our C# object (unless we get a new reference with gui.Get("EditUsername")).
             editBoxUsername = new TGUI.EditBox();
-            editBoxUsername.SetPosition(new Vector2f(width / 6, height / 6));
-            editBoxUsername.SetSize(new Vector2f(width * 2/3, height / 8));
+            editBoxUsername.Position = new Vector2f(width / 6, height / 6);
+            editBoxUsername.Size = new Vector2f(width * 2/3, height / 8);
             editBoxUsername.DefaultText = "Username";
             gui.Add(editBoxUsername, "EditUsername");
 
             editBoxPassword = new TGUI.EditBox(editBoxUsername);
-            editBoxPassword.SetPosition(new Vector2f(width / 6, height * 5/12));
+            editBoxPassword.Position = new Vector2f(width / 6, height * 5/12);
             editBoxPassword.PasswordCharacter = "*";
             editBoxPassword.DefaultText = "Password";
             gui.Add(editBoxPassword, "EditPassword");
 
             using var button = new TGUI.Button();
             button.Text = "Login";
-            button.SetPosition(new Vector2f(width / 4, height * 7/10));
-            button.SetSize(new Vector2f(width / 2, height / 6));
+            button.Position = new Vector2f(width / 4, height * 7/10);
+            button.Size = new Vector2f(width / 2, height / 6);
             gui.Add(button, "ButtonLogin");
 
             // Print the values of the edit boxes when the login button is pressed.

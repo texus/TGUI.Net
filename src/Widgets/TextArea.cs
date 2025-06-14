@@ -70,19 +70,19 @@ namespace TGUI
             tguiTextArea_setSelectedText(CPointer, (UIntPtr)selectionStartIndex, (UIntPtr)selectionEndIndex);
         }
 
-        public string GetSelectedText()
+        public string SelectedText
         {
-            return Util.GetStringFromC_UTF32(tguiTextArea_getSelectedText(CPointer));
+            get => Util.GetStringFromC_UTF32(tguiTextArea_getSelectedText(CPointer));
         }
 
-        public int GetSelectionStart()
+        public int SelectionStart
         {
-            return (int)tguiTextArea_getSelectionStart(CPointer);
+            get => (int)tguiTextArea_getSelectionStart(CPointer);
         }
 
-        public int GetSelectionEnd()
+        public int SelectionEnd
         {
-            return (int)tguiTextArea_getSelectionEnd(CPointer);
+            get => (int)tguiTextArea_getSelectionEnd(CPointer);
         }
 
         public int MaximumCharacters
@@ -103,14 +103,14 @@ namespace TGUI
             set => tguiTextArea_setCaretPosition(CPointer, (UIntPtr)value);
         }
 
-        public int GetCaretLine()
+        public int CaretLine
         {
-            return (int)tguiTextArea_getCaretLine(CPointer);
+            get => (int)tguiTextArea_getCaretLine(CPointer);
         }
 
-        public int GetCaretColumn()
+        public int CaretColumn
         {
-            return (int)tguiTextArea_getCaretColumn(CPointer);
+            get => (int)tguiTextArea_getCaretColumn(CPointer);
         }
 
         public bool ReadOnly
@@ -124,9 +124,9 @@ namespace TGUI
             tguiTextArea_enableMonospacedFontOptimization(CPointer, enable ? (byte)1 : (byte)0);
         }
 
-        public int GetLinesCount()
+        public int LinesCount
         {
-            return (int)tguiTextArea_getLinesCount(CPointer);
+            get => (int)tguiTextArea_getLinesCount(CPointer);
         }
 
         public class TextChangeEventArgs : EventArgs

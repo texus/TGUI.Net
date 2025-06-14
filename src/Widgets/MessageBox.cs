@@ -66,9 +66,9 @@ namespace TGUI
             tguiMessageBox_changeButtons(CPointer, buttonCaptionsForC, (UIntPtr)buttonCaptionsForC.Length);
         }
 
-        public IReadOnlyList<string> GetButtons()
+        public unsafe IReadOnlyList<string> Buttons
         {
-            unsafe
+            get
             {
                 IntPtr* returnStringsC = tguiMessageBox_getButtons(CPointer, out UIntPtr returnCount);
                 string[] returnStrings = new string[(int)returnCount];

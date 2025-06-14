@@ -94,14 +94,14 @@ namespace TGUI
             tguiTabContainer_select(CPointer, (UIntPtr)index);
         }
 
-        public int GetPanelCount()
+        public int PanelCount
         {
-            return (int)tguiTabContainer_getPanelCount(CPointer);
+            get => (int)tguiTabContainer_getPanelCount(CPointer);
         }
 
-        public int GetSelectedIndex()
+        public int SelectedIndex
         {
-            return tguiTabContainer_getSelectedIndex(CPointer);
+            get => tguiTabContainer_getSelectedIndex(CPointer);
         }
 
         public string GetTabText(int index)

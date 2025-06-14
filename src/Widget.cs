@@ -95,6 +95,30 @@ namespace TGUI
             tguiWidget_destroy(CPointer);
         }
 
+        public Vector2f Position
+        {
+            get => tguiWidget_getPosition(CPointer);
+            set => tguiWidget_setPosition(CPointer, value);
+        }
+
+        public Layout2d PositionLayout
+        {
+            get => new Layout2d(tguiWidget_getPositionLayout(CPointer));
+            set => tguiWidget_setPositionLayout(CPointer, value.CPointer);
+        }
+
+        public Vector2f Size
+        {
+            get => tguiWidget_getSize(CPointer);
+            set => tguiWidget_setSize(CPointer, value);
+        }
+
+        public Layout2d SizeLayout
+        {
+            get => new Layout2d(tguiWidget_getSizeLayout(CPointer));
+            set => tguiWidget_setSizeLayout(CPointer, value.CPointer);
+        }
+
         public AutoLayout AutoLayout
         {
             get => tguiWidget_getAutoLayout(CPointer);
@@ -260,21 +284,6 @@ namespace TGUI
                 Disconnect(signalName, id);
         }
 
-        public void SetPosition(Vector2f position)
-        {
-            tguiWidget_setPosition(CPointer, position);
-        }
-
-        public void SetPosition(Layout2d layout)
-        {
-            tguiWidget_setPositionFromLayout(CPointer, layout.CPointer);
-        }
-
-        public Vector2f GetPosition()
-        {
-            return tguiWidget_getPosition(CPointer);
-        }
-
         public Vector2f GetAbsolutePosition()
         {
             return tguiWidget_getAbsolutePosition(CPointer);
@@ -285,9 +294,9 @@ namespace TGUI
             return tguiWidget_getAbsolutePositionWithOffset(CPointer, offset);
         }
 
-        public Vector2f GetWidgetOffset()
+        public Vector2f WidgetOffset
         {
-            return tguiWidget_getWidgetOffset(CPointer);
+            get => tguiWidget_getWidgetOffset(CPointer);
         }
 
         public void SetWidth(float width)
@@ -310,24 +319,9 @@ namespace TGUI
             tguiWidget_setHeightFromLayout(CPointer, layout.CPointer);
         }
 
-        public void SetSize(Vector2f size)
+        public Vector2f FullSize
         {
-            tguiWidget_setSize(CPointer, size);
-        }
-
-        public void SetSize(Layout2d layout)
-        {
-            tguiWidget_setSizeFromLayout(CPointer, layout.CPointer);
-        }
-
-        public Vector2f GetSize()
-        {
-            return tguiWidget_getSize(CPointer);
-        }
-
-        public Vector2f GetFullSize()
-        {
-            return tguiWidget_getFullSize(CPointer);
+            get => tguiWidget_getFullSize(CPointer);
         }
 
         public Vector2f Origin
@@ -400,9 +394,9 @@ namespace TGUI
             set => tguiWidget_setFocusable(CPointer, value ? (byte)1 : (byte)0);
         }
 
-        public string GetWidgetType()
+        public string WidgetType
         {
-            return Util.GetStringFromC_UTF32(tguiWidget_getWidgetType(CPointer));
+            get => Util.GetStringFromC_UTF32(tguiWidget_getWidgetType(CPointer));
         }
 
         public void MoveToFront()
@@ -670,6 +664,30 @@ namespace TGUI
         public static extern IntPtr tguiWidget_addPointerReference(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidget_setPosition(IntPtr cPointer, Vector2f position);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern Vector2f tguiWidget_getPosition(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidget_setPositionLayout(IntPtr cPointer, IntPtr layout);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiWidget_getPositionLayout(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidget_setSize(IntPtr cPointer, Vector2f size);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern Vector2f tguiWidget_getSize(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiWidget_setSizeLayout(IntPtr cPointer, IntPtr layout);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiWidget_getSizeLayout(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern byte tguiWidget_setRenderer(IntPtr cPointer, IntPtr renderer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -791,15 +809,6 @@ namespace TGUI
         #region GeneratedImports
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiWidget_setPosition(IntPtr cPointer, Vector2f position);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiWidget_setPositionFromLayout(IntPtr cPointer, IntPtr layout);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern Vector2f tguiWidget_getPosition(IntPtr cPointer);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern Vector2f tguiWidget_getAbsolutePosition(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -819,15 +828,6 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiWidget_setHeightFromLayout(IntPtr cPointer, IntPtr layout);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiWidget_setSize(IntPtr cPointer, Vector2f size);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiWidget_setSizeFromLayout(IntPtr cPointer, IntPtr layout);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern Vector2f tguiWidget_getSize(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern Vector2f tguiWidget_getFullSize(IntPtr cPointer);

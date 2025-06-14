@@ -37,6 +37,18 @@ namespace TGUI
         {
         }
 
+        public float Value
+        {
+            get => tguiSpinButton_getValue(CPointer);
+            set => tguiSpinButton_setValue(CPointer, value);
+        }
+
+        public float Step
+        {
+            get => tguiSpinButton_getStep(CPointer);
+            set => tguiSpinButton_setStep(CPointer, value);
+        }
+
         public new SpinButtonRenderer Renderer
         {
             get => new SpinButtonRenderer(tguiWidget_getRenderer(CPointer));
@@ -55,18 +67,6 @@ namespace TGUI
         {
             get => tguiSpinButton_getMaximum(CPointer);
             set => tguiSpinButton_setMaximum(CPointer, value);
-        }
-
-        public float Value
-        {
-            get => tguiSpinButton_getValue(CPointer);
-            set => tguiSpinButton_setValue(CPointer, value);
-        }
-
-        public float Step
-        {
-            get => tguiSpinButton_getStep(CPointer);
-            set => tguiSpinButton_setStep(CPointer, value);
         }
 
         public Orientation Orientation
@@ -102,6 +102,22 @@ namespace TGUI
             }
         }
 
+        #region Imports
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiSpinButton_getValue(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSpinButton_setValue(IntPtr cPointer, float value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiSpinButton_getStep(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSpinButton_setStep(IntPtr cPointer, float value);
+
+        #endregion
+
         #region GeneratedImports
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -118,18 +134,6 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiSpinButton_setMaximum(IntPtr cPointer, float value);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern float tguiSpinButton_getValue(IntPtr cPointer);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiSpinButton_setValue(IntPtr cPointer, float value);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern float tguiSpinButton_getStep(IntPtr cPointer);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiSpinButton_setStep(IntPtr cPointer, float value);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern Orientation tguiSpinButton_getOrientation(IntPtr cPointer);

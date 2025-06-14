@@ -96,9 +96,9 @@ namespace TGUI
             return tguiSprite_isTransparentPixel(CPointer, pos) != 0;
         }
 
-        public SpriteScalingType GetScalingType()
+        public SpriteScalingType ScalingType
         {
-            return tguiSprite_getScalingType(CPointer);
+            get => tguiSprite_getScalingType(CPointer);
         }
 
         #region Imports

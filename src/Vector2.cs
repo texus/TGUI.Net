@@ -43,6 +43,22 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Construct the vector from a Vector2i
+        /// </summary>
+        /// <param name="vec">Vector to copy</param>
+        public Vector2f(Vector2i vec) : this((float)vec.X, (float)vec.Y)
+        {
+        }
+
+        /// <summary>
+        /// Construct the vector from a Vector2u
+        /// </summary>
+        /// <param name="vec">Vector to copy</param>
+        public Vector2f(Vector2u vec) : this((float)vec.X, (float)vec.Y)
+        {
+        }
+
+        /// <summary>
         /// Provide a string describing the object
         /// </summary>
         /// <returns>String description of the object</returns>
@@ -72,6 +88,22 @@ namespace TGUI
         }
 
         /// <summary>
+        /// Construct the vector from a Vector2f
+        /// </summary>
+        /// <param name="vec">Vector to copy</param>
+        public Vector2i(Vector2f vec) : this((int)vec.X, (int)vec.Y)
+        {
+        }
+
+        /// <summary>
+        /// Construct the vector from a Vector2u
+        /// </summary>
+        /// <param name="vec">Vector to copy</param>
+        public Vector2i(Vector2u vec) : this((int)vec.X, (int)vec.Y)
+        {
+        }
+
+        /// <summary>
         /// Provide a string describing the object
         /// </summary>
         /// <returns>String description of the object</returns>
@@ -98,6 +130,22 @@ namespace TGUI
         {
             X = x;
             Y = y;
+        }
+
+        /// <summary>
+        /// Construct the vector from a Vector2f
+        /// </summary>
+        /// <param name="vec">Vector to copy</param>
+        public Vector2u(Vector2f vec) : this((uint)vec.X, (uint)vec.Y)
+        {
+        }
+
+        /// <summary>
+        /// Construct the vector from a Vector2i
+        /// </summary>
+        /// <param name="vec">Vector to copy</param>
+        public Vector2u(Vector2i vec) : this((uint)vec.X, (uint)vec.Y)
+        {
         }
 
         /// <summary>

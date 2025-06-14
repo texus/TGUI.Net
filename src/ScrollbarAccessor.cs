@@ -44,29 +44,29 @@ namespace TGUI
             set => tguiScrollbarAccessor_setPolicy(CPointer, value);
         }
 
-        public int GetMaximum()
+        public int Maximum
         {
-            return (int)tguiScrollbarAccessor_getMaximum(CPointer);
+            get => (int)tguiScrollbarAccessor_getMaximum(CPointer);
         }
 
-        public int GetViewportSize()
+        public int ViewportSize
         {
-            return (int)tguiScrollbarAccessor_getViewportSize(CPointer);
+            get => (int)tguiScrollbarAccessor_getViewportSize(CPointer);
         }
 
-        public int GetMaxValue()
+        public int MaxValue
         {
-            return (int)tguiScrollbarAccessor_getMaxValue(CPointer);
+            get => (int)tguiScrollbarAccessor_getMaxValue(CPointer);
         }
 
-        public bool IsShown()
+        public bool Shown
         {
-            return tguiScrollbarAccessor_isShown(CPointer) != 0;
+            get => tguiScrollbarAccessor_isShown(CPointer) != 0;
         }
 
-        public float GetWidth()
+        public float Width
         {
-            return tguiScrollbarAccessor_getWidth(CPointer);
+            get => tguiScrollbarAccessor_getWidth(CPointer);
         }
 
         #region Imports

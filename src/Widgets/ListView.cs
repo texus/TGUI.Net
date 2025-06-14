@@ -123,9 +123,9 @@ namespace TGUI
             tguiListView_removeAllColumns(CPointer);
         }
 
-        public int GetColumnCount()
+        public int ColumnCount
         {
-            return (int)tguiListView_getColumnCount(CPointer);
+            get => (int)tguiListView_getColumnCount(CPointer);
         }
 
         public bool HeaderVisible
@@ -140,9 +140,9 @@ namespace TGUI
             set => tguiListView_setHeaderHeight(CPointer, value);
         }
 
-        public float GetCurrentHeaderHeight()
+        public float CurrentHeaderHeight
         {
-            return tguiListView_getCurrentHeaderHeight(CPointer);
+            get => tguiListView_getCurrentHeaderHeight(CPointer);
         }
 
         public int AddItem(string text)
@@ -209,19 +209,19 @@ namespace TGUI
             tguiListView_setSelectedItems(CPointer, indicesArray, (UIntPtr)indicesArray.Length);
         }
 
-        public int GetSelectedItemIndex()
+        public int SelectedItemIndex
         {
-            return tguiListView_getSelectedItemIndex(CPointer);
+            get => tguiListView_getSelectedItemIndex(CPointer);
         }
 
-        public int GetHoveredItemIndex()
+        public int HoveredItemIndex
         {
-            return tguiListView_getHoveredItemIndex(CPointer);
+            get => tguiListView_getHoveredItemIndex(CPointer);
         }
 
-        public HashSet<int> GetSelectedItemIndices()
+        public unsafe HashSet<int> SelectedItemIndices
         {
-            unsafe
+            get
             {
                 UIntPtr* returnIntsC = tguiListView_getSelectedItemIndices(CPointer, out UIntPtr returnCount);
                 HashSet<int> returnInts = new HashSet<int>();
@@ -258,9 +258,9 @@ namespace TGUI
             tguiListView_setItemIcon(CPointer, (UIntPtr)index, texture.CPointer);
         }
 
-        public int GetItemCount()
+        public int ItemCount
         {
-            return (int)tguiListView_getItemCount(CPointer);
+            get => (int)tguiListView_getItemCount(CPointer);
         }
 
         public string GetItem(int index)
@@ -273,22 +273,19 @@ namespace TGUI
             return Util.GetStringFromC_UTF32(tguiListView_getItemCell(CPointer, (UIntPtr)rowIndex, (UIntPtr)columnIndex));
         }
 
-        public IReadOnlyList<string> GetItemRow(int index)
+        public unsafe IReadOnlyList<string> GetItemRow(int index)
         {
-            unsafe
-            {
-                IntPtr* returnStringsC = tguiListView_getItemRow(CPointer, (UIntPtr)index, out UIntPtr returnCount);
-                string[] returnStrings = new string[(int)returnCount];
-                for (int i = 0; i < (int)returnCount; ++i)
-                    returnStrings[i] = Util.GetStringFromC_UTF32(returnStringsC[i]) ?? throw new ArgumentNullException();
+            IntPtr* returnStringsC = tguiListView_getItemRow(CPointer, (UIntPtr)index, out UIntPtr returnCount);
+            string[] returnStrings = new string[(int)returnCount];
+            for (int i = 0; i < (int)returnCount; ++i)
+                returnStrings[i] = Util.GetStringFromC_UTF32(returnStringsC[i]) ?? throw new ArgumentNullException();
 
-                return returnStrings;
-            }
+            return returnStrings;
         }
 
-        public IReadOnlyList<string> GetItems()
+        public unsafe IReadOnlyList<string> Items
         {
-            unsafe
+            get
             {
                 IntPtr* returnStringsC = tguiListView_getItems(CPointer, out UIntPtr returnCount);
                 string[] returnStrings = new string[(int)returnCount];

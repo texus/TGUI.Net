@@ -92,9 +92,9 @@ namespace TGUI
             set => tguiFont_setGlobalFont(value.CPointer);
         }
 
-        public string GetId()
+        public string Id
         {
-            return Util.GetStringFromC_UTF32(tguiFont_getId(CPointer));
+            get => Util.GetStringFromC_UTF32(tguiFont_getId(CPointer));
         }
 
         public float GetKerning(string first, string second, int characterSize, bool bold = false)

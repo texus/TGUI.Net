@@ -37,10 +37,18 @@ namespace TGUI
         {
         }
 
+        public string FindLinkAtPos(Vector2f pos)
+        {
+            return Util.GetStringFromC_UTF32(tguiRichTextLabel_findLinkAtPos(CPointer, pos));
+        }
+
         #region GeneratedImports
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern IntPtr tguiRichTextLabel_create();
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiRichTextLabel_findLinkAtPos(IntPtr cPointer, Vector2f pos);
 
         #endregion
     }

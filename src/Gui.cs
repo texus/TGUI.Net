@@ -451,17 +451,14 @@ namespace TGUI
             return Util.GetWidgetFromC(tguiGui_get(CPointer, Util.ConvertStringForC_UTF32(widgetName)));
         }
 
-        public IReadOnlyList<Widget> GetWidgets()
+        public unsafe IReadOnlyList<Widget> GetWidgets()
         {
-            unsafe
-            {
-                IntPtr* returnWidgetsC = tguiGui_getWidgets(CPointer, out UIntPtr returnCount);
-                Widget[] returnWidgets = new Widget[(int)returnCount];
-                for (int i = 0; i < (int)returnCount; ++i)
-                    returnWidgets[i] = Util.GetWidgetFromC(returnWidgetsC[i]) ?? throw new ArgumentNullException();
+            IntPtr* returnWidgetsC = tguiGui_getWidgets(CPointer, out UIntPtr returnCount);
+            Widget[] returnWidgets = new Widget[(int)returnCount];
+            for (int i = 0; i < (int)returnCount; ++i)
+                returnWidgets[i] = Util.GetWidgetFromC(returnWidgetsC[i]) ?? throw new ArgumentNullException();
 
-                return returnWidgets;
-            }
+            return returnWidgets;
         }
 
         public bool Remove(Widget? widget)

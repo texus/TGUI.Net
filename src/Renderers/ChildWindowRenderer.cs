@@ -43,6 +43,12 @@ namespace TGUI
             set => tguiChildWindowRenderer_setBorders(CPointer, value.CPointer);
         }
 
+        public Outline ClientPadding
+        {
+            get => new Outline(tguiChildWindowRenderer_getClientPadding(CPointer));
+            set => tguiChildWindowRenderer_setClientPadding(CPointer, value.CPointer);
+        }
+
         public Color? TitleBarColor
         {
             get => Util.GetColorFromC(tguiChildWindowRenderer_getTitleBarColor(CPointer));
@@ -152,6 +158,12 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiChildWindowRenderer_setBorders(IntPtr cPointer, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiChildWindowRenderer_getClientPadding(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiChildWindowRenderer_setClientPadding(IntPtr cPointer, IntPtr value);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern ColorCTGUI tguiChildWindowRenderer_getTitleBarColor(IntPtr cPointer);

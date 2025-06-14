@@ -37,6 +37,18 @@ namespace TGUI
         {
         }
 
+        public float Value
+        {
+            get => tguiSpinControl_getValue(CPointer);
+            set => tguiSpinControl_setValue(CPointer, value);
+        }
+
+        public float Step
+        {
+            get => tguiSpinControl_getStep(CPointer);
+            set => tguiSpinControl_setStep(CPointer, value);
+        }
+
         public SpinButtonRenderer SpinButtonRenderer
         {
             get => new SpinButtonRenderer(tguiWidget_getRenderer(CPointer));
@@ -53,16 +65,6 @@ namespace TGUI
 
         public  EditBoxRenderer SpinTextSharedRenderer => new EditBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
 
-        public bool SetValue(float value)
-        {
-            return tguiSpinControl_setValue(CPointer, value) != 0;
-        }
-
-        public float GetValue()
-        {
-            return tguiSpinControl_getValue(CPointer);
-        }
-
         public float Minimum
         {
             get => tguiSpinControl_getMinimum(CPointer);
@@ -73,12 +75,6 @@ namespace TGUI
         {
             get => tguiSpinControl_getMaximum(CPointer);
             set => tguiSpinControl_setMaximum(CPointer, value);
-        }
-
-        public float Step
-        {
-            get => tguiSpinControl_getStep(CPointer);
-            set => tguiSpinControl_setStep(CPointer, value);
         }
 
         public int DecimalPlaces
@@ -120,16 +116,26 @@ namespace TGUI
             }
         }
 
+        #region Imports
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiSpinControl_getValue(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSpinControl_setValue(IntPtr cPointer, float value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiSpinControl_getStep(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiSpinControl_setStep(IntPtr cPointer, float value);
+
+        #endregion
+
         #region GeneratedImports
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern IntPtr tguiSpinControl_create();
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiSpinControl_setValue(IntPtr cPointer, float value);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern float tguiSpinControl_getValue(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern float tguiSpinControl_getMinimum(IntPtr cPointer);
@@ -142,12 +148,6 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiSpinControl_setMaximum(IntPtr cPointer, float value);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern float tguiSpinControl_getStep(IntPtr cPointer);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiSpinControl_setStep(IntPtr cPointer, float value);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern uint tguiSpinControl_getDecimalPlaces(IntPtr cPointer);

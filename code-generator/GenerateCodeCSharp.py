@@ -137,6 +137,7 @@ def generateExportedSymbolCSharpToC(className, enums, funcNameC, static, returnT
 
 def generateFunctionBodyCSharp(className, enums, funcNameC, static, returnType, params):
     bodyLines = []
+    unsafeCode = False
 
     funcCallParams = [] if static else ['CPointer']
     for param in params:
@@ -215,57 +216,49 @@ def generateFunctionBodyCSharp(className, enums, funcNameC, static, returnType, 
     elif returnType == 'RendererData':
         bodyLines.append('return new RendererData(' + funcCall + ');')
     elif returnType == 'List<Widget>':
+        unsafeCode = True
         bodyLines.extend([
-            'unsafe',
-            '{',
-            '    IntPtr* returnWidgetsC = ' + funcCall + ';',
-            '    Widget[] returnWidgets = new Widget[(int)returnCount];',
-            '    for (int i = 0; i < (int)returnCount; ++i)',
-            '        returnWidgets[i] = Util.GetWidgetFromC(returnWidgetsC[i]) ?? throw new ArgumentNullException();',
+            'IntPtr* returnWidgetsC = ' + funcCall + ';',
+            'Widget[] returnWidgets = new Widget[(int)returnCount];',
+            'for (int i = 0; i < (int)returnCount; ++i)',
+            '    returnWidgets[i] = Util.GetWidgetFromC(returnWidgetsC[i]) ?? throw new ArgumentNullException();',
             '',
-            '    return returnWidgets;',
-            '}'
+            'return returnWidgets;'
         ])
     elif returnType == 'List<string>':
+        unsafeCode = True
         bodyLines.extend([
-            'unsafe',
-            '{',
-            '    IntPtr* returnStringsC = ' + funcCall + ';',
-            '    string[] returnStrings = new string[(int)returnCount];',
-            '    for (int i = 0; i < (int)returnCount; ++i)',
-            '        returnStrings[i] = Util.GetStringFromC_UTF32(returnStringsC[i]) ?? throw new ArgumentNullException();',
+            'IntPtr* returnStringsC = ' + funcCall + ';',
+            'string[] returnStrings = new string[(int)returnCount];',
+            'for (int i = 0; i < (int)returnCount; ++i)',
+            '    returnStrings[i] = Util.GetStringFromC_UTF32(returnStringsC[i]) ?? throw new ArgumentNullException();',
             '',
-            '    return returnStrings;',
-            '}'
+            'return returnStrings;'
         ])
     elif returnType == 'List<size_t>':
+        unsafeCode = True
         bodyLines.extend([
-            'unsafe',
-            '{',
-            '    IntPtr* returnIntsC = ' + funcCall + ';',
-            '    int[] returnInts = new int[(int)returnCount];',
-            '    for (int i = 0; i < (int)returnCount; ++i)',
-            '        returnInts[i] = returnIntsC[i];',
+            'IntPtr* returnIntsC = ' + funcCall + ';',
+            'int[] returnInts = new int[(int)returnCount];',
+            'for (int i = 0; i < (int)returnCount; ++i)',
+            '    returnInts[i] = returnIntsC[i];',
             '',
-            '    return returnInts;',
-            '}'
+            'return returnInts;'
         ])
     elif returnType == 'Set<size_t>':
+        unsafeCode = True
         bodyLines.extend([
-            'unsafe',
-            '{',
-            '    UIntPtr* returnIntsC = ' + funcCall + ';',
-            '    HashSet<int> returnInts = new HashSet<int>();',
-            '    for (int i = 0; i < (int)returnCount; ++i)',
-            '        returnInts.Add((int)returnIntsC[i]);',
+            'UIntPtr* returnIntsC = ' + funcCall + ';',
+            'HashSet<int> returnInts = new HashSet<int>();',
+            'for (int i = 0; i < (int)returnCount; ++i)',
+            '    returnInts.Add((int)returnIntsC[i]);',
             '',
-            '    return returnInts;',
-            '}'
+            'return returnInts;'
         ])
     else:
         raise RuntimeError('function return type ' + returnType + ' is not supported')
 
-    return bodyLines
+    return bodyLines, unsafeCode
 
 
 def generateReturnTypeCSharp(className, enums, returnType):
@@ -282,18 +275,19 @@ def generatePropertyCSharp(className, segment, enums):
     propertyName = segment.name
 
     getterPrefix = 'is' if segment.getterUsesIsPrefix else 'get'
-    getterBody = generateFunctionBodyCSharp(className, enums, getterPrefix + propertyName, segment.static, propertyType, [])
-    setterBody = generateFunctionBodyCSharp(className, enums, 'set' + propertyName, segment.static, 'void', [(propertyType, 'value', None)])
-    exportedSymbols = [
-        generateExportedSymbolCSharpToC(className, enums, getterPrefix + propertyName, segment.static, propertyType, []),
-        generateExportedSymbolCSharpToC(className, enums, 'set' + propertyName, segment.static, 'void', [(propertyType, 'value', None)])
-    ]
+    getterBody, unsafeCode = generateFunctionBodyCSharp(className, enums, getterPrefix + propertyName, segment.static, propertyType, [])
+    exportedSymbols = [generateExportedSymbolCSharpToC(className, enums, getterPrefix + propertyName, segment.static, propertyType, [])]
+    if not segment.getterOnly:
+        setterBody, setterUnsafeCode = generateFunctionBodyCSharp(className, enums, 'set' + propertyName, segment.static, 'void', [(propertyType, 'value', None)])
+        exportedSymbols.append(generateExportedSymbolCSharpToC(className, enums, 'set' + propertyName, segment.static, 'void', [(propertyType, 'value', None)]))
+        if setterUnsafeCode:
+            unsafeCode = True
 
     returnType = generateReturnTypeCSharp(className, enums, propertyType)
     staticStr = 'static ' if segment.static else ''
 
     generatedLines = []
-    generatedLines.append('public ' + staticStr + returnType + ' ' + propertyName)
+    generatedLines.append('public ' + staticStr + ('unsafe ' if unsafeCode else '') + returnType + ' ' + propertyName)
     generatedLines.append('{')
 
     if len(getterBody) == 1:
@@ -309,17 +303,18 @@ def generatePropertyCSharp(className, segment, enums):
                 generatedLines.append('')
         generatedLines.append('    }')
 
-    if len(setterBody) == 1:
-        generatedLines.append('    set => ' + setterBody[0])
-    else:
-        generatedLines.append('    set')
-        generatedLines.append('    {')
-        for line in setterBody:
-            if line:
-                generatedLines.append('        ' + line)
-            else:
-                generatedLines.append('')
-        generatedLines.append('    }')
+    if not segment.getterOnly:
+        if len(setterBody) == 1:
+            generatedLines.append('    set => ' + setterBody[0])
+        else:
+            generatedLines.append('    set')
+            generatedLines.append('    {')
+            for line in setterBody:
+                if line:
+                    generatedLines.append('        ' + line)
+                else:
+                    generatedLines.append('')
+            generatedLines.append('    }')
 
     generatedLines.append('}')
     return generatedLines, exportedSymbols
@@ -366,9 +361,10 @@ def generateFunctionCSharp(className, segment, enums):
                     else:
                         raise RuntimeError('Default value "' + paramDefaultValue + '" for type "' + paramType + '" is not supported yet')
 
+    bodyLines, unsafeCode = generateFunctionBodyCSharp(className, enums, segment.nameC, segment.static, segment.returnType, segment.params)
     returnType = generateReturnTypeCSharp(className, enums, segment.returnType)
     staticStr = 'static ' if segment.static else ''
-    generatedLines.append('public ' + staticStr + returnType + ' ' + segment.name[0].upper() + segment.name[1:] + '(' + params + ')')
+    generatedLines.append('public ' + staticStr + ('unsafe ' if unsafeCode else '') + returnType + ' ' + segment.name[0].upper() + segment.name[1:] + '(' + params + ')')
     generatedLines.append('{')
 
     if segment.returnType.startswith('List<') or segment.returnType.startswith('Set<'):
@@ -379,7 +375,6 @@ def generateFunctionCSharp(className, segment, enums):
         if param[0].startswith('Set<'):
             usingDeclarations.add('using System.Linq;')
 
-    bodyLines = generateFunctionBodyCSharp(className, enums, segment.nameC, segment.static, segment.returnType, segment.params)
     for line in bodyLines:
         if line:
             generatedLines.append('    ' + line)
@@ -704,6 +699,8 @@ def generateWidgetFileCSharp(srcFile, destFile, className, customFileCSharp):
                 generatedLinesForProperty, exportedSymbolsForProperty = generatePropertyCSharp(className, segment, enums)
                 exportedSymbols.extend(exportedSymbolsForProperty)
                 generatedClassLines.extend(generatedLinesForProperty)
+                if segment.type.startswith('List<') or segment.type.startswith('Set<'):
+                    usingDeclarations.add('using System.Collections.Generic;')
             elif isinstance(segment, SegmentFunction):
                 generatedLinesForFunction, exportedSymbolsForFunction, usingDeclarationsForFunction = generateFunctionCSharp(className, segment, enums)
                 exportedSymbols.extend(exportedSymbolsForFunction)
@@ -961,6 +958,8 @@ def generateOtherFileCSharp(srcFile, destFile, className, customFileCSharp):
                 generatedLinesForProperty, exportedSymbolsForProperty = generatePropertyCSharp(className, segment, enums)
                 exportedSymbols.extend(exportedSymbolsForProperty)
                 generatedClassLines.extend(generatedLinesForProperty)
+                if segment.type.startswith('List<') or segment.type.startswith('Set<'):
+                    usingDeclarations.add('using System.Collections.Generic;')
             elif isinstance(segment, SegmentFunction):
                 generatedLinesForFunction, exportedSymbolsForFunction, usingDeclarationsForFunction = generateFunctionCSharp(className, segment, enums)
                 exportedSymbols.extend(exportedSymbolsForFunction)

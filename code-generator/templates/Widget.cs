@@ -77,6 +77,30 @@ protected override void Destroy(bool disposing)
     tguiWidget_destroy(CPointer);
 }
 
+public Vector2f Position
+{
+    get => tguiWidget_getPosition(CPointer);
+    set => tguiWidget_setPosition(CPointer, value);
+}
+
+public Layout2d PositionLayout
+{
+    get => new Layout2d(tguiWidget_getPositionLayout(CPointer));
+    set => tguiWidget_setPositionLayout(CPointer, value.CPointer);
+}
+
+public Vector2f Size
+{
+    get => tguiWidget_getSize(CPointer);
+    set => tguiWidget_setSize(CPointer, value);
+}
+
+public Layout2d SizeLayout
+{
+    get => new Layout2d(tguiWidget_getSizeLayout(CPointer));
+    set => tguiWidget_setSizeLayout(CPointer, value.CPointer);
+}
+
 public AutoLayout AutoLayout
 {
     get => tguiWidget_getAutoLayout(CPointer);
@@ -252,6 +276,30 @@ private static extern void tguiWidget_destroy(IntPtr cPointer);
 
 [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 public static extern IntPtr tguiWidget_addPointerReference(IntPtr cPointer);
+
+[DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+private static extern void tguiWidget_setPosition(IntPtr cPointer, Vector2f position);
+
+[DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+private static extern Vector2f tguiWidget_getPosition(IntPtr cPointer);
+
+[DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+private static extern void tguiWidget_setPositionLayout(IntPtr cPointer, IntPtr layout);
+
+[DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+private static extern IntPtr tguiWidget_getPositionLayout(IntPtr cPointer);
+
+[DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+private static extern void tguiWidget_setSize(IntPtr cPointer, Vector2f size);
+
+[DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+private static extern Vector2f tguiWidget_getSize(IntPtr cPointer);
+
+[DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+private static extern void tguiWidget_setSizeLayout(IntPtr cPointer, IntPtr layout);
+
+[DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+private static extern IntPtr tguiWidget_getSizeLayout(IntPtr cPointer);
 
 [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 private static extern byte tguiWidget_setRenderer(IntPtr cPointer, IntPtr renderer);

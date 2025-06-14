@@ -122,24 +122,24 @@ namespace TGUI
             tguiListBox_removeAllItems(CPointer);
         }
 
-        public string GetSelectedItem()
+        public string SelectedItem
         {
-            return Util.GetStringFromC_UTF32(tguiListBox_getSelectedItem(CPointer));
+            get => Util.GetStringFromC_UTF32(tguiListBox_getSelectedItem(CPointer));
         }
 
-        public string GetSelectedItemId()
+        public string SelectedItemId
         {
-            return Util.GetStringFromC_UTF32(tguiListBox_getSelectedItemId(CPointer));
+            get => Util.GetStringFromC_UTF32(tguiListBox_getSelectedItemId(CPointer));
         }
 
-        public int GetSelectedItemIndex()
+        public int SelectedItemIndex
         {
-            return tguiListBox_getSelectedItemIndex(CPointer);
+            get => tguiListBox_getSelectedItemIndex(CPointer);
         }
 
-        public int GetHoveredItemIndex()
+        public int HoveredItemIndex
         {
-            return tguiListBox_getHoveredItemIndex(CPointer);
+            get => tguiListBox_getHoveredItemIndex(CPointer);
         }
 
         public bool ChangeItem(string originalValue, string newValue)
@@ -157,14 +157,14 @@ namespace TGUI
             return tguiListBox_changeItemByIndex(CPointer, (UIntPtr)index, Util.ConvertStringForC_UTF32(newValue)) != 0;
         }
 
-        public int GetItemCount()
+        public int ItemCount
         {
-            return (int)tguiListBox_getItemCount(CPointer);
+            get => (int)tguiListBox_getItemCount(CPointer);
         }
 
-        public IReadOnlyList<string> GetItems()
+        public unsafe IReadOnlyList<string> Items
         {
-            unsafe
+            get
             {
                 IntPtr* returnStringsC = tguiListBox_getItems(CPointer, out UIntPtr returnCount);
                 string[] returnStrings = new string[(int)returnCount];
@@ -175,9 +175,9 @@ namespace TGUI
             }
         }
 
-        public IReadOnlyList<string> GetItemIds()
+        public unsafe IReadOnlyList<string> ItemIds
         {
-            unsafe
+            get
             {
                 IntPtr* returnStringsC = tguiListBox_getItemIds(CPointer, out UIntPtr returnCount);
                 string[] returnStrings = new string[(int)returnCount];

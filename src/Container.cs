@@ -55,17 +55,14 @@ namespace TGUI
             return Util.GetWidgetFromC(tguiContainer_get(CPointer, Util.ConvertStringForC_UTF32(widgetName)));
         }
 
-        public IReadOnlyList<Widget> GetWidgets()
+        public unsafe IReadOnlyList<Widget> GetWidgets()
         {
-            unsafe
-            {
-                IntPtr* returnWidgetsC = tguiContainer_getWidgets(CPointer, out UIntPtr returnCount);
-                Widget[] returnWidgets = new Widget[(int)returnCount];
-                for (int i = 0; i < (int)returnCount; ++i)
-                    returnWidgets[i] = Util.GetWidgetFromC(returnWidgetsC[i]) ?? throw new ArgumentNullException();
+            IntPtr* returnWidgetsC = tguiContainer_getWidgets(CPointer, out UIntPtr returnCount);
+            Widget[] returnWidgets = new Widget[(int)returnCount];
+            for (int i = 0; i < (int)returnCount; ++i)
+                returnWidgets[i] = Util.GetWidgetFromC(returnWidgetsC[i]) ?? throw new ArgumentNullException();
 
-                return returnWidgets;
-            }
+            return returnWidgets;
         }
 
         public bool Remove(Widget? widget)
@@ -108,14 +105,14 @@ namespace TGUI
             return tguiContainer_getWidgetIndex(CPointer, widget is null ? IntPtr.Zero : widget.CPointer);
         }
 
-        public Widget? GetFocusedChild()
+        public Widget? FocusedChild
         {
-            return Util.GetWidgetFromC(tguiContainer_getFocusedChild(CPointer));
+            get => Util.GetWidgetFromC(tguiContainer_getFocusedChild(CPointer));
         }
 
-        public Widget? GetFocusedLeaf()
+        public Widget? FocusedLeaf
         {
-            return Util.GetWidgetFromC(tguiContainer_getFocusedLeaf(CPointer));
+            get => Util.GetWidgetFromC(tguiContainer_getFocusedLeaf(CPointer));
         }
 
         public Widget? GetWidgetAtPos(Vector2f pos, bool recursive)
@@ -133,14 +130,14 @@ namespace TGUI
             return tguiContainer_focusPreviousWidget(CPointer, recursive ? (byte)1 : (byte)0) != 0;
         }
 
-        public Vector2f GetInnerSize()
+        public Vector2f InnerSize
         {
-            return tguiContainer_getInnerSize(CPointer);
+            get => tguiContainer_getInnerSize(CPointer);
         }
 
-        public Vector2f GetChildWidgetsOffset()
+        public Vector2f ChildWidgetsOffset
         {
-            return tguiContainer_getChildWidgetsOffset(CPointer);
+            get => tguiContainer_getChildWidgetsOffset(CPointer);
         }
 
         #region Imports

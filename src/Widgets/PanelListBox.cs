@@ -162,29 +162,29 @@ namespace TGUI
             return tguiPanelListBox_removeItemByIndex(CPointer, (UIntPtr)index) != 0;
         }
 
-        public string GetSelectedItemId()
+        public string SelectedItemId
         {
-            return Util.GetStringFromC_UTF32(tguiPanelListBox_getSelectedItemId(CPointer));
+            get => Util.GetStringFromC_UTF32(tguiPanelListBox_getSelectedItemId(CPointer));
         }
 
-        public int GetSelectedItemIndex()
+        public int SelectedItemIndex
         {
-            return tguiPanelListBox_getSelectedItemIndex(CPointer);
+            get => tguiPanelListBox_getSelectedItemIndex(CPointer);
         }
 
-        public int GetHoveredItemIndex()
+        public int HoveredItemIndex
         {
-            return tguiPanelListBox_getHoveredItemIndex(CPointer);
+            get => tguiPanelListBox_getHoveredItemIndex(CPointer);
         }
 
-        public int GetItemCount()
+        public int ItemCount
         {
-            return (int)tguiPanelListBox_getItemCount(CPointer);
+            get => (int)tguiPanelListBox_getItemCount(CPointer);
         }
 
-        public IReadOnlyList<string> GetItemIds()
+        public unsafe IReadOnlyList<string> ItemIds
         {
-            unsafe
+            get
             {
                 IntPtr* returnStringsC = tguiPanelListBox_getItemIds(CPointer, out UIntPtr returnCount);
                 string[] returnStrings = new string[(int)returnCount];
@@ -206,9 +206,9 @@ namespace TGUI
             return tguiPanelListBox_containsId(CPointer, Util.ConvertStringForC_UTF32(id)) != 0;
         }
 
-        public Layout GetItemsWidth()
+        public Layout ItemsWidth
         {
-            return new Layout(tguiPanelListBox_getItemsWidth(CPointer));
+            get => new Layout(tguiPanelListBox_getItemsWidth(CPointer));
         }
 
         public Layout ItemsHeight

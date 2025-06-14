@@ -93,9 +93,9 @@ namespace TGUI
             return Util.GetStringFromC_UTF32(tguiComboBox_getIdByIndex(CPointer, (UIntPtr)index));
         }
 
-        public IReadOnlyList<string> GetItems()
+        public unsafe IReadOnlyList<string> Items
         {
-            unsafe
+            get
             {
                 IntPtr* returnStringsC = tguiComboBox_getItems(CPointer, out UIntPtr returnCount);
                 string[] returnStrings = new string[(int)returnCount];
@@ -106,9 +106,9 @@ namespace TGUI
             }
         }
 
-        public IReadOnlyList<string> GetItemIds()
+        public unsafe IReadOnlyList<string> ItemIds
         {
-            unsafe
+            get
             {
                 IntPtr* returnStringsC = tguiComboBox_getItemIds(CPointer, out UIntPtr returnCount);
                 string[] returnStrings = new string[(int)returnCount];
@@ -159,19 +159,19 @@ namespace TGUI
             tguiComboBox_removeAllItems(CPointer);
         }
 
-        public string GetSelectedItem()
+        public string SelectedItem
         {
-            return Util.GetStringFromC_UTF32(tguiComboBox_getSelectedItem(CPointer));
+            get => Util.GetStringFromC_UTF32(tguiComboBox_getSelectedItem(CPointer));
         }
 
-        public string GetSelectedItemId()
+        public string SelectedItemId
         {
-            return Util.GetStringFromC_UTF32(tguiComboBox_getSelectedItemId(CPointer));
+            get => Util.GetStringFromC_UTF32(tguiComboBox_getSelectedItemId(CPointer));
         }
 
-        public int GetSelectedItemIndex()
+        public int SelectedItemIndex
         {
-            return tguiComboBox_getSelectedItemIndex(CPointer);
+            get => tguiComboBox_getSelectedItemIndex(CPointer);
         }
 
         public bool ChangeItem(string originalValue, string newValue)
@@ -189,9 +189,9 @@ namespace TGUI
             return tguiComboBox_changeItemByIndex(CPointer, (UIntPtr)index, Util.ConvertStringForC_UTF32(newValue)) != 0;
         }
 
-        public int GetItemCount()
+        public int ItemCount
         {
-            return (int)tguiComboBox_getItemCount(CPointer);
+            get => (int)tguiComboBox_getItemCount(CPointer);
         }
 
         public void SetItemData(int index, string data)

@@ -87,9 +87,9 @@ namespace TGUI
             tguiChatBox_removeAllLines(CPointer);
         }
 
-        public int GetLineAmount()
+        public int LineAmount
         {
-            return (int)tguiChatBox_getLineAmount(CPointer);
+            get => (int)tguiChatBox_getLineAmount(CPointer);
         }
 
         public int LineLimit

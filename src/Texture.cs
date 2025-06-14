@@ -209,24 +209,30 @@ namespace TGUI
             set => tguiTexture_setMiddleRect(CPointer, value);
         }
 
-        public string GetId()
+        public bool ScaledNineSlice
         {
-            return Util.GetStringFromC_UTF32(tguiTexture_getId(CPointer));
+            get => tguiTexture_getScaledNineSlice(CPointer) != 0;
+            set => tguiTexture_setScaledNineSlice(CPointer, value ? (byte)1 : (byte)0);
         }
 
-        public Vector2u GetImageSize()
+        public string Id
         {
-            return tguiTexture_getImageSize(CPointer);
+            get => Util.GetStringFromC_UTF32(tguiTexture_getId(CPointer));
         }
 
-        public UIntRect GetPartRect()
+        public Vector2u ImageSize
         {
-            return tguiTexture_getPartRect(CPointer);
+            get => tguiTexture_getImageSize(CPointer);
         }
 
-        public bool IsSmooth()
+        public UIntRect PartRect
         {
-            return tguiTexture_isSmooth(CPointer) != 0;
+            get => tguiTexture_getPartRect(CPointer);
+        }
+
+        public bool Smooth
+        {
+            get => tguiTexture_isSmooth(CPointer) != 0;
         }
 
         public bool IsTransparentPixel(Vector2u pos)
@@ -288,6 +294,12 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiTexture_setMiddleRect(IntPtr cPointer, UIntRect value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiTexture_getScaledNineSlice(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTexture_setScaledNineSlice(IntPtr cPointer, byte value);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern IntPtr tguiTexture_getId(IntPtr cPointer);

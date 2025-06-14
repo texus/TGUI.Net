@@ -165,9 +165,9 @@ namespace TGUI
             tguiTreeView_removeAllItems(CPointer);
         }
 
-        public IReadOnlyList<string> GetSelectedItem()
+        public unsafe IReadOnlyList<string> SelectedItem
         {
-            unsafe
+            get
             {
                 IntPtr* returnStringsC = tguiTreeView_getSelectedItem(CPointer, out UIntPtr returnCount);
                 string[] returnStrings = new string[(int)returnCount];
@@ -178,9 +178,9 @@ namespace TGUI
             }
         }
 
-        public IReadOnlyList<string> GetHoveredItem()
+        public unsafe IReadOnlyList<string> HoveredItem
         {
-            unsafe
+            get
             {
                 IntPtr* returnStringsC = tguiTreeView_getHoveredItem(CPointer, out UIntPtr returnCount);
                 string[] returnStrings = new string[(int)returnCount];

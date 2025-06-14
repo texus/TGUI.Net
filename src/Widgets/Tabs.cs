@@ -81,24 +81,24 @@ namespace TGUI
             tguiTabs_removeAll(CPointer);
         }
 
-        public string GetSelected()
+        public string Selected
         {
-            return Util.GetStringFromC_UTF32(tguiTabs_getSelected(CPointer));
+            get => Util.GetStringFromC_UTF32(tguiTabs_getSelected(CPointer));
         }
 
-        public int GetSelectedIndex()
+        public int SelectedIndex
         {
-            return tguiTabs_getSelectedIndex(CPointer);
+            get => tguiTabs_getSelectedIndex(CPointer);
         }
 
-        public int GetHoveredIndex()
+        public int HoveredIndex
         {
-            return tguiTabs_getHoveredIndex(CPointer);
+            get => tguiTabs_getHoveredIndex(CPointer);
         }
 
-        public int GetTabsCount()
+        public int TabsCount
         {
-            return (int)tguiTabs_getTabsCount(CPointer);
+            get => (int)tguiTabs_getTabsCount(CPointer);
         }
 
         public void SetTabVisible(int index, bool visible)

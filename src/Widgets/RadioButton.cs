@@ -63,6 +63,12 @@ namespace TGUI
             set => tguiRadioButton_setTextClickable(CPointer, value ? (byte)1 : (byte)0);
         }
 
+        public float MaxWidth
+        {
+            get => tguiRadioButton_getMaxWidth(CPointer);
+            set => tguiRadioButton_setMaxWidth(CPointer, value);
+        }
+
         public class CheckEventArgs : EventArgs
         {
             public CheckEventArgs(bool isChecked)
@@ -166,6 +172,12 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiRadioButton_setTextClickable(IntPtr cPointer, byte value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiRadioButton_getMaxWidth(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiRadioButton_setMaxWidth(IntPtr cPointer, float value);
 
         #endregion
     }

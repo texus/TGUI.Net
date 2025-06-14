@@ -69,9 +69,9 @@ namespace TGUI
             return Util.GetStringFromC_UTF32(tguiText_wordWrap(maxWidth, Util.ConvertStringForC_UTF32(text), font.CPointer, (uint)textSize, bold ? (byte)1 : (byte)0));
         }
 
-        public Vector2f GetSize()
+        public Vector2f Size
         {
-            return tguiText_getSize(CPointer);
+            get => tguiText_getSize(CPointer);
         }
 
         public Vector2f Position
@@ -133,24 +133,24 @@ namespace TGUI
             return tguiText_findCharacterPos(CPointer, (UIntPtr)index);
         }
 
-        public float GetExtraHorizontalPadding()
+        public float ExtraHorizontalPadding
         {
-            return tguiText_getExtraHorizontalPadding(CPointer);
+            get => tguiText_getExtraHorizontalPadding(CPointer);
         }
 
-        public float GetExtraHorizontalOffset()
+        public float ExtraHorizontalOffset
         {
-            return tguiText_getExtraHorizontalOffset(CPointer);
+            get => tguiText_getExtraHorizontalOffset(CPointer);
         }
 
-        public float GetLineHeight()
+        public float LineHeight
         {
-            return tguiText_getLineHeight(CPointer);
+            get => tguiText_getLineHeight(CPointer);
         }
 
-        public float GetLineWidth()
+        public float LineWidth
         {
-            return tguiText_getLineWidth(CPointer);
+            get => tguiText_getLineWidth(CPointer);
         }
 
         #region Imports
