@@ -5,7 +5,7 @@ title: Example code (C#)
 
 Positions and sizes are fixed in the example, but TGUI also supports relative positions/sizes:
 ```csharp
-editBoxUsername.SetSize(new TGUI.Layout2d("65%", "12.5%"));
+editBoxUsername.SizeLayout = new TGUI.Layout2d("65%", "12.5%");
 ```
 
 ```csharp
@@ -36,29 +36,29 @@ namespace TGUI.Example
             using var texture = new TGUI.Texture("background.jpg");
             using var picture = new TGUI.Picture();
             picture.Renderer.Texture = texture;
-            picture.SetSize(new TGUI.Vector2f(width, height));
-            gui.Add(picture, "PictureBackground");
+            picture.Size = new TGUI.Vector2f(width, height);
+            gui.Add(picture);
 
             // We don't use "using" here because we still need the edit boxes in our button callback
             // after this function has finished executing. If the code contained "using var", the C# object
             // would be destroyed at the end of this function. While the edit box continues to exist in the gui,
             // we could no longer access it with our C# object (unless we get a new reference with gui.Get("EditUsername")).
-            editBoxUsername = new EditBox();
-            editBoxUsername.SetPosition(new Vector2f(width / 6, height / 6));
-            editBoxUsername.SetSize(new Vector2f(width * 2/3, height / 8));
+            editBoxUsername = new TGUI.EditBox();
+            editBoxUsername.Position = new TGUI.Vector2f(width / 6, height / 6);
+            editBoxUsername.Size = new TGUI.Vector2f(width * 2/3, height / 8);
             editBoxUsername.DefaultText = "Username";
             gui.Add(editBoxUsername, "EditUsername");
 
-            editBoxPassword = new EditBox(editBoxUsername);
-            editBoxPassword.SetPosition(new Vector2f(width / 6, height * 5/12));
+            editBoxPassword = new TGUI.EditBox(editBoxUsername);
+            editBoxPassword.Position = new TGUI.Vector2f(width / 6, height * 5/12);
             editBoxPassword.PasswordCharacter = "*";
             editBoxPassword.DefaultText = "Password";
             gui.Add(editBoxPassword, "EditPassword");
 
-            using var button = new Button();
+            using var button = new TGUI.Button();
             button.Text = "Login";
-            button.SetPosition(new Vector2f(width / 4, height * 7/10));
-            button.SetSize(new Vector2f(width / 2, height / 6));
+            button.Position = new TGUI.Vector2f(width / 4, height * 7/10);
+            button.Size = new TGUI.Vector2f(width / 2, height / 6);
             gui.Add(button, "ButtonLogin");
 
             // Print the values of the edit boxes when the login button is pressed.
