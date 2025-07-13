@@ -13,7 +13,7 @@ namespace TGUI.Example
         const uint width = 400;
         const uint height = 300;
 
-        static void CreateWidgets(Gui gui)
+        static void CreateWidgets(TGUI.Gui gui)
         {
             // TGUI objects should be disposed when you no longer need them in C# to reduce memory usage.
             // This can be done by calling "widget.Dispose()" or doing it automatically when the object

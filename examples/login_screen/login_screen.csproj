@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/tgui.csproj" />
+    <PackageReference Include="TGUI.Net" Version="*" />
   </ItemGroup>
 
 </Project>
