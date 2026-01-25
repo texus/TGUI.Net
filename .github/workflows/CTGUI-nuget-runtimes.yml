@@ -7,7 +7,7 @@ env:
     DOTNET_CLI_TELEMETRY_OPTOUT: 1
     CTGUI_VERSION: 1.x
     TGUI_VERSION: 1.x
-    CSFML_VERSION: 2.6.1
+    CSFML_VERSION: 3.0.0
 
 jobs:
     windows:
@@ -46,18 +46,27 @@ jobs:
                   . $dumpbinExe /EXPORTS win-x64\native\csfml-graphics.dll > win-x64\native\csfml-graphics.def
                   . $dumpbinExe /EXPORTS win-x64\native\csfml-window.dll > win-x64\native\csfml-window.def
                   . $dumpbinExe /EXPORTS win-x64\native\csfml-system.dll > win-x64\native\csfml-system.def
+                  . $dumpbinExe /EXPORTS win-arm64\native\csfml-graphics.dll > win-arm64\native\csfml-graphics.def
+                  . $dumpbinExe /EXPORTS win-arm64\native\csfml-window.dll > win-arm64\native\csfml-window.def
+                  . $dumpbinExe /EXPORTS win-arm64\native\csfml-system.dll > win-arm64\native\csfml-system.def
                   'EXPORTS', ((Get-Content win-x86\native\csfml-graphics.def) -match ' sf' -replace '.* (sf.*)','$1') | Set-Content win-x86\native\csfml-graphics.def
                   'EXPORTS', ((Get-Content win-x86\native\csfml-window.def) -match ' sf' -replace '.* (sf.*)','$1') | Set-Content win-x86\native\csfml-window.def
                   'EXPORTS', ((Get-Content win-x86\native\csfml-system.def) -match ' sf' -replace '.* (sf.*)','$1') | Set-Content win-x86\native\csfml-system.def
                   'EXPORTS', ((Get-Content win-x64\native\csfml-graphics.def) -match ' sf' -replace '.* (sf.*)','$1') | Set-Content win-x64\native\csfml-graphics.def
                   'EXPORTS', ((Get-Content win-x64\native\csfml-window.def) -match ' sf' -replace '.* (sf.*)','$1') | Set-Content win-x64\native\csfml-window.def
                   'EXPORTS', ((Get-Content win-x64\native\csfml-system.def) -match ' sf' -replace '.* (sf.*)','$1') | Set-Content win-x64\native\csfml-system.def
+                  'EXPORTS', ((Get-Content win-arm64\native\csfml-graphics.def) -match ' sf' -replace '.* (sf.*)','$1') | Set-Content win-arm64\native\csfml-graphics.def
+                  'EXPORTS', ((Get-Content win-arm64\native\csfml-window.def) -match ' sf' -replace '.* (sf.*)','$1') | Set-Content win-arm64\native\csfml-window.def
+                  'EXPORTS', ((Get-Content win-arm64\native\csfml-system.def) -match ' sf' -replace '.* (sf.*)','$1') | Set-Content win-arm64\native\csfml-system.def
                   . $libExe /def:win-x86\native\csfml-graphics.def /out:win-x86\native\csfml-graphics.lib /machine:x86
                   . $libExe /def:win-x86\native\csfml-window.def /out:win-x86\native\csfml-window.lib /machine:x86
                   . $libExe /def:win-x86\native\csfml-system.def /out:win-x86\native\csfml-system.lib /machine:x86
                   . $libExe /def:win-x64\native\csfml-graphics.def /out:win-x64\native\csfml-graphics.lib /machine:x64
                   . $libExe /def:win-x64\native\csfml-window.def /out:win-x64\native\csfml-window.lib /machine:x64
                   . $libExe /def:win-x64\native\csfml-system.def /out:win-x64\native\csfml-system.lib /machine:x64
+                  . $libExe /def:win-arm64\native\csfml-graphics.def /out:win-arm64\native\csfml-graphics.lib /machine:arm64
+                  . $libExe /def:win-arm64\native\csfml-window.def /out:win-arm64\native\csfml-window.lib /machine:arm64
+                  . $libExe /def:win-arm64\native\csfml-system.def /out:win-arm64\native\csfml-system.lib /machine:arm64
 
             - name: Build x86
               run: |
@@ -77,10 +86,19 @@ jobs:
                   mkdir runtimes\win-x64\native
                   copy CTGUI-x64\bin\ctgui-1.dll runtimes\win-x64\native\ctgui.dll
 
+            - name: Build arm64
+              run: |
+                  cmake -B TGUI-build-arm64 -S TGUI-${{ env.TGUI_VERSION }} -G "Visual Studio 17 2022" -A ARM64 -DTGUI_BACKEND=Custom -DTGUI_BUILD_GUI_BUILDER=OFF -DBUILD_SHARED_LIBS=OFF -DTGUI_USE_STATIC_STD_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=TGUI-arm64
+                  cmake --build TGUI-build-arm64 --config RelWithDebInfo --target install
+                  cmake -B CTGUI-build-arm64 -S CTGUI-${{ env.CTGUI_VERSION }} -G "Visual Studio 17 2022" -A ARM64 -DTGUI_ROOT="${{ github.workspace }}/TGUI-arm64" -DCSFML_INCLUDE_DIR="${{ github.workspace }}/CSFML-${{ env.CSFML_VERSION }}/include" -DCSFML_LIBRARIES_DIR="${{ github.workspace }}/CSFML-nuget/runtimes/win-arm64/native/" -DCTGUI_HAS_BACKEND_CSFML_GRAPHICS=ON -DBUILD_SHARED_LIBS=ON -DCTGUI_LINK_TGUI_STATICALLY=ON -DCMAKE_INSTALL_PREFIX=CTGUI-arm64
+                  cmake --build CTGUI-build-arm64 --config RelWithDebInfo --target install
+                  mkdir runtimes\win-arm64\native
+                  copy CTGUI-arm64\bin\ctgui-1.dll runtimes\win-arm64\native\ctgui.dll
+
             - name: Upload Artifact
               uses: actions/upload-artifact@v4
               with:
-                  name: CTGUI-win-x86-x64
+                  name: CTGUI-windows
                   path: runtimes
 
     linux-x64:
