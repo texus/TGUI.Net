@@ -130,7 +130,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new PanelListBoxRenderer SharedRenderer => new PanelListBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new PanelListBoxRenderer SharedRenderer => new PanelListBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public void DeselectItem()
         {

@@ -43,7 +43,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new KnobRenderer SharedRenderer => new KnobRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new KnobRenderer SharedRenderer => new KnobRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public float StartRotation
         {

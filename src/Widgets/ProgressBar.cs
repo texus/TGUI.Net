@@ -51,7 +51,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new ProgressBarRenderer SharedRenderer => new ProgressBarRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new ProgressBarRenderer SharedRenderer => new ProgressBarRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public int Minimum
         {

@@ -91,7 +91,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new MenuBarRenderer SharedRenderer => new MenuBarRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new MenuBarRenderer SharedRenderer => new MenuBarRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public void AddMenu(string text)
         {

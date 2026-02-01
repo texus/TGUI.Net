@@ -87,7 +87,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  TabsRenderer TabsSharedRenderer => new TabsRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public TabsRenderer TabsSharedRenderer => new TabsRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public void Select(int index)
         {

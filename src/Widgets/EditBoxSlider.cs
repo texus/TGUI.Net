@@ -43,7 +43,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  EditBoxRenderer EditBoxSharedRenderer => new EditBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public EditBoxRenderer EditBoxSharedRenderer => new EditBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public SliderRenderer SliderRenderer
         {
@@ -51,7 +51,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  SliderRenderer SliderSharedRenderer => new SliderRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public SliderRenderer SliderSharedRenderer => new SliderRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public bool SetValue(float value)
         {

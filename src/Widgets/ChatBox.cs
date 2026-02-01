@@ -45,7 +45,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new ChatBoxRenderer SharedRenderer => new ChatBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new ChatBoxRenderer SharedRenderer => new ChatBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public void AddLine(string text)
         {

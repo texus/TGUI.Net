@@ -45,7 +45,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new LabelRenderer SharedRenderer => new LabelRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new LabelRenderer SharedRenderer => new LabelRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public string Text
         {

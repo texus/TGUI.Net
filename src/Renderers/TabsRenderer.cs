@@ -163,6 +163,12 @@ namespace TGUI
             set => tguiTabsRenderer_setDistanceToSide(CPointer, value);
         }
 
+        public float RoundedBorderRadius
+        {
+            get => tguiTabsRenderer_getRoundedBorderRadius(CPointer);
+            set => tguiTabsRenderer_setRoundedBorderRadius(CPointer, value);
+        }
+
         #region GeneratedImports
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -296,6 +302,12 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiTabsRenderer_setDistanceToSide(IntPtr cPointer, float value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiTabsRenderer_getRoundedBorderRadius(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTabsRenderer_setRoundedBorderRadius(IntPtr cPointer, float value);
 
         #endregion
     }

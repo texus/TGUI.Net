@@ -46,7 +46,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new TextAreaRenderer SharedRenderer => new TextAreaRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new TextAreaRenderer SharedRenderer => new TextAreaRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public string Text
         {

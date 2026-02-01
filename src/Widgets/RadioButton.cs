@@ -43,7 +43,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new RadioButtonRenderer SharedRenderer => new RadioButtonRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new RadioButtonRenderer SharedRenderer => new RadioButtonRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public bool Checked
         {

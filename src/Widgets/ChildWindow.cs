@@ -50,7 +50,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new ChildWindowRenderer SharedRenderer => new ChildWindowRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new ChildWindowRenderer SharedRenderer => new ChildWindowRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public void SetClientSize(Vector2f size)
         {

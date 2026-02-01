@@ -29,17 +29,17 @@ public Gui(RenderWindow window) :
     window.KeyPressed += (s, args) => HandleEventKeyPressed(args.Code, args.Scancode, args.Alt, args.Control, args.Shift, args.System);
     window.KeyReleased += (s, args) => HandleEventKeyReleased(args.Code, args.Scancode, args.Alt, args.Control, args.Shift, args.System);
     window.LostFocus += (s, e) => HandleEventLostFocus();
-    window.MouseButtonPressed += (s, args) => HandleEventMouseButtonPressed(args.Button, args.X, args.Y);
-    window.MouseButtonReleased += (s, args) => HandleEventMouseButtonReleased(args.Button, args.X, args.Y);
+    window.MouseButtonPressed += (s, args) => HandleEventMouseButtonPressed(args.Button, args.Position.X, args.Position.Y);
+    window.MouseButtonReleased += (s, args) => HandleEventMouseButtonReleased(args.Button, args.Position.X, args.Position.Y);
     window.MouseEntered += (s, e) => HandleEventMouseEntered();
     window.MouseLeft += (s, e) => HandleEventMouseLeft();
-    window.MouseMoved += (s, args) => HandleEventMouseMoved(args.X, args.Y);
-    window.MouseWheelScrolled += (s, args) => HandleEventMouseWheelScrolled(args.Wheel, args.Delta, args.X, args.Y);
-    window.Resized += (s, args) => HandleEventResized(args.Width, args.Height);
+    window.MouseMoved += (s, args) => HandleEventMouseMoved(args.Position.X, args.Position.Y);
+    window.MouseWheelScrolled += (s, args) => HandleEventMouseWheelScrolled(args.Wheel, args.Delta, args.Position.X, args.Position.Y);
+    window.Resized += (s, args) => HandleEventResized(args.Size.X, args.Size.Y);
     window.TextEntered += (s, args) => HandleEventTextEntered(args.Unicode);
-    window.TouchBegan += (s, args) => HandleEventTouchBegan(args.Finger, args.X, args.Y);
-    window.TouchMoved += (s, args) => HandleEventTouchMoved(args.Finger, args.X, args.Y);
-    window.TouchEnded += (s, args) => HandleEventTouchEnded(args.Finger, args.X, args.Y);
+    window.TouchBegan += (s, args) => HandleEventTouchBegan(args.Finger, args.Position.X, args.Position.Y);
+    window.TouchMoved += (s, args) => HandleEventTouchMoved(args.Finger, args.Position.X, args.Position.Y);
+    window.TouchEnded += (s, args) => HandleEventTouchEnded(args.Finger, args.Position.X, args.Position.Y);
 }
 
 /// <summary>
@@ -136,10 +136,10 @@ public void HandleEventKeyPressed(Keyboard.Key code, Keyboard.Scancode scancode,
     e.Type = EventType.KeyPressed;
     e.Key.Code = code;
     e.Key.Scancode = scancode;
-    e.Key.Alt = alt ? 1 : 0;
-    e.Key.Control = control? 1 : 0;
-    e.Key.Shift = shift? 1 : 0;
-    e.Key.System = system? 1 : 0;
+    e.Key.Alt = alt;
+    e.Key.Control = control;
+    e.Key.Shift = shift;
+    e.Key.System = system;
     tguiGuiCSFMLGraphics_handleEvent(CPointer, in e);
 }
 
@@ -159,10 +159,10 @@ public void HandleEventKeyReleased(Keyboard.Key code, Keyboard.Scancode scancode
     e.Type = EventType.KeyReleased;
     e.Key.Code = code;
     e.Key.Scancode = scancode;
-    e.Key.Alt = alt ? 1 : 0;
-    e.Key.Control = control? 1 : 0;
-    e.Key.Shift = shift? 1 : 0;
-    e.Key.System = system? 1 : 0;
+    e.Key.Alt = alt;
+    e.Key.Control = control;
+    e.Key.Shift = shift;
+    e.Key.System = system;
     tguiGuiCSFMLGraphics_handleEvent(CPointer, in e);
 }
 
@@ -180,8 +180,8 @@ public void HandleEventMouseWheelScrolled(Mouse.Wheel wheel, float delta, int x,
     e.Type = EventType.MouseWheelScrolled;
     e.MouseWheelScroll.Wheel = wheel;
     e.MouseWheelScroll.Delta = delta;
-    e.MouseWheelScroll.X = x;
-    e.MouseWheelScroll.Y = y;
+    e.MouseWheelScroll.Position.X = x;
+    e.MouseWheelScroll.Position.Y = y;
     tguiGuiCSFMLGraphics_handleEvent(CPointer, in e);
 }
 
@@ -197,8 +197,8 @@ public void HandleEventMouseButtonPressed(Mouse.Button button, int x, int y)
     Event e = new Event();
     e.Type = EventType.MouseButtonPressed;
     e.MouseButton.Button = button;
-    e.MouseButton.X = x;
-    e.MouseButton.Y = y;
+    e.MouseButton.Position.X = x;
+    e.MouseButton.Position.Y = y;
     tguiGuiCSFMLGraphics_handleEvent(CPointer, in e);
 }
 
@@ -214,8 +214,8 @@ public void HandleEventMouseButtonReleased(Mouse.Button button, int x, int y)
     Event e = new Event();
     e.Type = EventType.MouseButtonReleased;
     e.MouseButton.Button = button;
-    e.MouseButton.X = x;
-    e.MouseButton.Y = y;
+    e.MouseButton.Position.X = x;
+    e.MouseButton.Position.Y = y;
     tguiGuiCSFMLGraphics_handleEvent(CPointer, in e);
 }
 
@@ -229,8 +229,8 @@ public void HandleEventMouseMoved(int x, int y)
 {
     Event e = new Event();
     e.Type = EventType.MouseMoved;
-    e.MouseMove.X = x;
-    e.MouseMove.Y = y;
+    e.MouseMove.Position.X = x;
+    e.MouseMove.Position.Y = y;
     tguiGuiCSFMLGraphics_handleEvent(CPointer, in e);
 }
 
@@ -246,8 +246,8 @@ public void HandleEventTouchBegan(uint finger, int x, int y)
     Event e = new Event();
     e.Type = EventType.TouchBegan;
     e.Touch.Finger = finger;
-    e.Touch.X = x;
-    e.Touch.Y = y;
+    e.Touch.Position.X = x;
+    e.Touch.Position.Y = y;
     tguiGuiCSFMLGraphics_handleEvent(CPointer, in e);
 }
 
@@ -263,8 +263,8 @@ public void HandleEventTouchMoved(uint finger, int x, int y)
     Event e = new Event();
     e.Type = EventType.TouchMoved;
     e.Touch.Finger = finger;
-    e.Touch.X = x;
-    e.Touch.Y = y;
+    e.Touch.Position.X = x;
+    e.Touch.Position.Y = y;
     tguiGuiCSFMLGraphics_handleEvent(CPointer, in e);
 }
 
@@ -280,8 +280,8 @@ public void HandleEventTouchEnded(uint finger, int x, int y)
     Event e = new Event();
     e.Type = EventType.TouchEnded;
     e.Touch.Finger = finger;
-    e.Touch.X = x;
-    e.Touch.Y = y;
+    e.Touch.Position.X = x;
+    e.Touch.Position.Y = y;
     tguiGuiCSFMLGraphics_handleEvent(CPointer, in e);
 }
 
@@ -317,8 +317,8 @@ public void HandleEventResized(uint width, uint height)
 {
     Event e = new Event();
     e.Type = EventType.Resized;
-    e.Size.Width = width;
-    e.Size.Height = height;
+    e.Size.Size.X = width;
+    e.Size.Size.Y = height;
     tguiGuiCSFMLGraphics_handleEvent(CPointer, in e);
 }
 

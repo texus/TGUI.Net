@@ -43,7 +43,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new RangeSliderRenderer SharedRenderer => new RangeSliderRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new RangeSliderRenderer SharedRenderer => new RangeSliderRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public float Minimum
         {

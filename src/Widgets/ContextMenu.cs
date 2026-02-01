@@ -91,7 +91,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new ContextMenuRenderer SharedRenderer => new ContextMenuRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new ContextMenuRenderer SharedRenderer => new ContextMenuRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public bool IsMenuOpen()
         {

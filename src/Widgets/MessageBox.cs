@@ -44,7 +44,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new MessageBoxRenderer SharedRenderer => new MessageBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new MessageBoxRenderer SharedRenderer => new MessageBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public string Text
         {

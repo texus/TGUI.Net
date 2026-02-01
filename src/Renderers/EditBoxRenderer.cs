@@ -187,6 +187,12 @@ namespace TGUI
             set => tguiEditBoxRenderer_setDefaultTextStyle(CPointer, value);
         }
 
+        public float RoundedBorderRadius
+        {
+            get => tguiEditBoxRenderer_getRoundedBorderRadius(CPointer);
+            set => tguiEditBoxRenderer_setRoundedBorderRadius(CPointer, value);
+        }
+
         #region GeneratedImports
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -344,6 +350,12 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiEditBoxRenderer_setDefaultTextStyle(IntPtr cPointer, TextStyles value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiEditBoxRenderer_getRoundedBorderRadius(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiEditBoxRenderer_setRoundedBorderRadius(IntPtr cPointer, float value);
 
         #endregion
     }

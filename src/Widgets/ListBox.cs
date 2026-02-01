@@ -46,7 +46,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new ListBoxRenderer SharedRenderer => new ListBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new ListBoxRenderer SharedRenderer => new ListBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public int AddItem(string item, string id = "")
         {

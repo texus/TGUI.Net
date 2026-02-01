@@ -115,6 +115,12 @@ namespace TGUI
             set => tguiTextAreaRenderer_setScrollbarWidth(CPointer, value);
         }
 
+        public float RoundedBorderRadius
+        {
+            get => tguiTextAreaRenderer_getRoundedBorderRadius(CPointer);
+            set => tguiTextAreaRenderer_setRoundedBorderRadius(CPointer, value);
+        }
+
         #region GeneratedImports
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -200,6 +206,12 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiTextAreaRenderer_setScrollbarWidth(IntPtr cPointer, float value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiTextAreaRenderer_getRoundedBorderRadius(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTextAreaRenderer_setRoundedBorderRadius(IntPtr cPointer, float value);
 
         #endregion
     }

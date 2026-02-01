@@ -43,7 +43,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new SeparatorLineRenderer SharedRenderer => new SeparatorLineRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new SeparatorLineRenderer SharedRenderer => new SeparatorLineRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         #region GeneratedImports
 

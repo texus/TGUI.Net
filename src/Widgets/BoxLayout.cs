@@ -35,7 +35,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new BoxLayoutRenderer SharedRenderer => new BoxLayoutRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new BoxLayoutRenderer SharedRenderer => new BoxLayoutRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public void Insert(int index, Widget? widgetToAdd, string widgetName = "")
         {

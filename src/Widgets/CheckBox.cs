@@ -43,7 +43,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new CheckBoxRenderer SharedRenderer => new CheckBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new CheckBoxRenderer SharedRenderer => new CheckBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         #region GeneratedImports
 

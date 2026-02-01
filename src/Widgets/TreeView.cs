@@ -101,7 +101,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new TreeViewRenderer SharedRenderer => new TreeViewRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new TreeViewRenderer SharedRenderer => new TreeViewRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public int ItemHeight
         {

@@ -169,6 +169,12 @@ namespace TGUI
             set => tguiComboBoxRenderer_setListBox(CPointer, value.CPointer);
         }
 
+        public float RoundedBorderRadius
+        {
+            get => tguiComboBoxRenderer_getRoundedBorderRadius(CPointer);
+            set => tguiComboBoxRenderer_setRoundedBorderRadius(CPointer, value);
+        }
+
         #region GeneratedImports
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -308,6 +314,12 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiComboBoxRenderer_setListBox(IntPtr cPointer, IntPtr value);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern float tguiComboBoxRenderer_getRoundedBorderRadius(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiComboBoxRenderer_setRoundedBorderRadius(IntPtr cPointer, float value);
 
         #endregion
     }

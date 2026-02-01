@@ -43,7 +43,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new GroupRenderer SharedRenderer => new GroupRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new GroupRenderer SharedRenderer => new GroupRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         #region GeneratedImports
 

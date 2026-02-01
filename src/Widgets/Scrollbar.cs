@@ -50,7 +50,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new ScrollbarRenderer SharedRenderer => new ScrollbarRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new ScrollbarRenderer SharedRenderer => new ScrollbarRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public int ViewportSize
         {

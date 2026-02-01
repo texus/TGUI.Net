@@ -43,7 +43,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new EditBoxRenderer SharedRenderer => new EditBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new EditBoxRenderer SharedRenderer => new EditBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public string Text
         {

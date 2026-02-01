@@ -137,7 +137,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new FileDialogRenderer SharedRenderer => new FileDialogRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new FileDialogRenderer SharedRenderer => new FileDialogRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public string Filename
         {

@@ -43,7 +43,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new PictureRenderer SharedRenderer => new PictureRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new PictureRenderer SharedRenderer => new PictureRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public class DoubleClickEventArgs : EventArgs
         {

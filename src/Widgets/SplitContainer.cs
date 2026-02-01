@@ -43,7 +43,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new SplitContainerRenderer SharedRenderer => new SplitContainerRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new SplitContainerRenderer SharedRenderer => new SplitContainerRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public Orientation Orientation
         {

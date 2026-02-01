@@ -55,7 +55,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new SpinButtonRenderer SharedRenderer => new SpinButtonRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new SpinButtonRenderer SharedRenderer => new SpinButtonRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public float Minimum
         {

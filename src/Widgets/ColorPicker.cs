@@ -43,7 +43,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new ColorPickerRenderer SharedRenderer => new ColorPickerRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new ColorPickerRenderer SharedRenderer => new ColorPickerRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public Color? Color
         {

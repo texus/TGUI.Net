@@ -46,7 +46,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new ScrollablePanelRenderer SharedRenderer => new ScrollablePanelRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new ScrollablePanelRenderer SharedRenderer => new ScrollablePanelRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public Vector2f ContentSize
         {

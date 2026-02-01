@@ -56,7 +56,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new ListViewRenderer SharedRenderer => new ListViewRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new ListViewRenderer SharedRenderer => new ListViewRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public int AddColumn(string text, float width = 0, HorizontalAlignment columnAlignment = HorizontalAlignment.Left)
         {

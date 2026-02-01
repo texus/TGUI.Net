@@ -51,7 +51,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new ComboBoxRenderer SharedRenderer => new ComboBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new ComboBoxRenderer SharedRenderer => new ComboBoxRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public int ItemsToDisplay
         {

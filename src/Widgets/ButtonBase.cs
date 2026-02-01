@@ -55,7 +55,7 @@ namespace TGUI
             set => SetRenderer(value.Data);
         }
 
-        public  new ButtonRenderer SharedRenderer => new ButtonRenderer(tguiWidget_getSharedRenderer(CPointer));
+        public new ButtonRenderer SharedRenderer => new ButtonRenderer(tguiWidget_getSharedRenderer(CPointer));
 
         public string Text
         {

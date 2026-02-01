@@ -693,7 +693,7 @@ def generateWidgetFileCSharp(srcFile, destFile, className, customFileCSharp):
                     '    set => SetRenderer(value.Data);',
                     '}',
                     '',
-                    'public ' + newStr + rendererType + ' ' + rendererNamePrefix + 'SharedRenderer => new ' + rendererType + '(tguiWidget_getSharedRenderer(CPointer));'
+                    'public' + newStr + rendererType + ' ' + rendererNamePrefix + 'SharedRenderer => new ' + rendererType + '(tguiWidget_getSharedRenderer(CPointer));'
                 ])
             elif isinstance(segment, SegmentProperty):
                 generatedLinesForProperty, exportedSymbolsForProperty = generatePropertyCSharp(className, segment, enums)
