@@ -78,7 +78,7 @@ public RendererData GetRenderer(string id)
 /// </remarks>
 public static void SetDefault(Theme? theme)
 {
-    tguiTheme_setDefault(theme?.CPointer);
+    tguiTheme_setDefault(theme is null ? IntPtr.Zero : theme.CPointer);
 }
 
 /// <summary>
@@ -300,7 +300,7 @@ private static extern void tguiTheme_replace(IntPtr cPointer, IntPtr otherTheme)
 private static extern IntPtr tguiTheme_getRenderer(IntPtr cPointer, IntPtr id);
 
 [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-private static extern void tguiTheme_setDefault(IntPtr? cPointer);
+private static extern void tguiTheme_setDefault(IntPtr cPointer);
 
 [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 private static extern IntPtr tguiTheme_getDefault();
