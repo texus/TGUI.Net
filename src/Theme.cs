@@ -29,6 +29,7 @@ namespace TGUI
         /// Construct the theme given a filename
         /// </summary>
         /// <param name="filename">Filename of the theme to load</param>
+        /// <exception cref="Exception">The file did not exist or did not contain a valid theme</exception>
         public Theme(string filename)
             : base(tguiTheme_create())
         {
@@ -60,9 +61,11 @@ namespace TGUI
         /// When the theme was loaded before and a renderer with the same name is encountered,
         /// the widgets that were using the old renderer will be reloaded with the new renderer.
         /// </remarks>
+        /// <exception cref="Exception">The file did not exist or did not contain a valid theme</exception>
         public void Load(string filename)
         {
-            tguiTheme_load(CPointer, Util.ConvertStringForC_UTF32(filename));
+            if (!tguiTheme_load(CPointer, Util.ConvertStringForC_UTF32(filename)))
+                throw new Exception("Failed to load theme from file " + filename);
         }
 
         /// <summary>
@@ -95,9 +98,9 @@ namespace TGUI
         /// <remarks>
         /// The theme will be reset to the built-in White theme when passing null to this function.
         /// </remarks>
-        public static void SetDefault(Theme theme)
+        public static void SetDefault(Theme? theme)
         {
-            //tguiTheme_setDefault(theme is null ? IntPtr.Zero : theme.CPointer);
+            tguiTheme_setDefault(theme is null ? IntPtr.Zero : theme.CPointer);
         }
 
         /// <summary>
@@ -335,7 +338,7 @@ namespace TGUI
         private static extern void tguiTheme_destroy(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiTheme_load(IntPtr cPointer, IntPtr filename);
+        private static extern bool tguiTheme_load(IntPtr cPointer, IntPtr filename);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiTheme_replace(IntPtr cPointer, IntPtr otherTheme);
