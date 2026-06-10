@@ -65,7 +65,7 @@ namespace TGUI
         public void Load(string filename)
         {
             if (!tguiTheme_load(CPointer, Util.ConvertStringForC_UTF32(filename)))
-                throw new Exception("Failed to load theme from file " + filename);
+                throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
         }
 
         /// <summary>
@@ -327,6 +327,9 @@ namespace TGUI
         }
 
         #region Imports
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        protected static extern IntPtr tgui_getLastError();
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern IntPtr tguiTheme_create();
