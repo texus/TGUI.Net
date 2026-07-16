@@ -39,7 +39,7 @@ namespace TGUI
         /// By enabling this option, all text widgets created afterwards will use the I-beam cursor by default.
         /// Eiter way, the mouse cursor can always be changed for each widget individually with the setMouseCursor function.
         /// </summary>
-        public static uint TextInputUsesTextCursorByDefault
+        public static bool TextInputUsesTextCursorByDefault
         {
             get { return tgui_getTextInputUsesTextCursorByDefault() != 0; }
             set { tgui_setTextInputUsesTextCursorByDefault(value ? (byte)1 : (byte)0); }

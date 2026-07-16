@@ -426,4 +426,7 @@ private static extern byte tguiGui_loadWidgetsFromFile(IntPtr cPointer, IntPtr f
 [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 private static extern byte tguiGui_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);
 
+[DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+protected static extern IntPtr tgui_getLastError();
+
 #endregion

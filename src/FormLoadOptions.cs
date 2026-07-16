@@ -54,7 +54,7 @@ namespace TGUI
         /// <summary>
         /// Remove existing widgets first if there are any. If true (default), removeAllWidgets() will be called at the start of the load function.
         /// </summary>
-        public float ReplaceExistingWidgets
+        public bool ReplaceExistingWidgets
         {
             get => _replaceExistingWidgets;
             set
@@ -77,7 +77,7 @@ namespace TGUI
         private static extern IntPtr tguiFormLoadOptions_create();
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiWidget_destroy(IntPtr cPointer);
+        private static extern void tguiFormLoadOptions_destroy(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiFormLoadOptions_setReplaceExistingWidgets(IntPtr cPointer, byte replaceExistingWidgets);
