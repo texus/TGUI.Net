@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2024 Bruno Van de Velde (vdv_b@tgui.eu)
+// Copyright (C) 2012-2026 Bruno Van de Velde (vdv_b@tgui.eu)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -154,28 +154,28 @@ namespace TGUI
         #region Imports
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiOutline_create(float left, float top, float right, float bottom);
+        private static extern IntPtr tguiOutline_create(float left, float top, float right, float bottom);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiOutline_createFromStrings(IntPtr left, IntPtr top, IntPtr right, IntPtr bottom);
+        private static extern IntPtr tguiOutline_createFromStrings(IntPtr left, IntPtr top, IntPtr right, IntPtr bottom);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private IntPtr tguiOutline_copy(IntPtr cPointer);
+        private static extern IntPtr tguiOutline_copy(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private void tguiOutline_destroy(IntPtr cPointer);
+        private static extern void tguiOutline_destroy(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiOutline_getLeft(IntPtr cPointer);
+        private static extern float tguiOutline_getLeft(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiOutline_getTop(IntPtr cPointer);
+        private static extern float tguiOutline_getTop(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiOutline_getRight(IntPtr cPointer);
+        private static extern float tguiOutline_getRight(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        static extern private float tguiOutline_getBottom(IntPtr cPointer);
+        private static extern float tguiOutline_getBottom(IntPtr cPointer);
 
         #endregion
     }

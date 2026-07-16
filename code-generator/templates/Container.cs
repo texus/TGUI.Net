@@ -10,25 +10,30 @@ public Container(Container copy)
 /// Loads the child widgets from a text file
 /// </summary>
 /// <param name="filename">Filename of the widget file</param>
-/// <param name="replaceExisting">Remove existing widgets first if there are any file</param>
-public bool LoadWidgetsFromFile(string filename, bool replaceExisting = true)
+/// <param name="loadOptions">Settings to use for loading</param>
+/// <exception cref="Exception">The file could not be loaded</exception>
+public void LoadWidgetsFromFile(string filename, FormLoadOptions? loadOptions = null)
 {
-    return tguiContainer_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_UTF32(filename), replaceExisting ? (byte)1 : (byte)0) != 0;
+    loadOptions ??= new FormLoadOptions();
+    if (tguiContainer_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_UTF32(filename), loadOptions.CPointer) == 0)
+        throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
 }
 
 /// <summary>
 /// Saves the child widgets to a text file
 /// </summary>
 /// <param name="filename">Filename of the widget file</param>
-public bool SaveWidgetsToFile(string filename)
+/// <exception cref="Exception">The file could not be saved</exception>
+public void SaveWidgetsToFile(string filename)
 {
-    return tguiContainer_saveWidgetsToFile(CPointer, Util.ConvertStringForC_UTF32(filename)) != 0;
+    if (tguiContainer_saveWidgetsToFile(CPointer, Util.ConvertStringForC_UTF32(filename)) == 0)
+        throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
 }
 
 #region Imports
 
 [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-private static extern byte tguiContainer_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename, byte replaceExisting);
+private static extern byte tguiContainer_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename, IntPtr loadOptions);
 
 [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 private static extern byte tguiContainer_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);

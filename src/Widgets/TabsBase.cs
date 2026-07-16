@@ -57,6 +57,26 @@ namespace TGUI
             return tguiTabsBase_changeText(CPointer, (UIntPtr)index, Util.ConvertStringForC_UTF32(text)) != 0;
         }
 
+        public bool ChangeTextById(string id, string text)
+        {
+            return tguiTabsBase_changeTextById(CPointer, Util.ConvertStringForC_UTF32(id), Util.ConvertStringForC_UTF32(text)) != 0;
+        }
+
+        public void SetTabId(int index, string id)
+        {
+            tguiTabsBase_setTabId(CPointer, (UIntPtr)index, Util.ConvertStringForC_UTF32(id));
+        }
+
+        public string GetTabId(int index)
+        {
+            return Util.GetStringFromC_UTF32(tguiTabsBase_getTabId(CPointer, (UIntPtr)index));
+        }
+
+        public int GetIndexById(string id)
+        {
+            return tguiTabsBase_getIndexById(CPointer, Util.ConvertStringForC_UTF32(id));
+        }
+
         public void Deselect()
         {
             tguiTabsBase_deselect(CPointer);
@@ -75,6 +95,11 @@ namespace TGUI
         public int SelectedIndex
         {
             get => tguiTabsBase_getSelectedIndex(CPointer);
+        }
+
+        public string SelectedId
+        {
+            get => Util.GetStringFromC_UTF32(tguiTabsBase_getSelectedId(CPointer));
         }
 
         public int HoveredIndex
@@ -117,6 +142,11 @@ namespace TGUI
             return tguiTabsBase_selectByIndex(CPointer, (UIntPtr)index) != 0;
         }
 
+        public bool SelectById(string id)
+        {
+            return tguiTabsBase_selectById(CPointer, Util.ConvertStringForC_UTF32(id)) != 0;
+        }
+
         public bool Remove(string text)
         {
             return tguiTabsBase_removeByText(CPointer, Util.ConvertStringForC_UTF32(text)) != 0;
@@ -125,6 +155,11 @@ namespace TGUI
         public bool Remove(int index)
         {
             return tguiTabsBase_removeByIndex(CPointer, (UIntPtr)index) != 0;
+        }
+
+        public bool RemoveById(string id)
+        {
+            return tguiTabsBase_removeById(CPointer, Util.ConvertStringForC_UTF32(id)) != 0;
         }
 
         public class TabSelectEventArgs : EventArgs
@@ -199,6 +234,18 @@ namespace TGUI
         private static extern byte tguiTabsBase_changeText(IntPtr cPointer, UIntPtr index, IntPtr text);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiTabsBase_changeTextById(IntPtr cPointer, IntPtr id, IntPtr text);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTabsBase_setTabId(IntPtr cPointer, UIntPtr index, IntPtr id);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiTabsBase_getTabId(IntPtr cPointer, UIntPtr index);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern int tguiTabsBase_getIndexById(IntPtr cPointer, IntPtr id);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiTabsBase_deselect(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -209,6 +256,9 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern int tguiTabsBase_getSelectedIndex(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiTabsBase_getSelectedId(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern int tguiTabsBase_getHoveredIndex(IntPtr cPointer);
@@ -235,10 +285,16 @@ namespace TGUI
         private static extern byte tguiTabsBase_selectByIndex(IntPtr cPointer, UIntPtr index);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiTabsBase_selectById(IntPtr cPointer, IntPtr id);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern byte tguiTabsBase_removeByText(IntPtr cPointer, IntPtr text);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern byte tguiTabsBase_removeByIndex(IntPtr cPointer, UIntPtr index);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiTabsBase_removeById(IntPtr cPointer, IntPtr id);
 
         #endregion
     }

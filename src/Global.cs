@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // TGUI - Texus' Graphical User Interface
-// Copyright (C) 2012-2024 Bruno Van de Velde (vdv_b@tgui.eu)
+// Copyright (C) 2012-2026 Bruno Van de Velde (vdv_b@tgui.eu)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -30,6 +30,21 @@ namespace TGUI
 {
     public static class Global
     {
+        /// <summary>
+        /// Changes the default mouse cursor of EditBox and TextArea widgets from an arrow to the I-beam cursor.
+        ///
+        /// True to use the I-beam cursor, false to set the default behavior of using a normal arrow.
+        ///
+        /// For backwards compatibility text fields do not alter the mouse cursor by default.
+        /// By enabling this option, all text widgets created afterwards will use the I-beam cursor by default.
+        /// Eiter way, the mouse cursor can always be changed for each widget individually with the setMouseCursor function.
+        /// </summary>
+        public static uint TextInputUsesTextCursorByDefault
+        {
+            get { return tgui_getTextInputUsesTextCursorByDefault() != 0; }
+            set { tgui_setTextInputUsesTextCursorByDefault(value ? (byte)1 : (byte)0); }
+        }
+
         /// <summary>
         /// Gets or sets the default text size for all new widgets
         /// </summary>
@@ -69,6 +84,12 @@ namespace TGUI
 
 
         #region Imports
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private void tgui_setTextInputUsesTextCursorByDefault(byte useIBeam);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern private byte tgui_getTextInputUsesTextCursorByDefault();
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern private void tgui_setGlobalTextSize(uint textSize);
