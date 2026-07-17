@@ -54,65 +54,6 @@ namespace TGUI
         }
 
         /// <summary>
-        /// Changes the file from which the theme is loaded
-        /// </summary>
-        /// <param name="filename">Filename of the theme to load</param>
-        /// <remarks>
-        /// When the theme was loaded before and a renderer with the same name is encountered,
-        /// the widgets that were using the old renderer will be reloaded with the new renderer.
-        /// </remarks>
-        /// <exception cref="Exception">The file did not exist or did not contain a valid theme</exception>
-        public void Load(string filename)
-        {
-            if (!tguiTheme_load(CPointer, Util.ConvertStringForC_UTF32(filename)))
-                throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
-        }
-
-        /// <summary>
-        /// Replaced this theme with another one, while updating all connected widgets to the new renderers
-        /// </summary>
-        /// <param name="otherTheme">The theme to copy</param>
-        /// <remarks>
-        /// The renderers are copied, meaning that all widgets connected to the other theme will remain connected to it.
-        /// Any widgets connected to this theme will however be updated with new renderers when the same name is encountered.
-        /// </remarks>
-        public void Replace(Theme otherTheme)
-        {
-            tguiTheme_replace(CPointer, otherTheme.CPointer);
-        }
-
-        /// <summary>
-        /// Gets data for the renderers
-        /// </summary>
-        /// <param name="id">Name of the section in the theme file</param>
-        /// <returns>Shared renderer data</returns>
-        public RendererData GetRenderer(string id)
-        {
-            return new RendererData(tguiTheme_getRenderer(CPointer, Util.ConvertStringForC_UTF32(id)));
-        }
-
-        /// <summary>
-        /// Sets the theme class that widgets use by default
-        /// </summary>
-        /// <param name="theme">Theme to use as default</param>
-        /// <remarks>
-        /// The theme will be reset to the built-in White theme when passing null to this function.
-        /// </remarks>
-        public static void SetDefault(Theme? theme)
-        {
-            tguiTheme_setDefault(theme is null ? IntPtr.Zero : theme.CPointer);
-        }
-
-        /// <summary>
-        /// Gets the theme that is currently used as the default when creating new widgets
-        /// </summary>
-        /// <returns>Current default theme</returns>
-        public static Theme GetDefault()
-        {
-            return new Theme(tguiTheme_getDefault());
-        }
-
-        /// <summary>
         /// Check if a global property exists in the theme
         /// </summary>
         /// <param name="property">Global property to check</param>
@@ -258,17 +199,6 @@ namespace TGUI
         }
 
         /// <summary>
-        /// Inform the theme that a custom renderer has subwidgets that need a default value
-        /// </summary>
-        /// <param name="widgetType">Type name of the custom widget</param>
-        /// <param name="property">Property of the renderer which should refer to another section in the renderer</param>
-        /// <param name="propertyWidgetType">Type name of subwidget, which specifies the section in the theme file to refer to</param>
-        public static void AddRendererDefaultSubwidget(string widgetType, string property, string propertyWidgetType)
-        {
-            tguiTheme_addRendererDefaultSubwidget(Util.ConvertStringForC_UTF32(widgetType), Util.ConvertStringForC_UTF32(property), Util.ConvertStringForC_UTF32(propertyWidgetType));
-        }
-
-        /// <summary>
         /// Returns the defaulted subwidgets that a renderer has for the given property
         /// </summary>
         /// <param name="widgetType">Type name of the custom widget</param>
@@ -277,17 +207,6 @@ namespace TGUI
         public static string GetRendererDefaultSubwidget(string widgetType, string property)
         {
             return Util.GetStringFromC_UTF32(tguiTheme_getRendererDefaultSubwidget(Util.ConvertStringForC_UTF32(widgetType), Util.ConvertStringForC_UTF32(property)));
-        }
-
-        /// <summary>
-        /// Inform the theme that a custom renderer has properties that can use a default value from the global properties
-        /// </summary>
-        /// <param name="widgetType">Type name of the custom widget</param>
-        /// <param name="property">Property of the renderer which refers to the global property</param>
-        /// <param name="globalProperty">Global property in the theme that would be copied as default value for the renderer property</param>
-        public static void AddRendererInheritedGlobalProperty(string widgetType, string property, string globalProperty)
-        {
-            tguiTheme_addRendererInheritedGlobalProperty(Util.ConvertStringForC_UTF32(widgetType), Util.ConvertStringForC_UTF32(property), Util.ConvertStringForC_UTF32(globalProperty));
         }
 
         /// <summary>
@@ -326,6 +245,46 @@ namespace TGUI
             return Util.GetStringFromC_UTF32(tguiTheme_getRendererInheritanceParent(Util.ConvertStringForC_UTF32(widgetType)));
         }
 
+        public void Load(string filename)
+        {
+            if (!tguiTheme_load(CPointer, Util.ConvertStringForC_UTF32(filename)))
+                throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
+        }
+
+        public void Replace(Theme otherTheme)
+        {
+            tguiTheme_replace(CPointer, otherTheme.CPointer);
+        }
+
+        public static void SetDefault(Theme? defaultTheme)
+        {
+            tguiTheme_setDefault(defaultTheme is null ? IntPtr.Zero : defaultTheme.CPointer);
+        }
+
+        public static Theme GetDefault()
+        {
+            return new Theme(tguiTheme_getDefault());
+        }
+
+        public RendererData GetRenderer(string id)
+        {
+            IntPtr returnRendererDataC = tguiTheme_getRenderer(CPointer, Util.ConvertStringForC_UTF32(id));
+            if (returnRendererDataC != IntPtr.Zero)
+                return new RendererData(returnRendererDataC);
+            else
+                throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
+        }
+
+        public static void AddRendererDefaultSubwidget(string widgetType, string property, string propertyWidgetType)
+        {
+            tguiTheme_addRendererDefaultSubwidget(Util.ConvertStringForC_UTF32(widgetType), Util.ConvertStringForC_UTF32(property), Util.ConvertStringForC_UTF32(propertyWidgetType));
+        }
+
+        public static void AddRendererInheritedGlobalProperty(string widgetType, string property, string globalProperty)
+        {
+            tguiTheme_addRendererInheritedGlobalProperty(Util.ConvertStringForC_UTF32(widgetType), Util.ConvertStringForC_UTF32(property), Util.ConvertStringForC_UTF32(globalProperty));
+        }
+
         #region Imports
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -339,21 +298,6 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiTheme_destroy(IntPtr cPointer);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern bool tguiTheme_load(IntPtr cPointer, IntPtr filename);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiTheme_replace(IntPtr cPointer, IntPtr otherTheme);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern IntPtr tguiTheme_getRenderer(IntPtr cPointer, IntPtr id);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiTheme_setDefault(IntPtr cPointer);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern IntPtr tguiTheme_getDefault();
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern byte tguiTheme_hasGlobalProperty(IntPtr cPointer, IntPtr property);
@@ -386,13 +330,7 @@ namespace TGUI
         private static extern byte tguiTheme_getGlobalPropertyRendererData(IntPtr cPointer, IntPtr property, out IntPtr val);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiTheme_addRendererDefaultSubwidget(IntPtr widgetType, IntPtr property, IntPtr propertyWidgetType);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern IntPtr tguiTheme_getRendererDefaultSubwidget(IntPtr widgetType, IntPtr property);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern void tguiTheme_addRendererInheritedGlobalProperty(IntPtr widgetType, IntPtr property, IntPtr globalProperty);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern IntPtr tguiTheme_getRendererInheritedGlobalProperty(IntPtr widgetType, IntPtr property);
@@ -415,6 +353,27 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern IntPtr tguiTheme_getRendererInheritanceParent(IntPtr widgetType);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiTheme_load(IntPtr cPointer, IntPtr filename);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTheme_replace(IntPtr cPointer, IntPtr otherTheme);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTheme_setDefault(IntPtr defaultTheme);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiTheme_getDefault();
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern IntPtr tguiTheme_getRenderer(IntPtr cPointer, IntPtr id);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTheme_addRendererDefaultSubwidget(IntPtr widgetType, IntPtr property, IntPtr propertyWidgetType);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiTheme_addRendererInheritedGlobalProperty(IntPtr widgetType, IntPtr property, IntPtr globalProperty);
 
         #endregion
     }

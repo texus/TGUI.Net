@@ -77,19 +77,6 @@ namespace TGUI
         public void Draw() => tguiGui_draw(CPointer);
 
         /// <summary>
-        /// Loads the child widgets from a text file
-        /// </summary>
-        /// <param name="filename">Filename of the widget file</param>
-        /// <param name="loadOptions">Settings to use for loading</param>
-        /// <exception cref="Exception">The file could not be loaded</exception>
-        public void LoadWidgetsFromFile(string filename, FormLoadOptions? loadOptions = null)
-        {
-            loadOptions ??= new FormLoadOptions();
-            if (tguiGui_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_UTF32(filename), loadOptions.CPointer) == 0)
-                throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
-        }
-
-        /// <summary>
         /// Processes a LostFocus event
         /// </summary>
         /// <remarks>This function is automatically called for events from the window. You shouldn't call it unless you want to insert a fake event.</remarks>
@@ -500,9 +487,15 @@ namespace TGUI
             tguiGui_unfocusAllWidgets(CPointer);
         }
 
+        public void LoadWidgetsFromFile(string filename, FormLoadOptions? loadOptions = null)
+        {
+            if (!tguiGui_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_UTF32(filename), loadOptions is null ? IntPtr.Zero : loadOptions.CPointer))
+                throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
+        }
+
         public void SaveWidgetsToFile(string filename)
         {
-            if (tguiGui_saveWidgetsToFile(CPointer, Util.ConvertStringForC_UTF32(filename)) == 0)
+            if (!tguiGui_saveWidgetsToFile(CPointer, Util.ConvertStringForC_UTF32(filename)))
                 throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
         }
 
@@ -621,9 +614,6 @@ namespace TGUI
         private static extern void tguiGui_draw(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiGui_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename, IntPtr loadOptions);
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         protected static extern IntPtr tgui_getLastError();
 
         #endregion
@@ -695,6 +685,9 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiGui_unfocusAllWidgets(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiGui_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename, IntPtr loadOptions);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern byte tguiGui_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);

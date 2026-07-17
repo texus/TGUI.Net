@@ -26,19 +26,6 @@ namespace TGUI
         {
         }
 
-        /// <summary>
-        /// Loads the child widgets from a text file
-        /// </summary>
-        /// <param name="filename">Filename of the widget file</param>
-        /// <param name="loadOptions">Settings to use for loading</param>
-        /// <exception cref="Exception">The file could not be loaded</exception>
-        public void LoadWidgetsFromFile(string filename, FormLoadOptions? loadOptions = null)
-        {
-            loadOptions ??= new FormLoadOptions();
-            if (tguiContainer_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_UTF32(filename), loadOptions.CPointer) == 0)
-                throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
-        }
-
         public void Add(Widget? widget, string widgetName = "")
         {
             tguiContainer_add(CPointer, widget is null ? IntPtr.Zero : widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
@@ -69,9 +56,15 @@ namespace TGUI
             tguiContainer_removeAllWidgets(CPointer);
         }
 
+        public void LoadWidgetsFromFile(string filename, FormLoadOptions? loadOptions = null)
+        {
+            if (!tguiContainer_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_UTF32(filename), loadOptions is null ? IntPtr.Zero : loadOptions.CPointer))
+                throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
+        }
+
         public void SaveWidgetsToFile(string filename)
         {
-            if (tguiContainer_saveWidgetsToFile(CPointer, Util.ConvertStringForC_UTF32(filename)) == 0)
+            if (!tguiContainer_saveWidgetsToFile(CPointer, Util.ConvertStringForC_UTF32(filename)))
                 throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
         }
 
@@ -140,13 +133,6 @@ namespace TGUI
             get => tguiContainer_getChildWidgetsOffset(CPointer);
         }
 
-        #region Imports
-
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiContainer_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename, IntPtr loadOptions);
-
-        #endregion
-
         #region GeneratedImports
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -163,6 +149,9 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiContainer_removeAllWidgets(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiContainer_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename, IntPtr loadOptions);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern byte tguiContainer_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);

@@ -43,6 +43,8 @@ TYPE_MAP_C = {
     'Layout' : 'IntPtr',
     'Layout2d' : 'IntPtr',
     'Font' : 'IntPtr',
+    'Theme' : 'IntPtr',
+    'ThemePtr' : 'IntPtr',
     'RendererData' : 'IntPtr',
     'Widget' : 'IntPtr',
     'ConstWidget' : 'IntPtr',
@@ -62,6 +64,8 @@ TYPE_MAP_C = {
     'Orientation': 'Orientation',
     'CursorType': 'Cursor.Type',
     'Duration': 'Duration',
+    'Optional<FormLoadOptions>': 'IntPtr',
+    'Optional<Theme>': 'IntPtr',
 }
 
 TYPE_MAP_CS = {
@@ -80,6 +84,8 @@ TYPE_MAP_CS = {
     'Layout' : 'Layout',
     'Layout2d' : 'Layout2d',
     'Font' : 'Font',
+    'Theme' : 'Theme',
+    'ThemePtr' : 'Theme',
     'RendererData' : 'RendererData',
     'Widget' : 'Widget?',
     'ConstWidget' : 'Widget?',
@@ -99,6 +105,8 @@ TYPE_MAP_CS = {
     'Orientation': 'Orientation',
     'CursorType': 'Cursor.Type',
     'Duration': 'Duration',
+    'Optional<FormLoadOptions>': 'FormLoadOptions?',
+    'Optional<Theme>': 'Theme?',
 }
 
 
@@ -125,8 +133,9 @@ def generateExportedSymbolCSharpToC(className, enums, funcNameC, static, throws,
         paramsC = paramsC[2:]
 
     if throws:
-        assert(returnType == 'void')
-        returnType = 'bool'
+        assert(returnType == 'void' or returnType == 'RendererData')
+        if returnType == 'void':
+            returnType = 'bool'
 
     if returnType in enums:
         return className + returnType + ' tgui' + className + '_' + funcNameC + '(' + paramsC + ')'
@@ -163,7 +172,7 @@ def generateFunctionBodyCSharp(className, enums, funcNameC, static, throws, retu
             funcCallParams.append('Util.ConvertStringForC_UTF32(' + paramName + ')')
         elif paramType == 'Color':
             funcCallParams.append('Util.ConvertColorForC(' + paramName + ')')
-        elif paramType == 'Texture' or paramType == 'Font' \
+        elif paramType == 'Texture' or paramType == 'Font' or paramType == 'Theme' or paramType == 'ThemePtr' \
         or paramType == 'Outline' or paramType == 'Layout' or paramType == 'Layout2d' or paramType == 'RendererData':
             funcCallParams.append(paramName + '.CPointer')
         elif paramType == 'Widget' or  paramType == 'ConstWidget':
@@ -180,6 +189,8 @@ def generateFunctionBodyCSharp(className, enums, funcNameC, static, throws, retu
             bodyLines.append('')
             funcCallParams.append(paramName + 'Array')
             funcCallParams.append('(UIntPtr)' + paramName + 'Array.Length')
+        elif paramType == 'Optional<FormLoadOptions>' or paramType == 'Optional<Theme>':
+            funcCallParams.append(paramName + ' is null ? IntPtr.Zero : ' + paramName + '.CPointer')
         else:
             raise RuntimeError('Type ' + paramType + ' is not supported as function parameter')
 
@@ -188,13 +199,20 @@ def generateFunctionBodyCSharp(className, enums, funcNameC, static, throws, retu
 
     funcCall = 'tgui' + className + '_' + funcNameC + '(' + ', '.join(funcCallParams) + ')'
 
+    if throws:
+        assert(returnType == 'void' or returnType == 'RendererData')
+
     if returnType in enums or returnType == 'Vector2f' or returnType == 'Vector2u' or returnType == 'Vector2i' or returnType == 'int' \
     or returnType == 'float' or returnType == 'TextStyle' or returnType == 'FloatRect' \
     or returnType == 'UIntRect' or returnType == 'IntRect' or returnType == 'HorizontalAlignment' or returnType == 'VerticalAlignment' \
     or returnType == 'ScrollbarPolicy' or returnType == 'Orientation' or returnType == 'CursorType' or returnType == 'Duration':
         bodyLines.append('return ' + funcCall + ';')
     elif returnType == 'void':
-        bodyLines.append(funcCall + ';')
+        if throws:
+            bodyLines.append('if (' + funcCall + ' == 0)')
+            bodyLines.append('    throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));')
+        else:
+            bodyLines.append(funcCall + ';')
     elif returnType == 'uint' or returnType == 'size_t':
         bodyLines.append('return (int)' + funcCall + ';')
     elif returnType == 'bool':
@@ -217,8 +235,19 @@ def generateFunctionBodyCSharp(className, enums, funcNameC, static, throws, retu
         bodyLines.append('return new Texture(' + funcCall + ');')
     elif returnType == 'Font':
         bodyLines.append('return new Font(' + funcCall + ');')
+    elif returnType == 'ThemePtr':
+        bodyLines.append('return new Theme(' + funcCall + ');')
     elif returnType == 'RendererData':
-        bodyLines.append('return new RendererData(' + funcCall + ');')
+        if throws:
+            bodyLines.extend([
+                'IntPtr returnRendererDataC = ' + funcCall + ';',
+                'if (returnRendererDataC != IntPtr.Zero)',
+                '    return new RendererData(returnRendererDataC);',
+                'else',
+                '    throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));'
+            ])
+        else:
+            bodyLines.append('return new RendererData(' + funcCall + ');')
     elif returnType == 'List<Widget>':
         unsafeCode = True
         bodyLines.extend([
@@ -261,12 +290,6 @@ def generateFunctionBodyCSharp(className, enums, funcNameC, static, throws, retu
         ])
     else:
         raise RuntimeError('function return type ' + returnType + ' is not supported')
-
-    if throws:
-        assert(returnType == 'void')
-        assert(bodyLines[-1][-1] == ';')
-        bodyLines[-1] = 'if (' + bodyLines[-1][:-1] + ' == 0)'
-        bodyLines.append('    throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));')
 
     return bodyLines, unsafeCode
 
@@ -368,6 +391,8 @@ def generateFunctionCSharp(className, segment, enums):
                         params += ' = HorizontalAlignment.' + paramDefaultValue
                     elif paramType == 'VerticalAlignment':
                         params += ' = VerticalAlignment.' + paramDefaultValue
+                    elif paramType.startswith('Optional<') and paramDefaultValue == 'null':
+                        params += ' = null'
                     else:
                         raise RuntimeError('Default value "' + paramDefaultValue + '" for type "' + paramType + '" is not supported yet')
 
