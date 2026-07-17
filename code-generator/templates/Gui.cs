@@ -80,17 +80,6 @@ public void LoadWidgetsFromFile(string filename, FormLoadOptions? loadOptions = 
 }
 
 /// <summary>
-/// Saves the child widgets to a text file
-/// </summary>
-/// <param name="filename">Filename of the widget file</param>
-/// <exception cref="Exception">The file could not be saved</exception>
-public void SaveWidgetsToFile(string filename)
-{
-    if (tguiGui_saveWidgetsToFile(CPointer, Util.ConvertStringForC_UTF32(filename)) == 0)
-        throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
-}
-
-/// <summary>
 /// Processes a LostFocus event
 /// </summary>
 /// <remarks>This function is automatically called for events from the window. You shouldn't call it unless you want to insert a fake event.</remarks>
@@ -422,9 +411,6 @@ private static extern void tguiGui_draw(IntPtr cPointer);
 
 [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 private static extern byte tguiGui_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename, IntPtr loadOptions);
-
-[DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-private static extern byte tguiGui_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);
 
 [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 protected static extern IntPtr tgui_getLastError();

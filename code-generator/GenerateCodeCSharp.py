@@ -102,7 +102,7 @@ TYPE_MAP_CS = {
 }
 
 
-def generateExportedSymbolCSharpToC(className, enums, funcNameC, static, returnType, params):
+def generateExportedSymbolCSharpToC(className, enums, funcNameC, static, throws, returnType, params):
     paramsC = '' if static else 'IntPtr cPointer'
     for param in params:
         paramType, paramName, paramDefaultValue = param
@@ -124,6 +124,10 @@ def generateExportedSymbolCSharpToC(className, enums, funcNameC, static, returnT
     if paramsC.startswith(', '): # Static function with at least one parameter
         paramsC = paramsC[2:]
 
+    if throws:
+        assert(returnType == 'void')
+        returnType = 'bool'
+
     if returnType in enums:
         return className + returnType + ' tgui' + className + '_' + funcNameC + '(' + paramsC + ')'
     else:
@@ -135,7 +139,7 @@ def generateExportedSymbolCSharpToC(className, enums, funcNameC, static, returnT
             return TYPE_MAP_C[returnType] + ' tgui' + className + '_' + funcNameC + '(' + paramsC + ')'
 
 
-def generateFunctionBodyCSharp(className, enums, funcNameC, static, returnType, params):
+def generateFunctionBodyCSharp(className, enums, funcNameC, static, throws, returnType, params):
     bodyLines = []
     unsafeCode = False
 
@@ -258,6 +262,12 @@ def generateFunctionBodyCSharp(className, enums, funcNameC, static, returnType, 
     else:
         raise RuntimeError('function return type ' + returnType + ' is not supported')
 
+    if throws:
+        assert(returnType == 'void')
+        assert(bodyLines[-1][-1] == ';')
+        bodyLines[-1] = 'if (' + bodyLines[-1][:-1] + ' == 0)'
+        bodyLines.append('    throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));')
+
     return bodyLines, unsafeCode
 
 
@@ -275,11 +285,11 @@ def generatePropertyCSharp(className, segment, enums):
     propertyName = segment.name
 
     getterPrefix = 'is' if segment.getterUsesIsPrefix else 'get'
-    getterBody, unsafeCode = generateFunctionBodyCSharp(className, enums, getterPrefix + propertyName, segment.static, propertyType, [])
-    exportedSymbols = [generateExportedSymbolCSharpToC(className, enums, getterPrefix + propertyName, segment.static, propertyType, [])]
+    getterBody, unsafeCode = generateFunctionBodyCSharp(className, enums, getterPrefix + propertyName, segment.static, False, propertyType, [])
+    exportedSymbols = [generateExportedSymbolCSharpToC(className, enums, getterPrefix + propertyName, segment.static, False, propertyType, [])]
     if not segment.getterOnly:
-        setterBody, setterUnsafeCode = generateFunctionBodyCSharp(className, enums, 'set' + propertyName, segment.static, 'void', [(propertyType, 'value', None)])
-        exportedSymbols.append(generateExportedSymbolCSharpToC(className, enums, 'set' + propertyName, segment.static, 'void', [(propertyType, 'value', None)]))
+        setterBody, setterUnsafeCode = generateFunctionBodyCSharp(className, enums, 'set' + propertyName, segment.static, False, 'void', [(propertyType, 'value', None)])
+        exportedSymbols.append(generateExportedSymbolCSharpToC(className, enums, 'set' + propertyName, segment.static, False, 'void', [(propertyType, 'value', None)]))
         if setterUnsafeCode:
             unsafeCode = True
 
@@ -322,7 +332,7 @@ def generatePropertyCSharp(className, segment, enums):
 
 def generateFunctionCSharp(className, segment, enums):
     generatedLines = []
-    exportedSymbols = [generateExportedSymbolCSharpToC(className, enums, segment.nameC, segment.static, segment.returnType, segment.params)]
+    exportedSymbols = [generateExportedSymbolCSharpToC(className, enums, segment.nameC, segment.static, segment.throws, segment.returnType, segment.params)]
     usingDeclarations = set()
 
     params = ''
@@ -361,7 +371,7 @@ def generateFunctionCSharp(className, segment, enums):
                     else:
                         raise RuntimeError('Default value "' + paramDefaultValue + '" for type "' + paramType + '" is not supported yet')
 
-    bodyLines, unsafeCode = generateFunctionBodyCSharp(className, enums, segment.nameC, segment.static, segment.returnType, segment.params)
+    bodyLines, unsafeCode = generateFunctionBodyCSharp(className, enums, segment.nameC, segment.static, segment.throws, segment.returnType, segment.params)
     returnType = generateReturnTypeCSharp(className, enums, segment.returnType)
     staticStr = 'static ' if segment.static else ''
     generatedLines.append('public ' + staticStr + ('unsafe ' if unsafeCode else '') + returnType + ' ' + segment.name[0].upper() + segment.name[1:] + '(' + params + ')')

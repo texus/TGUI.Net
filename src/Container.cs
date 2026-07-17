@@ -39,17 +39,6 @@ namespace TGUI
                 throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
         }
 
-        /// <summary>
-        /// Saves the child widgets to a text file
-        /// </summary>
-        /// <param name="filename">Filename of the widget file</param>
-        /// <exception cref="Exception">The file could not be saved</exception>
-        public void SaveWidgetsToFile(string filename)
-        {
-            if (tguiContainer_saveWidgetsToFile(CPointer, Util.ConvertStringForC_UTF32(filename)) == 0)
-                throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
-        }
-
         public void Add(Widget? widget, string widgetName = "")
         {
             tguiContainer_add(CPointer, widget is null ? IntPtr.Zero : widget.CPointer, Util.ConvertStringForC_UTF32(widgetName));
@@ -78,6 +67,12 @@ namespace TGUI
         public void RemoveAllWidgets()
         {
             tguiContainer_removeAllWidgets(CPointer);
+        }
+
+        public void SaveWidgetsToFile(string filename)
+        {
+            if (tguiContainer_saveWidgetsToFile(CPointer, Util.ConvertStringForC_UTF32(filename)) == 0)
+                throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
         }
 
         public void MoveWidgetToFront(Widget? widget)
@@ -150,9 +145,6 @@ namespace TGUI
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern byte tguiContainer_loadWidgetsFromFile(IntPtr cPointer, IntPtr filename, IntPtr loadOptions);
 
-        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-        private static extern byte tguiContainer_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);
-
         #endregion
 
         #region GeneratedImports
@@ -171,6 +163,9 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiContainer_removeAllWidgets(IntPtr cPointer);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern byte tguiContainer_saveWidgetsToFile(IntPtr cPointer, IntPtr filename);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiContainer_moveWidgetToFront(IntPtr cPointer, IntPtr widget);
