@@ -103,7 +103,7 @@ jobs:
 
     linux-x64:
         name: Linux x64
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-26.04
         container:
             image: ubuntu:22.04
 
@@ -136,7 +136,7 @@ jobs:
 
     linux-arm32:
         name: Linux ARM32
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-26.04-arm
 
         steps:
             - name: Build in an ARM32 container
@@ -175,7 +175,7 @@ jobs:
 
     linux-arm64:
         name: Linux ARM64
-        runs-on: ubuntu-22.04-arm
+        runs-on: ubuntu-26.04-arm
         container:
             image: ubuntu:22.04
 
@@ -208,7 +208,7 @@ jobs:
 
     linux-musl-x64:
         name: Linux MUSL x64
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-26.04
         container:
             image: alpine:3.20.3
 
