@@ -58,13 +58,13 @@ namespace TGUI
 
         public void LoadWidgetsFromFile(string filename, FormLoadOptions? loadOptions = null)
         {
-            if (!tguiContainer_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_UTF32(filename), loadOptions is null ? IntPtr.Zero : loadOptions.CPointer))
+            if (tguiContainer_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_UTF32(filename), loadOptions is null ? IntPtr.Zero : loadOptions.CPointer) == 0)
                 throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
         }
 
         public void SaveWidgetsToFile(string filename)
         {
-            if (!tguiContainer_saveWidgetsToFile(CPointer, Util.ConvertStringForC_UTF32(filename)))
+            if (tguiContainer_saveWidgetsToFile(CPointer, Util.ConvertStringForC_UTF32(filename)) == 0)
                 throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
         }
 

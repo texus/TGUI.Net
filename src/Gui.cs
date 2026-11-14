@@ -16,11 +16,11 @@ namespace TGUI
         public event EventHandler? OnWindowUnfocus;
 
         /// <summary>
-        /// Creates the gui for a particular window
+        /// Creates the gui without a window
         /// </summary>
-        /// <param name="window">Window that will provide the events and will be drawn to</param>
-        public Gui(RenderWindow window) :
-            base(tguiGuiCSFMLGraphics_create(window.CPointer))
+        /// <remarks>SetWindow has to be called before the gui can be drawn</remarks>
+        public Gui() :
+            base(tguiGuiCSFMLGraphics_create(IntPtr.Zero))
         {
             Util.Guis.Add(CPointer, this);
             Util.UnmanagedWidgetCleanupCallbackFuncPtr = Util.UnmanagedWidgetCleanupCallback;
@@ -33,24 +33,51 @@ namespace TGUI
             tguiGui_setViewChangeCallback(CPointer, _unmanagedCallbackOnViewChangeFuncPtr);
             tguiGui_setWindowFocusCallback(CPointer, _unmanagedCallbackOnWindowFocusFuncPtr);
             tguiGui_setWindowUnfocusCallback(CPointer, _unmanagedCallbackOnWindowUnfocusFuncPtr);
-
-            window.Closed += (s, e) => HandleEventClosed();
-            window.GainedFocus += (s, e) => HandleEventGainedFocus();
-            window.KeyPressed += (s, args) => HandleEventKeyPressed(args.Code, args.Scancode, args.Alt, args.Control, args.Shift, args.System);
-            window.KeyReleased += (s, args) => HandleEventKeyReleased(args.Code, args.Scancode, args.Alt, args.Control, args.Shift, args.System);
-            window.LostFocus += (s, e) => HandleEventLostFocus();
-            window.MouseButtonPressed += (s, args) => HandleEventMouseButtonPressed(args.Button, args.Position.X, args.Position.Y);
-            window.MouseButtonReleased += (s, args) => HandleEventMouseButtonReleased(args.Button, args.Position.X, args.Position.Y);
-            window.MouseEntered += (s, e) => HandleEventMouseEntered();
-            window.MouseLeft += (s, e) => HandleEventMouseLeft();
-            window.MouseMoved += (s, args) => HandleEventMouseMoved(args.Position.X, args.Position.Y);
-            window.MouseWheelScrolled += (s, args) => HandleEventMouseWheelScrolled(args.Wheel, args.Delta, args.Position.X, args.Position.Y);
-            window.Resized += (s, args) => HandleEventResized(args.Size.X, args.Size.Y);
-            window.TextEntered += (s, args) => HandleEventTextEntered(args.Unicode);
-            window.TouchBegan += (s, args) => HandleEventTouchBegan(args.Finger, args.Position.X, args.Position.Y);
-            window.TouchMoved += (s, args) => HandleEventTouchMoved(args.Finger, args.Position.X, args.Position.Y);
-            window.TouchEnded += (s, args) => HandleEventTouchEnded(args.Finger, args.Position.X, args.Position.Y);
         }
+
+        /// <summary>
+        /// Creates the gui for a particular window
+        /// </summary>
+        /// <param name="window">Window that will provide the events and will be drawn to</param>
+        public Gui(RenderWindow window) :
+            this()
+        {
+            SetWindow(window);
+        }
+
+        /// <summary>
+        /// Sets the window on which the gui should be drawn and from which it receives events
+        /// </summary>
+        /// <param name="window">Window that will provide the events and will be drawn to</param>
+        /// <remarks>
+        /// This can be used to keep the gui when the window has to be recreated (e.g. to switch to fullscreen).
+        /// </remarks>
+        public void SetWindow(RenderWindow window)
+        {
+            if (window is null)
+                throw new ArgumentNullException(nameof(window));
+
+            if (_window != null)
+                DisconnectWindowEvents(_window);
+
+            tguiGuiCSFMLGraphics_setWindow(CPointer, window.CPointer);
+            _window = window;
+            ConnectWindowEvents(window);
+        }
+
+        /// <summary>
+        /// Returns the window on which the gui is being drawn, or null if no window was set yet
+        /// </summary>
+        public RenderWindow? Window => _window;
+
+        /// <summary>
+        /// Destroys the mouse cursors that were intentionally leaked when guis were destroyed
+        /// </summary>
+        /// <remarks>
+        /// SFML requires a mouse cursor to outlive the window that uses it, so destroying a gui may leak a cursor.
+        /// This function should only be called after both the gui and the window have been destroyed.
+        /// </remarks>
+        public static void CleanupLeakedCursors() => tguiBackendCSFMLGraphics_cleanupLeakedCursors();
 
         /// <summary>
         /// Destroy the object
@@ -59,6 +86,13 @@ namespace TGUI
         protected override void Destroy(bool disposing)
         {
             Util.Guis.Remove(CPointer);
+
+            // Events from the window would otherwise still be forwarded to the destroyed gui
+            if (disposing && (_window != null))
+            {
+                DisconnectWindowEvents(_window);
+                _window = null;
+            }
 
             // It is possible for resources to outlive the gui because there is no fixed order in which
             // objects would be destructed. If an object outlives the gui then it would crash on exit
@@ -74,7 +108,14 @@ namespace TGUI
         /// <summary>
         /// Draws all the widgets that were added to the gui
         /// </summary>
-        public void Draw() => tguiGui_draw(CPointer);
+        /// <exception cref="InvalidOperationException">No window was set yet</exception>
+        public void Draw()
+        {
+            if (_window is null)
+                throw new InvalidOperationException("Gui.SetWindow has to be called before Gui.Draw");
+
+            tguiGui_draw(CPointer);
+        }
 
         /// <summary>
         /// Processes a LostFocus event
@@ -380,6 +421,65 @@ namespace TGUI
         private UnmanagedCallbackOnWindowFocus _unmanagedCallbackOnWindowFocusFuncPtr;
         private UnmanagedCallbackOnWindowUnfocus _unmanagedCallbackOnWindowUnfocusFuncPtr;
 
+        private void ConnectWindowEvents(RenderWindow window)
+        {
+            window.Closed += OnWindowClosed;
+            window.GainedFocus += OnWindowGainedFocus;
+            window.KeyPressed += OnWindowKeyPressed;
+            window.KeyReleased += OnWindowKeyReleased;
+            window.LostFocus += OnWindowLostFocus;
+            window.MouseButtonPressed += OnWindowMouseButtonPressed;
+            window.MouseButtonReleased += OnWindowMouseButtonReleased;
+            window.MouseEntered += OnWindowMouseEntered;
+            window.MouseLeft += OnWindowMouseLeft;
+            window.MouseMoved += OnWindowMouseMoved;
+            window.MouseWheelScrolled += OnWindowMouseWheelScrolled;
+            window.Resized += OnWindowResized;
+            window.TextEntered += OnWindowTextEntered;
+            window.TouchBegan += OnWindowTouchBegan;
+            window.TouchMoved += OnWindowTouchMoved;
+            window.TouchEnded += OnWindowTouchEnded;
+        }
+
+        private void DisconnectWindowEvents(RenderWindow window)
+        {
+            window.Closed -= OnWindowClosed;
+            window.GainedFocus -= OnWindowGainedFocus;
+            window.KeyPressed -= OnWindowKeyPressed;
+            window.KeyReleased -= OnWindowKeyReleased;
+            window.LostFocus -= OnWindowLostFocus;
+            window.MouseButtonPressed -= OnWindowMouseButtonPressed;
+            window.MouseButtonReleased -= OnWindowMouseButtonReleased;
+            window.MouseEntered -= OnWindowMouseEntered;
+            window.MouseLeft -= OnWindowMouseLeft;
+            window.MouseMoved -= OnWindowMouseMoved;
+            window.MouseWheelScrolled -= OnWindowMouseWheelScrolled;
+            window.Resized -= OnWindowResized;
+            window.TextEntered -= OnWindowTextEntered;
+            window.TouchBegan -= OnWindowTouchBegan;
+            window.TouchMoved -= OnWindowTouchMoved;
+            window.TouchEnded -= OnWindowTouchEnded;
+        }
+
+        private void OnWindowClosed(object? sender, EventArgs e) => HandleEventClosed();
+        private void OnWindowGainedFocus(object? sender, EventArgs e) => HandleEventGainedFocus();
+        private void OnWindowKeyPressed(object? sender, KeyEventArgs args) => HandleEventKeyPressed(args.Code, args.Scancode, args.Alt, args.Control, args.Shift, args.System);
+        private void OnWindowKeyReleased(object? sender, KeyEventArgs args) => HandleEventKeyReleased(args.Code, args.Scancode, args.Alt, args.Control, args.Shift, args.System);
+        private void OnWindowLostFocus(object? sender, EventArgs e) => HandleEventLostFocus();
+        private void OnWindowMouseButtonPressed(object? sender, MouseButtonEventArgs args) => HandleEventMouseButtonPressed(args.Button, args.Position.X, args.Position.Y);
+        private void OnWindowMouseButtonReleased(object? sender, MouseButtonEventArgs args) => HandleEventMouseButtonReleased(args.Button, args.Position.X, args.Position.Y);
+        private void OnWindowMouseEntered(object? sender, EventArgs e) => HandleEventMouseEntered();
+        private void OnWindowMouseLeft(object? sender, EventArgs e) => HandleEventMouseLeft();
+        private void OnWindowMouseMoved(object? sender, MouseMoveEventArgs args) => HandleEventMouseMoved(args.Position.X, args.Position.Y);
+        private void OnWindowMouseWheelScrolled(object? sender, MouseWheelScrollEventArgs args) => HandleEventMouseWheelScrolled(args.Wheel, args.Delta, args.Position.X, args.Position.Y);
+        private void OnWindowResized(object? sender, SizeEventArgs args) => HandleEventResized(args.Size.X, args.Size.Y);
+        private void OnWindowTextEntered(object? sender, TextEventArgs args) => HandleEventTextEntered(args.Unicode);
+        private void OnWindowTouchBegan(object? sender, TouchEventArgs args) => HandleEventTouchBegan(args.Finger, args.Position.X, args.Position.Y);
+        private void OnWindowTouchMoved(object? sender, TouchEventArgs args) => HandleEventTouchMoved(args.Finger, args.Position.X, args.Position.Y);
+        private void OnWindowTouchEnded(object? sender, TouchEventArgs args) => HandleEventTouchEnded(args.Finger, args.Position.X, args.Position.Y);
+
+        private RenderWindow? _window;
+
         public void SetAbsoluteViewport(FloatRect viewport)
         {
             tguiGui_setAbsoluteViewport(CPointer, viewport);
@@ -489,13 +589,13 @@ namespace TGUI
 
         public void LoadWidgetsFromFile(string filename, FormLoadOptions? loadOptions = null)
         {
-            if (!tguiGui_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_UTF32(filename), loadOptions is null ? IntPtr.Zero : loadOptions.CPointer))
+            if (tguiGui_loadWidgetsFromFile(CPointer, Util.ConvertStringForC_UTF32(filename), loadOptions is null ? IntPtr.Zero : loadOptions.CPointer) == 0)
                 throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
         }
 
         public void SaveWidgetsToFile(string filename)
         {
-            if (!tguiGui_saveWidgetsToFile(CPointer, Util.ConvertStringForC_UTF32(filename)))
+            if (tguiGui_saveWidgetsToFile(CPointer, Util.ConvertStringForC_UTF32(filename)) == 0)
                 throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
         }
 
@@ -566,6 +666,11 @@ namespace TGUI
             tguiGui_requestMouseCursor(CPointer, type);
         }
 
+        public Vector2i GetLastMousePosition()
+        {
+            return tguiGui_getLastMousePosition(CPointer);
+        }
+
         public Vector2f MapPixelToCoords(Vector2i pixel)
         {
             return tguiGui_mapPixelToCoords(CPointer, pixel);
@@ -609,6 +714,12 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern byte tguiGuiCSFMLGraphics_handleEvent(IntPtr cPointer, in Event e);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiGuiCSFMLGraphics_setWindow(IntPtr cPointer, IntPtr window);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern void tguiBackendCSFMLGraphics_cleanupLeakedCursors();
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiGui_draw(IntPtr cPointer);
@@ -736,6 +847,9 @@ namespace TGUI
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern void tguiGui_requestMouseCursor(IntPtr cPointer, Cursor.Type type);
+
+        [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        private static extern Vector2i tguiGui_getLastMousePosition(IntPtr cPointer);
 
         [DllImport(Util.LibName, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern Vector2f tguiGui_mapPixelToCoords(IntPtr cPointer, Vector2i pixel);

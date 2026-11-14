@@ -247,7 +247,7 @@ namespace TGUI
 
         public void Load(string filename)
         {
-            if (!tguiTheme_load(CPointer, Util.ConvertStringForC_UTF32(filename)))
+            if (tguiTheme_load(CPointer, Util.ConvertStringForC_UTF32(filename)) == 0)
                 throw new Exception(Util.GetStringFromC_UTF32(tgui_getLastError()));
         }
 
